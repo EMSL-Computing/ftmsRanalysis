@@ -436,39 +436,39 @@ setPhosphorusColName <- function(icrDataObj, cname) {
   return(icrDataObj)
 }
 
-#' Get the name of the carbon13 column
+#' Get the name of the isotopic column
 #' 
 #' Returns the name of the column in the e_meta element that 
-#' contains carbon13 count data for calculations.
+#' contains isotopic peak information.
 #'
 #' @param icrDataObj an object of type icrData
-#' @return name of carbon13 column
+#' @return name of isotopic column
 #' @export
-getC13ColName <- function(icrDataObj) {
+getIsotopicColName <- function(icrDataObj) {
   if (!inherits(icrDataObj, "icrData")) {
     stop("icrDataObj must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$c13_cname)
+  return(attr(icrDataObj, "cnames")$isotopic_cname)
 }
 
-#' Set the name of the carbon13 column
+#' Set the name of the isotopic column
 #' 
 #' Sets the name of the column in the e_meta element that 
-#' contains carbon13 count data.
+#' contains isotopic peak information.
 #'
 #' @param icrDataObj an object of type icrData
 #' @param cname column name
 #' @return updated icrDataObj
 #' 
 #' 
-setC13ColName <- function(icrDataObj, cname) {
+setIsotopicColName <- function(icrDataObj, cname) {
   if (!inherits(icrDataObj, "icrData")) {
     stop("icrDataObj must be of type icrData")
   } 
   if (!(cname %in% names(icrDataObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$c13_cname <- cname
+  attr(icrDataObj, "cnames")$isotopic_cname <- cname
   return(icrDataObj)
 }
 
@@ -590,7 +590,9 @@ setExtractionColName <- function(icrDataObj, cname) {
 #' @return name of NOSC column
 #' @export
 getNOSCColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$nosc_cname)
 }
 
@@ -623,7 +625,9 @@ setNOSCColName <- function(icrDataObj, cname) {
 #' @return name of column
 #' @export
 getMFNameColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$mfname_cname)
 }
 
@@ -656,7 +660,9 @@ setMFNameColName <- function(icrDataObj, cname) {
 #' @return name of aromaticity column
 #' @export
 getAromaColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$aroma_cname)
 }
 
@@ -689,7 +695,9 @@ setAromaColName <- function(icrDataObj, cname) {
 #' @return name of modified aromaticity column
 #' @export
 getModAromaColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$modaroma_cname)
 }
 
@@ -722,7 +730,9 @@ setModAromaColName <- function(icrDataObj, cname) {
 #' @return name of gibbs free energy column
 #' @export
 getGibbsColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$gfe_cname)
 }
 
@@ -755,7 +765,9 @@ setGibbsColName <- function(icrDataObj, cname) {
 #' @return name of double-bond equivalent column
 #' @export
 getDBEColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$dbe_cname)
 }
 
@@ -788,7 +800,9 @@ setDBEColName <- function(icrDataObj, cname) {
 #' @return name of double-bond equivalent column
 #' @export
 getDBEoColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$dbeo_cname)
 }
 
@@ -821,7 +835,9 @@ setDBEoColName <- function(icrDataObj, cname) {
 #' @return name of elemental composition column
 #' @export
 getElCompColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$elcomp_cname)
 }
 
@@ -854,7 +870,9 @@ setElCompColName <- function(icrDataObj, cname) {
 #' @return name of peak class column
 #' @export
 getClassColName <- function(icrDataObj){
-  if(class(icrDataObj) != "icrData") stop("icrDataObj must be of type icrData")
+  if (!inherits(icrDataObj, "icrData")) {
+    stop("icrDataObj must be of type icrData")
+  } 
   return(attr(icrDataObj, "cnames")$class_cname)
 }
 

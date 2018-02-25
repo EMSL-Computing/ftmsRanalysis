@@ -24,6 +24,9 @@ vanKrevelenPlot <- function(data.obj, title=NA, colors=NA, xlabel="O:C Ratio", y
     stop("data.obj must have e_meta element")
   }
   
+  # check that boundary_set is valid #
+  if(!(boundary_set %in% c("bs1", "bs2"))) stop("Invalid option provided for boundary_set argument.")
+  
   OC.col <- getOCRatioColName(data.obj)
   if (is.null(OC.col) | !is.element(OC.col, colnames(data.obj$e_meta))) {
     stop("O:C ratio column attribute is not set or is not present in data.obj$e_meta")
