@@ -70,9 +70,17 @@ getObservedVanKrevelenCategories <- function(data.obj) {
     return(vk.cat)
 }
 
-# Returns a data.frame of Van Krevelen category bounds (HC and OC lower 
-# and upper limits) for each category.
-# Internal only
+#' Get Van Krevelen category bounds for a boundary set
+#' 
+#' Print Van Krevelen category bounds for a boundary set
+#'
+#' @param boundary_set character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2".
+#' @return  a data.frame of Van Krevelen category bounds (Hydrogen:Carbon and Oxygen:Carbon lower and upper limits) for each category.
+#' @details "bs1" is based on the boundaries given in Kim et al., 2003. "bs2" are relaxed boundary conditions so all peaks are given a category (none fall into the "Other" category).
+#' 
+#' @references Kim, S., Kramer, R. W., & Hatcher, P. G. (2003). Graphical method for analysis of ultrahigh-resolution broadband mass spectra of natural organic matter, the van Krevelen diagram. Analytical Chemistry, 75(20), 5336-5344.
+#' @author Amanda White
+#' @export
 getVanKrevelenCategoryBounds <- function(boundary_set) {
   
   if(!(boundary_set %in% c("bs1", "bs2"))) stop("Invalid option provided for boundary_set argument.")

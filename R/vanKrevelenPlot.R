@@ -12,9 +12,9 @@
 #' @seealso \code{\link{plot_ly}}
 #' @export
 vanKrevelenPlot <- function(data.obj, title=NA, colors=NA, xlabel="O:C Ratio", ylabel="H:C Ratio", boundary_set = "bs1") {
-  require(dplyr)
-  require(plotly)
-  require(scales)
+  suppressPackageStartupMessages(require(dplyr))
+  suppressPackageStartupMessages(require(plotly))
+  suppressPackageStartupMessages(require(scales))
   
   # Test inputs
   if (!inherits(data.obj, "icrData")) {
