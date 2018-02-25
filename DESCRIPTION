@@ -1,0 +1,26 @@
+Package: fticRanalysis
+Title: Analysis and visualization tools for ICR data
+Version: 0.3
+Authors@R: c(person("Lisa", "Bramer", email = "lisa.bramer@pnnl.gov", role = c("aut", "cre")), person("Amanda", "White", email = "amanda.white@pnnl.gov", role = c("aut")))
+Description: A collection of useful analysis and visualization tools for ICR data.
+Depends:
+    R (>= 3.2.2)
+License: PNNL internal use only
+Encoding: UTF-8
+LazyData: true
+Imports:
+    igraph,
+    scales,
+    visNetwork,
+    dplyr,
+    RColorBrewer,
+    plotly,
+    tidyr,
+    tibble
+Suggests:
+    KEGGdata,
+    MetaCycData,
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
