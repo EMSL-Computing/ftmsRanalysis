@@ -5,7 +5,7 @@
 \title{Kendrick plot of icrData object}
 \usage{
 kendrickPlot(data.obj, title = NA, colors = NA, xlabel = "Kendrick Mass",
-  ylabel = "Kendrick Defect")
+  ylabel = "Kendrick Defect", boundary_set = "bs1")
 }
 \arguments{
 \item{data.obj}{icrData object}

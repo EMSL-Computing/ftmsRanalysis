@@ -16,7 +16,7 @@ getVanKrevelenCategories <- function(data.obj, boundary_set) {
   if (is.null(data.obj$e_meta)) {
     stop("data.obj must have e_meta element")
   }
-
+  
   OC.col <- getOCRatioColName(data.obj)
   if (is.null(OC.col) | !is.element(OC.col, colnames(data.obj$e_meta))) {
     stop("O:C ratio column attribute is not set or is not present in data.obj$e_meta")
@@ -27,20 +27,22 @@ getVanKrevelenCategories <- function(data.obj, boundary_set) {
   }
   
   emeta.df <- data.obj$e_meta
-
+  
   vkBounds <- getVanKrevelenCategoryBounds(boundary_set = boundary_set)
   
   # Assign each row of e_meta to a category
   vk.class = rep("Other", nrow(data.obj$e_meta))
-
-  for(i in 1:nrow(vkBounds)){
+  
+  # assign labels for every class except Other #
+  # note this assumes "Other" is the last row in the boundary set df #
+  for(i in 1:(nrow(vkBounds) - 1)){
     vk.class[which(
       data.obj$e_meta[, HC.col] >= vkBounds$HC.low[i] & 
         data.obj$e_meta[, HC.col] <= vkBounds$HC.high[i] & 
         data.obj$e_meta[, OC.col] >= vkBounds$OC.low[i] & 
         data.obj$e_meta[, OC.col] <= vkBounds$OC.high[i])] = rownames(vkBounds)[i]
   }
-
+  
   return(vk.class)
 }
 

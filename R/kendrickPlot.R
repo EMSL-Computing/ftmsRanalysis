@@ -11,7 +11,7 @@
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
 #' @export
-kendrickPlot <- function(data.obj, title=NA, colors=NA, xlabel="Kendrick Mass", ylabel="Kendrick Defect") {
+kendrickPlot <- function(data.obj, title=NA, colors=NA, xlabel="Kendrick Mass", ylabel="Kendrick Defect", boundary_set = "bs1") {
   require(dplyr)
   require(plotly)
   require(scales)
@@ -37,7 +37,7 @@ kendrickPlot <- function(data.obj, title=NA, colors=NA, xlabel="Kendrick Mass", 
   emeta.df <- data.obj$e_meta
   emeta.df[,getEDataColName(data.obj)] = as.character(emeta.df[,getEDataColName(data.obj)])
 
-  emeta.df$Class <- getVanKrevelenCategories(data.obj)
+  emeta.df$Class <- getVanKrevelenCategories(data.obj, boundary_set = boundary_set)
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
   obs.peaks <- as.character(data.obj$e_data[data.obj$e_data[,-which(names(data.obj$e_data) == getEDataColName(data.obj))] > 0, getEDataColName(data.obj)])
@@ -45,9 +45,9 @@ kendrickPlot <- function(data.obj, title=NA, colors=NA, xlabel="Kendrick Mass", 
   
   # Color palette
   if (is.na(colors)) {
-    col.pal<- scales::col_factor("Set1", levels=rownames(getVanKrevelenCategoryBounds()))   
-    col.vec <- col.pal(rownames(getVanKrevelenCategoryBounds()))
-    names(col.vec) <- rownames(getVanKrevelenCategoryBounds())
+    col.pal<- scales::col_factor("Set1", levels=rownames(getVanKrevelenCategoryBounds(boundary_set)))   
+    col.vec <- col.pal(rownames(getVanKrevelenCategoryBounds(boundary_set)))
+    names(col.vec) <- rownames(getVanKrevelenCategoryBounds(boundary_set))
   } else if (length(colors) == 9) {
     col.vec <- colors
   }
