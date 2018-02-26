@@ -28,7 +28,7 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_vankrev = TRUE){
   # check that O:C and H:C are non-NULL #
   # if they are NULL check calc_vankrev argument and act accordingly #
   if(is.null(getOCRatioColName(icrData)) | is.null(getHCRatioColName(icrData))){
-    if(isTRUE(calc_vankrev)){
+    if(calc_vankrev == TRUE){
       icrData = compound_calcs(icrData, "calc_vankrev")
     }else{
       stop("O:C and/or H:C information not found in data and calc_vankrev = FALSE. Set calc_vankrev = TRUE or ensure ratios are present and specified in your data")

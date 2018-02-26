@@ -6,6 +6,8 @@
 \alias{applyFilt.moleculeFilt}
 \alias{applyFilt}
 \alias{applyFilt.massFilt}
+\alias{applyFilt}
+\alias{applyFilt.formulaFilt}
 \title{Apply a S3 filter  object to an icrData S3 object}
 \usage{
 applyFilt(filter_object, icrData, ...)
@@ -14,6 +16,8 @@ applyFilt(filter_object, icrData, ...)
 
 \method{applyFilt}{massFilt}(filter_object, icrData, min_mass = 200,
   max_mass = 900)
+
+\method{applyFilt}{formulaFilt}(filter_object, icrData, remove = "NoFormula")
 }
 \arguments{
 \item{filter_object}{an object of the class 'moleculeFilt' created by  \code{\link{molecule_filter}}}
@@ -41,9 +45,14 @@ For a \code{filter_object} of type 'massFilt', resulting from calling \code{\lin
 \tab \cr
 \code{max_mass} \tab an numeric value greater than \code{min_mass}, specifying the maximum mass a peak should have in order to retain the peak. Default value is 900. \cr
 }
+
+For a \code{filter_object} of type 'formulaFilt', resulting from calling \code{\link{formula_filter}}:
+\tabular{ll}{
+\code{remove} \tab a character string specifying which set of peaks to filter. Valid options are "NoFormula" and "Formula", defaults to "NoFormula". \cr
+}
 }
 \seealso{
-\code{\link{molecule_filter}}
+\code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}
 }
 \author{
 Lisa Bramer

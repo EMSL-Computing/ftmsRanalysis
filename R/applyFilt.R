@@ -20,8 +20,13 @@
 #' \tab \cr
 #' \code{max_mass} \tab an numeric value greater than \code{min_mass}, specifying the maximum mass a peak should have in order to retain the peak. Default value is 900. \cr
 #' }
+#' 
+#' For a \code{filter_object} of type 'formulaFilt', resulting from calling \code{\link{formula_filter}}:
+#' \tabular{ll}{
+#' \code{remove} \tab a character string specifying which set of peaks to filter. Valid options are "NoFormula" and "Formula", defaults to "NoFormula". \cr
+#' }
 #'
-#' @seealso \code{\link{molecule_filter}}
+#' @seealso \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}
 #'
 #' @author Lisa Bramer
 #'
@@ -166,7 +171,69 @@ applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass 
 }
 
 
-
+# function for moleculeFilt
+#' @export
+#' @name applyFilt
+#' @rdname applyFilt
+applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
+  
+  # check to see whether a formulaFilt has already been run on icrData #
+  if("formulaFilt" %in% names(attributes(icrData)$filters)){
+    # get previous threshold #
+    min_num_prev <- attributes(icrData)$filters$formulaFilt$threshold
+    
+    stop(paste("A formula filter has already been run on this dataset, using a 'remove' argument of ", min_num_prev, ".", sep=""))
+    
+    
+  }else{ # no previous formulaFilt, so go ahead and run it like normal #
+    
+    
+    # check that remove is a valid argument #
+    if(!(remove %in% c("NoFormula","Formula"))) stop("'remove' can only take values 'NoFormula' and 'Formula'.")
+    
+    edata_cname <- getEDataColName(icrData)
+    
+    form_assigned <- filter_object$Formula_Assigned
+    
+    # get indices for which ones don't meet the min requirement #
+    if(remove == "NoFormula"){
+      inds <- which(form_assigned==FALSE)
+    }else{
+      inds <- which(form_assigned==TRUE)
+    }
+    
+    if(length(inds) < 1){
+      filter.edata <- NULL
+    }
+    
+    else{
+      filter.edata <- icrData$e_data[, which(names(icrData$e_data) == edata_cname)][inds]
+    }
+    
+    # checking if filter specifies all of icrData$e_data
+    if(all(icrData$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in icrData")}
+    
+    filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
+    
+    # call the function that does the filter application
+    results_pieces <- icr_filter_worker(icrData = icrData, filter_object = filter_object_new)
+    
+    # return filtered data object #
+    results <- icrData
+    results$e_data <- results_pieces$temp.pep2
+    results$f_data <- results_pieces$temp.samp2
+    results$e_meta <- results_pieces$temp.meta1
+    
+    # set attributes for which filters were run
+    attr(results, "filters")$formulaFilt <- list(report_text = "", threshold = c(), filtered = c())
+    attr(results, "filters")$formulaFilt$report_text <- paste("A formula filter was applied to the data, removing ", edata_cname, "s ", "that had ", remove, " assigned. A total of ", length(filter.edata), " ", edata_cname, "s ", "were filtered out of the dataset by this filter.", sep="")
+    attr(results, "filters")$formulaFilt$threshold <- remove
+    attr(results, "filters")$moleculeFilt$filtered <- filter.edata
+    
+  }
+  
+  return(results)
+}
 
 #' Remove items that need to be filtered out
 #'
