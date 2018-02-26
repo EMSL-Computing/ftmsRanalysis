@@ -15,8 +15,7 @@ divideByGroup <- function(icrDataObj) {
   sample.colname <- getFDataColName(icrDataObj)
   samples <- as.character(icrDataObj$f_data[, sample.colname])
   groupDF <- getGroupDF(icrDataObj)
-  ## TODO working here 1/17/17
-  
+
   edata_nonsample_cols <- setdiff(colnames(icrDataObj$e_data), samples)
   
   result <- lapply(unique(groupDF$Group), function(group_name) {
