@@ -4,19 +4,20 @@
 \alias{vanKrevelenPlot}
 \title{Van Krevelen plot of icrData object}
 \usage{
-vanKrevelenPlot(data.obj, title = NA, colors = NA, xlabel = "O:C Ratio",
-  ylabel = "H:C Ratio", boundary_set = "bs1")
+vanKrevelenPlot(dataObj, title = NA, colorPal = NA, colorCName = NA,
+  vkBoundarySet = "bs1", showVKBounds = TRUE, xlabel = "O:C Ratio",
+  ylabel = "H:C Ratio", legendTitle = colorCName)
 }
 \arguments{
-\item{data.obj}{icrData object}
+\item{dataObj}{icrData object}
 
 \item{title}{(optional) plot title}
-
-\item{colors}{(optional) named vector of colors or hex codes corresponding to Van Krevelen categories}
 
 \item{xlabel}{x axis label, default is "O:C Ratio"}
 
 \item{ylabel}{y axis label, default is "H:C Ratio"}
+
+\item{colors}{(optional) named vector of colors or hex codes corresponding to Van Krevelen categories}
 
 \item{boundary_set}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
 }
