@@ -3,11 +3,14 @@
 #' Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an icrData object using Plotly.
 #' 
 #' @param dataObj icrData object
-#' @param title (optional) plot title
-#' @param colors (optional) named vector of colors or hex codes corresponding to Van Krevelen categories
+#' @param title plot title
+#' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
+#' @param colorCName column name of \code{dataObj$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.
+#' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
+#' @param showVKBounds TRUE/FALSE, should the Van Krevelen bounds be plotted?
 #' @param xlabel x axis label, default is "O:C Ratio"
 #' @param ylabel y axis label, default is "H:C Ratio"
-#' @param boundary_set character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
+#' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
 #' @export

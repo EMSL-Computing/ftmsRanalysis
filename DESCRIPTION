@@ -18,7 +18,7 @@ Imports:
     tidyr,
     tibble
 Suggests:
-    KEGGdata,
+    KeggData,
     MetaCycData,
     knitr,
     rmarkdown

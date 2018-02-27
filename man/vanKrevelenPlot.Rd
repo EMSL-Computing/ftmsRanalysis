@@ -11,15 +11,21 @@ vanKrevelenPlot(dataObj, title = NA, colorPal = NA, colorCName = NA,
 \arguments{
 \item{dataObj}{icrData object}
 
-\item{title}{(optional) plot title}
+\item{title}{plot title}
+
+\item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
+
+\item{colorCName}{column name of \code{dataObj$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
+
+\item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
+
+\item{showVKBounds}{TRUE/FALSE, should the Van Krevelen bounds be plotted?}
 
 \item{xlabel}{x axis label, default is "O:C Ratio"}
 
 \item{ylabel}{y axis label, default is "H:C Ratio"}
 
-\item{colors}{(optional) named vector of colors or hex codes corresponding to Van Krevelen categories}
-
-\item{boundary_set}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
+\item{legendTitle}{title for the legend, only used when coloring points according to a numeric scale}
 }
 \value{
 a plotly object
