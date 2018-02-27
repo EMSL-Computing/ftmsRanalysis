@@ -103,8 +103,12 @@ vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
-  samp_cnames <- dataObj$f_data[, getFDataColName(dataObj)]
-  ind <- rowSums(dataObj$e_data[, samp_cnames]) > 0
+  samp_cnames <- as.character(dataObj$f_data[, getFDataColName(dataObj)])
+  if(length(samp_cnames) == 1){
+    ind <- dataObj$e_data[,samp_cnames] >0
+  }else{
+    ind <- rowSums(dataObj$e_data[, samp_cnames]) > 0
+  }
   
   obs.peaks <- as.character(dataObj$e_data[ind, getEDataColName(dataObj)])
   emeta.df <- emeta.df[which(emeta.df[,getEDataColName(dataObj)] %in% obs.peaks), ]
