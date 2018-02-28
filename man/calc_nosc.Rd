@@ -16,7 +16,7 @@ an object of the same class as \code{icrData} with a column in \code{e\_meta} gi
 Calculate NOSC values for peaks where empirical formula is available
 }
 \details{
-NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4$}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4}
+NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4}
 }
 \author{
 Lisa Bramer
