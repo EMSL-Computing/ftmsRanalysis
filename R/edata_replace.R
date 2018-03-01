@@ -42,10 +42,41 @@ edata_replace <- function(icrData, x, y){
   
   # add the identifier column back #
   edata_new <- data.frame(edata_id=feature_names, edata_new)
+  colnames(edata_new)[which(colnames(edata_new) == "edata_id")] <- edata_id
   
   icrData$e_data = edata_new
   
   message(paste(num_replaced, "instances of", x, "have been replaced with", y, sep=" "))
   return(icrData)
   
+}
+
+
+
+#' Replace x with y for a single vector
+#'
+#' @param one_vector numeric vector
+#' @param x value to be replaced
+#' @param y replacement value
+#'
+#' @return numeric vector
+#'
+#' @author Kelly Stratton
+#'
+vector_replace <- function(one_vector, x, y){
+  # find indices where the value is x #
+  if(is.na(x)){
+    inds <- is.na(one_vector)
+  }else{
+    inds <- which(one_vector==x)
+  }
+  
+  
+  # initialize a new vector, which will be returned after we replace x with y #
+  new_vector <- one_vector
+  
+  # replace x with y #
+  new_vector[inds] <- y
+  
+  return(new_vector)
 }
