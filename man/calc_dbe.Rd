@@ -16,11 +16,11 @@ an object of the same class as \code{icrData} with a column in \code{e\_meta} gi
 Calculate double bond equivalent (DBE) and double bond equivalent minus Oxygen (DBE-O) values for peaks where empirical formula is available
 }
 \details{
-DBE \eqn{= 1 + 0.5(2C - H + N + P)}{= 1 + 0.5*(2C - H + N + P)} and DBE-0 \eqn{= 1 + 0.5(2C - H + N + P) - O}{= 1 + 0.5*(2C - H + N + P) - O}
+DBE \eqn{= 1 + C - O - S - 0.5(N + P + H)}{= 1 + C - O - S - 0.5*(N + P + H)} and DBE-0 \eqn{= 1 + C - O - S - 0.5(N + P + H) - O}{= 1 + C - O - S - 0.5*(N + P + H) - O}
 }
 \references{
-Koch, B. P., & Dittmar, T. (2006). From mass to structure: an aromaticity index for high‐resolution mass data of natural organic matter. Rapid communications in mass spectrometry, 20(5), 926-932.
+Koch, B. P., & Dittmar, T. (2006). From mass to structure: an aromaticity index for high‐resolution mass data of natural organic matter. Rapid communications in mass spectrometry, 20(5), 926-932. Errata: Koch, B. P., & Dittmar, T. (2016). From mass to structure: an aromaticity index for high-resolution mass data of natural organic matter. Rapid communications in mass spectrometery, 30(1), 250. DOI: 10.1002/rcm.7433
 }
 \author{
-Lisa Bramer
+Lisa Bramer, Allison Thompson
 }
