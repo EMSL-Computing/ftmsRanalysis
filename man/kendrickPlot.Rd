@@ -4,19 +4,26 @@
 \alias{kendrickPlot}
 \title{Kendrick plot of icrData object}
 \usage{
-kendrickPlot(data.obj, title = NA, colors = NA, xlabel = "Kendrick Mass",
-  ylabel = "Kendrick Defect", boundary_set = "bs1")
+kendrickPlot(dataObj, title = NA, colorPal = NA, colorCName = NA,
+  vkBoundarySet = "bs1", xlabel = "Kendrick Mass",
+  ylabel = "Kendrick Defect", legendTitle = colorCName)
 }
 \arguments{
-\item{data.obj}{icrData object}
+\item{dataObj}{icrData object}
 
-\item{title}{(optional) plot title}
+\item{title}{plot title}
 
-\item{colors}{(optional) named vector of colors or hex codes corresponding to Van Krevelen categories}
+\item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
+
+\item{colorCName}{column name of \code{dataObj$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
+
+\item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
 
 \item{xlabel}{x axis label, default is "Kendrick Mass"}
 
 \item{ylabel}{y axis label, default is "Kendrick Defect"}
+
+\item{legendTitle}{title for the legend, only used when coloring points according to a numeric scale}
 }
 \value{
 a plotly object
