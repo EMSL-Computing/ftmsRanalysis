@@ -9,7 +9,7 @@
 #'
 #' @return data object of the same class as icrData
 #'
-#' @author Allison Thompson
+#' @author Allison Thompson, Kelly Stratton
 #'
 #' @export
 edata_transform <- function(icrData, data_scale){
@@ -62,11 +62,14 @@ edata_transform <- function(icrData, data_scale){
   ## initial transformation
   if(attr(icrData, "data_info")$data_scale == "abundance"){
     if(data_scale == "log"){
+      edata[edata == 0] <- NA
       edata_new <- log(edata)
     }else if(data_scale == "log2"){
-        edata_new <- log2(edata)
+      edata[edata == 0] <- NA
+      edata_new <- log2(edata)
     }else if(data_scale == "log10"){
-        edata_new <- log10(edata)
+      edata[edata == 0] <- NA
+      edata_new <- log10(edata)
     }else if(data_scale == "pres"){
       edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
     }

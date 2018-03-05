@@ -21,5 +21,5 @@ This function applies a transformation to the e_data element of icrData
 This function is intended to be used before analysis of the data begins. Data are typically analyzed on a log or presence/absence scale.
 }
 \author{
-Allison Thompson
+Allison Thompson, Kelly Stratton
 }
