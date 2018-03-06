@@ -9,12 +9,12 @@
 #' 
 #' \tabular{ll}{
 #' calc_aroma \tab calculates aromaticity index (AI) and modified aromaticity index (AI_Mod) \cr
-#'  \tab AI \eqn{= \frac{1 + C - O - S - 0.5H}{C - O - S - N - P}}{= (1 + C - O - S - 0.5*H)/(C - O - S - N - P)} \cr 
-#'  \tab AI_Mod \eqn{= \frac{1 + C - 0.5O - S - 0.5H}{C - 0.5*O - S - N - P}}{= (1 + C - 0.5*O - S - 0.5*H)/(C - 0.5*O - S - N - P)} \cr
+#'  \tab AI \eqn{= \frac{1 + C - O - S - 0.5(N + P + H)}{C - O - S - N - P}}{= (1 + C - O - S - 0.5*(N + P + H))/(C - O - S - N - P)} \cr 
+#'  \tab AI_Mod \eqn{= \frac{1 + C - 0.5O - S - 0.5(N + P + H)}{C - 0.5*O - S - N - P}}{= (1 + C - 0.5*O - S - 0.5*(N + P + H))/(C - 0.5*O - S - N - P)} \cr
 #' \tab \cr
 #' calc_dbe \tab calculates double bond equivalent (DBE) and double bond equivalent minux Oxygent (DBE_O) \cr
-#'  \tab DBE \eqn{= 1 + 0.5(2C - H + N + P)}{= 1 + 0.5*(2C - H + N + P)} \cr
-#'  \tab DBE_0 \eqn{= 1 + 0.5(2C - H + N + P) - O}{= 1 + 0.5*(2C - H + N + P) - O} \cr
+#'  \tab DBE \eqn{= 1 + C - O - S - 0.5(N + P + H)}{= 1 + C - O - S - 0.5*(N + P + H)} \cr
+#'  \tab DBE_0 \eqn{= 1 + C - O - S - 0.5(N + P + H) - O}{= 1 + C - O - S - 0.5*(N + P + H) - O} \cr
 #' \tab \cr
 #' calc_gibbs \tab calculates Cox Gibbs Free Energy (GFE) \cr
 #'  \tab GFE = \eqn{= 60.3 - 28.5NOSC}{= 60.3 - 28.5*NOSC} \cr
@@ -29,6 +29,7 @@
 #' }
 #' 
 #' @references Koch, B. P., & Dittmar, T. (2006). From mass to structure: an aromaticity index for high‐resolution mass data of natural organic matter. Rapid communications in mass spectrometry, 20(5), 926-932.
+#' @references Errata: Koch, B. P., & Dittmar, T. (2016). From mass to structure: an aromaticity index for high-resolution mass data of natural organic matter. Rapid communications in mass spectrometery, 30(1), 250. DOI: 10.1002/rcm.7433
 #' @references LaRowe and Van Cappellen, 2011, "Degradation of natural organic matter: A thermodynamic analysis". Geochimica et Cosmochimica Acta. 75.
 #' 
 #' @return an object of the same class as \code{icrData} with columns in \code{e_meta} giving the newly calculated values
