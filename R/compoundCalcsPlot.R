@@ -43,7 +43,9 @@ compoundCalcsPlot <- function(dataObj, variable, title=NULL, fill_col="blue",
   # subset down to where sample value != 0 #
   df <- df[which(df[,dataObj$f_data[,attr(dataObj, "cnames")$fdata_cname]] > 0),]
   # subset down to those able to be plotted #
-  df <- df[which(!is.na(df[,variable])),]
+  if(any(is.na(df[,variable]))){
+    df <- df[which(!is.na(df[,variable])),]
+  }
   
 
   map <- ggplot2::aes_string(x = variable)
