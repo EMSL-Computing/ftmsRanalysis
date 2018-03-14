@@ -80,12 +80,12 @@ parse_mf <- function(icrData){
   
   icrData$e_meta = temp 
   
-  setCarbonColName(icrData, "C")
-  setHydrogenColName(icrData, "H")
-  setOxygenColName(icrData, "O")
-  setNitrogenColName(icrData, "N")
-  setSulfurColName(icrData, "S")
-  setPhosphorusColName(icrData, "P")
+  icrData = setCarbonColName(icrData, "C")
+  icrData =setHydrogenColName(icrData, "H")
+  icrData = setOxygenColName(icrData, "O")
+  icrData = setNitrogenColName(icrData, "N")
+  icrData = setSulfurColName(icrData, "S")
+  icrData = setPhosphorusColName(icrData, "P")
 
   return(icrData)
   
