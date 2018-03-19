@@ -5,7 +5,7 @@
 \title{Van Krevelen plot of icrData object}
 \usage{
 vanKrevelenPlotGroup(data.obj, title = NA, colors = NA,
-  xlabel = "O:C Ratio", ylabel = "H:C Ratio")
+  xlabel = "O:C Ratio", ylabel = "H:C Ratio", vkBoundarySet = "bs1")
 }
 \arguments{
 \item{data.obj}{icrData object}
@@ -17,6 +17,8 @@ vanKrevelenPlotGroup(data.obj, title = NA, colors = NA,
 \item{xlabel}{x axis label, default is "O:C Ratio"}
 
 \item{ylabel}{y axis label, default is "H:C Ratio"}
+
+\item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
 }
 \value{
 a plotly object
