@@ -40,8 +40,16 @@ compoundCalcsPlot <- function(dataObj, variable, title=NULL, fill_col="blue",
   
   # merge e_data and e_meta #  
   df <- merge(dataObj$e_data, dataObj$e_meta, by=getMassColName(dataObj))
+  
   # subset down to where sample value != 0 #
-  df <- df[which(df[,dataObj$f_data[,attr(dataObj, "cnames")$fdata_cname]] > 0),]
+  if(length(as.character(dataObj$f_data[,getFDataColName(dataObj)])) == 1){
+    df <- df[which(df[,as.character(dataObj$f_data[,attr(dataObj, "cnames")$fdata_cname])] > 0),]
+  }else if(length(as.character(dataObj$f_data[,getFDataColName(dataObj)])) > 1){
+    df <- df[which(rowSums(df[,as.character(dataObj$f_data[,attr(dataObj, "cnames")$fdata_cname])] > 0, na.rm=TRUE) > 0),]
+  }else{
+    stop("No samples in object")
+  }
+  
   # subset down to those able to be plotted #
   if(any(is.na(df[,variable]))){
     df <- df[which(!is.na(df[,variable])),]
