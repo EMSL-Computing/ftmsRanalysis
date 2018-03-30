@@ -6,9 +6,26 @@
 #' 
 #' @param icrObj an object of type icrData that has only columns of e_data corresponding to the samples in
 #' a group (e.g. the output of \code{\link{subset.icrData}} or a ddo of icrData objects (e.g. the output of \code{\link{divideByGroup}})
-#' @param summary_functions list of summary functions to apply to each row of icrObj$e_data for each group. If the
-#' list has names, those names will be used to name the resulting columns in the result.
+#' @param summary_functions list of summary functions to apply to each row of \code{icrObj$e_data} for each group. If the
+#' list has names, those names will be used to name the resulting columns in the returned object.
 #' @export
+#' 
+#' @examples
+#' data("edata")
+#' data("fdata")
+#' data("emeta")
+#' 
+#' picr <- as.peakIcrData(edata, fdata, emeta, edata_cname="peak", fdata_cname="Sample.ID", mass_cname="peak",
+#'                        c_cname="c.number", h_cname="h.number", o_cname="o.number",
+#'                        n_cname="n.number", s_cname="s.number", p_cname="p.number",
+#'                        isotopic_cname = "isotopic", isotopic_notation = "TRUE")
+#' 
+#' picr <- compound_calcs(picr)
+#' picr <- applyFilt(mass_filter(picr), picr, min_mass = 200, max_mass = 900)
+#' picr <- group_designation(picr, c("Location"))
+#' picr_A <- subset(picr, groups="A")
+#' 
+#' groupASummary <- summarizeGroups(picr_A, summary_functions=list(count=n_present, proportion=prop_present))
 summarizeGroups <- function(icrObj, summary_functions) {
   require(datadr)
   if (!(inherits(icrObj, "peakIcrData") | !inherits(icrObj, "compoundIcrData")) & !inherits(icrObj, "ddo") )
@@ -16,6 +33,11 @@ summarizeGroups <- function(icrObj, summary_functions) {
   if (missing(summary_functions)) stop("summary_function must be provided")
   if (!is.list(summary_functions)) stop("summary_function must be a list")
   
+  ## This is a test of the emergency get system. This is only a test
+  # tmp1 <- get("n_count", envir=as.environment("package:fticRanalysis"), mode="function")
+  # if (is.null(tmp1)) stop("Cannot get the n_count function")
+  # else cat("That get command worked fine!\n")
+    
   # if summary_functions has any missing names, fill them in so they can be used to name output columns
   if (is.null(names(summary_functions))) {
     names(summary_functions) <- paste0("Summary", 1:length(summary_functions))
@@ -39,8 +61,9 @@ summarizeGroups <- function(icrObj, summary_functions) {
 .summarizeGroupsInternal <- function(icrObj, summary_functions) {
 
   samp_cols <- setdiff(colnames(icrObj$e_data), getEDataColName(icrObj))
+  data_scale <- getDataScale(icrObj)
   edata_cols <- lapply(summary_functions, function(f) {
-    f(icrObj$e_data[,samp_cols])
+    f(icrObj$e_data[,samp_cols], data_scale)
   })
   new_edata <- data.frame(icrObj$e_data[, getEDataColName(icrObj)], edata_cols)
   colnames(new_edata)[1] <- getEDataColName(icrObj)

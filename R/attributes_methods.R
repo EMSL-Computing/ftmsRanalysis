@@ -19,7 +19,7 @@ get_db <- function(icrDataObj) {
 #' 
 #' @param icrDataObj icrData object
 #' @return character string indicating the instrument type
-#'
+#' @export
 getInstrumentType <- function(icrDataObj){
   if (!inherits(icrDataObj, "icrData")) stop("icrDataObj must be of type icrData")
   return(attr(icrDataObj, "instrument_type"))
@@ -35,4 +35,18 @@ getInstrumentType <- function(icrDataObj){
 getGroupDF <- function(icrDataObj){
   if (!inherits(icrDataObj, "icrData")) stop("icrDataObj must be of type icrData")
   return(attr(icrDataObj, "group_DF"))
+}
+
+#' Get data scale 
+#' 
+#' Get the data scale (e.g. 'abundance', 'pres', 'log2', 'log10', 'log')
+#'
+#' @param icrDataObj icrData object
+#' @return character string indicating the scale of the data
+#' @export
+getDataScale <- function(icrDataObj) {
+  if (!inherits(icrDataObj, "icrData")) stop("icrDataObj must be of type icrData")
+  res <- attr(icrDataObj, "data_info")$data_scale
+  if (is.null(res)) res <- "abundance"
+  return(res)
 }
