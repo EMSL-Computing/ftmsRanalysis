@@ -10,11 +10,28 @@ summarizeGroups(icrObj, summary_functions)
 \item{icrObj}{an object of type icrData that has only columns of e_data corresponding to the samples in
 a group (e.g. the output of \code{\link{subset.icrData}} or a ddo of icrData objects (e.g. the output of \code{\link{divideByGroup}})}
 
-\item{summary_functions}{list of summary functions to apply to each row of icrObj$e_data for each group. If the
-list has names, those names will be used to name the resulting columns in the result.}
+\item{summary_functions}{list of summary functions to apply to each row of \code{icrObj$e_data} for each group. If the
+list has names, those names will be used to name the resulting columns in the returned object.}
 }
 \description{
 Summarize sample data by group using a specified summary function. The summary
 function provided must take a data frame with one or more columns corresponding to 
 samples. It must return a data frame with the same number of rows and one column.
+}
+\examples{
+data("edata")
+data("fdata")
+data("emeta")
+
+picr <- as.peakIcrData(edata, fdata, emeta, edata_cname="peak", fdata_cname="Sample.ID", mass_cname="peak",
+                       c_cname="c.number", h_cname="h.number", o_cname="o.number",
+                       n_cname="n.number", s_cname="s.number", p_cname="p.number",
+                       isotopic_cname = "isotopic", isotopic_notation = "TRUE")
+
+picr <- compound_calcs(picr)
+picr <- applyFilt(mass_filter(picr), picr, min_mass = 200, max_mass = 900)
+picr <- group_designation(picr, c("Location"))
+picr_A <- subset(picr, groups="A")
+
+groupASummary <- summarizeGroups(picr_A, summary_functions=list(count=n_present, proportion=prop_present))
 }
