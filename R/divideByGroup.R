@@ -15,6 +15,7 @@ divideByGroup <- function(icrDataObj) {
   sample.colname <- getFDataColName(icrDataObj)
   samples <- as.character(icrDataObj$f_data[, sample.colname])
   groupDF <- getGroupDF(icrDataObj)
+  if (is.null(groupDF)) stop("This object does not have group designation information")
 
   edata_nonsample_cols <- setdiff(colnames(icrDataObj$e_data), samples)
   
