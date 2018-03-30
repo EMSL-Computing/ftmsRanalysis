@@ -22,7 +22,7 @@ divideByGroup <- function(icrDataObj) {
   result <- lapply(unique(groupDF$Group), function(group_name) {
     group.samples <- as.character(groupDF[groupDF$Group == group_name, fticRanalysis:::getFDataColName(icrDataObj)])
     
-    f_data <- dplyr::rename(icrDataObj$f_data, tmp9r038519=UQ(sample.colname)) %>%
+    f_data <- dplyr::rename(icrDataObj$f_data, tmp9r038519=rlang::UQ(sample.colname)) %>%
       dplyr::filter(tmp9r038519 %in% group.samples)
     colnames(f_data)[colnames(f_data) == "tmp9r038519"] <- sample.colname
     

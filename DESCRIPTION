@@ -16,7 +16,8 @@ Imports:
     RColorBrewer,
     plotly,
     tidyr,
-    tibble
+    tibble,
+    rlang (>= 0.1.4)
 Suggests:
     KeggData,
     MetaCycData,

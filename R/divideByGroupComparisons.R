@@ -13,7 +13,7 @@ divideByGroupComparisons <- function(icrObj, comparisons) {
   result <- lapply(1:ncol(comparisons), function(i) {
     grp.names <- comparisons[,i]
     
-    f_data <- dplyr::rename(icrObj$f_data, tmp9r038519=UQ(fdata.colname)) %>%
+    f_data <- dplyr::rename(icrObj$f_data, tmp9r038519=rlang::UQ(fdata.colname)) %>%
       dplyr::filter(tmp9r038519 %in% grp.names)
     colnames(f_data)[colnames(f_data) == "tmp9r038519"] <- fdata.colname
     
