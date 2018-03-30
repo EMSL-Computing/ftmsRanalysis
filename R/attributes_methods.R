@@ -19,10 +19,12 @@ get_db <- function(icrDataObj) {
 #' 
 #' @param icrDataObj icrData object
 #' @return character string indicating the instrument type
+#' 
+#' @export
 #'
 getInstrumentType <- function(icrDataObj){
   if (!inherits(icrDataObj, "icrData")) stop("icrDataObj must be of type icrData")
-  return(attr(icrDataObj, "instrument_type"))
+  return(attr(icrDataObj, "data_info")$instrument_type)
 }
 
 #' Get group_DF attribute from icrData object
