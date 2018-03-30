@@ -27,6 +27,9 @@ vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   if (is.null(dataObj$e_meta)) {
     stop("dataObj must have e_meta element")
   }
+  if (inherits(dataObj, "groupSummary") | inherits(dataObj, "groupComparison")) {
+    stop("dataObj cannot be a groupSummary or groupComparison object for this function")
+  }
   
   OC.col <- getOCRatioColName(dataObj)
   if (is.null(OC.col) | !is.element(OC.col, colnames(dataObj$e_meta))) {

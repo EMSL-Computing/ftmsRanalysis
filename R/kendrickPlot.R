@@ -27,6 +27,9 @@ kendrickPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
   if (is.null(dataObj$e_meta)) {
     stop("dataObj must have e_meta element")
   }
+  if (inherits(dataObj, "groupSummary") | inherits(dataObj, "groupComparison")) {
+    stop("dataObj cannot be a groupSummary or groupComparison object for this function")
+  }
   
   km_col <- getKendrickMassColName(dataObj)
   if (is.null(km_col) | !is.element(km_col, colnames(dataObj$e_meta))) {
