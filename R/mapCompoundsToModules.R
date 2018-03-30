@@ -17,7 +17,7 @@ mapCompoundsToModules <- function(cicr) {
   
   db <- get_db(cicr)
   if (toupper(db) == "KEGG") {
-    require(KEGGdata)
+    require(KeggData)
     # data("kegg_reactions")
     # reactions <- kegg_reactions
     data("kegg_compounds")

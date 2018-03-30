@@ -54,7 +54,7 @@ metacyc_mass_filter <- function(compounds=MetaCycData::mc_compounds, min_mass, m
   return(res)
 }
 
-kegg_mass_filter <- function(compounds=KEGGdata::kegg_compounds, min_mass, max_mass) {
+kegg_mass_filter <- function(compounds=KeggData::kegg_compounds, min_mass, max_mass) {
   # check that compounds is not NULL 
   if(is.null(compounds)) stop("compounds is NULL and must be present to use this function")
   

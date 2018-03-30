@@ -12,8 +12,8 @@ getModuleName <- function(module_ids, db="KEGG") {
   if (!is.character(module_ids)) stop("module_ids must be a character vector")
   
   if (toupper(db) == "KEGG") {
-    ind <- match(module_ids, KEGGdata::kegg_modules$MODULE)
-    return(KEGGdata::kegg_modules[ind, "NAME"])
+    ind <- match(module_ids, KeggData::kegg_modules$MODULE)
+    return(KeggData::kegg_modules[ind, "NAME"])
   } else if (toupper(db) == "METACYC") {
     ind <- match(module_ids, MetaCycData::mc_modules$MODULE)
     return(MetaCycData::mc_modules[ind, "COMMON-NAME"])

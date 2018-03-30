@@ -10,7 +10,7 @@ mapPeaksToCompounds(picr, db = "KEGG")
 \item{picr}{object of type peakIcrData}
 
 \item{db}{database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-the KEGGdata package or the MetaCycData package respectively.}
+the KeggData package or the MetaCycData package respectively.}
 }
 \value{
 compoundIcrObject

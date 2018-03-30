@@ -3,7 +3,7 @@
 #' Map peak leve ICR data to compounds from either KEGG or MetaCyc. 
 #' @param picr object of type peakIcrData
 #' @param db database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-#' the KEGGdata package or the MetaCycData package respectively.
+#' the KeggData package or the MetaCycData package respectively.
 #' @return compoundIcrObject
 #' @export
 mapPeaksToCompounds <- function(picr, db="KEGG") {
@@ -17,7 +17,7 @@ mapPeaksToCompounds <- function(picr, db="KEGG") {
   require(dplyr)
   
   if (toupper(db) == "KEGG") {
-    require(KEGGdata)
+    require(KeggData)
     data("kegg_compounds")
     compounds <- kegg_compounds
     # rm(kegg_compounds)
