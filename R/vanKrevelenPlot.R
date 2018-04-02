@@ -67,7 +67,8 @@ vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   if (is.na(colorPal)) {
     if (is.numeric(emeta.df[, colorCName])) {
       val_range <- range(emeta.df[, colorCName], na.rm=TRUE)
-      colorPal <- scales::col_numeric(palette="YlOrRd", domain=val_range)
+      pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
+      colorPal <- scales::col_numeric(palette=pal, domain=val_range)
       vals <- seq(val_range[1], val_range[2], length=100)
       col_vec <- colorPal(vals)
       names(col_vec) <- vals
