@@ -121,7 +121,7 @@ vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   emeta.df <- emeta.df[!ind.na, ]
   
   # Show Mass and Molecular Formula
-  hovertext <- paste("Molecular Formula:", emeta.df[, getMFColName(dataObj)],"<br>Mass:", emeta.df[,getMassColName(dataObj)])
+  hovertext <- paste("Molecular Formula: ", emeta.df[, getMFColName(dataObj)],"<br>", getEDataColName(dataObj),": ", emeta.df[,getEDataColName(dataObj)], sep = "")
   if (!is.numeric(emeta.df[, colorCName])) {
     p <- plot_ly(emeta.df, x=emeta.df[,OC.col], y=emeta.df[,HC.col]) %>%
       add_markers(color=emeta.df[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
