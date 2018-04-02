@@ -6,8 +6,9 @@
 #' 
 #' @param icrObj an object of type icrData that has only columns of e_data corresponding to the samples in
 #' a group (e.g. the output of \code{\link{subset.icrData}} or a ddo of icrData objects (e.g. the output of \code{\link{divideByGroup}})
-#' @param summary_functions list of summary functions to apply to each row of \code{icrObj$e_data} for each group. If the
-#' list has names, those names will be used to name the resulting columns in the returned object.
+#' @param summary_functions list or vector of summary function names to apply to each row of \code{icrObj$e_data} for each group. Valid
+#' summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. If the
+#' list or vector has names, those names will be used to name the resulting columns in the returned object.
 #' @export
 #' 
 #' @examples
@@ -31,19 +32,27 @@ summarizeGroups <- function(icrObj, summary_functions) {
   if (!(inherits(icrObj, "peakIcrData") | !inherits(icrObj, "compoundIcrData")) & !inherits(icrObj, "ddo") )
       stop("icrObj must be of type peakIcrData, compoundIcrData, or a ddo containing those objects")
   if (missing(summary_functions)) stop("summary_function must be provided")
+  if (is.vector(summary_functions)) summary_functions <- as.list(summary_functions)
   if (!is.list(summary_functions)) stop("summary_function must be a list")
   
   ## This is a test of the emergency get system. This is only a test
-  # tmp1 <- get("n_count", envir=as.environment("package:fticRanalysis"), mode="function")
-  # if (is.null(tmp1)) stop("Cannot get the n_count function")
+  # tmp1 <- get("n_present", envir=as.environment("package:fticRanalysis"), mode="function")
+  # if (is.null(tmp1)) stop("Cannot get the n_present function")
   # else cat("That get command worked fine!\n")
-    
+  
+  # Get function objects from names
+  validNames <- getGroupSummaryFunctionNames()
+  summary_functions <- lapply(summary_functions, function(nn) {
+    if (!(nn %in% validNames)) stop(sprintf("'%s' is not a valid function name, see getGroupSummaryFunctionNames() for valid options", nn))
+    return(get(nn, envir=as.environment("package:fticRanalysis"), mode="function"))
+  })
+  
   # if summary_functions has any missing names, fill them in so they can be used to name output columns
   if (is.null(names(summary_functions))) {
-    names(summary_functions) <- paste0("Summary", 1:length(summary_functions))
+    names(summary_functions) <- unlist(lapply(summary_functions, function(f) attr(f, "default_column_name")))
   } else if (any(is.na(names(summary_functions))) | any(nchar(names(summary_functions)) == 0)) {
     ind <- which(is.na(names(summary_functions)) | nchar(names(summary_functions)) == 0)
-    names(summary_functions)[ind] <- paste0("Summary", ind)
+    names(summary_functions)[ind] <- unlist(lapply(summary_functions[ind], function(f) attr(f, "default_column_name")))
   }
   
   if (inherits(icrObj, "ddo")) {

@@ -22,7 +22,7 @@ as.compoundIcrData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
 
 \item{compound_cname}{character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. Kegg, MetaCyc)}
 
-\item{...}{further arguments}
+\item{...}{further arguments (see as.\code{\link{peakIcrData}})}
 }
 \description{
 Converts a list object or several data.frames of FTICR data to an object of the class 'compoundIcrData'. Objects of the class 'compoundIcrData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}.

@@ -10,8 +10,9 @@ summarizeGroups(icrObj, summary_functions)
 \item{icrObj}{an object of type icrData that has only columns of e_data corresponding to the samples in
 a group (e.g. the output of \code{\link{subset.icrData}} or a ddo of icrData objects (e.g. the output of \code{\link{divideByGroup}})}
 
-\item{summary_functions}{list of summary functions to apply to each row of \code{icrObj$e_data} for each group. If the
-list has names, those names will be used to name the resulting columns in the returned object.}
+\item{summary_functions}{list or vector of summary function names to apply to each row of \code{icrObj$e_data} for each group. Valid
+summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. If the
+list or vector has names, those names will be used to name the resulting columns in the returned object.}
 }
 \description{
 Summarize sample data by group using a specified summary function. The summary
