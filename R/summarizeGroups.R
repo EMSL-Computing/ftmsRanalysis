@@ -43,6 +43,7 @@ summarizeGroups <- function(icrObj, summary_functions) {
   # Get function objects from names
   validNames <- getGroupSummaryFunctionNames()
   summary_functions <- lapply(summary_functions, function(nn) {
+    nn <- as.character(nn)
     if (!(nn %in% validNames)) stop(sprintf("'%s' is not a valid function name, see getGroupSummaryFunctionNames() for valid options", nn))
     return(get(nn, envir=as.environment("package:fticRanalysis"), mode="function"))
   })
