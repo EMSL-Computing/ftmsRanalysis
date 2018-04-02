@@ -58,7 +58,8 @@ kendrickPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
   if (is.na(colorPal)) {
     if (is.numeric(emeta.df[, colorCName])) {
       val_range <- range(emeta.df[, colorCName], na.rm=TRUE)
-      colorPal <- scales::col_numeric(palette="YlOrRd", domain=val_range)
+      pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
+      colorPal <- scales::col_numeric(palette=pal, domain=val_range)
       vals <- seq(val_range[1], val_range[2], length=100)
       col_vec <- colorPal(vals)
       names(col_vec) <- vals
@@ -112,7 +113,7 @@ kendrickPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   ed_id = getEDataColName(dataObj)
   # Mouseover text (TODO add function parameter for this)
-  hovertext <- sprintf("%s<br>Kendrick Mass=%1.3f<br>Kendrick Defect=%1.3f", emeta.df[,ed_id], emeta.df[,km_col], emeta.df[,kd_col])
+  hovertext <- sprintf("%s=%s<br>Kendrick Mass=%1.3f<br>Kendrick Defect=%1.3f", ed_id, emeta.df[,ed_id], emeta.df[,km_col], emeta.df[,kd_col])
   
   if (!is.numeric(emeta.df[, colorCName])) {
     p <- plot_ly(emeta.df, x=emeta.df[,km_col], y=emeta.df[,kd_col]) %>%
