@@ -26,9 +26,9 @@ subset.peakIcrData <- function(icrDataObj, samples=NA, groups=NA) {
   return(result)
 }
 
-#' Internal only function that performs the bulk of the subsetting operation,
-#' leaving the attributes of the result to be filled in by the individual
-#' subset.*IcrData functions.
+# Internal only function that performs the bulk of the subsetting operation,
+# leaving the attributes of the result to be filled in by the individual
+# subset.*IcrData functions.
 .subset.icrData.internal <- function(icrDataObj, samples=NA, groups=NA) {
   
   group_DF <- attr(icrDataObj, "group_DF")

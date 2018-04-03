@@ -74,7 +74,7 @@ compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
  # This should work but changes to NSE are causing issues, commenting out for now #
   for(i in 1:length(calc_fns)){
     # set f to the function that is named in the ith element of compound_calcs # 
-    f <- get(as.character(calc_fns[i]), envir=as.environment("package:fticRanalysis"), mode="function")
+    f <- get(as.character(calc_fns[i]), envir=asNamespace("fticRanalysis"), mode="function")
     icrData <- f(icrData)
   }
   
