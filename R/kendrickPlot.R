@@ -113,7 +113,8 @@ kendrickPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   ed_id = getEDataColName(dataObj)
   # Mouseover text (TODO add function parameter for this)
-  hovertext <- sprintf("%s=%s<br>Kendrick Mass=%1.3f<br>Kendrick Defect=%1.3f", ed_id, emeta.df[,ed_id], emeta.df[,km_col], emeta.df[,kd_col])
+  #hovertext <- sprintf("%s=%s<br>Kendrick Mass=%1.3f<br>Kendrick Defect=%1.3f", ed_id, emeta.df[,ed_id], emeta.df[,km_col], emeta.df[,kd_col])
+  hovertext <- paste("Molecular Formula: ", emeta.df[, getMFColName(dataObj)],"<br>", getEDataColName(dataObj),": ", emeta.df[,getEDataColName(dataObj)], sep = "")
   
   if (!is.numeric(emeta.df[, colorCName])) {
     p <- plot_ly(emeta.df, x=emeta.df[,km_col], y=emeta.df[,kd_col]) %>%
