@@ -76,7 +76,8 @@ groupVanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, 
   if (is.na(colorPal)) {
     if (is.numeric(edata.df[, colorCName])) {
       val_range <- range(edata.df[, colorCName], na.rm=TRUE)
-      colorPal <- scales::col_numeric(palette="YlOrRd", domain=val_range)
+      pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
+      colorPal <- scales::col_numeric(palette=pal, domain=val_range)
       vals <- seq(val_range[1], val_range[2], length=100)
       col_vec <- colorPal(vals)
       names(col_vec) <- vals
@@ -128,7 +129,8 @@ groupVanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, 
   ind.na <- is.na(edata.df[,OC.col]) | is.na(edata.df[,HC.col])
   edata.df <- edata.df[!ind.na, ]
   
-  hovertext <- edata.df[, getMFColName(dataObj)]
+  # Show Mass and Molecular Formula
+  hovertext <- paste("Molecular Formula: ", edata.df[, getMFColName(dataObj)],"<br>", getEDataColName(dataObj),": ", edata.df[,getEDataColName(dataObj)], sep = "")
   if (!is.numeric(edata.df[, colorCName])) {
     p <- plot_ly(edata.df, x=edata.df[,OC.col], y=edata.df[,HC.col]) %>%
       add_markers(color=edata.df[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
@@ -159,35 +161,4 @@ groupVanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, 
     p <- p %>% layout(title=title)
   }
   p
-}
-#vanKrevelenPlot(dataObj, title=colnames(dataObj$e_data)[2])
-
-# Function for calculating pretty axis limits for plots
-# 
-# Internal only convenience function for calculating axis limits
-# that are extended by 5% outside the bounds of the observed values (or
-# that start at 0 if specified). This is useful because Plotly adjusts
-# axis limits when groups of points are de-selected unless fixed range
-# limits are set in the layout function.
-# @param values vector of values
-# @param zero.min boolean, if TRUE the first element of the returned pair will be 0
-# @return length 2 numeric vector suitable to serve as axis limits for plotly 
-nice_axis_limits <- function(values, zero.min=FALSE) {
-  lim <- range(values, na.rm=TRUE)
-  d <- diff(lim)
-  lim[1] <- ifelse(zero.min, 0, lim[1]-.05*d)
-  lim[2] <- lim[2]+.05*d
-  return(lim)
-}
-
-
-getFactorColorPalette <- function(level_names) {
-  if (length(level_names) > 12) 
-    stop("too many levels to infer a color scheme, please provide a colorPal parameter")
-  else if (length(level_names) > 9)
-    pal_name <- "Set3"
-  else 
-    pal_name <- "Set1"
-  colorPal<- scales::col_factor(pal_name, levels=level_names)   
-  return(colorPal)
 }

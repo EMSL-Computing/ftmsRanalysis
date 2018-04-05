@@ -66,7 +66,8 @@ groupKendrickPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA,
   if (is.na(colorPal)) {
     if (is.numeric(edata.df[, colorCName])) {
       val_range <- range(edata.df[, colorCName], na.rm=TRUE)
-      colorPal <- scales::col_numeric(palette="YlOrRd", domain=val_range)
+      pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
+      colorPal <- scales::col_numeric(palette=pal, domain=val_range)
       vals <- seq(val_range[1], val_range[2], length=100)
       col_vec <- colorPal(vals)
       names(col_vec) <- vals
@@ -120,7 +121,8 @@ groupKendrickPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA,
   
   ed_id = getEDataColName(dataObj)
   # Mouseover text (TODO add function parameter for this)
-  hovertext <- sprintf("%s<br>Kendrick Mass=%1.3f<br>Kendrick Defect=%1.3f", edata.df[,ed_id], edata.df[,km_col], edata.df[,kd_col])
+#  hovertext <- sprintf("%s<br>Kendrick Mass=%1.3f<br>Kendrick Defect=%1.3f", edata.df[,ed_id], edata.df[,km_col], edata.df[,kd_col])
+  hovertext <- paste("Molecular Formula: ", edata.df[, getMFColName(dataObj)],"<br>", getEDataColName(dataObj),": ", edata.df[,getEDataColName(dataObj)], sep = "")
   
   if (!is.numeric(edata.df[, colorCName])) {
     p <- plot_ly(edata.df, x=edata.df[,km_col], y=edata.df[,kd_col]) %>%
