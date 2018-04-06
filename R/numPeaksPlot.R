@@ -33,7 +33,7 @@ numPeaksPlot <- function(dataObj, xaxis=NULL, ylabel="Number of Peaks", title=NU
   # End Initial Checks #
   
   # calculate the number of peaks per sample
-  peaks <- apply(dataObj$e_data[,-which(colnames(dataObj$e_data) == getMassColName(dataObj))], 2, function(x) sum(which(!is.na(x) & x > 0)))
+  peaks <- apply(dataObj$e_data[,-which(colnames(dataObj$e_data) == getMassColName(dataObj))], 2, function(x) length(which(!is.na(x) & x > 0)))
   peaks <- data.frame(Sample=names(peaks), Peaks=peaks)
   colnames(peaks)[1] <- getFDataColName(dataObj)
   
