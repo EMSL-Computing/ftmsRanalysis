@@ -7,23 +7,23 @@ divideByGroupComparisons <- function(icrObj, comparisons) {
   require(datadr)  
   
   fdata.colname <- getFDataColName(icrObj)
-  groups <- as.character(icrObj$f_data[, fdata.colname])
+  
+  groupDF <- fticRanalysis:::getGroupDF(icrObj)
+  if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF 
+    samp.names <- unique(icrObj$f_data[, getFDataColName(icrObj)])
+    groupDF <- data.frame(Sample=samp.names, Group=samp.names)
+    colnames(groupDF)[1] <- getFDataColName(icrObj)
+  }
+  
+  groups <- as.character(groupDF$Group)
+  samples <- unique(as.character(icrObj$f_data[, fdata.colname]))
   edata_nonsample_cols <- setdiff(colnames(icrObj$e_data), groups)
   
   result <- lapply(1:ncol(comparisons), function(i) {
     grp.names <- comparisons[,i]
-    
-    f_data <- dplyr::rename(icrObj$f_data, tmp9r038519=rlang::UQ(fdata.colname)) %>%
-      dplyr::filter(tmp9r038519 %in% grp.names)
-    colnames(f_data)[colnames(f_data) == "tmp9r038519"] <- fdata.colname
-    
-    e_data <- icrObj$e_data[, c(edata_nonsample_cols, grp.names)]
-    #e_meta <- icrObj$e_meta
-    
-    val <- list(e_data=e_data, f_data=f_data)
-    # attributes(val) <- attributes(icrObj)
 
-    # datadr attributes:
+    val <- subset(icrObj, groups = grp.names)    
+
     comp_name <- paste(grp.names, collapse=" vs ")
     attr(val, "split") <- data.frame(Group_Comparison=comp_name, stringsAsFactors = FALSE)
     colnames(attr(val, "split")) <- "Group_Comparison"

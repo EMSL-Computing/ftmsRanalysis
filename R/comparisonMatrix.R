@@ -1,9 +1,17 @@
+#' Generate a matrix of comparisons
+#' 
+#' Create a matrix of group or sample comparisons as input to \code{\link{divideByGroupComparisons}}.
+#' 
+#' @param icrObj icrData object
+#' @param comparisons one of "all", "control" or a list containing two-element vectors of groups to compare
+#' @param control the name of the control group, if \code{comparisons="control"}
+#' @export 
 comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
   if (missing(icrObj)) stop("icrObj is missing")
   if (missing(comparisons)) stop("comparisons is missing")
   if (!inherits(icrObj, "icrData")) stop("icrObj must be of type icrData")
   
-  groupDF <- attr(icrObj, "group_DF")
+  groupDF <- getGroupDF(icrObj)
   if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF 
     samp.names <- unique(icrObj$f_data[, getFDataColName(icrObj)])
     groupDF <- data.frame(Sample=samp.names, Group=samp.names)
