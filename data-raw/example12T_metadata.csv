@@ -1,0 +1,21 @@
+SampleID,Location,Block,Crop/Flora,Aggregate Abv,Catalog Number,Extraction
+EM0011_sample,M,1,S,LM,EM0011,Water
+EM0013_sample,M,2,S,LM,EM0013,Water
+EM0015_sample,M,3,S,LM,EM0015,Water
+EM0017_sample,M,4,S,LM,EM0017,Water
+EM0019_sample,M,5,S,LM,EM0019,Water
+EM0061_sample,M,1,C,LM,EM0061,Water
+EM0063_sample,M,2,C,LM,EM0063,Water
+EM0065_sample,M,3,C,LM,EM0065,Water
+EM0067_sample,M,4,C,LM,EM0067,Water
+EM0069_sample,M,5,C,LM,EM0069,Water
+EW0111_sample,W,1,C,LM,EW0111,Water
+EW0113_sample,W,2,C,LM,EW0113,Water
+EW0115_sample,W,3,C,LM,EW0115,Water
+EW0117_sample,W,4,C,LM,EW0117,Water
+EW0119_sample,W,5,C,LM,EW0119,Water
+EW0161_sample,W,1,S,LM,EW0161,Water
+EW0163_sample,W,2,S,LM,EW0163,Water
+EW0165_sample,W,3,S,LM,EW0165,Water
+EW0167_sample,W,4,S,LM,EW0167,Water
+EW0169_sample,W,5,S,LM,EW0169,Water
