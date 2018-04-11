@@ -3,7 +3,7 @@
 #' Constructs a Kendrick plot (Kendrick defect vs Kendrick mass) for an
 #' object of type icrData.
 #' 
-#' @param dataObj icrData object
+#' @param dataObj icrData object of class 'groupSummary' as a result of calling \code{\link{summarizeGroups}}
 #' @param title plot title
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
 #' @param colorCName column name of \code{dataObj$e_data} to use for coloring the points

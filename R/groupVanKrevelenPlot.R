@@ -2,7 +2,7 @@
 #' 
 #' Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an icrData object using Plotly.
 #' 
-#' @param dataObj icrData object that is a group summary (i.e. the output of \code{\link{summarizeGroups}})
+#' @param dataObj icrData object of class 'groupSummary' as a result of calling \code{\link{summarizeGroups}}
 #' @param title plot title
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
 #' @param colorCName column name of \code{dataObj$e_data} to use for coloring the points. 
