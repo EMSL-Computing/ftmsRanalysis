@@ -2,10 +2,10 @@
 #' 
 #' Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an icrData object using Plotly.
 #' 
-#' @param dataObj icrData object
+#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param title plot title
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
-#' @param colorCName column name of \code{dataObj$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.
+#' @param colorCName column name of \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.
 #' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
 #' @param showVKBounds TRUE/FALSE, should the Van Krevelen bounds be plotted?
 #' @param xlabel x axis label, default is "O:C Ratio"
@@ -14,43 +14,40 @@
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
 #' @export
-vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
+vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                             xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
   require(dplyr)
   require(plotly)
   require(scales)
   
   # Test inputs
-  if (!inherits(dataObj, "icrData")) {
-    stop("dataObj must be of type icrData")
-  }
-  if (is.null(dataObj$e_meta)) {
-    stop("dataObj must have e_meta element")
-  }
-  if (inherits(dataObj, "groupSummary") | inherits(dataObj, "groupComparison")) {
-    stop("dataObj cannot be a groupSummary or groupComparison object for this function")
+  # check that icrData is of the correct class #
+  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  
+  if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
+    stop("icrData cannot be a groupSummary or groupComparison object for this function")
   }
   
-  OC.col <- getOCRatioColName(dataObj)
-  if (is.null(OC.col) | !is.element(OC.col, colnames(dataObj$e_meta))) {
-    stop("O:C ratio column attribute is not set or is not present in dataObj$e_meta")
+  OC.col <- getOCRatioColName(icrData)
+  if (is.null(OC.col) | !is.element(OC.col, colnames(icrData$e_meta))) {
+    stop("O:C ratio column attribute is not set or is not present in icrData$e_meta")
   }
-  HC.col <- getHCRatioColName(dataObj)
-  if (is.null(HC.col) | !is.element(HC.col, colnames(dataObj$e_meta))) {
-    stop("H:C ratio column attribute is not set or is not present in dataObj$e_meta")
+  HC.col <- getHCRatioColName(icrData)
+  if (is.null(HC.col) | !is.element(HC.col, colnames(icrData$e_meta))) {
+    stop("H:C ratio column attribute is not set or is not present in icrData$e_meta")
   }
   
   if (is.na(colorCName) & is.na(vkBoundarySet)) {
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
 
-  emeta.df <- dataObj$e_meta
-  emeta.df[,getEDataColName(dataObj)] = as.character(emeta.df[,getEDataColName(dataObj)])
+  emeta.df <- icrData$e_meta
+  emeta.df[,getEDataColName(icrData)] = as.character(emeta.df[,getEDataColName(icrData)])
   
   vk_color_different_than_pts <- FALSE
   # Van Krevelen categories
   if (!is.na(vkBoundarySet)) {
-    vk_cat <- factor(getVanKrevelenCategories(dataObj, vkBoundarySet), levels=rownames(getVanKrevelenCategoryBounds(vkBoundarySet)))
+    vk_cat <- factor(getVanKrevelenCategories(icrData, vkBoundarySet), levels=rownames(getVanKrevelenCategoryBounds(vkBoundarySet)))
     emeta.df$vk_categories_really_long_name1234 <- vk_cat
     
     # data.frame of van krevelen bounds for plotting purposes
@@ -107,21 +104,21 @@ vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
-  samp_cnames <- as.character(dataObj$f_data[, getFDataColName(dataObj)])
+  samp_cnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
   if(length(samp_cnames) == 1){
-    ind <- dataObj$e_data[,samp_cnames] >0
+    ind <- icrData$e_data[,samp_cnames] >0
   }else{
-    ind <- rowSums(dataObj$e_data[, samp_cnames]) > 0
+    ind <- rowSums(icrData$e_data[, samp_cnames]) > 0
   }
   
-  obs.peaks <- as.character(dataObj$e_data[ind, getEDataColName(dataObj)])
-  emeta.df <- emeta.df[which(emeta.df[,getEDataColName(dataObj)] %in% obs.peaks), ]
+  obs.peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
+  emeta.df <- emeta.df[which(emeta.df[,getEDataColName(icrData)] %in% obs.peaks), ]
   
   ind.na <- is.na(emeta.df[,OC.col]) | is.na(emeta.df[,HC.col])
   emeta.df <- emeta.df[!ind.na, ]
   
   # Show Mass and Molecular Formula
-  hovertext <- paste("Molecular Formula: ", emeta.df[, getMFColName(dataObj)],"<br>", getEDataColName(dataObj),": ", emeta.df[,getEDataColName(dataObj)], sep = "")
+  hovertext <- paste("Molecular Formula: ", emeta.df[, getMFColName(icrData)],"<br>", getEDataColName(icrData),": ", emeta.df[,getEDataColName(icrData)], sep = "")
   if (!is.numeric(emeta.df[, colorCName])) {
     p <- plot_ly(emeta.df, x=emeta.df[,OC.col], y=emeta.df[,HC.col]) %>%
       add_markers(color=emeta.df[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
@@ -153,7 +150,7 @@ vanKrevelenPlot <- function(dataObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   p
 }
-#vanKrevelenPlot(dataObj, title=colnames(dataObj$e_data)[2])
+#vanKrevelenPlot(icrData, title=colnames(icrData$e_data)[2])
 
 # Function for calculating pretty axis limits for plots
 # 
