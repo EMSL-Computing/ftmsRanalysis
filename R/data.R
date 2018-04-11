@@ -28,7 +28,7 @@ NULL
 #'
 #' @format A data.frame with 2,442 rows (peaks/masses) and 10 columns:
 #' \describe{
-#'   \item{Mass}{Mass identifier (matches Mass column in edata)}
+#'   \item{Mass}{Mass identifier (matches Mass column in edata) - negative ion mass as samples were analyzed by electrospray ionization in negative mode}
 #'   \item{C}{Number of Carbons making up identified compound}
 #'   \item{H}{Number of Hydrogens making up identified compound}
 #'   \item{O}{Number of Oxygens making up identified compound}
@@ -36,8 +36,8 @@ NULL
 #'   \item{C13}{Indicates if compound contains Carbon13 if value is '1'}
 #'   \item{S}{Number of Sulfurs making up identified compound}
 #'   \item{P}{Number of Phosphorus making up identified compound}
-#'   \item{Error}{ }
-#'   \item{NeutralMass}{}
+#'   \item{Error}{Difference between the experimental mass and the accurate mass }
+#'   \item{NeutralMass}{Experimental mass + mass of hydrogen - mass of electron}
 #' }
 #' @rdname fticr12T_emeta
 #' @name fticr12T_emeta
