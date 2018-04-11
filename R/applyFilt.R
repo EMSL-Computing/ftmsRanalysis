@@ -309,7 +309,7 @@ icr_filter_worker <- function(filter_object, icrData){
   }
   
   # return the pieces needed to assemble a proData/pepData/lipidData/metabData object #
-  output <- list(new.edata = temp.edata, new.fdata = temp.fdata, new.emeta = temp.emeta, edata_cname = edata_cname, emeta_cname = emeta_cname, samp_cname = samp_cname)
+  output <- list(new.edata = temp.edata, new.fdata = temp.fdata, new.emeta = temp.emeta, edata_cname = edata_cname, samp_cname = samp_cname)
   
   return(output)  
   }
