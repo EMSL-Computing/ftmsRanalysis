@@ -2,9 +2,9 @@
 #' 
 #' Constructs scatter plot to look at the number of peaks per sample.
 #' 
-#' @param dataObj icrData object
-#' @param xaxis x axis variable. If NULL, will use attr(dataObj, "cnames")$fdata_cname. Must be one of
-#'                colnames(dataObj$f_data) or colnames(attr(dataObj, "group_DF")).
+#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param xaxis x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
+#'                colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).
 #' @param ylabel y axis label, default is "Density"
 #' @param title plot title, default is NULL
 #' 
@@ -15,37 +15,37 @@
 #' @author Allison Thompson
 #' 
 #' @export
-numPeaksPlot <- function(dataObj, xaxis=NULL, ylabel="Number of Peaks", title=NULL) {
+numPeaksPlot <- function(icrData, xaxis=NULL, ylabel="Number of Peaks", title=NULL) {
   
   # Initial Checks #
-  if (!inherits(dataObj, "icrData")) {
-    stop("dataObj must be of type icrData")
-  }
+  # check that icrData is of the correct class #
+  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  
   
   if(is.null(xaxis)){
-    xaxis <- getFDataColName(dataObj)
+    xaxis <- getFDataColName(icrData)
   }
   
-  if(!(xaxis %in% c(colnames(dataObj$f_data), colnames(attr(dataObj, "group_DF"))))){
-    stop("xaxis must be one of the column names of dataObj$f_data or attr(dataObj, 'group_DF').")
+  if(!(xaxis %in% c(colnames(icrData$f_data), colnames(attr(icrData, "group_DF"))))){
+    stop("xaxis must be one of the column names of icrData$f_data or attr(icrData, 'group_DF').")
   }
   
   # End Initial Checks #
   
   # calculate the number of peaks per sample
-  peaks <- apply(dataObj$e_data[,-which(colnames(dataObj$e_data) == getMassColName(dataObj))], 2, function(x) sum(which(!is.na(x) & x > 0)))
+  peaks <- apply(icrData$e_data[,-which(colnames(icrData$e_data) == getMassColName(icrData))], 2, function(x) length(which(!is.na(x) & x > 0)))
   peaks <- data.frame(Sample=names(peaks), Peaks=peaks)
-  colnames(peaks)[1] <- getFDataColName(dataObj)
+  colnames(peaks)[1] <- getFDataColName(icrData)
   
   # merge peaks with metadata or group_DF
-  if(xaxis %in% colnames(dataObj$f_data)){
-    peaks <- merge(peaks, dataObj$f_data, by=getFDataColName(dataObj))
+  if(xaxis %in% colnames(icrData$f_data)){
+    peaks <- merge(peaks, icrData$f_data, by=getFDataColName(icrData))
   }else{
-    peaks <- merge(peaks, attr(dataObj, "group_DF"), by=getFDataColName(dataObj))
+    peaks <- merge(peaks, attr(icrData, "group_DF"), by=getFDataColName(icrData))
   }
   
   # Plot
-  map <- ggplot2::aes_string(x=xaxis, y="Peaks", label=getFDataColName(dataObj))
+  map <- ggplot2::aes_string(x=xaxis, y="Peaks", label=getFDataColName(icrData))
   p <- ggplot2::ggplot(peaks, map)+
     ggplot2::geom_point(cex=3)+
     ggplot2::theme_bw()+

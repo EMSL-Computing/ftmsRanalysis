@@ -2,18 +2,18 @@
 #' 
 #' Map compound data to KEGG or MetaCyc reactions. The database used
 #' is determined by the database previously used to map peaks to compounds.
-#' @param cicr an object of type compoundIcrData
+#' @param compoundIcrData an object of type compoundIcrData
 #' @return reactionIcrData object
 #' @export
-mapCompoundsToReactions <- function(cicr) {
-  if (!inherits(cicr, "compoundIcrData")) {
-    stop("cicr must be an object of type compoundIcrData")
+mapCompoundsToReactions <- function(compoundIcrData) {
+  if (!inherits(compoundIcrData, "compoundIcrData")) {
+    stop("compoundIcrData must be an object of type compoundIcrData")
   }
-  if (anyDuplicated(cicr$e_data[, getEDataColName(cicr)]) > 0) {
-    stop("cicr cannot have duplicate compound rows in e_data")
+  if (anyDuplicated(compoundIcrData$e_data[, getEDataColName(compoundIcrData)]) > 0) {
+    stop("compoundIcrData cannot have duplicate compound rows in e_data")
   }
   
-  db <- get_db(cicr)
+  db <- get_db(compoundIcrData)
   if (toupper(db) == "KEGG") {
     require(KeggData)
     data("kegg_reactions")
@@ -45,28 +45,28 @@ mapCompoundsToReactions <- function(cicr) {
     dplyr::filter(!is.na(Reaction))
   
   # add compounds to e_data 
-  e_data <- select_(cicr$e_meta, getCompoundColName(cicr), getEDataColName(cicr)) %>%
-    left_join(cicr$e_data) %>%
-    select(-matches(getEDataColName(cicr)))
+  e_data <- select_(compoundIcrData$e_meta, getCompoundColName(compoundIcrData), getEDataColName(compoundIcrData)) %>%
+    left_join(compoundIcrData$e_data) %>%
+    select(-matches(getEDataColName(compoundIcrData)))
   
   # join e_data to reactions table by compound column
   join_by <- c("Compound")
-  names(join_by) <- getCompoundColName(cicr)
+  names(join_by) <- getCompoundColName(compoundIcrData)
   e_data <- inner_join(comp_rxn, e_data, by=join_by)
   
   # get compounds observed in this dataset for each reaction (for e_meta)
-  observed_comp_per_rxn <- e_data %>% mutate(n_samples_848234=rowSums(select(., -one_of(c(getCompoundColName(cicr), "Reaction"))))) %>%
-    select_(getCompoundColName(cicr), "Reaction", "n_samples_848234") %>%
+  observed_comp_per_rxn <- e_data %>% mutate(n_samples_848234=rowSums(select(., -one_of(c(getCompoundColName(compoundIcrData), "Reaction"))))) %>%
+    select_(getCompoundColName(compoundIcrData), "Reaction", "n_samples_848234") %>%
     filter(n_samples_848234 > 0) %>%
     select(-n_samples_848234) %>%
     group_by(Reaction) %>%
-    rename_(Compound = getCompoundColName(cicr)) %>%
+    rename_(Compound = getCompoundColName(compoundIcrData)) %>%
     summarise(Compounds_in_Dataset=paste(Compound, collapse=";"))
     
   # collapse Reaction rows in e_data
   e_data <- e_data %>% 
     group_by(Reaction) %>%
-    select(-matches(getCompoundColName(cicr))) %>%
+    select(-matches(getCompoundColName(compoundIcrData))) %>%
     summarise_all(funs(sum)) %>%
     ungroup() %>%
     as.data.frame()
@@ -76,11 +76,11 @@ mapCompoundsToReactions <- function(cicr) {
     rename(EC_Number=ENZYME) %>%
     left_join(observed_comp_per_rxn)
   
-  # get # observable compounds per reaction subject to mass filter applied to cicr
+  # get # observable compounds per reaction subject to mass filter applied to compoundIcrData
   obs_comp <- inner_join(comp_rxn, compounds, by=c('Compound'='COMPOUND'))
-  if (!is.null(attr(cicr, "filters")) && !is.null(attr(cicr, "filters")$massFilt)) {
-    thresh.min <- min(attr(cicr, "filters")$massFilt$threshold)
-    thresh.max <- max(attr(cicr, "filters")$massFilt$threshold)
+  if (!is.null(attr(compoundIcrData, "filters")) && !is.null(attr(compoundIcrData, "filters")$massFilt)) {
+    thresh.min <- min(attr(compoundIcrData, "filters")$massFilt$threshold)
+    thresh.max <- max(attr(compoundIcrData, "filters")$massFilt$threshold)
     
     if (toupper(db) == "KEGG") {
       obs_comp <- icRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
@@ -95,18 +95,18 @@ mapCompoundsToReactions <- function(cicr) {
     summarise(`N_Observable_Compounds`=n_distinct(Compound))
   e_meta <- left_join(e_meta, obs_comp)
   
-  result <- as.reactionIcrData(e_data, cicr$f_data, e_meta, edata_cname = "Reaction", 
-                               fdata_cname=getFDataColName(cicr), reaction_cname="Reaction")
+  result <- as.reactionIcrData(e_data, compoundIcrData$f_data, e_meta, edata_cname = "Reaction", 
+                               fdata_cname=getFDataColName(compoundIcrData), reaction_cname="Reaction")
   
-  #attributes from cicr to carry forward:
+  #attributes from compoundIcrData to carry forward:
   attr(result, "DB") <- db
-  attr(result, "filters") <- attr(cicr, "filters")
-  attr(result, "group_DF") <- attr(cicr, "group_DF")
-  attr(result, "instrument_type") <- attr(cicr, "instrument_type")
+  attr(result, "filters") <- attr(compoundIcrData, "filters")
+  attr(result, "group_DF") <- attr(compoundIcrData, "group_DF")
+  attr(result, "instrument_type") <- attr(compoundIcrData, "instrument_type")
   
   ## TODO: are there any other cnames that need to be carried through??
-  if (!is.null(attr(cicr, "cnames")$extraction_cname)) {
-    attr(result, "cnames")$extaction_cname <- attr(cicr, "cnames")$extraction_cname
+  if (!is.null(attr(compoundIcrData, "cnames")$extraction_cname)) {
+    attr(result, "cnames")$extaction_cname <- attr(compoundIcrData, "cnames")$extraction_cname
   }
   
   

@@ -2,7 +2,7 @@
 #' 
 #' Subset data based on specified range of mass values 
 #' 
-#' @param icrData an object of class 'icrData', typically a result of \code{\link{as.icrData}}.
+#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
 #' 
 #' @details Use this in conjunction with \code{\link{applyFilt}} to retain peaks which have a mass between \code{min_mass} and \code{max_mass} (inclusive) and filter all other peaks from the data.
 #' 
@@ -15,7 +15,8 @@ mass_filter <- function(icrData){
   
 
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "icrData")) stop("icrData must be an object of class 'icrData'")
+  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  
   
 
   # pull edata and mass cnames #

@@ -27,9 +27,7 @@ calc_dbe <- function(icrData){
     0.5*(temp[,getNitrogenColName(icrData)] + temp[,getPhosphorusColName(icrData)] + temp[,getHydrogenColName(icrData)])
   temp$DBE_O = temp$DBE - temp[,getOxygenColName(icrData)]
   
-  # Old formula, from original paper
-  #temp$DBE = 1 + 0.5*(2*temp[,getCarbonColName(icrData)] - temp[,getHydrogenColName(icrData)] + temp[,getNitrogenColName(icrData)] + temp[,getPhosphorusColName(icrData)])
-  
+
   if(length(which(is.na(temp[,getMFColName(icrData)]))) > 0){
     temp$DBE[which(is.na(temp[,getMFColName(icrData)]))] = NA
     temp$DBE_O[which(is.na(temp[,getMFColName(icrData)]))] = NA
