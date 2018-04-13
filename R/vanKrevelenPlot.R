@@ -19,14 +19,28 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   require(dplyr)
   require(plotly)
   require(scales)
+
+  if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
+    stop("icrData cannot be a groupSummary or groupComparison object for this function")
+  }
+  if (!is.na(colorCName) & colorCName == "Intensity") {
+    if (ncol(icrData$e_data) > 2) {
+      stop("If colorCName == 'Intensity' then only one sample column may be present in icrData$e_data")
+    }
+    colorCName <- setdiff(colnames(icrData$e_data), getEDataColName(icrData)) # otherwise get the one sample column
+  }
+
+  return(.vanKrevelenPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
+                                  vkBoundarySet=vkBoundarySet, showVKBounds=TRUE,
+                                  xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle))
+}
+
+.vanKrevelenPlotInternal <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
+                                     xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
   
   # Test inputs
   # check that icrData is of the correct class #
   if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
-  
-  if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
-    stop("icrData cannot be a groupSummary or groupComparison object for this function")
-  }
   
   OC.col <- getOCRatioColName(icrData)
   if (is.null(OC.col) | !is.element(OC.col, colnames(icrData$e_meta))) {
@@ -40,15 +54,30 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   if (is.na(colorCName) & is.na(vkBoundarySet)) {
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
+  
+  ## figure out if colorCName (if it's provided) is in emeta or edata
+  if (!is.na(colorCName)) {
+    if (colorCName %in% colnames(icrData$e_meta)) {
+      plot_data <- icrData$e_meta
+      plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
+    } else if (colorCName %in% colnames(icrData$e_data)) {
+      plot_data <- icrData$e_meta
+      plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
+      plot_data <- dplyr::full_join(plot_data, icrData$e_data)
+    } else {
+      stop(sprintf("Cannot find colorCName '%s' in either e_meta or e_data", colorCName))
+    }
+  } else {
+    plot_data <- icrData$e_meta
+    plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
+  }
 
-  emeta.df <- icrData$e_meta
-  emeta.df[,getEDataColName(icrData)] = as.character(emeta.df[,getEDataColName(icrData)])
   
   vk_color_different_than_pts <- FALSE
   # Van Krevelen categories
   if (!is.na(vkBoundarySet)) {
     vk_cat <- factor(getVanKrevelenCategories(icrData, vkBoundarySet), levels=rownames(getVanKrevelenCategoryBounds(vkBoundarySet)))
-    emeta.df$vk_categories_really_long_name1234 <- vk_cat
+    plot_data$vk_categories_really_long_name1234 <- vk_cat
     
     # data.frame of van krevelen bounds for plotting purposes
     vankrev_categories <- getVanKrevelenPlottingDF(vkBoundarySet)
@@ -61,43 +90,43 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   
   # color palette
-  if (is.na(colorPal)) {
-    if (is.numeric(emeta.df[, colorCName])) {
-      val_range <- range(emeta.df[, colorCName], na.rm=TRUE)
+  if (identical(colorPal, NA)) {
+    if (is.numeric(plot_data[, colorCName])) {
+      val_range <- range(plot_data[, colorCName], na.rm=TRUE)
       pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
       colorPal <- scales::col_numeric(palette=pal, domain=val_range)
       vals <- seq(val_range[1], val_range[2], length=100)
       col_vec <- colorPal(vals)
       names(col_vec) <- vals
-    } else if (is.factor(emeta.df[, colorCName])) {
-      cc <- levels(emeta.df[, colorCName])
+    } else if (is.factor(plot_data[, colorCName])) {
+      cc <- levels(plot_data[, colorCName])
       colorPal<- getFactorColorPalette(cc)  
       col_vec <- colorPal(cc)
       names(col_vec) <- cc
-    } else if (is.character(emeta.df[, colorCName])) {
-      cc <- sort(unique(emeta.df[, colorCName]))
-      emeta.df[, colorCName] <- factor(emeta.df[, colorCName], levels = cc)
+    } else if (is.character(plot_data[, colorCName])) {
+      cc <- sort(unique(plot_data[, colorCName]))
+      plot_data[, colorCName] <- factor(plot_data[, colorCName], levels = cc)
       colorPal<- getFactorColorPalette(cc)  
       col_vec <- colorPal(cc)
       names(col_vec) <- cc
     } else {
-      stop(sprintf("invalid data type for column '%s': %s (must be numeric, factor or character)", colorCName, data.class(emeta.df[, colorCName])))
+      stop(sprintf("invalid data type for column '%s': %s (must be numeric, factor or character)", colorCName, data.class(plot_data[, colorCName])))
     }
     
   } else { # check that supplied color palette is applicable to the colorCName
-    if (is.numeric(emeta.df[, colorCName])) {
+    if (is.numeric(plot_data[, colorCName])) {
       if (!(attr(colorPal, "colorType") %in% c("numeric", "bin", "quantile"))) {
         stop("the provided color palette is not applicable to the chosen color column")
       }
       pal_domain <- sort(get("domain", environment(colorPal)))
       vals <- seq(pal_domain[1], pal_domain[2], length=100)
-    } else if (class(emeta.df[, colorCName]) %in% c("factor", "character")) {
+    } else if (class(plot_data[, colorCName]) %in% c("factor", "character")) {
       if (attr(colorPal, "colorType") != "factor") {
         stop("the provided color palette is not applicable to the chosen color column")
       } 
       vals <- get("domain", environment(colorPal))
       if (all(is.null(vals))) vals <- get("levels", environment(colorPal))
-      if (all(is.null(vals))) vals <- unique(emeta.df[, colorCName])
+      if (all(is.null(vals))) vals <- unique(plot_data[, colorCName])
     }
     col_vec <- colorPal(vals)
     names(col_vec) <- vals
@@ -112,24 +141,24 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   
   obs.peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
-  emeta.df <- emeta.df[which(emeta.df[,getEDataColName(icrData)] %in% obs.peaks), ]
+  plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs.peaks), ]
   
-  ind.na <- is.na(emeta.df[,OC.col]) | is.na(emeta.df[,HC.col])
-  emeta.df <- emeta.df[!ind.na, ]
+  ind.na <- is.na(plot_data[,OC.col]) | is.na(plot_data[,HC.col])
+  plot_data <- plot_data[!ind.na, ]
   
   # Show Mass and Molecular Formula
-  hovertext <- paste("Molecular Formula: ", emeta.df[, getMFColName(icrData)],"<br>", getEDataColName(icrData),": ", emeta.df[,getEDataColName(icrData)], sep = "")
-  if (!is.numeric(emeta.df[, colorCName])) {
-    p <- plot_ly(emeta.df, x=emeta.df[,OC.col], y=emeta.df[,HC.col]) %>%
-      add_markers(color=emeta.df[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
-      layout(xaxis=list(title=xlabel, range=nice_axis_limits(emeta.df[, OC.col], zero.min=TRUE)), 
-             yaxis=list(title=ylabel, range=nice_axis_limits(emeta.df[, HC.col], zero.min=TRUE)))
+  hovertext <- paste("Molecular Formula: ", plot_data[, getMFColName(icrData)],"<br>", getEDataColName(icrData),": ", plot_data[,getEDataColName(icrData)], sep = "")
+  if (!is.numeric(plot_data[, colorCName])) {
+    p <- plot_ly(plot_data, x=plot_data[,OC.col], y=plot_data[,HC.col]) %>%
+      add_markers(color=plot_data[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
+      layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, OC.col], zero.min=TRUE)), 
+             yaxis=list(title=ylabel, range=nice_axis_limits(plot_data[, HC.col], zero.min=TRUE)))
   } else { #NUMERIC COLOR COLUMN:
-    p <- plot_ly(emeta.df, x=emeta.df[,OC.col], y=emeta.df[,HC.col]) %>%
-      add_markers(color=emeta.df[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text",
+    p <- plot_ly(plot_data, x=plot_data[,OC.col], y=plot_data[,HC.col]) %>%
+      add_markers(color=plot_data[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text",
                   marker = list(colorbar = list(title = legendTitle))) %>%
-      layout(xaxis=list(title=xlabel, range=nice_axis_limits(emeta.df[, OC.col], zero.min=TRUE)), 
-             yaxis=list(title=ylabel, range=nice_axis_limits(emeta.df[, HC.col], zero.min=TRUE)))
+      layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, OC.col], zero.min=TRUE)), 
+             yaxis=list(title=ylabel, range=nice_axis_limits(plot_data[, HC.col], zero.min=TRUE)))
   }
 
   if (showVKBounds) {
