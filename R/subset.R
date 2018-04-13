@@ -21,6 +21,7 @@ subset.peakIcrData <- function(icrData, samples=NA, groups=NA) {
   attr(result, "cnames") <- attr(icrData, "cnames")
   attr(result, "DB") <- attr(icrData, "DB")
   attr(result, "filters") <- attr(icrData, "filters")
+  attr(result, "data_info") <- attr(icrData, "data_info")
   attr(result, "instrument_type") <- attr(icrData, "instrument_type")
   
   return(result)

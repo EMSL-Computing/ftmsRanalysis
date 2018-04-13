@@ -1,7 +1,7 @@
 ## Tests on divideByGroupComparisons
 
 library(fticRanalysis)
-context("divideByGroupComparisons construction")
+context("divideByGroupComparisons function")
 
 test_that("basic tests on divideByGroupComparisons", {
   data("peakIcrProcessed")
