@@ -35,6 +35,7 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
                                   xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle))
 }
 
+# internal only function to do the work for both sample and group level VK plots
 .vanKrevelenPlotInternal <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                                      xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
   
