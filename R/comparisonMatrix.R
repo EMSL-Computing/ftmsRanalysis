@@ -1,3 +1,13 @@
+#' Create a matrix of which pairwise comparisons to make
+#' 
+#' Construct a matrix of pairwise comparisons (paris can be either samples or groups)
+#' 
+#' @param icrDataObj icrData object
+#' @param comparisons dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.
+#' @param control if wanting to only compare against a control, must specify which group or sample is the control
+#' @return a matrix of which pairwise comparisons to make
+#' @export
+
 comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
   if (missing(icrObj)) stop("icrObj is missing")
   if (missing(comparisons)) stop("comparisons is missing")
@@ -10,7 +20,7 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
     colnames(groupDF)[1] <- getFDataColName(icrObj)
   }
   
-  if (!missing(control)) {
+  if (!missing(control) & !is.null(control)) {
     if (!(control %in% groupDF$Group)) {
       stop(paste0("control column '", control, "' not found in the data"))
     }
@@ -36,7 +46,9 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
     
     pairs <- do.call(cbind, comparisons)
   }else{
-    stop("check that comparisons argument is either 'all', 'control', or a list of specific comparisons or terms for a paired test")
+    stop("check that comparisons argument is either 'all', 'control', or a list of specific comparisons")
   }
+  
+  return(pairs)
   
 }
