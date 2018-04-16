@@ -64,47 +64,79 @@ edata_transform <- function(icrData, data_scale){
     if(data_scale == "log"){
       edata[edata == 0] <- NA
       edata_new <- log(edata)
+      attr(icrData, "data_info")$data_scale <- "log"
     }else if(data_scale == "log2"){
       edata[edata == 0] <- NA
       edata_new <- log2(edata)
+      attr(icrData, "data_info")$data_scale <- "log2"
     }else if(data_scale == "log10"){
       edata[edata == 0] <- NA
       edata_new <- log10(edata)
+      attr(icrData, "data_info")$data_scale <- "log10"
     }else if(data_scale == "pres"){
-      edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      if(ncol(as.data.frame(edata)) > 1){
+        edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }else{
+        edata_new <- sapply(edata, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }
+      attr(icrData, "data_info")$data_scale <- "pres"
     }
   ## prevoiusly natural log transformed
   }else if(attr(icrData, "data_info")$data_scale == "log"){
     if(data_scale == "abundance"){
       edata_new <- exp(edata)
+      attr(icrData, "data_info")$data_scale <- "abundance"
     }else if(data_scale == "log2"){
       edata_new <- log2(exp(edata))
+      attr(icrData, "data_info")$data_scale <- "log2"
     }else if(data_scale == "log10"){
       edata_new <- log10(exp(edata))
+      attr(icrData, "data_info")$data_scale <- "log10"
     }else if(data_scale == "pres"){
-      edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      if(ncol(as.data.frame(edata)) > 1){
+        edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }else{
+        edata_new <- sapply(edata, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }
+      attr(icrData, "data_info")$data_scale <- "pres"
     }
   ## previously log2 transformed
   }else if(attr(icrData, "data_info")$data_scale == "log2"){
     if(data_scale == "abundance"){
       edata_new <- 2^(edata)
+      attr(icrData, "data_info")$data_scale <- "abundance"
     }else if(data_scale == "log"){
       edata_new <- log(2^(edata))
+      attr(icrData, "data_info")$data_scale <- "log"
     }else if(data_scale == "log10"){
       edata_new <- log10(2^(edata))
+      attr(icrData, "data_info")$data_scale <- "log10"
     }else if(data_scale == "pres"){
-      edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      if(ncol(as.data.frame(edata)) > 1){
+        edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }else{
+        edata_new <- sapply(edata, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }
+      attr(icrData, "data_info")$data_scale <- "pres"
     }
   ## previously log10 transformed
   }else if(attr(icrData, "data_info")$data_scale == "log10"){
     if(data_scale == "abundance"){
       edata_new <- 10^(edata)
+      attr(icrData, "data_info")$data_scale <- "abundance"
     }else if(data_scale == "log"){
       edata_new <- log(10^(edata))
+      attr(icrData, "data_info")$data_scale <- "log"
     }else if(data_scale == "log2"){
       edata_new <- log2(10^(edata))
+      attr(icrData, "data_info")$data_scale <- "log2"
     }else if(data_scale == "pres"){
-      edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      if(ncol(as.data.frame(edata)) > 1){
+        edata_new <- apply(edata, 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }else{
+        edata_new <- sapply(edata, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      }
+      attr(icrData, "data_info")$data_scale <- "pres"
     }
   }else if(attr(icrData, "data_info")$data_scale == "pres"){
     stop("Cannot back-transform from presence-absence data.")
@@ -112,7 +144,7 @@ edata_transform <- function(icrData, data_scale){
   
   # add the identifier column back #
   edata_new <- data.frame(edata_id=feature_names, edata_new)
-  colnames(edata_new)[1] <- edata_id
+  colnames(edata_new) <- colnames(icrData$e_data)
 
   # create object with new e_data #
   updated_data <- icrData
