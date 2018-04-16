@@ -9,10 +9,10 @@ test_that("peakIcrData objects are constructed correctly", {
   data("fticr12T_emeta")
   
   #trace(assign_mf, browser)
-  picr <- as.peakIcrData(edata, fdata, emeta, edata_cname="peak", fdata_cname="Sample.ID", mass_cname="peak",
-                         c_cname="c.number", h_cname="h.number", o_cname="o.number",
-                         n_cname="n.number", s_cname="s.number", p_cname="p.number",
-                         isotopic_cname = "isotopic", isotopic_notation = "TRUE")
+  picr <- as.peakIcrData(fticr12T_edata, fticr12T_fdata, fticr12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                         c_cname="C", h_cname="H", o_cname="O",
+                         n_cname="N", s_cname="S", p_cname="P",
+                         isotopic_cname = "C13", isotopic_notation = "1")
   
   expect_true(!is.null(picr$e_data))
   expect_true(!is.null(picr$e_meta))
@@ -20,17 +20,17 @@ test_that("peakIcrData objects are constructed correctly", {
   expect_true(inherits(picr, "peakIcrData"))
   expect_true(inherits(picr, "icrData"))
   
-  expect_equal(getEDataColName(picr), "peak")
-  expect_equal(getFDataColName(picr), "Sample.ID")
-  expect_equal(getMassColName(picr), "peak")
-  expect_equal(getCarbonColName(picr), "c.number")
-  expect_equal(getHydrogenColName(picr), "h.number")
+  expect_equal(getEDataColName(picr), "Mass")
+  expect_equal(getFDataColName(picr), "SampleID")
+  expect_equal(getMassColName(picr), "Mass")
+  expect_equal(getCarbonColName(picr), "C")
+  expect_equal(getHydrogenColName(picr), "H")
 
-  expect_equal(getOxygenColName(picr), "o.number")
-  expect_equal(getNitrogenColName(picr), "n.number")
-  expect_equal(getSulfurColName(picr), "s.number")
-  expect_equal(getPhosphorusColName(picr), "p.number")
-  expect_equal(getIsotopicColName(picr), "isotopic")
+  expect_equal(getOxygenColName(picr), "O")
+  expect_equal(getNitrogenColName(picr), "N")
+  expect_equal(getSulfurColName(picr), "S")
+  expect_equal(getPhosphorusColName(picr), "P")
+  expect_equal(getIsotopicColName(picr), "C13")
 
   expect_true(!is.null(getMFColName(picr)))
 })

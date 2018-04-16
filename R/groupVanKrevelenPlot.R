@@ -5,7 +5,7 @@
 #' @param icrData icrData object of class 'groupSummary' as a result of calling \code{\link{summarizeGroups}}
 #' @param title plot title
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
-#' @param colorCName column name of \code{dataObj$e_data} to use for coloring the points. 
+#' @param colorCName column name of \code{icrData$e_data} to use for coloring the points. 
 #' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
 #' @param showVKBounds TRUE/FALSE, should the Van Krevelen bounds be plotted?
 #' @param xlabel x axis label, default is "O:C Ratio"
@@ -22,10 +22,10 @@ groupVanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, 
   
   # Test inputs
   if (!inherits(icrData, "groupSummary")) {
-    stop("dataObj must be of type groupSummary")
+    stop("icrData must be of type groupSummary")
   }
   if (inherits(icrData, "groupComparison")) {
-    stop("dataObj cannot be a groupComparison object for this function")
+    stop("icrData cannot be a groupComparison object for this function")
   }
   if (is.na(colorCName) | is.null(colorCName)) {
     stop("colorCName must be specified")
