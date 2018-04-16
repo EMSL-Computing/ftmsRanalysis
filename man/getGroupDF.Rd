@@ -4,10 +4,10 @@
 \alias{getGroupDF}
 \title{Get group_DF attribute from icrData object}
 \usage{
-getGroupDF(icrDataObj)
+getGroupDF(icrData)
 }
 \arguments{
-\item{icrDataObj}{icrData object}
+\item{icrData}{icrData object}
 }
 \value{
 character string indicating the instrument type

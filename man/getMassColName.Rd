@@ -4,10 +4,10 @@
 \alias{getMassColName}
 \title{Get the name of the mass column}
 \usage{
-getMassColName(icrDataObj)
+getMassColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of mass column

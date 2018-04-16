@@ -4,18 +4,18 @@
 \alias{groupKendrickPlot}
 \title{Kendrick plot of icrData object}
 \usage{
-groupKendrickPlot(dataObj, title = NA, colorPal = NA, colorCName = NA,
+groupKendrickPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
   xlabel = "Kendrick Mass", ylabel = "Kendrick Defect",
   legendTitle = colorCName)
 }
 \arguments{
-\item{dataObj}{icrData object}
+\item{icrData}{icrData object of class 'groupSummary' as a result of calling \code{\link{summarizeGroups}}}
 
 \item{title}{plot title}
 
 \item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
 
-\item{colorCName}{column name of \code{dataObj$e_data} to use for coloring the points}
+\item{colorCName}{column name of \code{icrData$e_data} to use for coloring the points}
 
 \item{xlabel}{x axis label, default is "Kendrick Mass"}
 

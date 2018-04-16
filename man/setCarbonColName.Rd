@@ -4,15 +4,15 @@
 \alias{setCarbonColName}
 \title{Set the name of the carbon column}
 \usage{
-setCarbonColName(icrDataObj, cname)
+setCarbonColName(icrData, cname)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrDataObj
+updated icrData
 }
 \description{
 Sets the name of the column in the e_meta element that 

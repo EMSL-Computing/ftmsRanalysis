@@ -4,10 +4,10 @@
 \alias{getCarbonColName}
 \title{Get the name of the carbon column}
 \usage{
-getCarbonColName(icrDataObj)
+getCarbonColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of carbon column

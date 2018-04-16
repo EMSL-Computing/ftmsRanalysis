@@ -4,10 +4,10 @@
 \alias{getKendrickDefectColName}
 \title{Get the name of the Kendrick defect column}
 \usage{
-getKendrickDefectColName(icrDataObj)
+getKendrickDefectColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of Kendrick defect column

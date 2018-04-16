@@ -4,7 +4,7 @@
 \alias{calc_nosc}
 \title{Calculate Nominal Oxidation State of Carbon (NOSC) Values}
 \usage{
-calc_nosc(icrData, c_cname, o_cname, h_cname, n_cname, s_cname, p_cname)
+calc_nosc(icrData)
 }
 \arguments{
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}

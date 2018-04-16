@@ -4,10 +4,10 @@
 \alias{getGibbsColName}
 \title{Get the name of the gibbs free energy column}
 \usage{
-getGibbsColName(icrDataObj)
+getGibbsColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of gibbs free energy column

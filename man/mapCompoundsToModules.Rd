@@ -4,10 +4,10 @@
 \alias{mapCompoundsToModules}
 \title{Map compound level data to modules in either KEGG or MetaCyc}
 \usage{
-mapCompoundsToModules(cicr)
+mapCompoundsToModules(compoundIcrData)
 }
 \arguments{
-\item{cicr}{an object of type compoundIcrData}
+\item{compoundIcrData}{an object of type compoundIcrData}
 }
 \value{
 moduleIcrData object

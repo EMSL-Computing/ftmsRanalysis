@@ -4,10 +4,10 @@
 \alias{get_db}
 \title{Get database associated with object}
 \usage{
-get_db(icrDataObj)
+get_db(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 database (KEGG or MetaCyc)

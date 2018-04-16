@@ -4,13 +4,13 @@
 \alias{divideBySample}
 \title{Divide icrData by sample to form a ddo}
 \usage{
-divideBySample(icrDataObj)
+divideBySample(icrData)
 }
 \arguments{
-\item{icrDataObj}{icrData object}
+\item{icrData}{icrData object}
 }
 \value{
-a ddo where each division is a subset of \code{icrDataObj} corresponding
+a ddo where each division is a subset of \code{icrData} corresponding
         to a single sample
 }
 \description{

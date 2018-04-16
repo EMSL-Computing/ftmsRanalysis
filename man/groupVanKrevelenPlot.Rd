@@ -4,12 +4,12 @@
 \alias{groupVanKrevelenPlot}
 \title{Van Krevelen plot of icrData object}
 \usage{
-groupVanKrevelenPlot(dataObj, title = NA, colorPal = NA, colorCName = NA,
+groupVanKrevelenPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
   vkBoundarySet = "bs1", showVKBounds = TRUE, xlabel = "O:C Ratio",
   ylabel = "H:C Ratio", legendTitle = colorCName)
 }
 \arguments{
-\item{dataObj}{icrData object that is a group summary (i.e. the output of \code{\link{summarizeGroups}})}
+\item{icrData}{icrData object of class 'groupSummary' as a result of calling \code{\link{summarizeGroups}}}
 
 \item{title}{plot title}
 

@@ -4,10 +4,10 @@
 \alias{getMFNameColName}
 \title{Get the name of the mf name/description column}
 \usage{
-getMFNameColName(icrDataObj)
+getMFNameColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of column

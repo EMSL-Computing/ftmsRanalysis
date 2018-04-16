@@ -4,10 +4,10 @@
 \alias{getSulfurColName}
 \title{Get the name of the sulfur column}
 \usage{
-getSulfurColName(icrDataObj)
+getSulfurColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of sulfur column

@@ -4,10 +4,10 @@
 \alias{getFDataColName}
 \title{Get the name of the f_data unique identifier column}
 \usage{
-getFDataColName(icrDataObj)
+getFDataColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of unique ID column

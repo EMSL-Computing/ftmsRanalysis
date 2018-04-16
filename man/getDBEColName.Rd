@@ -4,10 +4,10 @@
 \alias{getDBEColName}
 \title{Get the name of the double-bond equivalent column}
 \usage{
-getDBEColName(icrDataObj)
+getDBEColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of double-bond equivalent column

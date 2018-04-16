@@ -4,13 +4,13 @@
 \alias{divideByGroup}
 \title{Divide icrData by group to form a ddo}
 \usage{
-divideByGroup(icrDataObj)
+divideByGroup(icrData)
 }
 \arguments{
-\item{icrDataObj}{icrData object}
+\item{icrData}{icrData object}
 }
 \value{
-a ddo where each division is a subset of \code{icrDataObj} corresponding
+a ddo where each division is a subset of \code{icrData} corresponding
         to a single group
 }
 \description{

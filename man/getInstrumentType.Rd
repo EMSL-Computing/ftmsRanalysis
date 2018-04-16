@@ -4,10 +4,10 @@
 \alias{getInstrumentType}
 \title{Get instrument_type attribute from icrData object}
 \usage{
-getInstrumentType(icrDataObj)
+getInstrumentType(icrData)
 }
 \arguments{
-\item{icrDataObj}{icrData object}
+\item{icrData}{icrData object}
 }
 \value{
 character string indicating the instrument type

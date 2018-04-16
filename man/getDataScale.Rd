@@ -4,10 +4,10 @@
 \alias{getDataScale}
 \title{Get data scale}
 \usage{
-getDataScale(icrDataObj)
+getDataScale(icrData)
 }
 \arguments{
-\item{icrDataObj}{icrData object}
+\item{icrData}{icrData object}
 }
 \value{
 character string indicating the scale of the data
