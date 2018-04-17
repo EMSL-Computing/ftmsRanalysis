@@ -58,6 +58,11 @@ kendrickPlot(picr, title="Test13", colorPal=cpal, colorCName="kdefect", vkBounda
 picrSubset <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
 kendrickPlot(picrSubset, title="Test14", colorCName="Intensity", legendTitle="Intensity")
 
+## this should automatically log transform the data, look for a message on the console:
+picrSubset2 <- subset(picr, samples="EW0161_sample")
+kendrickPlot(picrSubset2, title="Test15", colorCName="Intensity")
+
+
 msGroup <- subset(picr, groups="M_S")
 msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
-groupKendrickPlot(msGroup, title="Test15", colorCName="prop_present", legendTitle="Proportion<br>Present")
+groupKendrickPlot(msGroup, title="Test16", colorCName="prop_present", legendTitle="Proportion<br>Present")

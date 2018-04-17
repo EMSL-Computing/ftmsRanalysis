@@ -62,7 +62,12 @@ picrSubset <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
 vanKrevelenPlot(picrSubset, title="Test14", colorCName="Intensity", vkBoundarySet="bs1",
                 showVKBounds=TRUE, legendTitle="Intensity")
 
+## this should automatically log transform the data, look for a message on the console:
+picrSubset2 <- subset(picr, samples="EW0161_sample")
+vanKrevelenPlot(picrSubset2, title="Test15", colorCName="Intensity", vkBoundarySet="bs1",
+                showVKBounds=TRUE, legendTitle="Intensity")
+
 msGroup <- subset(picr, groups="M_S")
 msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
-groupVanKrevelenPlot(msGroup, title="Test15", colorCName="prop_present", vkBoundarySet="bs1",
+groupVanKrevelenPlot(msGroup, title="Test16", colorCName="prop_present", vkBoundarySet="bs1",
                 showVKBounds=TRUE, legendTitle="Proportion<br>Present")
