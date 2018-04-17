@@ -27,9 +27,6 @@ calc_aroma <- function(icrData){
   
   # calculate AI numerator and denominator #
   
-  # ai_num = (1 + temp[,getCarbonColName(icrData)] - temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - 0.5*temp[,getHydrogenColName(icrData)])
-  # ai_denom = (temp[,getCarbonColName(icrData)] - temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - temp[,getNitrogenColName(icrData)] - temp[,getPhosphorusColName(icrData)])
-  
   ai_num <- (1 + temp[,getCarbonColName(icrData)] - temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - 
                0.5*(temp[,getNitrogenColName(icrData)] + temp[,getPhosphorusColName(icrData)] + temp[,getHydrogenColName(icrData)]))
   ai_denom <- (temp[,getCarbonColName(icrData)] - temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - temp[,getNitrogenColName(icrData)] - temp[,getPhosphorusColName(icrData)]) 
@@ -39,9 +36,6 @@ calc_aroma <- function(icrData){
   ai_ids = which(ai_num <= 0 | ai_denom <= 0)
 
   # calculate AImod numberator and denominator #
-  
-  # aimod_num = (1 + temp[,getCarbonColName(icrData)] - 0.5*temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - 0.5*temp[,getHydrogenColName(icrData)])
-  # aimod_denom = (temp[,getCarbonColName(icrData)] - 0.5*temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - temp[,getNitrogenColName(icrData)] - temp[,getPhosphorusColName(icrData)])
   
   aimod_num <- (1 + temp[,getCarbonColName(icrData)] - 0.5*temp[,getOxygenColName(icrData)] - temp[,getSulfurColName(icrData)] - 
                   0.5*(temp[,getNitrogenColName(icrData)] + temp[,getPhosphorusColName(icrData)] + temp[,getHydrogenColName(icrData)]))

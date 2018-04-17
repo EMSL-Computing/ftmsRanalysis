@@ -5,34 +5,34 @@
 #' plots for each group. The input data must have a \code{group_DF} attribute
 #' defining the groups.
 #' 
-#' @param icrDataObj icrData object
-#' @return a ddo where each division is a subset of \code{icrDataObj} corresponding
+#' @param icrData icrData object
+#' @return a ddo where each division is a subset of \code{icrData} corresponding
 #'         to a single group
 #' @seealso \code{\link{ddo}}
 #' @export
-divideByGroup <- function(icrDataObj) {
+divideByGroup <- function(icrData) {
   require(datadr)
-  sample.colname <- getFDataColName(icrDataObj)
-  samples <- as.character(icrDataObj$f_data[, sample.colname])
-  groupDF <- getGroupDF(icrDataObj)
+  sample.colname <- getFDataColName(icrData)
+  samples <- as.character(icrData$f_data[, sample.colname])
+  groupDF <- getGroupDF(icrData)
   if (is.null(groupDF)) stop("This object does not have group designation information")
 
-  edata_nonsample_cols <- setdiff(colnames(icrDataObj$e_data), samples)
+  edata_nonsample_cols <- setdiff(colnames(icrData$e_data), samples)
   
   result <- lapply(unique(groupDF$Group), function(group_name) {
-    group.samples <- as.character(groupDF[groupDF$Group == group_name, fticRanalysis:::getFDataColName(icrDataObj)])
+    group.samples <- as.character(groupDF[groupDF$Group == group_name, fticRanalysis:::getFDataColName(icrData)])
     
-    f_data <- dplyr::rename(icrDataObj$f_data, tmp9r038519=rlang::UQ(sample.colname)) %>%
+    f_data <- dplyr::rename(icrData$f_data, tmp9r038519=rlang::UQ(sample.colname)) %>%
       dplyr::filter(tmp9r038519 %in% group.samples)
     colnames(f_data)[colnames(f_data) == "tmp9r038519"] <- sample.colname
     
-    e_data <- icrDataObj$e_data[, c(edata_nonsample_cols, group.samples)]
-    e_meta <- icrDataObj$e_meta
+    e_data <- icrData$e_data[, c(edata_nonsample_cols, group.samples)]
+    e_meta <- icrData$e_meta
     
     tmp_group_DF <- dplyr::filter(groupDF, Group == group_name)
 
     val <- list(e_data=e_data, f_data=f_data, e_meta=e_meta)
-    attributes(val) <- attributes(icrDataObj)
+    attributes(val) <- attributes(icrData)
     attr(val, "group_DF") <- tmp_group_DF
 
     # datadr attributes:

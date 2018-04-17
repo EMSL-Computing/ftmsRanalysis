@@ -2,7 +2,7 @@
 #'
 #' This function returns a moleculeFilt object for use with \code{\link{applyFilt}}
 #'
-#' @param icrData an object of the class 'icrData', usually created by \code{\link{as.icrData}}
+#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
 #'
 #' @return Object of class 'moleculeFilt' that contains the molecule identifier and the number of samples for which the molecule was measured (not 0). This can be used in conjunction with \code{\link{applyFilt}} to remove peaks observed in fewer than \code{min_num} samples.
 #'

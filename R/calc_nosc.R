@@ -12,7 +12,7 @@
 #'
 
 
-calc_nosc <- function(icrData, c_cname, o_cname, h_cname, n_cname, s_cname, p_cname){
+calc_nosc <- function(icrData){
   
 
   # check that icrData is of the correct class #

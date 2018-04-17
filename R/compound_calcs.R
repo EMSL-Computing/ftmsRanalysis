@@ -51,27 +51,7 @@ compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
   if(length(calc_fns) < 1){stop("calc_fns must contain at least one valid function name")}
   
   ## end of initial checks ##
-  
-  # if("calc_aroma" %in% calc_fns){
-  #   icrData = calc_aroma(icrData)
-  # }
-  # if("calc_dbe" %in% calc_fns){
-  #   icrData = calc_dbe(icrData)
-  # }
-  # if("calc_gibbs" %in% calc_fns){
-  #   icrData = calc_gibbs(icrData)
-  # }
-  # if("calc_kendrick" %in% calc_fns){
-  #   icrData = calc_kendrick(icrData)
-  # } 
-  # if("calc_nosc" %in% calc_fns){
-  #   icrData = calc_nosc(icrData)
-  # }
-  # if("calc_vankrev" %in% calc_fns){
-  #   icrData = calc_vankrev(icrData)
-  # }
-  
- # This should work but changes to NSE are causing issues, commenting out for now #
+
   for(i in 1:length(calc_fns)){
     # set f to the function that is named in the ith element of compound_calcs # 
     f <- get(as.character(calc_fns[i]), envir=asNamespace("fticRanalysis"), mode="function")

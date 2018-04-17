@@ -6,14 +6,14 @@
 #' Returns the name of the column in the e_data element that 
 #' is the unique identifier of each row.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of unique ID column 
 #' @export
-getEDataColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getEDataColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$edata_cname)
+  return(attr(icrData, "cnames")$edata_cname)
 }
 
 #' Set the name of the e_data unique identifier column
@@ -21,21 +21,21 @@ getEDataColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_data element that 
 #' is the unique identifier of each row.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setEDataColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setEDataColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
   
-  attr(icrDataObj, "cnames")$edata_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$edata_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the f_data unique identifier column
@@ -43,14 +43,14 @@ setEDataColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the f_data element that 
 #' is the unique identifier of each row.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of unique ID column 
 #' @export
-getFDataColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getFDataColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$fdata_cname)
+  return(attr(icrData, "cnames")$fdata_cname)
 }
 
 #' Set the name of the f_data unique identifier column
@@ -58,20 +58,20 @@ getFDataColName <- function(icrDataObj) {
 #' Sets the name of the column in the f_data element that 
 #' is the unique identifier of each row.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setFDataColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setFDataColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$fdata_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$fdata_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the e_meta unique identifier column
@@ -79,14 +79,14 @@ setFDataColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' is the unique identifier of each row.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of unique ID column 
 #' @export
-getMFColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getMFColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$mf_cname)
+  return(attr(icrData, "cnames")$mf_cname)
 }
 
 #' Set the name of the e_meta unique identifier column
@@ -94,20 +94,20 @@ getMFColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' is the unique identifier of each row.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setMFColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setMFColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$mf_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$mf_cname <- cname
+  return(icrData)
 }
 
 
@@ -116,14 +116,14 @@ setMFColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains O:C ratio data for Van Krevelen plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of O:C ratio column
 #' @export
-getOCRatioColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getOCRatioColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$o2c_cname)
+  return(attr(icrData, "cnames")$o2c_cname)
 }
 
 #' Set the name of the O:C ratio column
@@ -131,20 +131,20 @@ getOCRatioColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains O:C ratio data for Van Krevelen plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setOCRatioColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setOCRatioColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$o2c_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$o2c_cname <- cname
+  return(icrData)
 }
 
 
@@ -153,14 +153,14 @@ setOCRatioColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains H:C ratio data for Van Kevelen plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of H:C ratio column
 #' @export
-getHCRatioColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getHCRatioColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$h2c_cname)
+  return(attr(icrData, "cnames")$h2c_cname)
 }
 
 #' Set the name of the H:C ratio column
@@ -168,20 +168,20 @@ getHCRatioColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains H:C ratio data for Van Krevelen plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setHCRatioColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setHCRatioColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$h2c_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$h2c_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the mass column
@@ -189,14 +189,14 @@ setHCRatioColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains mass data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of mass column
 #' @export
-getMassColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getMassColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$mass_cname)
+  return(attr(icrData, "cnames")$mass_cname)
 }
 
 #' Set the name of the mass column
@@ -204,20 +204,20 @@ getMassColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains mass data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setMassColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setMassColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$mass_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$mass_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the carbon column
@@ -225,14 +225,14 @@ setMassColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains carbon count data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of carbon column
 #' @export
-getCarbonColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getCarbonColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$c_cname)
+  return(attr(icrData, "cnames")$c_cname)
 }
 
 #' Set the name of the carbon column
@@ -240,20 +240,20 @@ getCarbonColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains carbon count data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setCarbonColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setCarbonColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$c_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$c_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the hydrogen column
@@ -261,14 +261,14 @@ setCarbonColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains hydrogen count data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of hydrogen column
 #' @export
-getHydrogenColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getHydrogenColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$h_cname)
+  return(attr(icrData, "cnames")$h_cname)
 }
 
 #' Set the name of the hydrogen column
@@ -276,20 +276,20 @@ getHydrogenColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains hydrogen count data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setHydrogenColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setHydrogenColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$h_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$h_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the oxygen column
@@ -297,14 +297,14 @@ setHydrogenColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains oxygen count data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of oxygen column
 #' @export
-getOxygenColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getOxygenColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$o_cname)
+  return(attr(icrData, "cnames")$o_cname)
 }
 
 #' Set the name of the oxygen column
@@ -312,20 +312,20 @@ getOxygenColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains oxygen count data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setOxygenColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setOxygenColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$o_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$o_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the nitrogen column
@@ -333,14 +333,14 @@ setOxygenColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains nitrogen count data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of nitrogen column
 #' @export
-getNitrogenColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getNitrogenColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$n_cname)
+  return(attr(icrData, "cnames")$n_cname)
 }
 
 #' Set the name of the nitrogen column
@@ -348,20 +348,20 @@ getNitrogenColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains nitrogen count data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setNitrogenColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setNitrogenColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$n_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$n_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the sulfur column
@@ -369,14 +369,14 @@ setNitrogenColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains sulfur count data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of sulfur column
 #' @export
-getSulfurColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getSulfurColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$s_cname)
+  return(attr(icrData, "cnames")$s_cname)
 }
 
 #' Set the name of the sulfur column
@@ -384,20 +384,20 @@ getSulfurColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains sulfur count data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setSulfurColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setSulfurColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$s_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$s_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the phosphorus column
@@ -405,14 +405,14 @@ setSulfurColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains phosphorus count data for calculations.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of phosphorus column
 #' @export
-getPhosphorusColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getPhosphorusColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$p_cname)
+  return(attr(icrData, "cnames")$p_cname)
 }
 
 #' Set the name of the phosphorus column
@@ -420,20 +420,20 @@ getPhosphorusColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains phosphorus count data.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setPhosphorusColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setPhosphorusColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$p_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$p_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the isotopic column
@@ -441,14 +441,14 @@ setPhosphorusColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains isotopic peak information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of isotopic column
 #' @export
-getIsotopicColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getIsotopicColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$isotopic_cname)
+  return(attr(icrData, "cnames")$isotopic_cname)
 }
 
 #' Set the name of the isotopic column
@@ -456,20 +456,20 @@ getIsotopicColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains isotopic peak information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setIsotopicColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setIsotopicColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$isotopic_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$isotopic_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the Kendrick mass column
@@ -477,14 +477,14 @@ setIsotopicColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains Kendrick mass data for Kendrick plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of Kendrick mass column
 #' @export
-getKendrickMassColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getKendrickMassColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$kmass_cname)
+  return(attr(icrData, "cnames")$kmass_cname)
 }
 
 #' Set the name of the Kendrick mass column
@@ -492,20 +492,20 @@ getKendrickMassColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains Kendrick mass data for Kendrick plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setKendrickMassColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setKendrickMassColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$kmass_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$kmass_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the Kendrick defect column
@@ -513,14 +513,14 @@ setKendrickMassColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains Kendrick defect data for Kendrick plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of Kendrick defect column
 #' @export
-getKendrickDefectColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getKendrickDefectColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$kdefect_cname)
+  return(attr(icrData, "cnames")$kdefect_cname)
 }
 
 #' Set the name of the Kendrick defect column
@@ -528,20 +528,20 @@ getKendrickDefectColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains Kendrick defect data for Kendrick plots.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setKendrickDefectColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setKendrickDefectColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$kdefect_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$kdefect_cname <- cname
+  return(icrData)
 }
 
 
@@ -550,14 +550,14 @@ setKendrickDefectColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the f_data element that 
 #' contains extraction information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of extraction column
 #' @export
-getExtractionColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getExtractionColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$extraction_cname)
+  return(attr(icrData, "cnames")$extraction_cname)
 }
 
 #' Set the name of the extraction column
@@ -565,20 +565,20 @@ getExtractionColName <- function(icrDataObj) {
 #' Sets the name of the column in the f_data element that 
 #' contains extraction information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setExtractionColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setExtractionColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$extraction_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$extraction_cname <- cname
+  return(icrData)
 }
 
 
@@ -586,14 +586,14 @@ setExtractionColName <- function(icrDataObj, cname) {
 #' 
 #' Gets the name of the column in the e\_meta element that contains NOSC values
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of NOSC column
 #' @export
-getNOSCColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getNOSCColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$nosc_cname)
+  return(attr(icrData, "cnames")$nosc_cname)
 }
 
 #' Set the name of the NOSC column
@@ -601,34 +601,34 @@ getNOSCColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains NOSC information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setNOSCColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setNOSCColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$nosc_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$nosc_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the mf name/description column
 #' 
 #' Gets the name of the column in the e\_meta element that contains the name/description when a molecular formula is assigned
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of column
 #' @export
-getMFNameColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getMFNameColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$mfname_cname)
+  return(attr(icrData, "cnames")$mfname_cname)
 }
 
 #' Set the name of the mf name/description column
@@ -636,34 +636,34 @@ getMFNameColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains name/description when a molecular formula is assigned 
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setMFNameColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setMFNameColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$mfname_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$mfname_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the aromaticity column
 #' 
 #' Gets the name of the column in the e\_meta element that contains aromaticity values
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of aromaticity column
 #' @export
-getAromaColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getAromaColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$aroma_cname)
+  return(attr(icrData, "cnames")$aroma_cname)
 }
 
 #' Set the name of the aromaticity column
@@ -671,34 +671,34 @@ getAromaColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains aromaticity information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setAromaColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setAromaColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$aroma_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$aroma_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the modified aromaticity column
 #' 
 #' Gets the name of the column in the e\_meta element that contains modified aromaticity values
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of modified aromaticity column
 #' @export
-getModAromaColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getModAromaColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$modaroma_cname)
+  return(attr(icrData, "cnames")$modaroma_cname)
 }
 
 #' Set the name of the modified aromaticity column
@@ -706,34 +706,34 @@ getModAromaColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains modified aromaticity information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setModAromaColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setModAromaColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$modaroma_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$modaroma_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the gibbs free energy column
 #' 
 #' Gets the name of the column in the e\_meta element that contains gibbs free energy values
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of gibbs free energy column
 #' @export
-getGibbsColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getGibbsColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$gfe_cname)
+  return(attr(icrData, "cnames")$gfe_cname)
 }
 
 #' Set the name of the gibbs free energy column
@@ -741,34 +741,34 @@ getGibbsColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains gibbs free energy information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #'
 #' 
-setGibbsColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setGibbsColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$gfe_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$gfe_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the double-bond equivalent column
 #' 
 #' Gets the name of the column in the e\_meta element that contains double-bond equivalent values
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of double-bond equivalent column
 #' @export
-getDBEColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getDBEColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$dbe_cname)
+  return(attr(icrData, "cnames")$dbe_cname)
 }
 
 #' Set the name of the double-bond equivalent column
@@ -776,34 +776,34 @@ getDBEColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains double-bond equivalent information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setDBEColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setDBEColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$dbe_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$dbe_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the double-bond equivalent minus oxygen column
 #' 
 #' Gets the name of the column in the e\_meta element that contains double-bond equivalent values
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of double-bond equivalent column
 #' @export
-getDBEoColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getDBEoColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$dbeo_cname)
+  return(attr(icrData, "cnames")$dbeo_cname)
 }
 
 #' Set the name of the double-bond equivalent minus oxygen column
@@ -811,34 +811,34 @@ getDBEoColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains double-bond equivalent information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setDBEoColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setDBEoColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$dbeo_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$dbeo_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the elemental composition column
 #' 
 #' Gets the name of the column in the e\_meta element that contains elemental composition
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of elemental composition column
 #' @export
-getElCompColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getElCompColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$elcomp_cname)
+  return(attr(icrData, "cnames")$elcomp_cname)
 }
 
 #' Set the name of the elemental composition column
@@ -846,34 +846,34 @@ getElCompColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains elemental composition information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setElCompColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setElCompColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$elcomp_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$elcomp_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the peak class column
 #' 
 #' Gets the name of the column in the e\_meta element that contains peak class information
 #' 
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of peak class column
 #' @export
-getClassColName <- function(icrDataObj){
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getClassColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$class_cname)
+  return(attr(icrData, "cnames")$class_cname)
 }
 
 #' Set the name of the peak class column
@@ -881,20 +881,20 @@ getClassColName <- function(icrDataObj){
 #' Sets the name of the column in the e_meta element that 
 #' contains peak class information.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setClassColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setClassColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$class_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$class_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the compound column
@@ -902,14 +902,14 @@ setClassColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains compound IDs.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of mass column
 #' @export
-getCompoundColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getCompoundColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$compound_cname)
+  return(attr(icrData, "cnames")$compound_cname)
 }
 
 #' Set the name of the compound column
@@ -917,20 +917,20 @@ getCompoundColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains compound IDs.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setCompoundColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setCompoundColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$compound_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$compound_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the reaction column
@@ -938,14 +938,14 @@ setCompoundColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains reaction IDs.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of mass column
 #' @export
-getReactionColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getReactionColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$reaction_cname)
+  return(attr(icrData, "cnames")$reaction_cname)
 }
 
 #' Set the name of the reaction column
@@ -953,23 +953,23 @@ getReactionColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains reaction IDs.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setReactionColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setReactionColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% icrDataObj$e_meta)) {
+  if (!(cname %in% icrData$e_meta)) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$reaction_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$reaction_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the module column
@@ -977,14 +977,14 @@ setReactionColName <- function(icrDataObj, cname) {
 #' Returns the name of the column in the e_meta element that 
 #' contains module IDs.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of mass column
 #' @export
-getModuleColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getModuleColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$module_cname)
+  return(attr(icrData, "cnames")$module_cname)
 }
 
 #' Set the name of the module column
@@ -992,20 +992,20 @@ getModuleColName <- function(icrDataObj) {
 #' Sets the name of the column in the e_meta element that 
 #' contains module IDs.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setModuleColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setModuleColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$module_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$module_cname <- cname
+  return(icrData)
 }
 
 #' Get the name of the module column
@@ -1015,14 +1015,14 @@ setModuleColName <- function(icrDataObj, cname) {
 #' to one or more reactions that make up a single 
 #' graph node in the module graph.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @return name of mass column
 #' @export
-getModuleNodeColName <- function(icrDataObj) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+getModuleNodeColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  return(attr(icrDataObj, "cnames")$module_node_cname)
+  return(attr(icrData, "cnames")$module_node_cname)
 }
 
 #' Set the name of the module node column
@@ -1032,20 +1032,20 @@ getModuleNodeColName <- function(icrDataObj) {
 #' to one or more reactions that make up a single 
 #' graph node in the module graph.
 #'
-#' @param icrDataObj an object of type icrData
+#' @param icrData an object of type icrData
 #' @param cname column name
-#' @return updated icrDataObj
+#' @return updated icrData
 #' 
 #' 
-setModuleNodeColName <- function(icrDataObj, cname) {
-  if (!inherits(icrDataObj, "icrData")) {
-    stop("icrDataObj must be of type icrData")
+setModuleNodeColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
   } 
-  if (!(cname %in% names(icrDataObj$e_meta))) {
+  if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrDataObj, "cnames")$module_node_cname <- cname
-  return(icrDataObj)
+  attr(icrData, "cnames")$module_node_cname <- cname
+  return(icrData)
 }
 
 

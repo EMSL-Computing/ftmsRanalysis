@@ -2,9 +2,9 @@
 #' 
 #' Constructs stacked bar plot to look at the percentage of each class in the data
 #' 
-#' @param dataObj icrData object
-#' @param xaxis x axis variable. If NULL, will use attr(dataObj, "cnames")$fdata_cname. Must be one of
-#'                colnames(dataObj$f_data) or colnames(attr(dataObj, "group_DF")).
+#' @param icrData icrData object of class peakIcrData or compoundIcrData
+#' @param xaxis x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
+#'                colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).
 #' @param ylabel y axis label, default is "Density"
 #' @param title plot title, default is NULL
 #' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
@@ -16,56 +16,56 @@
 #' @author Allison Thompson
 #' 
 #' @export
-classesPlot <- function(dataObj, xaxis=NULL, ylabel="Percentage of Chemical Classes", title=NULL, vkBoundarySet="bs1", classColName=NULL) {
+classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Classes", title=NULL, vkBoundarySet="bs1", classColName=NULL) {
   
   # Initial Checks #
-  if (!inherits(dataObj, "icrData")) {
-    stop("dataObj must be of type icrData")
-  }
+  # check that icrData is of the correct class #
+  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  
   
   if(is.null(xaxis)){
-    xaxis <- getFDataColName(dataObj)
+    xaxis <- getFDataColName(icrData)
   }
   
-  if(!(xaxis %in% c(colnames(dataObj$f_data), colnames(attr(dataObj, "group_DF"))))){
-    stop("xaxis must be one of the column names of dataObj$f_data or attr(dataObj, 'group_DF').")
+  if(!(xaxis %in% c(colnames(icrData$f_data), colnames(attr(icrData, "group_DF"))))){
+    stop("xaxis must be one of the column names of icrData$f_data or attr(icrData, 'group_DF').")
   }
   
   # End Initial Checks #
   
   # calculate the number of peaks per sample
-  classes <- dataObj$e_data
+  classes <- icrData$e_data
   
   if(is.null(classColName) & !is.null(vkBoundarySet)){
     if(!(vkBoundarySet) %in% c("bs1","bs2")){ stop("vkBoundarySet must be one of 'bs1' or 'bs2'.") }
-    classes$VKClassesForPlot <- factor(fticRanalysis:::getVanKrevelenCategories(dataObj, vkBoundarySet), levels=rownames(fticRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)))
+    classes$VKClassesForPlot <- factor(fticRanalysis:::getVanKrevelenCategories(icrData, vkBoundarySet), levels=rownames(fticRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)))
   }else if(!is.null(classColName)){
-    if(!(classColName) %in% colnames(dataObj$e_meta)){ stop("classColName not found in dataObj$e_meta.") }
-    classes$VKClassesForPlot <- dataObj$e_meta[match(dataObj$e_meta[,getMassColName(dataObj)], classes[,getMassColName(dataObj)]), classColName]
+    if(!(classColName) %in% colnames(icrData$e_meta)){ stop("classColName not found in icrData$e_meta.") }
+    classes$VKClassesForPlot <- icrData$e_meta[match(icrData$e_meta[,getMassColName(icrData)], classes[,getMassColName(icrData)]), classColName]
   }else{
     stop("Unsure what to use to color by, please specify either 'vkBoundarySet' or 'classColName'")
   }
   
   classes <- melt(classes)
-  colnames(classes)[which(colnames(classes) == "variable")] <- getFDataColName(dataObj)
-  classes <- merge(classes, dataObj$e_meta, by=getMassColName(dataObj))
+  colnames(classes)[which(colnames(classes) == "variable")] <- getFDataColName(icrData)
+  classes <- merge(classes, icrData$e_meta, by=getMassColName(icrData))
   
   # remove unassigned 
-  if(any(is.na(classes[,getMFColName(dataObj)]))){
-    classes <- classes[-which(is.na(classes[,getMFColName(dataObj)])),]
+  if(any(is.na(classes[,getMFColName(icrData)]))){
+    classes <- classes[-which(is.na(classes[,getMFColName(icrData)])),]
     classes <- droplevels(classes)
   }
   
   # merge peaks with metadata or group_DF
-  if(xaxis %in% colnames(attr(dataObj, "group_DF"))){
-    classes <- merge(classes, attr(dataObj, "group_DF"), by=getFDataColName(dataObj))
+  if(xaxis %in% colnames(attr(icrData, "group_DF"))){
+    classes <- merge(classes, attr(icrData, "group_DF"), by=getFDataColName(icrData))
   }else{
-    classes <- merge(classes, dataObj$f_data, by=getFDataColName(dataObj)) 
+    classes <- merge(classes, icrData$f_data, by=getFDataColName(icrData)) 
   }
   
-  if(xaxis == getFDataColName(dataObj)){
+  if(xaxis == getFDataColName(icrData)){
     # summarise to percentage in each class
-    vars1 <- c(getFDataColName(dataObj), "VKClassesForPlot")
+    vars1 <- c(getFDataColName(icrData), "VKClassesForPlot")
     vars1 <- lapply(vars1, as.symbol)
   
     class_grp <- classes %>% dplyr::group_by_(.dots=vars1) %>%
@@ -74,7 +74,7 @@ classesPlot <- function(dataObj, xaxis=NULL, ylabel="Percentage of Chemical Clas
 
   }else{
     # if grouping, take median per group
-    vars1 <- c(getFDataColName(dataObj), xaxis, "VKClassesForPlot")
+    vars1 <- c(getFDataColName(icrData), xaxis, "VKClassesForPlot")
     vars1 <- lapply(vars1, as.symbol)
     
     vars2 <- c(xaxis, "VKClassesForPlot")
