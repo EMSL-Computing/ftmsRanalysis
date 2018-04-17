@@ -20,21 +20,9 @@ divideByGroup <- function(icrData) {
   edata_nonsample_cols <- setdiff(colnames(icrData$e_data), samples)
   
   result <- lapply(unique(groupDF$Group), function(group_name) {
-    group.samples <- as.character(groupDF[groupDF$Group == group_name, fticRanalysis:::getFDataColName(icrData)])
-    
-    f_data <- dplyr::rename(icrData$f_data, tmp9r038519=rlang::UQ(sample.colname)) %>%
-      dplyr::filter(tmp9r038519 %in% group.samples)
-    colnames(f_data)[colnames(f_data) == "tmp9r038519"] <- sample.colname
-    
-    e_data <- icrData$e_data[, c(edata_nonsample_cols, group.samples)]
-    e_meta <- icrData$e_meta
-    
-    tmp_group_DF <- dplyr::filter(groupDF, Group == group_name)
 
-    val <- list(e_data=e_data, f_data=f_data, e_meta=e_meta)
-    attributes(val) <- attributes(icrData)
-    attr(val, "group_DF") <- tmp_group_DF
-
+    val <- subset(icrData, groups=group_name)
+    
     # datadr attributes:
     attr(val, "split") <- data.frame(Group=group_name, stringsAsFactors = FALSE)
     colnames(attr(val, "split")) <- "Group"
