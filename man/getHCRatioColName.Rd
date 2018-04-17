@@ -4,10 +4,10 @@
 \alias{getHCRatioColName}
 \title{Get the name of the H:C ratio column}
 \usage{
-getHCRatioColName(icrDataObj)
+getHCRatioColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of H:C ratio column

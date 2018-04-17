@@ -4,17 +4,17 @@
 \alias{densityPlot}
 \title{Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object}
 \usage{
-densityPlot(dataObj, variable, title = NA, fill_col = "blue", xlabel = NA,
+densityPlot(icrData, variable, title = NA, fill_col = "blue", xlabel = NA,
   ylabel = "Density")
 }
 \arguments{
-\item{dataObj}{icrData object}
+\item{icrData}{icrData object of class peakIcrData or compoundIcrData}
 
-\item{variable}{which compound calcs calculation to plot. Must be one of the column names in dataObj$e_meta that contains numeric values.}
+\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in icrData$e_meta that contains numeric values.}
 
 \item{title}{plot title, default is NULL}
 
-\item{fill_col}{fill colour to use in plot}
+\item{fill_col}{fill colour to use in plot, must be in a format acceptable to ggplot2}
 
 \item{xlabel}{x axis label, default is NULL, which will result in the same name as "variable"}
 
@@ -24,8 +24,10 @@ densityPlot(dataObj, variable, title = NA, fill_col = "blue", xlabel = NA,
 a plotly object
 }
 \description{
-Constructs a density plot for a calculated variable in an
-object of type icrData.
+Constructs a density plot for a calculated variable in \code{e_meta} portion of icrData object
+}
+\details{
+If more than one sample is in \code{icrData}, the density of \code{variable} for all peaks seen in at least one sample will be displayed.
 }
 \seealso{
 \code{\link{plot_ly}}

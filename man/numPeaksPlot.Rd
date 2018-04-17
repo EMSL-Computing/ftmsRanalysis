@@ -4,14 +4,14 @@
 \alias{numPeaksPlot}
 \title{Plot to look at the number of peaks per sample}
 \usage{
-numPeaksPlot(dataObj, xaxis = NULL, ylabel = "Number of Peaks",
+numPeaksPlot(icrData, xaxis = NULL, ylabel = "Number of Peaks",
   title = NULL)
 }
 \arguments{
-\item{dataObj}{icrData object}
+\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
 
-\item{xaxis}{x axis variable. If NULL, will use attr(dataObj, "cnames")$fdata_cname. Must be one of
-colnames(dataObj$f_data) or colnames(attr(dataObj, "group_DF")).}
+\item{xaxis}{x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
+colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).}
 
 \item{ylabel}{y axis label, default is "Density"}
 

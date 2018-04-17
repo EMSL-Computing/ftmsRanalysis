@@ -4,15 +4,15 @@
 \alias{setModuleNodeColName}
 \title{Set the name of the module node column}
 \usage{
-setModuleNodeColName(icrDataObj, cname)
+setModuleNodeColName(icrData, cname)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrDataObj
+updated icrData
 }
 \description{
 Sets the name of the column in the e_meta element that 

@@ -4,10 +4,10 @@
 \alias{getClassColName}
 \title{Get the name of the peak class column}
 \usage{
-getClassColName(icrDataObj)
+getClassColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of peak class column

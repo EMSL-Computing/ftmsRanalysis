@@ -4,10 +4,10 @@
 \alias{getEDataColName}
 \title{Get the name of the e_data unique identifier column}
 \usage{
-getEDataColName(icrDataObj)
+getEDataColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of unique ID column

@@ -4,10 +4,10 @@
 \alias{getNOSCColName}
 \title{Get the name of the NOSC column}
 \usage{
-getNOSCColName(icrDataObj)
+getNOSCColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of NOSC column

@@ -4,15 +4,15 @@
 \alias{setMassColName}
 \title{Set the name of the mass column}
 \usage{
-setMassColName(icrDataObj, cname)
+setMassColName(icrData, cname)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrDataObj
+updated icrData
 }
 \description{
 Sets the name of the column in the e_meta element that 

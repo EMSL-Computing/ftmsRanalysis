@@ -4,10 +4,10 @@
 \alias{getAromaColName}
 \title{Get the name of the aromaticity column}
 \usage{
-getAromaColName(icrDataObj)
+getAromaColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of aromaticity column

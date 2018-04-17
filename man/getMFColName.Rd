@@ -4,10 +4,10 @@
 \alias{getMFColName}
 \title{Get the name of the e_meta unique identifier column}
 \usage{
-getMFColName(icrDataObj)
+getMFColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of unique ID column

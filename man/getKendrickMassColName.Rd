@@ -4,10 +4,10 @@
 \alias{getKendrickMassColName}
 \title{Get the name of the Kendrick mass column}
 \usage{
-getKendrickMassColName(icrDataObj)
+getKendrickMassColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of Kendrick mass column

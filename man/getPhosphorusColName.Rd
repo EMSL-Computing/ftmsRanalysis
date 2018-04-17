@@ -4,10 +4,10 @@
 \alias{getPhosphorusColName}
 \title{Get the name of the phosphorus column}
 \usage{
-getPhosphorusColName(icrDataObj)
+getPhosphorusColName(icrData)
 }
 \arguments{
-\item{icrDataObj}{an object of type icrData}
+\item{icrData}{an object of type icrData}
 }
 \value{
 name of phosphorus column

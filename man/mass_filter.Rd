@@ -7,7 +7,7 @@
 mass_filter(icrData)
 }
 \arguments{
-\item{icrData}{an object of class 'icrData', typically a result of \code{\link{as.icrData}}.}
+\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
 an object of class 'massFilt'

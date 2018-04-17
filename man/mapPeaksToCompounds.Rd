@@ -4,10 +4,10 @@
 \alias{mapPeaksToCompounds}
 \title{Map peak ICR data to compounds}
 \usage{
-mapPeaksToCompounds(picr, db = "KEGG")
+mapPeaksToCompounds(peakIcrData, db = "KEGG")
 }
 \arguments{
-\item{picr}{object of type peakIcrData}
+\item{peakIcrData}{object of type peakIcrData}
 
 \item{db}{database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
 the KeggData package or the MetaCycData package respectively.}

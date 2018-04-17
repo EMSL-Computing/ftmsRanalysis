@@ -4,10 +4,10 @@
 \alias{subset.peakIcrData}
 \title{Subset an icrData object according to sample or group}
 \usage{
-\method{subset}{peakIcrData}(icrDataObj, samples = NA, groups = NA)
+\method{subset}{peakIcrData}(icrData, samples = NA, groups = NA)
 }
 \arguments{
-\item{icrDataObj}{icrData object}
+\item{icrData}{icrData object}
 
 \item{samples}{sample ID or vector of sample IDs}
 
