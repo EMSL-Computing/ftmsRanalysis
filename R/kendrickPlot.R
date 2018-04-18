@@ -37,7 +37,7 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
     colorCName <- setdiff(colnames(icrData$e_data), getEDataColName(icrData)) # otherwise get the one sample column
   }
   
-  return(.kendrickPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
+  return(fticRanalysis:::.kendrickPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
                                vkBoundarySet=vkBoundarySet, xlabel=xlabel, ylabel=ylabel, 
                                legendTitle=legendTitle, logColorCol=logColorCol))
 } 

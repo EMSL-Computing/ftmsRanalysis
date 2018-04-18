@@ -12,32 +12,31 @@ data('peakIcrProcessed')
 
 sampleDdo <- divideBySample(peakIcrProcessed)
 
-## TEST 1: VK plot, color by VK category
-panelFn1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
+## TEST S-1: VK plot, color by VK category
+panelFnS1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
 
 makeDisplay(sampleDdo, 
-            panelFn=panelFn1,
-            name = "Trelliscope test 1 with VK",
+            panelFn=panelFnS1,
+            name = "Trelliscope test S_1 with VK",
             group = "Sample")
-view()
 
-## TEST 2: Kendrick plot, color by VK category
-panelFn2 <- panelFunctionGenerator("kendrickPlot", vkBoundarySet="bs1")
+
+## TEST S-2: Kendrick plot, color by VK category
+panelFnS2 <- panelFunctionGenerator("kendrickPlot", vkBoundarySet="bs1")
 
 makeDisplay(sampleDdo, 
-            panelFn=panelFn2,
-            name = "Trelliscope test 2 with Kendrick",
+            panelFn=panelFnS2,
+            name = "Trelliscope test S_2 with Kendrick",
             group = "Sample")
-view()
 
-## TEST 3: VK plot, color by Intensity
-panelFn3 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="Intensity")
+
+## TEST S-3: VK plot, color by Intensity
+panelFnS3 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="Intensity")
 
 makeDisplay(sampleDdo, 
-            panelFn=panelFn3,
-            name = "Trelliscope test 3 with VK",
+            panelFn=panelFnS3,
+            name = "Trelliscope test S_3 with VK",
             group = "Sample")
-view()
 
 
 ## TEST 4: compoundCalcsPlot of NOSC
@@ -47,32 +46,43 @@ makeDisplay(sampleDdo,
             panelFn=panelFn4,
             name = "Trelliscope test 4 with compoundCalcsPlot",
             group = "Sample")
-view()
 
 ##########################################################
 ## GROUP PLOTS
 
 groupDdo <- divideByGroup(peakIcrProcessed)
-groupDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
+groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 
-## TEST 5: VK plot, color by proportion present
-panelFn5 <- panelFunctionGenerator("groupVanKrevelenPlot", colorCName="prop_present", 
+## TEST G-1: VK group plot, color by proportion present
+panelFnG1 <- panelFunctionGenerator("groupVanKrevelenPlot", colorCName="prop_present", 
                                    legendTitle="Proportion<br>Present")
 
-makeDisplay(groupDdo, 
-            panelFn=panelFn5,
-            name = "Trelliscope test 5 with VK plot per group",
+makeDisplay(groupSummaryDdo, 
+            panelFn=panelFnG1,
+            name = "Trelliscope test G_1 with VK plot per group",
             group = "Group")
-view()
 
 
-## TEST 6: Kendrick plot, color by n present
-panelFn6 <- panelFunctionGenerator("groupKendrickPlot", colorCName="n_present", 
+## TEST G-2: Kendrick group plot, color by n present
+panelFnG2 <- panelFunctionGenerator("groupKendrickPlot", colorCName="n_present", 
                                    legendTitle="Number<br>Present")
 
-makeDisplay(groupDdo, 
-            panelFn=panelFn6,
-            name = "Trelliscope test 5 with Kendrick plot per group",
+makeDisplay(groupSummaryDdo, 
+            panelFn=panelFnG2,
+            name = "Trelliscope test G_2 with Kendrick plot per group",
             group = "Group")
+
+
+## TEST G-3: classes plot for each group
+panelFnG3 <- panelFunctionGenerator("classesPlot")
+
+makeDisplay(groupDdo, 
+            panelFn=panelFnG3,
+            name = "Trelliscope test G_3 with classesPlot",
+            group = "Group")
+
+
 view()
+
+
 

@@ -17,7 +17,8 @@ Imports:
     plotly,
     tidyr,
     tibble,
-    rlang (>= 0.1.4)
+    rlang (>= 0.1.4),
+    reshape2
 Suggests:
     KeggData,
     MetaCycData,

@@ -34,8 +34,8 @@ groupVanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, 
     stop("colorCName must be a column of the e_data element")
   }
   
-  .vanKrevelenPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
+  return(fticRanalysis:::.vanKrevelenPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
                            vkBoundarySet = vkBoundarySet, showVKBounds=showVKBounds, 
-                           xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle)
+                           xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle))
 
 }

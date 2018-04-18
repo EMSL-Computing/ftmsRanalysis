@@ -33,7 +33,7 @@ groupKendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA,
     stop("colorCName must be a column of the e_data element")
   }
   
-  return(.kendrickPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
+  return(fticRanalysis:::.kendrickPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
                            xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle))
   
 }

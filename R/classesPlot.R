@@ -46,7 +46,7 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
     stop("Unsure what to use to color by, please specify either 'vkBoundarySet' or 'classColName'")
   }
   
-  classes <- melt(classes)
+  classes <- reshape2::melt(classes)
   colnames(classes)[which(colnames(classes) == "variable")] <- getFDataColName(icrData)
   classes <- merge(classes, icrData$e_meta, by=getMassColName(icrData))
   
@@ -98,7 +98,7 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
     cc <- factor(cc, levels=cc)
   }
   
-  colorPal <- getFactorColorPalette(cc)  
+  colorPal <- fticRanalysis:::getFactorColorPalette(cc)  
   col_vec <- colorPal(cc)
   names(col_vec) <- cc
   
