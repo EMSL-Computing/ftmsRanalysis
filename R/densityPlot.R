@@ -40,7 +40,7 @@ densityPlot <- function(icrData, variable, title=NA, fill_col="blue",
   df <- merge(icrData$e_data, icrData$e_meta, by=getMassColName(icrData))
   
   # if data is not on a log-scale #
-  if(getDataScale %in% c('pres', 'abundance')){
+  if(getDataScale(icrData) %in% c('pres', 'abundance')){
     # subset down to where sample value != 0 #
     if(length(as.character(icrData$f_data[,getFDataColName(icrData)])) == 1){
       df <- df[which(df[,as.character(icrData$f_data[,attr(icrData, "cnames")$fdata_cname])] > 0),]

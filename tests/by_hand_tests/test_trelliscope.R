@@ -39,12 +39,12 @@ makeDisplay(sampleDdo,
             group = "Sample")
 
 
-## TEST 4: compoundCalcsPlot of NOSC
-panelFn4 <- panelFunctionGenerator("compoundCalcsPlot", variable="NOSC")
+## TEST 4: densityPlot of NOSC
+panelFn4 <- panelFunctionGenerator("densityPlot", variable="NOSC")
 
 makeDisplay(sampleDdo, 
             panelFn=panelFn4,
-            name = "Trelliscope test 4 with compoundCalcsPlot",
+            name = "Trelliscope test 4 with density",
             group = "Sample")
 
 ##########################################################
