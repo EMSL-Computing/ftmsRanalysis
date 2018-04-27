@@ -95,3 +95,27 @@ print.moduleIcrData <- function(micr) {
   cat(res, sep="\n")
   invisible(micr)
 }
+
+#' @export
+print.groupSummary <- function(icrData) {
+  if (!inherits(icrData, "groupSummary")) stop("Not a groupSummary object")
+  if (is.null(icrData) | all(is.na(icrData))) {
+    print(icrData)
+    invisible(icrData)
+  }
+  groupname <- unique(getGroupDF(icrData)$Group)
+  res <- c(sprintf("groupSummary object derived from %s", class(icrData)[2]), 
+           sprintf("# Rows: %d", nrow(icrData$e_data)),
+           sprintf("Summary columns: [%s]", paste(icrData$f_data[, getFDataColName(icrData)], collapse = ", ")),
+           sprintf("Group name: %s", groupname),
+           sprintf("# Samples in group: %d", nrow(getGroupDF(icrData))))
+  
+  res <- c(res, .common_print_data(icrData))
+  
+  # remove Group info line:
+  ind <- grepl("^Group info: ", res)
+  res <- res[!ind]
+  
+  cat(res, sep="\n")
+  invisible(icrData)
+}
