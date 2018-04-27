@@ -103,7 +103,7 @@ applyFilt.moleculeFilt <- function(filter_object, icrData, min_num=2){
     
     # set attributes for which filters were run
     attr(results, "filters")$moleculeFilt <- list(report_text = "", threshold = c(), filtered = c())
-    attr(results, "filters")$moleculeFilt$report_text <- paste("A molecule filter was applied to the data, removing ", edata_cname, "s ", "that were present in fewer than ", min_num, " samples. A total of ", length(filter.edata), " ", edata_cname, "s ", "were filtered out of the dataset by this filter.", sep="")
+    attr(results, "filters")$moleculeFilt$report_text <- paste("A molecule filter was applied to the data, removing ", makePlural(edata_cname), " that were present in fewer than ", min_num, " samples. A total of ", length(filter.edata), " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
     attr(results, "filters")$moleculeFilt$threshold <- min_num
     attr(results, "filters")$moleculeFilt$filtered <- filter.edata
     
@@ -158,7 +158,7 @@ applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass 
 
     # set attributes for which filters were run
     attr(icrData, "filters")$massFilt <- list(report_text = "", threshold = c(), filtered = c())
-    attr(icrData, "filters")$massFilt$report_text <- paste("A mass filter was applied to the data, removing ", edata_cname, "s ", "that had a mass less than ", min_mass, " or a mass greater than ", max_mass, ". A total of ", num_rmv, " ", edata_cname, "s ", "were filtered out of the dataset by this filter.", sep="")
+    attr(icrData, "filters")$massFilt$report_text <- paste("A mass filter was applied to the data, removing ", makePlural(edata_cname), " that had a mass less than ", min_mass, " or a mass greater than ", max_mass, ". A total of ", num_rmv, " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
     attr(icrData, "filters")$massFilt$threshold <- c(min_mass, max_mass)
     attr(icrData, "filters")$massFilt$filtered <- icrData$e_data[which(!icrData$e_data[,edata_cname] %in% edata_ids),edata_cname]
     
@@ -226,7 +226,7 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
     
     # set attributes for which filters were run
     attr(results, "filters")$formulaFilt <- list(report_text = "", threshold = c(), filtered = c())
-    attr(results, "filters")$formulaFilt$report_text <- paste("A formula filter was applied to the data, removing ", edata_cname, "s ", "that had ", remove, " assigned. A total of ", length(filter.edata), " ", edata_cname, "s ", "were filtered out of the dataset by this filter.", sep="")
+    attr(results, "filters")$formulaFilt$report_text <- paste("A formula filter was applied to the data, removing ", makePlural(edata_cname), " that had ", remove, " assigned. A total of ", length(filter.edata), " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
     attr(results, "filters")$formulaFilt$threshold <- remove
     attr(results, "filters")$moleculeFilt$filtered <- filter.edata
     
@@ -312,4 +312,15 @@ icr_filter_worker <- function(filter_object, icrData){
   output <- list(new.edata = temp.edata, new.fdata = temp.fdata, new.emeta = temp.emeta, edata_cname = edata_cname, samp_cname = samp_cname)
   
   return(output)  
-  }
+}
+
+
+# internal function to make a word plural but be slightly smarter than just adding an 's' to the end
+# (only slightly smarter, not comprehensive)
+makePlural <- function(thetext) {
+  if (endsWith(thetext, 's') | endsWith(thetext, 'ch') | endsWith(thetext, 'sh') | 
+      endsWith(thetext, 'x') | endsWith(thetext, 'z')  | endsWith(thetext, 'o'))
+    return(paste0(thetext, "es"))
+  else 
+    return(paste0(thetext, "s"))
+}
