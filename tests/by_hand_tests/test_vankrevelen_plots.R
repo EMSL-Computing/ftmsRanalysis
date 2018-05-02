@@ -67,7 +67,12 @@ picrSubset2 <- subset(picr, samples="EW0161_sample")
 vanKrevelenPlot(picrSubset2, title="Test15", colorCName="Intensity", vkBoundarySet="bs1",
                 showVKBounds=TRUE, legendTitle="Intensity")
 
+# make sure legend has integer values to select/deselect:
 msGroup <- subset(picr, groups="M_S")
 msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
-groupVanKrevelenPlot(msGroup, title="Test16", colorCName="prop_present", vkBoundarySet="bs1",
-                showVKBounds=TRUE, legendTitle="Proportion<br>Present")
+groupVanKrevelenPlot(msGroup, title="Test16", colorCName="n_present", vkBoundarySet="bs1",
+                showVKBounds=TRUE, legendTitle="Count<br>Present")
+
+# regular continuous color bar
+groupVanKrevelenPlot(msGroup, title="Test17", colorCName="prop_present", vkBoundarySet="bs1",
+                     showVKBounds=TRUE, legendTitle="Proportion<br>Present")

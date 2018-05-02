@@ -88,7 +88,15 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   # color palette
   if (identical(colorPal, NA)) {
-    if (is.numeric(plot_data[, colorCName])) {
+    if (is.integer(plot_data[, colorCName])) { # probably count data
+      val_range <- range(plot_data[, colorCName], na.rm=TRUE)
+      vals <- seq(val_range[1], val_range[2], by=1)
+      pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
+      colorPal <- scales::col_factor(palette=pal, domain=vals)
+      col_vec <- colorPal(vals)
+      names(col_vec) <- vals
+      plot_data[, colorCName] <- factor(plot_data[, colorCName], levels=sort(unique(plot_data[, colorCName])))
+    } else if (is.numeric(plot_data[, colorCName])) {
       val_range <- range(plot_data[, colorCName], na.rm=TRUE)
       pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
       if (logColorCol) { #log transform data

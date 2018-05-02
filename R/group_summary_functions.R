@@ -6,9 +6,9 @@
 # from which x is extracted 
 n_present <- function(x, data_scale) {
   if (data_scale %in% c('pres', 'abundance')) 
-    return(rowSums(x>0))
+    return(as.integer(rowSums(x>0)))
   else 
-    return(rowSums(!is.na(x)))
+    return(as.integer(rowSums(!is.na(x))))
 } 
 attr(n_present, "default_column_name") <- "n_present"
 

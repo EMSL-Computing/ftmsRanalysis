@@ -65,4 +65,9 @@ kendrickPlot(picrSubset2, title="Test15", colorCName="Intensity")
 
 msGroup <- subset(picr, groups="M_S")
 msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
-groupKendrickPlot(msGroup, title="Test16", colorCName="prop_present", legendTitle="Proportion<br>Present")
+
+# legend should show integers
+groupKendrickPlot(msGroup, title="Test16", colorCName="n_present", legendTitle="Number<br>Present")
+
+# continuous color bar:
+groupKendrickPlot(msGroup, title="Test17", colorCName="prop_present", legendTitle="Proportion<br>Present")
