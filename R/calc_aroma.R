@@ -57,8 +57,8 @@ calc_aroma <- function(icrData){
   
   icrData$e_meta = temp
   
-  setAromaColName(icrData, "AI")
-  setModAromaColName(icrData, "AI_Mod")
+  icrData = setAromaColName(icrData, "AI")
+  icrData = setModAromaColName(icrData, "AI_Mod")
   
   return(icrData)
 }

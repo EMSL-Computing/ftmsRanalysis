@@ -29,6 +29,6 @@ calc_nosc <- function(icrData){
     
     icrData$e_meta = temp
     
-    setNOSCColName(icrData, "NOSC")
+    icrData = setNOSCColName(icrData, "NOSC")
     return(icrData)
 }

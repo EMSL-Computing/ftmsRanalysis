@@ -35,8 +35,8 @@ calc_dbe <- function(icrData){
 
   icrData$e_meta = temp
   
-  setDBEColName(icrData, "DBE")
-  setDBEoColName(icrData, "DBE_O")
+  icrData = setDBEColName(icrData, "DBE")
+  icrData = setDBEoColName(icrData, "DBE_O")
   
   return(icrData)
 }

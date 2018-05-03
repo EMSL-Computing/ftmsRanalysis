@@ -32,7 +32,7 @@ calc_gibbs <- function(icrData){
   
   icrData$e_meta = temp
   
-  setGibbsColName(icrData, "GFE")
+  icrData = setGibbsColName(icrData, "GFE")
   
   return(icrData)
 }
