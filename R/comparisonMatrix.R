@@ -40,7 +40,7 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
       }
     }
   }else if(is.list(comparisons)){
-    if (!all(unlist(pairs) %in% groupDF$Group)) {
+    if (!all(unlist(comparisons) %in% groupDF$Group)) {
       stop("not all groups specified in pairs parameter were found in the data")
     }
     
