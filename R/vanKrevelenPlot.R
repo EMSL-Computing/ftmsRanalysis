@@ -179,12 +179,12 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   hovertext <- paste("Molecular Formula: ", plot_data[, getMFColName(icrData)],"<br>", getEDataColName(icrData),": ", plot_data[,getEDataColName(icrData)], sep = "")
   if (!is.numeric(plot_data[, colorCName]) || is.integer(plot_data[, colorCName])) {
     p <- plot_ly(plot_data, x=plot_data[,OC.col], y=plot_data[,HC.col]) %>%
-      add_markers(color=plot_data[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
+      add_markers(key=plot_data[, getEDataColName(icrData)], color=plot_data[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
       layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, OC.col], zero.min=TRUE)), 
              yaxis=list(title=ylabel, range=nice_axis_limits(plot_data[, HC.col], zero.min=TRUE)))
   } else { #NUMERIC COLOR COLUMN:
     p <- plot_ly(plot_data, x=plot_data[,OC.col], y=plot_data[,HC.col]) %>%
-      add_markers(color=plot_data[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text",
+      add_markers(key=plot_data[, getEDataColName(icrData)], color=plot_data[,colorCName], colors=col_vec, text=hovertext, hoverinfo="text",
                   marker = list(colorbar = list(title = legendTitle))) %>%
       layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, OC.col], zero.min=TRUE)), 
              yaxis=list(title=ylabel, range=nice_axis_limits(plot_data[, HC.col], zero.min=TRUE)))

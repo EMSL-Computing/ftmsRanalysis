@@ -173,13 +173,14 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   if (!is.numeric(plot_data[, colorCName])) {
     p <- plot_ly(plot_data, x=plot_data[,km_col], y=plot_data[,kd_col]) %>%
 #      add_trace(name=legendTitle, mode="none", type="scatter", opacity=0) %>% # empty trace in order to add legend title
-      add_markers(color=plot_data[, colorCName], colors=col_vec, text=hovertext, hoverinfo="text") %>%
+      add_markers(key=plot_data[, getEDataColName(icrData)], color=plot_data[, colorCName], colors=col_vec, 
+                  text=hovertext, hoverinfo="text") %>%
       layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, km_col])), 
              yaxis=list(title=ylabel, range=nice_axis_limits(plot_data[, kd_col])))
   } else { #NUMERIC COLOR COLUMN:
     p <- plot_ly(plot_data, x=plot_data[,km_col], y=plot_data[,kd_col]) %>%
-      add_markers(color=plot_data[, colorCName], colors=col_vec, text=hovertext, hoverinfo="text",
-                  marker = list(colorbar = list(title = legendTitle))) %>%
+      add_markers(key=plot_data[, getEDataColName(icrData)], color=plot_data[, colorCName], colors=col_vec, 
+                  text=hovertext, hoverinfo="text", marker = list(colorbar = list(title = legendTitle))) %>%
       layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, km_col])), 
              yaxis=list(title=ylabel, range=nice_axis_limits(plot_data[, kd_col])))
   }
