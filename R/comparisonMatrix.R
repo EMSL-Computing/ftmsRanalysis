@@ -52,7 +52,7 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
     
     pairs <- do.call(cbind, comparisons)
   }else{
-    stop("check that comparisons argument is either 'all', 'control', or a list of specific comparisons")
+    stop("check that comparisons argument is either 'all', 'control', 'one-factor', or a list of specific comparisons")
   }
   
   return(pairs)
