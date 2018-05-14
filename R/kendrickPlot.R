@@ -13,6 +13,9 @@
 #' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
+#' 
+#' @author Amanda White
+#'
 #' @export
 kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", 
                          xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName) {
@@ -192,5 +195,3 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   p
   
 }
-
-#kendrickPlot(icrData, title=colnames(icrData$e_data)[2])

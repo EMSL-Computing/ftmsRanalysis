@@ -35,3 +35,6 @@ object of type icrData.
 \seealso{
 \code{\link{plot_ly}}
 }
+\author{
+Amanda White
+}

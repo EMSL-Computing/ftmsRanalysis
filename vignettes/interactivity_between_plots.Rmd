@@ -1,0 +1,282 @@
+---
+title: "Interactivity Between Plots"
+author: "Amanda White and Sarah Reehl"
+date: "5/1/2018"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+    number_sections: true
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This vignette shows house to link two Plotly plots produced by `fticRanalysis` functions in Shiny such that 
+selections in one plot can be highlighted in the other. See http://plotly-book.cpsievert.me/linking-views-with-shiny.html 
+for additional information.
+
+# Some important Plotly features
+
+There are a couple of features in Plotly that are not typically used but are crucial for linking plots in Shiny. 
+
+## Source
+The first is the concept of a "source". The source feature of a plot is just a character value that is used to identify
+the, well, *source* of a mouse event. Setting this is important if you want to distinguish where your mouse event came 
+from. There are two ways to do this, the first is in the `plot_ly` function, just specify a source parameter, e.g. 
+`myplot <- plot_ly(source="plot1", ...)`. In this example, we're using Plotly objects that are the output
+of a function, so we're not calling `plot_ly` directly in this vignette. But we can set the source field after 
+constructing the plot like this: `myplot$x$source <- "plot1"`. 
+
+## Key
+Another useful concept is that of a key. Each data object (point, bar, line, etc) in a Plotly plot can have its own key. 
+The key is specified in the `add_markers` or `add_trace` or similar function. E.g.
+```{r background_example, eval=FALSE}
+p <- plot_ly(data=plot_data, x=~x, y=~y) %>%
+      add_markers(key=~key, color=~color)
+```
+
+The keys corresponding to the selected items will be part of the event data structure that is available after a
+mouse event occurs. Keys appear to always be translated to character by Plotly, regardless of their original data type.
+In the `fticRanalysis` package, the two scatter plot functions `vanKrevelenPlot` and `kendrickPlot` 
+use the EDataColname field as the key for each point. (See the `fticRanalysis::getEDataColname` function.) The `densityPlot`
+function produces a histogram, where the key for each bar is a 2-element vector of the min and max x-axis values for the bar.
+
+## Plotly mouse events
+
+Plotly generates mouse events for selection, click and hover actions. Mouse event information is stored in Shiny's 
+`input` variable with special names that indicate the source and mouse event type. The names take the form 
+`.clientValue-`, the mouse event type, then the source value. Mouse event types are `plotly_selected`, `plotly_click` and `plotly_hover`. For example, mouse event names look like: `.clientValue-plotly_selected-source1` and 
+`.clientValue-plotly_click-source2`.
+
+Once added to `input` these event data fields are not removed with each mouse event, but only the relevant
+fields are updated. This means we need a way (beyond presence or absence of those `input` fields) to keep track of the 
+source of the last mouse event. To do this we'll create a reactive value and use the `shiny::observeEvent` function to populate
+its value. 
+
+Each mouse event data item is a data frame with a row for each item affected (selected/clicked/hovered) and the following columns:
+
+* `curveNumber`: indicates the data trace number
+* `pointNumber`: the point within the specified curve
+* `x`: x value
+* `y`: y value
+* `key`: key provided during plot construction
+
+Plotly provides a convenience method, `event_data` that retrieves this mouse event data frame for a given source and 
+event type. This function pulls the data from the relevant slot of `input`.
+
+
+# Example: two scatter plots
+
+The first example demonstrates the linkage of two scatter plots: a Van Krevelen plot and a Kendrick plot. 
+Points selected in either plot will be highlighted in the other. 
+
+First, we generate the two plots from our fticRanalysis example data.
+
+```{r example1a, message=FALSE, warning=FALSE}
+library(magrittr)
+library(fticRanalysis)
+library(plotly)
+devtools::load_all("/Users/d3l348/Files/MinT/github/fticRanalysis/")
+
+data(peakIcrProcessed)
+.data <- subset(peakIcrProcessed, samples="EM0011_sample")
+
+p1 <- vanKrevelenPlot(.data, title = "Van Krevelen Plot of EM0011", vkBoundarySet = "bs1") %>%
+  layout(dragmode="select", showlegend=FALSE)
+
+p2 <- kendrickPlot(.data, title="Kendrick Plot of EM0011") %>%
+  layout(dragmode="select", showlegend=FALSE)
+```
+
+Notice that in both cases, we've used the layout function to set the drag mode to "select", this tells plotly to use the mouse 
+click and drag to select point rather than zoom. (We've also hidden the legends to conserve space.)
+
+Next we're going to give both plots "source" characteristics which will be used to determine from which plot a mouse event originated.
+
+```{r example1b}
+p1$x$source <- "vk_source"
+p2$x$source <- "kendrick_source"
+```
+
+Here we'll create a reactive value to track the source of the last mouse event, and use the `observeEvent` function 
+to populate its value. When each type of event is observed, the reactive value `lastEvent` is set accordingly.
+
+```{r example1c}
+lastEvent <- reactiveValues(source="none")
+
+# Observe plotly-selected event from vk_source
+observeEvent(input$`.clientValue-plotly_selected-vk_source`, {
+  lastEvent$source <- "VK"
+}, priority = 10)
+
+# Observe plotly-selected event from kendrick_source
+observeEvent(input$`.clientValue-plotly_selected-kendrick_source`, {
+  lastEvent$source <- "Kendrick"
+}, priority = 10)
+```
+
+The next step is to define the `output` plot elements and write code to look at the most recent Plotly mouse event to render
+selected data in cyan.
+
+Implicit in this code is the knowledge that the Van Krevelen and Kendrick plotting functions set the data key to be the
+EDataColname value (the `Mass` column for this dataset). This means that the `key` element of the event data will contain
+keys (Masses) associated with the selected points.
+
+```{r example1d}
+output$vk_plot1 <- renderPlotly({
+  last_event <- lastEvent$source
+
+  if (last_event == "VK") {
+    d <- event_data("plotly_selected", source="vk_source")
+    if (!is.null(d)) {
+      tmp_dat1 <- dplyr::filter(.data$e_meta, Mass %in% d[["key"]])
+      p1 <- p1 %>% 
+        add_markers(x=~OtoC_ratio, y=~HtoC_ratio, data=tmp_dat1, 
+                    marker=list(color="cyan"), name="Selected" )
+    }
+  } else if (last_event == "Kendrick") {  
+    d2 <- event_data("plotly_selected", source="kendrick_source")
+    if (!is.null(d2)) {
+      tmp_dat1 <- dplyr::filter(.data$e_meta, Mass %in% d2[["key"]])
+      p1 <- p1 %>% 
+        add_markers(x=~OtoC_ratio, y=~HtoC_ratio, data=tmp_dat1, 
+                    marker=list(color="cyan"), name="Selected" )
+    }
+  }  
+  p1
+})
+
+output$kendrick_plot1 <- renderPlotly({
+  last_event <- lastEvent$source
+
+  if (last_event == "VK") {
+    d <- event_data("plotly_selected", source="vk_source")
+    if (!is.null(d)) {
+      tmp_dat1 <- dplyr::filter(.data$e_meta, Mass %in% d[["key"]])
+      p2 <- p2 %>% 
+        add_markers(x=~kmass, y=~kdefect, data=tmp_dat1, 
+                    marker=list(color="cyan"), name="Selected" )
+    }
+  } else if (last_event == "Kendrick") {  
+    d2 <- event_data("plotly_selected", source="kendrick_source")
+    if (!is.null(d2)) {
+      tmp_dat1 <- dplyr::filter(.data$e_meta, Mass %in% d2[["key"]])
+      p2 <- p2 %>% 
+        add_markers(x=~kmass, y=~kdefect, data=tmp_dat1, 
+                    marker=list(color="cyan"), name="Selected" )
+    }
+  }  
+  p2
+})
+
+```
+
+Finally, add some Shiny output elements to display the plots.
+
+```{r example1e }
+fluidRow(
+  column(6, plotlyOutput('vk_plot1')),
+  column(6, plotlyOutput('kendrick_plot1'))
+)
+```
+
+# Example: a scatter plot and a histogram
+
+The second example shows highlighting selections between a Van Krevelen plot and a histogram. We'll make another Van Krevelen
+plot like Example 1, and when points are selected there, the distribution of their NOSC values will be 
+shown on the histogram plot. When a bar of the histogram is selected via a mouse click, the corresponding points will be rendered 
+in cyan on the scatter plot.
+
+```{r example2a}
+
+p3 <- vanKrevelenPlot(.data, title = "Van Krevelen Plot of EM0011", vkBoundarySet = "bs1") %>%
+  layout(dragmode="select", showlegend=FALSE)
+p3$x$source <- "vk_source2"
+
+p4 <- densityPlot(.data, variable = "NOSC", yaxis="count", smooth_curve = FALSE, title="NOSC Distribution for EM0011") 
+p4$x$source <- "hist_source"
+
+
+# Set up reactive flag to keep track of what was the last mouse event
+lastEvent2 <- reactiveValues(source="none")
+observeEvent(input$`.clientValue-plotly_selected-vk_source2`, {
+  lastEvent2$source <- "VK"
+}, priority = 10)
+observeEvent(input$`.clientValue-plotly_click-hist_source`, {
+  lastEvent2$source <- "hist"
+}, priority = 10)
+```
+
+In the scatter plot functions `vanKrevelenPlot` and `kendrickPlot`, the EDataColname values (the `Mass` column for this dataset)
+are used as point keys. In the density plot, the key corresponding to each bar is set to be a two-element vector of that bar's 
+min and max. This is used to map from the mouse click to the max and min values on which to filter points for the scatter plot. 
+
+It's also important to note that the output of `densityPlot` has an attribute called `hist_data` which contains the output
+of the `hist` command used to generate the barplot. This is important because it contains the locations of each bar, allowing
+us to add another set of bars for the selected points at the same widths and locations as the original, rather than estimating
+bar sizes from just the selected data.
+
+```{r example2b}
+output$vk_plot2 <- renderPlotly({
+  last_event <- lastEvent2$source
+  
+  if (last_event == "VK") {
+    d <- event_data("plotly_selected", source="vk_source2")
+    if (!is.null(d)) {
+      tmp_dat1 <- dplyr::filter(.data$e_meta, Mass %in% d[["key"]])
+      p3 <- p3 %>% 
+        add_markers(x=~OtoC_ratio, y=~HtoC_ratio, data=tmp_dat1, 
+                              marker=list(color="cyan"), name="Selected" )
+    }
+  } else if (last_event == "hist") {  
+    d2 <- event_data("plotly_click", source="hist_source")
+    if (!is.null(d2)) {
+      bounds <- as.numeric(d2$key[[1]])
+      tmp_dat1 <- dplyr::filter(.data$e_meta, as.numeric(NOSC) >= bounds[1] & as.numeric(NOSC) < bounds[2])
+      p3 <- p3 %>% 
+        add_markers(x=~OtoC_ratio, y=~HtoC_ratio, data=tmp_dat1, 
+                              marker=list(color="cyan"), name="Selected" )
+    }
+  }  
+  p3
+})
+
+output$hist_plot <- renderPlotly({
+  hist_data <- attr(p4, "hist_data")
+  last_event <- lastEvent2$source
+
+  if (last_event == "VK") {
+    d <- event_data("plotly_selected", source="vk_source2")
+    if (!is.null(d)) {
+      tmp_dat <- dplyr::filter(.data$e_meta, Mass %in% d[["key"]])
+      hist_breaks <- hist_data$x-0.5*hist_data$barwidth
+      hist_breaks <- c(hist_breaks, tail(hist_breaks,1)+tail(hist_data$barwidth, 1))
+
+      tmp_hist <- hist(tmp_dat$NOSC, breaks=hist_breaks)
+      p4 <- p4 %>% add_bars(x=tmp_hist$mids, y=tmp_hist$counts, width=diff(tmp_hist$breaks), 
+                     marker=list(color="cyan")) %>%
+        layout(showlegend=FALSE)
+    }
+  } else if (last_event == "hist") { 
+    d2 <- event_data("plotly_click", source="hist_source")
+    if (!is.null(d2)) {
+      tmp_dat <- hist_data[d2$pointNumber+1, ]
+      p4 <- p4 %>% add_bars(x=~x, y=~count, width=~barwidth, data=tmp_dat, 
+                     marker=list(color="cyan")) %>%
+        layout(showlegend=FALSE)
+    }
+  }
+  p4
+})
+
+fluidRow(
+  column(6, plotlyOutput('vk_plot2')),
+  column(6, plotlyOutput('hist_plot'))
+)
+```
+

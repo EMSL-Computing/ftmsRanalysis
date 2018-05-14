@@ -4,8 +4,10 @@
 \alias{densityPlot}
 \title{Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object}
 \usage{
-densityPlot(icrData, variable, title = NA, fill_col = "blue", xlabel = NA,
-  ylabel = "Density")
+densityPlot(icrData, variable, title = NA, yaxis = "density",
+  smooth_curve = TRUE, fill_col = "blue", xlabel = NA,
+  ylabel = paste0(toupper(substring(yaxis, 1, 1)), substring(yaxis, 2), sep =
+  ""))
 }
 \arguments{
 \item{icrData}{icrData object of class peakIcrData or compoundIcrData}
@@ -14,7 +16,11 @@ densityPlot(icrData, variable, title = NA, fill_col = "blue", xlabel = NA,
 
 \item{title}{plot title, default is NULL}
 
-\item{fill_col}{fill colour to use in plot, must be in a format acceptable to ggplot2}
+\item{yaxis}{what should the y-axis represent, "density" or "count"? If "count" no smoothed density curve will be added.}
+
+\item{smooth_curve}{TRUE/FALSE should a smoothed curve be added to the plot?}
+
+\item{fill_col}{fill colour to use in plot under smoothed curve, must be a string with color code in hexadecimal format (see \code{\link{rgb}}) or an element of \code{\link{colors}()}}
 
 \item{xlabel}{x axis label, default is NULL, which will result in the same name as "variable"}
 
@@ -27,11 +33,13 @@ a plotly object
 Constructs a density plot for a calculated variable in \code{e_meta} portion of icrData object
 }
 \details{
-If more than one sample is in \code{icrData}, the density of \code{variable} for all peaks seen in at least one sample will be displayed.
+If more than one sample is in \code{icrData}, the density of \code{variable} for all peaks seen in at least 
+one sample will be displayed. The histogram bar data as a data frame is attached to the output as the attribute \code{hist_data}.
+This may be useful for adding additional data to the plot, e.g. for linking selections in multiple plots.
 }
 \seealso{
 \code{\link{plot_ly}}
 }
 \author{
-Allison Thompson, Lisa Bramer
+Allison Thompson, Lisa Bramer, Amanda White
 }

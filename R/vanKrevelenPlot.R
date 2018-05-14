@@ -13,6 +13,9 @@
 #' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
+#' 
+#' @author Amanda White
+#' 
 #' @export
 vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                             xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
@@ -208,7 +211,6 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   p
 }
-#vanKrevelenPlot(icrData, title=colnames(icrData$e_data)[2])
 
 # Function for calculating pretty axis limits for plots
 # 

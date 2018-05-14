@@ -36,3 +36,6 @@ Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an icrData object using 
 \seealso{
 \code{\link{plot_ly}}
 }
+\author{
+Amanda White
+}
