@@ -7,7 +7,7 @@
 comparisonMatrix(icrObj, comparisons, control = NULL)
 }
 \arguments{
-\item{comparisons}{dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.}
+\item{comparisons}{dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, 'one-factor' will create a matrix of pairwise comparisons to be made where only one 'main_effect' changes between the two groups, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.}
 
 \item{control}{if wanting to only compare against a control, must specify which group or sample is the control}
 
