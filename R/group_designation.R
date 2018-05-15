@@ -5,6 +5,7 @@
 #' @param icrData an object of the class 'icrData', usually created by \code{\link{as.peakIcrData}}.
 #' @param main_effects a character vector with no more than two variable names that should be used as main effects to determine group membership of samples. The variable name must match a column name from \code{f_data}.
 #' @param covariates a character vector of no more than two variable names that should be used as covariates in downstream analyses. Covariates are typically variables that a user wants to account for in the analysis but quantifying/examining the effect of the variable is not of interest.
+#' @param var.name logical, if there are more than one main effect, when making a group, include (TRUE) or exclude (FALSE) main effect names in group For example, if TRUE, "Location_M;Crop_S". If FALSE, "M_S". Default is FALSE.
 #'
 #' @details Groups are formed based on the levels of the main effect variables. One or two main effect variables are allowed. In the case of two main effect variables, groups are formed based on unique combinations of the levels of the two main effect variables. Any samples with level NA for a main effect variable will be removed from the data and will not be included in the final group designation results. Any groups with less than 2 samples will be designated to group NA and the affected sample(s) will be removed from the data.
 #'
@@ -16,7 +17,7 @@
 #' @export
 
 
-group_designation <- function(icrData, main_effects, covariates=NULL){
+group_designation <- function(icrData, main_effects, covariates=NULL, var.name=FALSE){
   
   ### perform some intial checks that data is in an acceptable format ###
   
@@ -78,10 +79,15 @@ group_designation <- function(icrData, main_effects, covariates=NULL){
     nonna.group = apply(obs.effects, 1, function(x) all(!is.na(x)))
     
     #Group[nonna.group] = paste(as.character(obs.effects[nonna.group,1]), as.character(obs.effects[nonna.group,2]), sep = "_")
-    Group[nonna.group] = apply(obs.effects[nonna.group,], 1, function(x) paste(x, collapse="_"))
+    if(var.name){
+      Group[nonna.group] = apply(obs.effects[nonna.group,], 1, function(x) paste(sapply(c(1:ncol(obs.effects)), function(y) paste(colnames(obs.effects)[y], x[y], sep=".")),collapse="_"))
+    }else{
+      Group[nonna.group] = apply(obs.effects[nonna.group,], 1, function(x) paste(x, collapse="_"))
+    }
+
     
     # create output formatted with first column being sample id and second column group id #
-    # third and fourth columns are the original main effect levels #
+    # third+ columns are the original main effect levels #
     output = data.frame(Sample.ID = temp_data[,samp_id], Group = Group, obs.effects)
     names(output)[1] = samp_id
   }
