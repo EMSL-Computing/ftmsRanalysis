@@ -80,21 +80,21 @@ test_that("transforming from log2 to other data scales works correctly", {
   testCompareSizesAttributes(p2, peakIcrData)
   
   #log10
-  p3 <- edata_transform(peakIcrData, "log10")
+  p3 <- expect_warning(edata_transform(peakIcrData, "log10"))
   expect_true(all(log10(2^peakIcrData$e_data[, sample_cols][non_na_inds]) == p3$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p3$e_data[, sample_cols][na_inds])))
   expect_equal(getDataScale(p3), "log10")
   testCompareSizesAttributes(p3, peakIcrData)
   
   #log
-  p4 <- edata_transform(peakIcrData, "log")
+  p4 <- expect_warning(edata_transform(peakIcrData, "log"))
   expect_true(all(log(2^peakIcrData$e_data[, sample_cols][non_na_inds]) == p4$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p4$e_data[, sample_cols][na_inds])))
   expect_equal(getDataScale(p4), "log")
   testCompareSizesAttributes(p4, peakIcrData)
   
   #pres
-  p5 <- edata_transform(peakIcrData, "pres")
+  p5 <- expect_warning(edata_transform(peakIcrData, "pres"))
   expect_true(all(p5$e_data[, sample_cols][non_na_inds] == 1))
   expect_true(all(p5$e_data[, sample_cols][na_inds] == 0))
   expect_equal(getDataScale(p5), "pres")
@@ -119,21 +119,21 @@ test_that("transforming from log10 to other data scales works correctly", {
   testCompareSizesAttributes(p2, peakIcrData)
   
   #log2
-  p3 <- edata_transform(peakIcrData, "log2")
+  p3 <- expect_warning(edata_transform(peakIcrData, "log2"))
   expect_true(all(log2(10^peakIcrData$e_data[, sample_cols][non_na_inds]) == p3$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p3$e_data[, sample_cols][na_inds])))
   expect_equal(getDataScale(p3), "log2")
   testCompareSizesAttributes(p3, peakIcrData)
   
   #log
-  p4 <- edata_transform(peakIcrData, "log")
+  p4 <- expect_warning(edata_transform(peakIcrData, "log"))
   expect_true(all(log(10^peakIcrData$e_data[, sample_cols][non_na_inds]) == p4$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p4$e_data[, sample_cols][na_inds])))
   expect_equal(getDataScale(p4), "log")
   testCompareSizesAttributes(p4, peakIcrData)
   
   #pres
-  p5 <- edata_transform(peakIcrData, "pres")
+  p5 <- expect_warning(edata_transform(peakIcrData, "pres"))
   expect_true(all(p5$e_data[, sample_cols][non_na_inds] == 1))
   expect_true(all(p5$e_data[, sample_cols][na_inds] == 0))
   expect_equal(getDataScale(p5), "pres")
@@ -152,32 +152,32 @@ test_that("transforming from log to other data scales works correctly", {
   
   #abundance
   p2 <- edata_transform(peakIcrData, "abundance")
-  expect_true(all(10^(peakIcrData$e_data[, sample_cols][non_na_inds]) == p2$e_data[, sample_cols][non_na_inds]))
+  expect_true(all(exp(peakIcrData$e_data[, sample_cols][non_na_inds]) == p2$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p2$e_data[, sample_cols][na_inds])))
   expect_equal(getDataScale(p2), "abundance")
   testCompareSizesAttributes(p2, peakIcrData)
   
   #log2
-  p3 <- edata_transform(peakIcrData, "log2")
-  expect_true(all(log2(10^peakIcrData$e_data[, sample_cols][non_na_inds]) == p3$e_data[, sample_cols][non_na_inds]))
+  p3 <- expect_warning(edata_transform(peakIcrData, "log2"))
+  expect_true(all(log2(exp(peakIcrData$e_data[, sample_cols][non_na_inds])) == p3$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p3$e_data[, sample_cols][na_inds])))
   expect_equal(getDataScale(p3), "log2")
   testCompareSizesAttributes(p3, peakIcrData)
   
   #log
-  p4 <- edata_transform(peakIcrData, "log")
-  expect_true(all(log(10^peakIcrData$e_data[, sample_cols][non_na_inds]) == p4$e_data[, sample_cols][non_na_inds]))
+  p4 <- expect_warning(edata_transform(peakIcrData, "log10"))
+  expect_true(all(log10(exp(peakIcrData$e_data[, sample_cols][non_na_inds])) == p4$e_data[, sample_cols][non_na_inds]))
   expect_true(all(is.na(p4$e_data[, sample_cols][na_inds])))
-  expect_equal(getDataScale(p4), "log")
+  expect_equal(getDataScale(p4), "log10")
   testCompareSizesAttributes(p4, peakIcrData)
   
   #pres
-  p5 <- edata_transform(peakIcrData, "pres")
+  p5 <- expect_warning(edata_transform(peakIcrData, "pres"))
   expect_true(all(p5$e_data[, sample_cols][non_na_inds] == 1))
   expect_true(all(p5$e_data[, sample_cols][na_inds] == 0))
   expect_equal(getDataScale(p5), "pres")
   testCompareSizesAttributes(p5, peakIcrData)
   
-  #log10 : should throw an error
-  expect_error(edata_transform(peakIcrData, "log10"), regexp = "Data is already")
+  #log : should throw an error
+  expect_error(edata_transform(peakIcrData, "log"), regexp = "Data is already")
 })
