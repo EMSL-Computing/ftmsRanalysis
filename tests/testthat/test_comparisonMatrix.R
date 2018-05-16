@@ -16,10 +16,9 @@ test_that("creating comparison matrix works correctly, when group_DF is absent",
   expect_true(ncol(all) == max.pairs)
   
   # one-factor changing comparisons
-  one <- comparisonMatrix(icrObj = peakIcrData, comparisons = "one-factor", control = NULL)
-  expect_true(nrow(one) == 2)
-  expect_true(ncol(one) == max.pairs)
-  
+  expect_error(one <- comparisonMatrix(icrObj = peakIcrData, comparisons = "one-factor", control = NULL), 
+               regexp="The 'one-factor' specification cannot be used without a group data frame")
+
   # specific comparisons
   spec <- comparisonMatrix(icrObj = peakIcrData, comparisons = list(c("EM0011_sample","EM0061_sample"),c("EW0113_sample","EW0163_sample")), control = NULL)
   expect_true(nrow(spec) == 2)
@@ -31,7 +30,7 @@ test_that("creating comparison matrix works correctly, when group_DF is absent",
   expect_true(ncol(contr) == ngroups - 1)
   
   # Trying to compare groups not found in dataset
-  expect_error(comparisonMatrix(icrObj = peakIcrData, comparisons = listc("EM0011sample","EM0061_sample"),c("EW0113_sample","EW0163_sample")), control = NULL), regexp = "not all groups specified in pairs parameter were found in the data")
+  expect_error(comparisonMatrix(icrObj = peakIcrData, comparisons = list(c("EM0011sample","EM0061_sample"),c("EW0113_sample","EW0163_sample")), control = NULL), regexp = "not all groups specified in pairs parameter were found in the data")
   
   #invalid data_scale value: should throw an error
   expect_error(comparisonMatrix(icrObj = peakIcrData, comparisons = "mymethod", control = NULL), regexp = "check that comparisons argument is")

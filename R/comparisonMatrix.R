@@ -16,7 +16,7 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
   groupDF <- attr(icrObj, "group_DF")
   if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF
     
-    if(tolower(comparisons) == "one-factor"){ stop("The 'one-factor' specification cannot be used without a group data frame. Please use 'group_designation' first.") }
+    if(all(tolower(comparisons) == "one-factor")){ stop("The 'one-factor' specification cannot be used without a group data frame. Please use 'group_designation' first.") }
     
     samp.names <- unique(icrObj$f_data[, getFDataColName(icrObj)])
     groupDF <- data.frame(Sample=samp.names, Group=samp.names)
@@ -30,7 +30,13 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
   }
   
   # determine which pairwise comparisons to make
-  if(tolower(comparisons) == "all"){
+  if(is.list(comparisons)){
+    if (!all(unlist(comparisons) %in% groupDF$Group)) {
+      stop("not all groups specified in pairs parameter were found in the data")
+    }
+    
+    pairs <- do.call(cbind, comparisons)
+  } else if(tolower(comparisons) == "all"){
     pairs <- combn(levels(groupDF$Group),2)
   }else if(tolower(comparisons) == "control"){
     pairs <- combn(levels(groupDF$Group),2)
@@ -45,12 +51,6 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
   }else if(tolower(comparisons) == "one-factor"){
     pairs <- one_factor_change(icrObj, groupDF)
     pairs <- do.call(cbind, pairs)
-  }else if(is.list(comparisons)){
-    if (!all(unlist(comparisons) %in% groupDF$Group)) {
-      stop("not all groups specified in pairs parameter were found in the data")
-    }
-    
-    pairs <- do.call(cbind, comparisons)
   }else{
     stop("check that comparisons argument is either 'all', 'control', 'one-factor', or a list of specific comparisons")
   }
