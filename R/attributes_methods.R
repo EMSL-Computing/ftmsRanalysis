@@ -52,3 +52,14 @@ getDataScale <- function(icrData) {
   if (is.null(res)) res <- "abundance"
   return(res)
 }
+
+
+# Internal only function: set data scale parameter
+setDataScale <- function(icrData, data_scale) {
+  if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
+  data_info <- attr(icrData, "data_info")
+  if (is.null(data_info)) data_info <- list()
+  data_info$data_scale <- data_scale
+  attr(icrData, "data_info") <- data_info
+  return(icrData)
+}
