@@ -77,5 +77,7 @@ summarizeComparisons <- function(compIcrData, summary_function) {
     attr(res, attr_name) <- attr(compIcrData, attr_name)
   }
   
+  res <- fticRanalysis:::setDataScale(res, "summary")
+  
   return(res)
 }
