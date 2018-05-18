@@ -11,7 +11,11 @@
 #' @param ylabel y axis label, default is "Kendrick Defect"
 #' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
 #' @return a plotly object
+#' 
 #' @seealso \code{\link{plot_ly}}
+#' 
+#' @author Amanda White
+#' 
 #' @export
 groupKendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA,
                          xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName) {
@@ -37,5 +41,3 @@ groupKendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA,
                            xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle))
   
 }
-
-#kendrickPlot(icrData, title=colnames(icrData$e_data)[2])
