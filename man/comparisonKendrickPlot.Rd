@@ -9,7 +9,7 @@ comparisonKendrickPlot(icrData, title = NA, colorPal = NA,
   ylabel = "Kendrick Defect")
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{icrData object of class 'comparisonSummary' as a result of calling \code{\link{summarizeGroupComparisons}}}
 
 \item{title}{plot title}
 
@@ -29,7 +29,7 @@ comparisonKendrickPlot(icrData, title = NA, colorPal = NA,
 a plotly object
 }
 \description{
-Create a Van Krevelen plot (H:C ratio vs O:C ratio) for a group comparison summary icrData object using Plotly.
+Create a Kendrick plot (Kendrick defect vs Kendrick mass) for a group comparison summary icrData object using Plotly.
 }
 \seealso{
 \code{\link{plot_ly}}

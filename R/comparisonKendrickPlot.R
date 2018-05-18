@@ -1,8 +1,8 @@
 #' Van Krevelen plot of a group comparison icrData object
 #' 
-#' Create a Van Krevelen plot (H:C ratio vs O:C ratio) for a group comparison summary icrData object using Plotly.
+#' Create a Kendrick plot (Kendrick defect vs Kendrick mass) for a group comparison summary icrData object using Plotly.
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData icrData object of class 'comparisonSummary' as a result of calling \code{\link{summarizeGroupComparisons}}
 #' @param title plot title
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
 #' @param colorCName column name of \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.
