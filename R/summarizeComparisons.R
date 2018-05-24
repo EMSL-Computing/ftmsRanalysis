@@ -54,9 +54,11 @@ summarizeComparisons <- function(compIcrData, summary_function) {
                           Summary.Function.Name=summary_function, stringsAsFactors = FALSE)
   
   if (inherits(compIcrData, "peakIcrData")) {
-    res <- as.peakIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Group", getMassColName(compIcrData), mf_cname=getMFColName(compIcrData) )
+    res <- as.peakIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Group", 
+                          getMassColName(compIcrData), mf_cname=getMFColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
   } else if (inherits(compIcrData, "compoundIcrData")) {
-    res <- as.compoundIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Group", getMassColName(compIcrData), getCompoundColName(compIcrData) )
+    res <- as.compoundIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Group", 
+                              getMassColName(compIcrData), getCompoundColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
   }
   
   # copy other attributes to new object
@@ -71,13 +73,16 @@ summarizeComparisons <- function(compIcrData, summary_function) {
   # set class to include 'comparisonSummary'
   class(res) <- c("comparisonSummary", setdiff(class(res), "groupComparison"))
   
-  # compare attributes
+  # copy other attributes
   diffAttrNames <- c("cnames", "class", "names", "split")  #attribute names that should not be the same in the result object
   for (attr_name in setdiff(names(attributes(compIcrData)), diffAttrNames)) {
     attr(res, attr_name) <- attr(compIcrData, attr_name)
   }
   
   res <- fticRanalysis:::setDataScale(res, "summary")
+  if (!is.null(getDatabase(compIcrData))) {
+    res <- fticRanalysis:::setDatabase(res, db)
+  }
   
   return(res)
 }

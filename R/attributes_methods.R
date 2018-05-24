@@ -5,11 +5,23 @@
 #' @param icrData an object of type icrData
 #' @return database (KEGG or MetaCyc)
 #' @export
-get_db <- function(icrData) {
+getDatabase <- function(icrData) {
     if (!inherits(icrData, "icrData")) {
         stop("icrData must be of type icrData")
     } 
     return(attr(icrData, "DB"))
+}
+
+# Internal only function to set database
+setDatabase <- function(icrData, db_name) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!is.character(db_name)) {
+    stop("db_name must be of type character")
+  }
+  attr(icrData, "DB") <- db_name
+  invisible(icrData)
 }
 
 #' Get instrument_type attribute from icrData object
@@ -27,6 +39,20 @@ getInstrumentType <- function(icrData){
   return(attr(icrData, "data_info")$instrument_type)
 }
 
+# Internal only function to set instrument type
+setInstrumentType <- function(icrData, instrType){
+  if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
+  if (!is.character(instrType)) stop("instrType must be of type character")
+  
+  if (is.null(attr(icrData, "data_info"))){
+    attr(icrData, "data_info") <-  list(instrument_type=instrType)
+  } else {
+    attr(icrData, "data_info")$instrument_type <- instrType
+  }
+  invisible(icrData)
+}
+
+
 #' Get group_DF attribute from icrData object
 #' 
 #' Returns the group_DF attribute which gives groups of interest 
@@ -37,6 +63,13 @@ getInstrumentType <- function(icrData){
 getGroupDF <- function(icrData){
   if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
   return(attr(icrData, "group_DF"))
+}
+
+setGroupDF <- function(icrData, group_df) {
+  if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
+  if (!inherits(group_df, "data.frame")) stop("group_df must be of type data.frame")
+  attr(icrData, "group_DF") <- group_df
+  invisible(icrData)
 }
 
 #' Get data scale 
@@ -57,9 +90,10 @@ getDataScale <- function(icrData) {
 # Internal only function: set data scale parameter
 setDataScale <- function(icrData, data_scale) {
   if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
+  if (!is.character(data_scale)) stop("data_scale must be of type character")
   data_info <- attr(icrData, "data_info")
   if (is.null(data_info)) data_info <- list()
   data_info$data_scale <- data_scale
   attr(icrData, "data_info") <- data_info
-  return(icrData)
+  invisible(icrData)
 }

@@ -18,3 +18,6 @@ compoundIcrObject
 \description{
 Map peak leve ICR data to compounds from either KEGG or MetaCyc.
 }
+\author{
+Amanda White
+}

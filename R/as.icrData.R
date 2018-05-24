@@ -318,7 +318,7 @@ as.compoundIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname,
 #' @details \code{as.reactionIcrData} constructs a reactionIcrData object which is an icrData object where the rows of \code{e_data} correspond to reactions.
 #' @rdname as.reactionIcrData
 
-as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname){
+as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname, instrument_type = "12T", db=NA...){
   
   # initial checks #
   
@@ -388,6 +388,10 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
   # set filters attributes #
   attr(res, "filters") = NULL
   
+  attr(res, "data_info") <- list(data_scale=NA, instrument_type=instrument_type)
+  
+  attr(res, "DB") <- db
+  
   class(res) <- c("reactionIcrData", "icrData")
   return(res)
 }
@@ -411,7 +415,7 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
 #' @rdname as.moduleIcrData
 
 as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, module_cname, module_node_cname, 
-                             node_label_cname=NULL, ...){
+                             node_label_cname=NULL, instrument_type = "12T", db=NA, ...){
   
   # initial checks #
   
@@ -483,7 +487,11 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
   
   # set filters attributes #
   attr(res, "filters") = NULL
+  
+  attr(res, "data_info") <- list(data_scale=NA, instrument_type=instrument_type)
 
+  attr(res, "DB") <- db
+  
   class(res) <- c("moduleIcrData", "icrData")
   return(res)
 }

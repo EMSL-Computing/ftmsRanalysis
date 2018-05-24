@@ -105,5 +105,9 @@ summarizeGroups <- function(icrData, summary_functions) {
   # set data scale
   res <- fticRanalysis:::setDataScale(res, "summary")
   
+  res <- fticRanalysis:::setInstrumentType(res, getInstrumentType(icrData))
+  if (!is.null(getDatabase(icrData))) res <- fticRanalysis:::setDatabase(res, getDatabase(icrData))
+  
+  
   return(res)
 }
