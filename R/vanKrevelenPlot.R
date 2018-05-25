@@ -40,7 +40,7 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
 
   return(fticRanalysis:::.vanKrevelenPlotInternal(icrData, title=title, colorPal=colorPal, colorCName=colorCName, 
-                                  vkBoundarySet=vkBoundarySet, showVKBounds=TRUE,
+                                  vkBoundarySet=vkBoundarySet, showVKBounds=showVKBounds,
                                   xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle, logColorCol=logColorCol))
 }
 
