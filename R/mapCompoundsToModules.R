@@ -121,13 +121,13 @@ mapCompoundsToModules <- function(compoundIcrData) {
   
   result <- as.moduleIcrData(e_data, compoundIcrData$f_data, e_meta, edata_cname = "Module_Node_Comb", 
                              fdata_cname=getFDataColName(compoundIcrData), module_cname="Module", 
-                             module_node_cname = "Module_Node", instrument_type = getInstrumentType(compIcrData), 
-                             db=getDatabase(compIcrData))
+                             module_node_cname = "Module_Node", instrument_type = getInstrumentType(compoundIcrData), 
+                             db=getDatabase(compoundIcrData))
 
   #attributes from compoundIcrData to carry forward:
 #   result <- fticRanalysis:::setDatabase(result, db)
-  result <- fticRanalysis:::setGroupDF(result, getGroupDF(compIcrData))
-#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compIcrData))
+  result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundIcrData))
+#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundIcrData))
   attr(result, "filters") <- attr(compoundIcrData, "filters")
   
   ## TODO: are there any other cnames that need to be carried through??
