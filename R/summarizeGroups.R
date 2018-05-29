@@ -91,13 +91,23 @@ summarizeGroups <- function(icrData, summary_functions) {
     if (!is.null(cnames.old[[cc]]))
       cnames.new[[cc]] <- cnames.old[[cc]]
   }
-  attr(res, "group_DF") <- attr(icrData, "group_DF")
   attr(res, "cnames") <- cnames.new
-  attr(res, "filters") <- attr(icrData, "filters")
-  attr(res, "instrument_type") <- attr(icrData, "instrument_type")
 
+  # copy attributes from original object to new
+  diffAttrNames <- c("cnames", "class", "names", "split")  #attribute names that should not be the same in the result object
+  for (attr_name in setdiff(names(attributes(icrData)), diffAttrNames)) {
+    attr(res, attr_name) <- attr(icrData, attr_name)
+  }
+  
   # set class to include 'groupSummary'
   class(res) <- c("groupSummary", class(res))
+  
+  # set data scale
+  res <- fticRanalysis:::setDataScale(res, "summary")
+  
+  res <- fticRanalysis:::setInstrumentType(res, getInstrumentType(icrData))
+  if (!is.null(getDatabase(icrData))) res <- fticRanalysis:::setDatabase(res, getDatabase(icrData))
+  
   
   return(res)
 }

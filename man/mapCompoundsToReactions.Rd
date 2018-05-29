@@ -16,3 +16,6 @@ reactionIcrData object
 Map compound data to KEGG or MetaCyc reactions. The database used
 is determined by the database previously used to map peaks to compounds.
 }
+\author{
+Amanda White
+}

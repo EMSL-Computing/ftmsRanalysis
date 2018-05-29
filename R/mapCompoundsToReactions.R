@@ -4,16 +4,19 @@
 #' is determined by the database previously used to map peaks to compounds.
 #' @param compoundIcrData an object of type compoundIcrData
 #' @return reactionIcrData object
+#' 
+#' @author Amanda White
+#' 
 #' @export
 mapCompoundsToReactions <- function(compoundIcrData) {
   if (!inherits(compoundIcrData, "compoundIcrData")) {
     stop("compoundIcrData must be an object of type compoundIcrData")
   }
   if (anyDuplicated(compoundIcrData$e_data[, getEDataColName(compoundIcrData)]) > 0) {
-    stop("compoundIcrData cannot have duplicate compound rows in e_data")
+    stop("compoundIcrData$e_data cannot have duplicates in the getEDataColName(compoundIcrData) column")
   }
   
-  db <- get_db(compoundIcrData)
+  db <- getDatabase(compoundIcrData)
   if (toupper(db) == "KEGG") {
     require(KeggData)
     data("kegg_reactions")
@@ -28,12 +31,16 @@ mapCompoundsToReactions <- function(compoundIcrData) {
     require(MetaCycData)
     data("mc_reactions")
     reactions <- mc_reactions %>%
-      rename(ENZYME=`EC-NUMBER`)
+      dplyr::rename(ENZYME=`EC-NUMBER`)
     
     data("mc_compounds")
     compounds <- mc_compounds 
     data("mc_compound_reaction_map")
     comp_rxn_map <- mc_compound_reaction_map
+  }
+  
+  if (getDataScale(compoundIcrData) != "pres") {
+    compoundIcrData <- edata_transform(compoundIcrData, data_scale="pres")
   }
 
   # data frame of Compounds and corresponding Reactions
@@ -45,70 +52,71 @@ mapCompoundsToReactions <- function(compoundIcrData) {
     dplyr::filter(!is.na(Reaction))
   
   # add compounds to e_data 
-  e_data <- select_(compoundIcrData$e_meta, getCompoundColName(compoundIcrData), getEDataColName(compoundIcrData)) %>%
-    left_join(compoundIcrData$e_data) %>%
-    select(-matches(getEDataColName(compoundIcrData)))
+  e_data <- dplyr::select_(compoundIcrData$e_meta, getCompoundColName(compoundIcrData), getEDataColName(compoundIcrData)) %>%
+    dplyr::left_join(compoundIcrData$e_data, by=getEDataColName(compoundIcrData)) %>%
+    dplyr::select(-dplyr::matches(getEDataColName(compoundIcrData)))
   
   # join e_data to reactions table by compound column
   join_by <- c("Compound")
   names(join_by) <- getCompoundColName(compoundIcrData)
-  e_data <- inner_join(comp_rxn, e_data, by=join_by)
+  e_data <- dplyr::inner_join(comp_rxn, e_data, by=join_by)
   
   # get compounds observed in this dataset for each reaction (for e_meta)
-  observed_comp_per_rxn <- e_data %>% mutate(n_samples_848234=rowSums(select(., -one_of(c(getCompoundColName(compoundIcrData), "Reaction"))))) %>%
-    select_(getCompoundColName(compoundIcrData), "Reaction", "n_samples_848234") %>%
-    filter(n_samples_848234 > 0) %>%
-    select(-n_samples_848234) %>%
-    group_by(Reaction) %>%
-    rename_(Compound = getCompoundColName(compoundIcrData)) %>%
-    summarise(Compounds_in_Dataset=paste(Compound, collapse=";"))
+  observed_comp_per_rxn <- e_data %>% dplyr::mutate(n_samples_848234=rowSums(dplyr::select(., -dplyr::one_of(c(getCompoundColName(compoundIcrData), "Reaction"))))) %>%
+    dplyr::select_(getCompoundColName(compoundIcrData), "Reaction", "n_samples_848234") %>%
+    dplyr::filter(n_samples_848234 > 0) %>%
+    dplyr::select(-n_samples_848234) %>%
+    dplyr::group_by(Reaction) %>%
+    dplyr::rename_(Compound = getCompoundColName(compoundIcrData)) %>%
+    dplyr::summarise(Compounds_in_Dataset=paste(Compound, collapse=";"))
     
   # collapse Reaction rows in e_data
   e_data <- e_data %>% 
-    group_by(Reaction) %>%
-    select(-matches(getCompoundColName(compoundIcrData))) %>%
-    summarise_all(funs(sum)) %>%
-    ungroup() %>%
+    dplyr::group_by(Reaction) %>%
+    dplyr::select(-dplyr::matches(getCompoundColName(compoundIcrData))) %>%
+    dplyr::summarise_all(dplyr::funs(sum)) %>%
+    dplyr::ungroup() %>%
     as.data.frame()
   
   e_meta <- data.frame(Reaction=e_data$Reaction, stringsAsFactors = FALSE) %>%
-    left_join(select(reactions, REACTION, ENZYME), by=c('Reaction'='REACTION')) %>%
-    rename(EC_Number=ENZYME) %>%
-    left_join(observed_comp_per_rxn)
+    dplyr::left_join(dplyr::select(reactions, REACTION, ENZYME), by=c('Reaction'='REACTION')) %>%
+    dplyr::rename(EC_Number=ENZYME) %>%
+    dplyr::left_join(observed_comp_per_rxn, by="Reaction")
   
   # get # observable compounds per reaction subject to mass filter applied to compoundIcrData
-  obs_comp <- inner_join(comp_rxn, compounds, by=c('Compound'='COMPOUND'))
+  obs_comp <- dplyr::inner_join(comp_rxn, compounds, by=c('Compound'='COMPOUND'))
   if (!is.null(attr(compoundIcrData, "filters")) && !is.null(attr(compoundIcrData, "filters")$massFilt)) {
     thresh.min <- min(attr(compoundIcrData, "filters")$massFilt$threshold)
     thresh.max <- max(attr(compoundIcrData, "filters")$massFilt$threshold)
     
     if (toupper(db) == "KEGG") {
-      obs_comp <- icRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
+      obs_comp <- fticRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
     } else if (toupper(db) == "METACYC") {
-      obs_comp <- icRanalysis:::metacyc_mass_filter(obs_comp, thresh.min, thresh.max)
+      obs_comp <- fticRanalysis:::metacyc_mass_filter(obs_comp, thresh.min, thresh.max)
     } else {
       stop(paste("Unknown database:", db))
     }
   }
   
-  obs_comp <- group_by(obs_comp, Reaction) %>%
-    summarise(`N_Observable_Compounds`=n_distinct(Compound))
-  e_meta <- left_join(e_meta, obs_comp)
+  obs_comp <- dplyr::group_by(obs_comp, Reaction) %>%
+    dplyr::summarise(`N_Observable_Compounds`=n_distinct(Compound))
+  e_meta <- dplyr::left_join(e_meta, obs_comp, by="Reaction")
   
   result <- as.reactionIcrData(e_data, compoundIcrData$f_data, e_meta, edata_cname = "Reaction", 
-                               fdata_cname=getFDataColName(compoundIcrData), reaction_cname="Reaction")
+                               fdata_cname=getFDataColName(compoundIcrData), reaction_cname="Reaction", 
+                               instrument_type=getInstrumentType(compoundIcrData), db=getDatabase(compoundIcrData))
   
   #attributes from compoundIcrData to carry forward:
-  attr(result, "DB") <- db
+#   result <- fticRanalysis:::setDatabase(result, db)
+  result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundIcrData))
+#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundIcrData))
+#   result <- fticRanalysis:::setDataScale(result, NA)
   attr(result, "filters") <- attr(compoundIcrData, "filters")
-  attr(result, "group_DF") <- attr(compoundIcrData, "group_DF")
-  attr(result, "instrument_type") <- attr(compoundIcrData, "instrument_type")
   
   ## TODO: are there any other cnames that need to be carried through??
   if (!is.null(attr(compoundIcrData, "cnames")$extraction_cname)) {
     attr(result, "cnames")$extaction_cname <- attr(compoundIcrData, "cnames")$extraction_cname
   }
-  
   
   return(result)
 }

@@ -17,3 +17,6 @@ Map compound data to KEGG or MetaCyc modules The database used
 is determined by the database previously used to map peaks to compounds.
 For MetaCyc, modules are pathways that are not super-pathways
 }
+\author{
+Amanda White
+}

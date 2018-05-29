@@ -166,12 +166,8 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
   samp_cnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-  if(length(samp_cnames) == 1){
-    ind <- icrData$e_data[,samp_cnames] >0
-  }else{
-    ind <- rowSums(icrData$e_data[, samp_cnames]) > 0
-  }
-  
+  ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData)) > 0
+
   obs.peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
   plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs.peaks), ]
   
@@ -238,6 +234,7 @@ getFactorColorPalette <- function(level_names) {
     pal_name <- "Set3"
   else 
     pal_name <- "Set1"
-  colorPal<- scales::col_factor(pal_name, levels=level_names)   
+  pal_colors <- RColorBrewer::brewer.pal(length(level_names), pal_name)
+  colorPal<- scales::col_factor(pal_colors, levels=level_names)   
   return(colorPal)
 }

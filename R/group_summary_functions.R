@@ -5,19 +5,32 @@
 # @param data_scale data scale, the result of \code{\link{getDataScale}} function applied to the icrData object 
 # from which x is extracted 
 n_present <- function(x, data_scale) {
-  if (data_scale %in% c('pres', 'abundance')) 
-    return(as.integer(rowSums(x>0)))
-  else 
-    return(as.integer(rowSums(!is.na(x))))
+  if (data_scale %in% c('pres', 'abundance')) {
+    if (identical(dim(x), NULL)) { # vector
+      return(as.integer(x>0))
+    } else { # 2-dimensional
+      return(as.integer(rowSums(x>0)))
+    }
+  } else {
+    if (identical(dim(x), NULL)) { # vector
+      return(as.integer(!is.na(x)))
+    } else { # 2-dimensional
+      return(as.integer(rowSums(!is.na(x))))
+    }
+  }
 } 
 attr(n_present, "default_column_name") <- "n_present"
 
 # @description \code{prop_present} is a group summary function to count the proportion of samples in which a row is observed. 
 prop_present <- function(x, data_scale) {
-  if (data_scale %in% c('pres', 'abundance')) 
-    return(rowSums(x>0)/ncol(x))
-  else 
-    return(rowSums(!is.na(x))/ncol(x))
+  counts <- n_present(x, data_scale)
+  
+  if (identical(dim(x), NULL)) { # vector
+    return(counts) 
+  } else {
+    prop <- counts/ncol(x)
+    return(prop)
+  }
 }
 attr(prop_present, "default_column_name") <- "prop_present"
 
