@@ -4,14 +4,14 @@
 \alias{assign_class}
 \title{Assign compound class to each peak/mass}
 \usage{
-assign_class(icrData, boundary_set = "bs1", calc_vankrev = TRUE)
+assign_class(icrData, boundary_set = "bs1", calc_ratios = TRUE)
 }
 \arguments{
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{boundary_set}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1".}
 
-\item{calc_vankrev}{logical argument, if Oxygen:Carbon and Hydrogen:Carbon ratios are not already calculated, should they be added to the data? Defaults to TRUE.}
+\item{calc_ratios}{logical argument, if elemental ratios needed for class assignment are not already calculated, should they be added to the data? Defaults to TRUE.}
 }
 \value{
 an object of the same class as \code{icrData} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible

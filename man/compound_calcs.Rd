@@ -5,7 +5,7 @@
 \title{Wrapper function to calculate values associated with individual peaks/compounds}
 \usage{
 compound_calcs(icrData, calc_fns = c("calc_aroma", "calc_dbe", "calc_gibbs",
-  "calc_kendrick", "calc_nosc", "calc_vankrev"))
+  "calc_kendrick", "calc_nosc", "calc_element_ratios"))
 }
 \arguments{
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
@@ -38,7 +38,7 @@ calc_kendrick \tab calculates Kendrick Mass and Kendrick Defect \cr
 calc_nosc \tab calculates nominal oxidation state of Carbon (NOSC) \cr
  \tab NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4$}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4} \cr
  \tab \cr
-calc_vankrev \tab calculates O:C and H:C ratios \cr
+calc_element_ratios \tab calculates O:C, H:C, P:C, N:C, and N:P ratios \cr
 \cr
 }
 }

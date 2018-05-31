@@ -184,6 +184,114 @@ setHCRatioColName <- function(icrData, cname) {
   return(icrData)
 }
 
+#' Get the name of the N:C ratio column
+#' 
+#' Returns the name of the column in the e_meta element that 
+#' contains N:C ratio data 
+#'
+#' @param icrData an object of type icrData
+#' @return name of N:C ratio column
+#' @export
+getNCRatioColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  return(attr(icrData, "cnames")$n2c_cname)
+}
+
+#' Set the name of the N:C ratio column
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains N:C ratio data.
+#'
+#' @param icrData an object of type icrData
+#' @param cname column name
+#' @return updated icrData
+#' 
+#' 
+setNCRatioColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!(cname %in% names(icrData$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(icrData, "cnames")$n2c_cname <- cname
+  return(icrData)
+}
+
+#' Get the name of the P:C ratio column
+#' 
+#' Returns the name of the column in the e_meta element that 
+#' contains P:C ratio data.
+#'
+#' @param icrData an object of type icrData
+#' @return name of O:C ratio column
+#' @export
+getPCRatioColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  return(attr(icrData, "cnames")$p2c_cname)
+}
+
+#' Set the name of the P:C ratio column
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains P:C ratio data.
+#'
+#' @param icrData an object of type icrData
+#' @param cname column name
+#' @return updated icrData
+#' 
+#' 
+setPCRatioColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!(cname %in% names(icrData$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(icrData, "cnames")$p2c_cname <- cname
+  return(icrData)
+}
+
+#' Get the name of the N:P ratio column
+#' 
+#' Returns the name of the column in the e_meta element that 
+#' contains N:P ratio data for Van Krevelen plots.
+#'
+#' @param icrData an object of type icrData
+#' @return name of N:P ratio column
+#' @export
+getNPRatioColName <- function(icrData) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  return(attr(icrData, "cnames")$n2p_cname)
+}
+
+#' Set the name of the N:P ratio column
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains N:P ratio data for Van Krevelen plots.
+#'
+#' @param icrData an object of type icrData
+#' @param cname column name
+#' @return updated icrData
+#' 
+#' 
+setNPRatioColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!(cname %in% names(icrData$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(icrData, "cnames")$n2p_cname <- cname
+  return(icrData)
+}
+
 #' Get the name of the mass column
 #' 
 #' Returns the name of the column in the e_meta element that 

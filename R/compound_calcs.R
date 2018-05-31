@@ -24,7 +24,7 @@
 #' calc_nosc \tab calculates nominal oxidation state of Carbon (NOSC) \cr
 #'  \tab NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4$}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4} \cr
 #'  \tab \cr
-#' calc_vankrev \tab calculates O:C and H:C ratios \cr
+#' calc_element_ratios \tab calculates O:C, H:C, P:C, N:C, and N:P ratios \cr
 #' \cr
 #' }
 #' 
@@ -37,7 +37,7 @@
 #' @author Kelly Stratton
 #' @export
 
-compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_vankrev")){
+compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")){
   
   ## initial checks ##
   
@@ -45,7 +45,7 @@ compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
   if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
   
   # checks for calc_fns #
-  valid_fns <- c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_vankrev")
+  valid_fns <- c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")
   if(!inherits(calc_fns, "character")){stop("calc_fns must be a character vector")}
   if(!all(calc_fns %in% valid_fns)){stop("calc_fns must contain valid function names. See documentation for more information.")}
   if(length(calc_fns) < 1){stop("calc_fns must contain at least one valid function name")}
