@@ -26,8 +26,8 @@ print.peakIcrData <- function(picr) {
     res <- c(res, sprintf("Meta data columns: [%s]", paste(colnames(icrObj$e_meta), collapse = ", ")))
   }
   
-  if (!is.null(attr(icrObj, "group_DF"))) {
-    group.df <- attr(icrObj, "group_DF")
+  if (!is.null(getGroupDF(icrObj))) {
+    group.df <- getGroupDF(icrObj)
     group.str <- sprintf("Group info: main effects=[%s]", paste(attr(group.df, "main_effects"), collapse=", "))
     if (!is.null(attr(group.df, "covariates"))) {
       group.str <- sprintf("%s, covariates=[%s]", group.str, paste(attr(group.df, "covariates"), collapse=", "))
@@ -107,7 +107,7 @@ print.groupSummary <- function(icrData) {
   res <- c(sprintf("groupSummary object derived from %s", class(icrData)[2]), 
            sprintf("# Rows: %d", nrow(icrData$e_data)),
            sprintf("Summary columns: [%s]", paste(icrData$f_data[, getFDataColName(icrData)], collapse = ", ")),
-           sprintf("Group name: %s", groupname),
+           sprintf("Groups: %s", paste(groupname, collapse=", ")),
            sprintf("# Samples in group: %d", nrow(getGroupDF(icrData))))
   
   res <- c(res, .common_print_data(icrData))

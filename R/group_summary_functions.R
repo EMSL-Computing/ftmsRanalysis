@@ -19,7 +19,7 @@ n_present <- function(x, data_scale) {
     }
   }
 } 
-attr(n_present, "default_column_name") <- "n_present"
+attr(n_present, "function_name") <- "n_present"
 
 # @description \code{prop_present} is a group summary function to count the proportion of samples in which a row is observed. 
 prop_present <- function(x, data_scale) {
@@ -32,7 +32,7 @@ prop_present <- function(x, data_scale) {
     return(prop)
   }
 }
-attr(prop_present, "default_column_name") <- "prop_present"
+attr(prop_present, "function_name") <- "prop_present"
 
 #' @title Group summary functions
 #' @description \code{getGroupSummaryFunctionNames} returns the names of valid group summary
