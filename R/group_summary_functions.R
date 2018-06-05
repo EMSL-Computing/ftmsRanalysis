@@ -7,30 +7,27 @@
 n_present <- function(x, data_scale) {
   if (data_scale %in% c('pres', 'abundance')) {
     if (identical(dim(x), NULL)) { # vector
-      return(as.integer(x>0))
+      res <- as.integer(x>0)
     } else { # 2-dimensional
-      return(as.integer(rowSums(x>0)))
+      res <- as.integer(rowSums(x>0))
     }
   } else {
     if (identical(dim(x), NULL)) { # vector
-      return(as.integer(!is.na(x)))
+      res <- as.integer(!is.na(x))
     } else { # 2-dimensional
-      return(as.integer(rowSums(!is.na(x))))
+      res <- as.integer(rowSums(!is.na(x)))
     }
   }
+  return(data.frame(n_present=res))
 } 
 attr(n_present, "function_name") <- "n_present"
 
 # @description \code{prop_present} is a group summary function to count the proportion of samples in which a row is observed. 
 prop_present <- function(x, data_scale) {
   counts <- n_present(x, data_scale)
-  
-  if (identical(dim(x), NULL)) { # vector
-    return(counts) 
-  } else {
-    prop <- counts/ncol(x)
-    return(prop)
-  }
+  prop <- counts/ncol(counts)
+  colnames(prop) <- "prop_present"
+  return(prop)  
 }
 attr(prop_present, "function_name") <- "prop_present"
 

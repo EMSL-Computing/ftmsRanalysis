@@ -6,9 +6,8 @@
 #' 
 #' @param icrData an object of class 'peakIcrData' or 'compoundIcrData' or a ddo of icrData objects 
 #' (e.g. the output of \code{\link{divideByGroup}})
-#' @param summary_functions list or vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
-#' summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. If the
-#' list or vector has names, those names will be used to name the resulting columns in the returned object.
+#' @param summary_functions vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
+#' summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. 
 #' @return If the input is an icrData object, the result will be a new \code{icrData} object where each provided summary function will be applied to each group found in
 #' \code{getGroupDF(icrData)}. If \code{getGroupDF(icrData) == null} the function will assume all samples belong to
 #' a single group. If the input is a ddo the result will be a ddo where each value is the result of applying
@@ -20,7 +19,7 @@
 #' 
 #' @examples
 #' data("peakIcrProcessed")
-#' summary1 <- summarizeGroups(peakIcrProcessed, summary_functions=list(count="n_present", proportion="prop_present"))
+#' summary1 <- summarizeGroups(peakIcrProcessed, summary_functions=c("n_present", "prop_present"))
 #' 
 #' groupDdo <- divideByGroup(peakIcrProcessed)
 #' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
@@ -57,17 +56,19 @@ summarizeGroups <- function(icrData, summary_functions) {
   })
   
   # if summary_functions has any missing names, fill them in so they can be used to name output columns
-  if (is.null(names(summary_functions))) {
-    names(summary_functions) <- unlist(lapply(summary_functions, function(f) attr(f, "function_name")))
-  } else if (any(is.na(names(summary_functions))) | any(nchar(names(summary_functions)) == 0)) {
-    ind <- which(is.na(names(summary_functions)) | nchar(names(summary_functions)) == 0)
-    names(summary_functions)[ind] <- unlist(lapply(summary_functions[ind], function(f) attr(f, "function_name")))
-  }
+  # if (is.null(names(summary_functions))) {
+  #   names(summary_functions) <- unlist(lapply(summary_functions, function(f) attr(f, "function_name")))
+  # } else if (any(is.na(names(summary_functions))) | any(nchar(names(summary_functions)) == 0)) {
+  #   ind <- which(is.na(names(summary_functions)) | nchar(names(summary_functions)) == 0)
+  #   names(summary_functions)[ind] <- unlist(lapply(summary_functions[ind], function(f) attr(f, "function_name")))
+  # }
 
   data_scale <- getDataScale(icrData)
   groupDF <- getGroupDF(icrData)
   if (is.null(groupDF)) {
-    ## TODO something
+    samp_names <- unique(icrData$f_data[, getFDataColName(icrData)])
+    groupDF <- data.frame(Sample=samp_names, Group=samp_names)
+    colnames(groupDF)[1] <- getFDataColName(icrData)
   }
   
   # make sure all samples in groupDF are represented in e_data
@@ -82,7 +83,8 @@ summarizeGroups <- function(icrData, summary_functions) {
     grp_cols <- lapply(summary_functions, function(f) {
       f(icrData$e_data[,samp_cols], data_scale)
     })
-    names(grp_cols) <- paste0(grp_name, "_", names(grp_cols))
+    grp_cols <- do.call(cbind, grp_cols)
+    names(grp_cols) <- paste0(grp_name, "_", colnames(grp_cols))
     
     tmp_fdata <- data.frame(Group_Summary_Column=names(grp_cols), Group=grp_name, Num_Samples=length(samp_cols), 
                             Summary_Function_Name=summary_func_names, stringsAsFactors = FALSE)
@@ -90,9 +92,9 @@ summarizeGroups <- function(icrData, summary_functions) {
     return(grp_cols)
   })
   new_fdata <- do.call(rbind, lapply(edata_cols, function(x) attr(x, "f_data")))
-  edata_cols <- unlist(edata_cols, recursive = FALSE)
+  # edata_cols <- unlist(edata_cols, recursive = FALSE)
   
-  new_edata <- data.frame(icrData$e_data[, getEDataColName(icrData)], edata_cols)
+  new_edata <- data.frame(icrData$e_data[, getEDataColName(icrData)], do.call(cbind, edata_cols))
   colnames(new_edata)[1] <- getEDataColName(icrData)
 
   # new_fdata <- data.frame(Group.Summary.Column=names(edata_cols), Num.Samples=length(samp_cols), 

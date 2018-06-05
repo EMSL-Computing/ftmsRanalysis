@@ -10,9 +10,8 @@ summarizeGroups(icrData, summary_functions)
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData' or a ddo of icrData objects 
 (e.g. the output of \code{\link{divideByGroup}})}
 
-\item{summary_functions}{list or vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
-summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. If the
-list or vector has names, those names will be used to name the resulting columns in the returned object.}
+\item{summary_functions}{vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
+summary function names are given by \code{\link{getGroupSummaryFunctionNames}}.}
 }
 \value{
 If the input is an icrData object, the result will be a new \code{icrData} object where each provided summary function will be applied to each group found in
@@ -27,7 +26,7 @@ samples. It must return a data frame with the same number of rows and one column
 }
 \examples{
 data("peakIcrProcessed")
-summary1 <- summarizeGroups(peakIcrProcessed, summary_functions=list(count="n_present", proportion="prop_present"))
+summary1 <- summarizeGroups(peakIcrProcessed, summary_functions=c("n_present", "prop_present"))
 
 groupDdo <- divideByGroup(peakIcrProcessed)
 summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
