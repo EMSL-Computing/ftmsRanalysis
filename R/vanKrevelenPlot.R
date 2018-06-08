@@ -166,7 +166,7 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
   samp_cnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-  ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData)) > 0
+  ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData))[,1] > 0
 
   obs.peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
   plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs.peaks), ]

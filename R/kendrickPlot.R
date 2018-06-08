@@ -104,16 +104,16 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
       pal = RColorBrewer::brewer.pal(n = 9, "YlOrRd")[3:9]
       if (logColorCol) { #log transform data
         if (min(val_range) == 0) {
-          val_range2 <- log(1+val_range)
+          val_range <- log(1+val_range)
           plot_data[, colorCName] <- log(1+plot_data[, colorCName])
         } else {
-          val_range2 <- log(val_range)
+          val_range <- log(val_range)
           plot_data[, colorCName] <- log(plot_data[, colorCName])
         }
-        colorPal <- scales::col_numeric(palette=pal, domain=val_range2)
-        vals <- seq(val_range2[1], val_range2[2], length=100)
+        colorPal <- scales::col_numeric(palette=pal, domain=val_range)
+        vals <- seq(val_range[1], val_range[2], length=100)
         col_vec <- colorPal(vals)
-        names(col_vec) <- seq(val_range2[1], val_range2[2], length=100)
+        names(col_vec) <- seq(val_range[1], val_range[2], length=100)
       } else {
         colorPal <- scales::col_numeric(palette=pal, domain=val_range)
         vals <- seq(val_range[1], val_range[2], length=100)
@@ -156,11 +156,7 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
   samp_cnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-  if(length(samp_cnames) == 1){
-    ind <- icrData$e_data[,samp_cnames] >0
-  }else{
-    ind <- rowSums(icrData$e_data[, samp_cnames]) > 0
-  }
+  ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData))[,1] > 0
   
   obs.peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
   plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs.peaks), ]

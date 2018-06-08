@@ -17,5 +17,5 @@ comparisonMatrix(icrObj, comparisons, control = NULL)
 a matrix of which pairwise comparisons to make
 }
 \description{
-Construct a matrix of pairwise comparisons (paris can be either samples or groups)
+Construct a matrix of pairwise comparisons (pairs can be either samples or groups)
 }
