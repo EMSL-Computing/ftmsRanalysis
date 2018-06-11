@@ -84,14 +84,15 @@ summarizeGroups <- function(icrData, summary_functions) {
       f(icrData$e_data[,samp_cols], data_scale)
     })
     grp_cols <- do.call(cbind, grp_cols)
-    names(grp_cols) <- paste0(grp_name, "_", colnames(grp_cols))
-    
+    names(grp_cols) <- make.names(paste0(grp_name, "_", colnames(grp_cols)))
     tmp_fdata <- data.frame(Group_Summary_Column=names(grp_cols), Group=grp_name, Num_Samples=length(samp_cols), 
                             Summary_Function_Name=summary_func_names, stringsAsFactors = FALSE)
     attr(grp_cols, "f_data") <- tmp_fdata
     return(grp_cols)
   })
+  
   new_fdata <- do.call(rbind, lapply(edata_cols, function(x) attr(x, "f_data")))
+  
   # edata_cols <- unlist(edata_cols, recursive = FALSE)
   
   new_edata <- data.frame(icrData$e_data[, getEDataColName(icrData)], do.call(cbind, edata_cols))
