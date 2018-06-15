@@ -4,13 +4,14 @@
 \alias{summarizeComparisons}
 \title{Summarize group comparisons}
 \usage{
-summarizeComparisons(compIcrData, summary_function)
+summarizeComparisons(compIcrData, summary_functions)
 }
 \arguments{
 \item{compIcrData}{a groupComparison object or a ddo of groupComparison objects, i.e. the output 
 of \code{\link{divideByGroupComparisons}}.}
 
-\item{summary_function}{name of a summary function, e.g. "n_present"}
+\item{summary_functions}{vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
+summary function names are given by \code{\link{getGroupComparisonSummaryFunctionNames}}.}
 }
 \value{
 a comparisonSummary object or a ddo of comparisonSummary objects

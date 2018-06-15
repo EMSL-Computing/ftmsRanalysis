@@ -140,3 +140,13 @@ gtest.standard = function(data, group){
   
   return(list(pvals = pvalue, major.group = major.group))
 }
+
+
+
+#' @title Group comparison summary functions
+#' @description \code{getGroupComparisonSummaryFunctionNames} returns the names of valid group comparison summary
+#' functions that may be used with the \code{\link{summarizeGroupComparisons}} function.
+# @export
+getGroupComparisonSummaryFunctionNames <- function() {
+  return(c("uniqueness_gtest"))
+}
