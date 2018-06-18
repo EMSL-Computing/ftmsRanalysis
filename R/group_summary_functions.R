@@ -25,7 +25,7 @@ attr(n_present, "function_name") <- "n_present"
 # @description \code{prop_present} is a group summary function to count the proportion of samples in which a row is observed. 
 prop_present <- function(x, data_scale) {
   counts <- n_present(x, data_scale)
-  prop <- counts/ncol(counts)
+  prop <- counts/ncol(x)
   colnames(prop) <- "prop_present"
   return(prop)  
 }
