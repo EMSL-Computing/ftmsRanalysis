@@ -2,16 +2,22 @@
 #' 
 #' Summarize a group comparisons object or a ddo of group comparisons objects. This function
 #' applies a summary function to the columns of \code{compIcrData$e_data} corresponding to each
-#' column to calculate a summary column for each group.
+#' column to calculate a summary column for each group. 
+#' 
+#' Currently this function does not allow executing the same summary function multiple times
+#' with different parameters.
 #'
 #' @param compIcrData a groupComparison object or a ddo of groupComparison objects, i.e. the output 
 #' of \code{\link{divideByGroupComparisons}}.
 #' @param summary_functions vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
 #' summary function names are given by \code{\link{getGroupComparisonSummaryFunctionNames}}. 
+#' @param summary_function_params named list of list of other parameters to pass to the summary functions. Names should
+#' match values in \code{summary_functions}, each value should be a list of name/value parameters, e.g.
+#' \code{list(uniqueness_gtest=list(pval_threshold=0.01))}.
 #'
 #' @return a comparisonSummary object or a ddo of comparisonSummary objects
 #' @export
-summarizeComparisons <- function(compIcrData, summary_functions) {
+summarizeComparisons <- function(compIcrData, summary_functions, summary_function_params=NULL) {
   if (missing(compIcrData)) stop("compIcrData is missing")
   if (missing(compIcrData)) stop("summary_functions is missing")
   if (length(summary_functions) != 1) stop("summary_functions must have length 1")
@@ -19,18 +25,27 @@ summarizeComparisons <- function(compIcrData, summary_functions) {
   if (!(inherits(compIcrData, "groupComparison") | inherits(compIcrData, "ddo") ) )
     stop("compIcrData must be of type groupComparison or a ddo containing groupComparisons")
   
+  if (!is.null(summary_function_params)) {
+    if (!is.list(summary_function_params)) {
+      stop("summary_function_params must be a list")
+    }
+    if (!all(names(summary_function_params) %in% summary_functions)) {
+      stop("all names(summary_function_params) must appear in summary_functions")
+    }
+  }
+  
   if (inherits(compIcrData, "ddo")) {
     res <- drPersist(addTransform(compIcrData, function(v) {
-      fticRanalysis:::.summarizeComparisonsInternal(v, summary_functions)
+      fticRanalysis:::.summarizeComparisonsInternal(v, summary_functions, summary_function_params)
     }))
   } else {
-    res <- .summarizeComparisonsInternal(compIcrData, summary_functions)
+    res <- .summarizeComparisonsInternal(compIcrData, summary_functions, summary_function_params)
   }
   return(res)
   
 }
 
-.summarizeComparisonsInternal <- function(compIcrData, summary_functions) {
+.summarizeComparisonsInternal <- function(compIcrData, summary_functions, summary_function_params=NULL) {
   
   # Get function objects from names
   summary_func_names <- as.vector(unlist(summary_functions))
@@ -40,19 +55,29 @@ summarizeComparisons <- function(compIcrData, summary_functions) {
     if (!(nn %in% validNames)) stop(sprintf("'%s' is not a valid function name, see getGroupSummaryFunctionNames() for valid options", nn))
     return(get(nn, envir=asNamespace("fticRanalysis"), mode="function"))
   })
+  names(summary_functions) <- summary_func_names
   
   groupDF <- getGroupDF(compIcrData)
   data_scale <- getDataScale(compIcrData)
 
   # for each group of sample columns, apply all summary functions and recombine columns
-  edata_cols <- lapply(summary_functions, function(f) {
-      tmp <- f(dplyr::select(compIcrData$e_data, -dplyr::matches(getEDataColName(compIcrData))),
-        dplyr::select(groupDF, dplyr::one_of("Group", getFDataColName(compIcrData))),
-        data_scale)
-      tmp_fdata <- data.frame(Comparison_Summary_Column=colnames(tmp), 
-                              Summary_Function_Name=summary_func_names, stringsAsFactors = FALSE)
-      attr(tmp, "f_data") <- tmp_fdata
-      return(tmp)
+  edata_cols <- lapply(summary_func_names, function(fname) {
+    parms <- list(edata_df=dplyr::select(compIcrData$e_data, -dplyr::matches(getEDataColName(compIcrData))),
+                  group_df=dplyr::select(groupDF, dplyr::one_of("Group", getFDataColName(compIcrData))), 
+                  data_scale=data_scale)
+    names(parms)<- NULL
+    if (!is.null(summary_function_params[[fname]])) {
+      parms <- c(parms, summary_function_params[[fname]])
+    }
+    # tmp_result <- f(dplyr::select(compIcrData$e_data, -dplyr::matches(getEDataColName(compIcrData))),
+    #   dplyr::select(groupDF, dplyr::one_of("Group", getFDataColName(compIcrData))),
+    #   data_scale)
+    tmp_result <- do.call(summary_functions[[fname]], parms)
+    tmp_fdata <- tibble::tibble(Comparison_Summary_Column=colnames(tmp_result), 
+                            Summary_Function_Name=fname, 
+                            Parameters=ifelse(is.null(summary_function_params[[fname]]), NA, summary_function_params[[fname]]))
+    attr(tmp_result, "f_data") <- tmp_fdata
+    return(tmp_result)
   })
 
   new_fdata <- do.call(rbind, lapply(edata_cols, function(x) attr(x, "f_data")))
