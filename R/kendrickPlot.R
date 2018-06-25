@@ -84,6 +84,64 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   # Van Krevelen categories
   if (!is.na(vkBoundarySet) & is.na(colorCName)) {
+    icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
+    icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta$Class)
+    colorCName <- "Class"
+  }
+
+  xrange <- nice_axis_limits(icrData$e_meta[, km_col])
+  yrange <- nice_axis_limits(icrData$e_meta[, kd_col])
+  
+  # Show Mass and Molecular Formula
+  hovertext <- paste("Molecular Formula: ", icrData$e_meta[, getMFColName(icrData)],"<br>", getEDataColName(icrData),": ", icrData$e_meta[,getEDataColName(icrData)], sep = "")
+  icrData$e_meta$Hover <- hovertext
+  
+  p <- scatterPlot(icrData, km_col, kd_col, colorCName = colorCName, colorPal=colorPal, xlabel=xlabel, ylabel=ylabel,
+                          legendTitle=legendTitle, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
+  
+  p
+  
+}
+
+.kendrickPlotOriginal <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", 
+                                  xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName, 
+                                  logColorCol=FALSE) {
+  # Test inputs
+  # check that icrData is of the correct class #
+  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  
+  km_col <- getKendrickMassColName(icrData)
+  if (is.null(km_col) | !is.element(km_col, colnames(icrData$e_meta))) {
+    stop("Kendrick mass column attribute is not set or is not present in icrData$e_meta")
+  }
+  kd_col <- getKendrickDefectColName(icrData)
+  if (is.null(kd_col) | !is.element(kd_col, colnames(icrData$e_meta))) {
+    stop("Kendrick defect column attribute is not set or is not present in icrData$e_meta")
+  }
+  
+  if (is.na(colorCName) & is.na(vkBoundarySet)) {
+    stop("at least one of colorCName or vkBoundarySet must be specified")
+  }
+  
+  ## figure out if colorCName (if it's provided) is in emeta or edata
+  if (!is.na(colorCName)) {
+    if (colorCName %in% colnames(icrData$e_meta)) {
+      plot_data <- icrData$e_meta
+      plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
+    } else if (colorCName %in% colnames(icrData$e_data)) {
+      plot_data <- icrData$e_meta
+      plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
+      plot_data <- dplyr::full_join(plot_data, icrData$e_data)
+    } else {
+      stop(sprintf("Cannot find colorCName '%s' in either e_meta or e_data", colorCName))
+    }
+  } else {
+    plot_data <- icrData$e_meta
+    plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
+  }
+  
+  # Van Krevelen categories
+  if (!is.na(vkBoundarySet) & is.na(colorCName)) {
     vk_cat <- factor(getVanKrevelenCategories(icrData, vkBoundarySet), levels=rownames(getVanKrevelenCategoryBounds(vkBoundarySet)))
     plot_data$vk_categories_really_long_name1234 <- vk_cat
     colorCName <- "vk_categories_really_long_name1234"
@@ -171,7 +229,7 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   if (!is.numeric(plot_data[, colorCName])) {
     p <- plot_ly(plot_data, x=plot_data[,km_col], y=plot_data[,kd_col]) %>%
-#      add_trace(name=legendTitle, mode="none", type="scatter", opacity=0) %>% # empty trace in order to add legend title
+      #      add_trace(name=legendTitle, mode="none", type="scatter", opacity=0) %>% # empty trace in order to add legend title
       add_markers(key=plot_data[, getEDataColName(icrData)], color=plot_data[, colorCName], colors=col_vec, 
                   text=hovertext, hoverinfo="text") %>%
       layout(xaxis=list(title=xlabel, range=nice_axis_limits(plot_data[, km_col])), 

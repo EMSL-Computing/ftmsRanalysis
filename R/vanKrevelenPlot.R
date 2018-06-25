@@ -90,7 +90,6 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   
   p <- scatterPlot(icrData, OC.col, HC.col, colorCName = colorCName, colorPal=colorPal, xlabel=xlabel, ylabel=ylabel,
                    legendTitle=legendTitle, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
-  style(p, hoverinfo="text", text=hovertext, traces=1)
   
   if (showVKBounds) {
     if (vk_color_different_than_pts) {
