@@ -67,15 +67,14 @@ msGroup <- subset(picr, groups="M_S")
 msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
 
 # legend should show integers
-groupKendrickPlot(msGroup, title="Test16", colorCName="M_S_n_present", legendTitle="Number<br>Present")
+kendrickPlot(msGroup, title="Test16", colorCName="M_S_n_present", legendTitle="Number<br>Present")
 
 # continuous color bar:
-groupKendrickPlot(msGroup, title="Test17", colorCName="M_S_prop_present", legendTitle="Proportion<br>Present")
+kendrickPlot(msGroup, title="Test17", colorCName="M_S_prop_present", legendTitle="Proportion<br>Present")
 
 # group overlay plot
 picrGroupComp <- divideByGroupComparisons(picr, comparisons="one-factor")
 summary_functions <- "uniqueness_gtest"
 picrCompSummary <- summarizeComparisons(picrGroupComp[[1]]$value, summary_functions)
-comparisonKendrickPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", 
-                          xlabel="O:C Ratio", ylabel="H:C Ratio") 
-
+kendrickPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", 
+                             xlabel="O:C Ratio", ylabel="H:C Ratio") 

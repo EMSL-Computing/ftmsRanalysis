@@ -13,7 +13,6 @@
 #' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
-#' @export
 groupVanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                             xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
   require(dplyr)

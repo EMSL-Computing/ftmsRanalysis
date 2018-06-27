@@ -16,8 +16,6 @@
 #' @seealso \code{\link{plot_ly}}
 #' 
 #' @author Amanda White
-#' 
-#' @export
 comparisonVanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                                            xlabel="O:C Ratio", ylabel="H:C Ratio") {
   

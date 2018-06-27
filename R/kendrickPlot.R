@@ -23,9 +23,9 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   require(plotly)
   require(scales)
 
-  if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
-    stop("icrData cannot be a groupSummary or groupComparison object for this function")
-  }
+  # if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
+  #   stop("icrData cannot be a groupSummary or groupComparison object for this function")
+  # }
   
   logColorCol <- FALSE
   if (!is.na(colorCName) & colorCName == "Intensity") {
@@ -63,23 +63,6 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   if (is.na(colorCName) & is.na(vkBoundarySet)) {
     stop("at least one of colorCName or vkBoundarySet must be specified")
-  }
-  
-  ## figure out if colorCName (if it's provided) is in emeta or edata
-  if (!is.na(colorCName)) {
-    if (colorCName %in% colnames(icrData$e_meta)) {
-      plot_data <- icrData$e_meta
-      plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
-    } else if (colorCName %in% colnames(icrData$e_data)) {
-      plot_data <- icrData$e_meta
-      plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
-      plot_data <- dplyr::full_join(plot_data, icrData$e_data)
-    } else {
-      stop(sprintf("Cannot find colorCName '%s' in either e_meta or e_data", colorCName))
-    }
-  } else {
-    plot_data <- icrData$e_meta
-    plot_data[,getEDataColName(icrData)] = as.character(plot_data[,getEDataColName(icrData)])
   }
   
   # Van Krevelen categories

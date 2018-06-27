@@ -16,9 +16,12 @@ scatterPlot(icrData, xCName, yCName, colorCName)
 icrData$e_meta$Hover <- sprintf("H:C Ratio: %.4f", icrData$e_meta$HtoC_ratio)
 scatterPlot(icrData, xCName, yCName, colorCName, xrange=c(-2, 2), yrange=c(-35, 35), hoverTextCName="Hover")
 
-# custo mcolor palette, legend title, and plot title
-colorPal <- scales::col_numeric("YlGnBu", domain = range(icrData$e_meta$HtoC_ratio, na.rm=TRUE))
+# custom color palette, legend title, and plot title
+colorPal <- scales::col_numeric("YlGnBu", domain = range(icrData$e_meta[, colorCName], na.rm=TRUE))
 scatterPlot(icrData, xCName, yCName, colorCName, colorPal = colorPal, legendTitle="H:C Ratio", title="Test")
+
+# look at how NAs in colorCName are handled:
+scatterPlot(icrData, "kmass", "kdefect", colorCName, colorPal = colorPal, legendTitle="H:C Ratio", title="Test")
 
 # color by an integer valued column
 scatterPlot(icrData, xCName, yCName, colorCName="N")

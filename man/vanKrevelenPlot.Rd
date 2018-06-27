@@ -9,13 +9,14 @@ vanKrevelenPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
   ylabel = "H:C Ratio", legendTitle = colorCName)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', (output of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}),
+or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'comparisonSummary' object (output of \code{\link{summarizeComparisons}}).}
 
 \item{title}{plot title}
 
 \item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
 
-\item{colorCName}{column name of \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
+\item{colorCName}{column name of \code{icrData$e_data} or \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
 
 \item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
 

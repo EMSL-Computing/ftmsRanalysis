@@ -2,10 +2,11 @@
 #' 
 #' Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an icrData object using Plotly.
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', (output of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}),
+#' or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'comparisonSummary' object (output of \code{\link{summarizeComparisons}}).
 #' @param title plot title
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
-#' @param colorCName column name of \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.
+#' @param colorCName column name of \code{icrData$e_data} or \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.
 #' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
 #' @param showVKBounds TRUE/FALSE, should the Van Krevelen bounds be plotted?
 #' @param xlabel x axis label, default is "O:C Ratio"
@@ -23,9 +24,9 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   require(plotly)
   require(scales)
 
-  if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
-    stop("icrData cannot be a groupSummary or groupComparison object for this function")
-  }
+  # if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison")) {
+  #   stop("icrData cannot be a groupSummary or groupComparison object for this function")
+  # }
   logColorCol <- FALSE
   if (!is.na(colorCName) & colorCName == "Intensity") {
     if (ncol(icrData$e_data) > 2) {

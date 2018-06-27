@@ -4,7 +4,8 @@
 \alias{summarizeComparisons}
 \title{Summarize group comparisons}
 \usage{
-summarizeComparisons(compIcrData, summary_functions)
+summarizeComparisons(compIcrData, summary_functions,
+  summary_function_params = NULL)
 }
 \arguments{
 \item{compIcrData}{a groupComparison object or a ddo of groupComparison objects, i.e. the output 
@@ -12,6 +13,10 @@ of \code{\link{divideByGroupComparisons}}.}
 
 \item{summary_functions}{vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
 summary function names are given by \code{\link{getGroupComparisonSummaryFunctionNames}}.}
+
+\item{summary_function_params}{named list of list of other parameters to pass to the summary functions. Names should
+match values in \code{summary_functions}, each value should be a list of name/value parameters, e.g.
+\code{list(uniqueness_gtest=list(pval_threshold=0.01))}.}
 }
 \value{
 a comparisonSummary object or a ddo of comparisonSummary objects
@@ -20,4 +25,8 @@ a comparisonSummary object or a ddo of comparisonSummary objects
 Summarize a group comparisons object or a ddo of group comparisons objects. This function
 applies a summary function to the columns of \code{compIcrData$e_data} corresponding to each
 column to calculate a summary column for each group.
+}
+\details{
+Currently this function does not allow executing the same summary function multiple times
+with different parameters.
 }
