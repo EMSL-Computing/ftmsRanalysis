@@ -271,34 +271,3 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   }
   p
 }
-
-# Function for calculating pretty axis limits for plots
-# 
-# Internal only convenience function for calculating axis limits
-# that are extended by 5% outside the bounds of the observed values (or
-# that start at 0 if specified). This is useful because Plotly adjusts
-# axis limits when groups of points are de-selected unless fixed range
-# limits are set in the layout function.
-# @param values vector of values
-# @param zero.min boolean, if TRUE the first element of the returned pair will be 0
-# @return length 2 numeric vector suitable to serve as axis limits for plotly 
-nice_axis_limits <- function(values, zero.min=FALSE) {
-  lim <- range(values, na.rm=TRUE)
-  d <- diff(lim)
-  lim[1] <- ifelse(zero.min, 0, lim[1]-.05*d)
-  lim[2] <- lim[2]+.05*d
-  return(lim)
-}
-
-
-getFactorColorPalette <- function(level_names) {
-  if (length(level_names) > 12) 
-    stop("too many levels to infer a color scheme, please provide a colorPal parameter")
-  else if (length(level_names) > 9)
-    pal_name <- "Set3"
-  else 
-    pal_name <- "Set1"
-  pal_colors <- RColorBrewer::brewer.pal(length(level_names), pal_name)
-  colorPal<- scales::col_factor(pal_colors, levels=level_names)   
-  return(colorPal)
-}
