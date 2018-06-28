@@ -22,8 +22,12 @@ formula_filter <- function(icrData){
   form_assigned = !is.na(icrData$e_meta[,getMFColName(icrData)])
   
   # output #
-  output <- data.frame(icrData$e_data[, edata_id], form_assigned)
+  output <- data.frame(icrData$e_meta[, edata_id], form_assigned)
   names(output) <- c(edata_id, "Formula_Assigned")
+  
+  # reorder to match e_data:
+  ind <- match(icrData$e_data[, edata_id], output[, edata_id])
+  output <- output[ind, ]
   
   orig_class <- class(output)
   class(output) <- c("formulaFilt", orig_class)
