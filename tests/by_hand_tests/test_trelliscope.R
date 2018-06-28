@@ -54,7 +54,7 @@ groupDdo <- divideByGroup(peakIcrProcessed)
 groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 
 ## TEST G-1: VK group plot, color by proportion present
-panelFnG1 <- panelFunctionGenerator("groupVanKrevelenPlot", colorCName="prop_present", 
+panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
                                    legendTitle="Proportion<br>Present")
 
 makeDisplay(groupSummaryDdo, 
@@ -64,7 +64,7 @@ makeDisplay(groupSummaryDdo,
 
 
 ## TEST G-2: Kendrick group plot, color by n present
-panelFnG2 <- panelFunctionGenerator("groupKendrickPlot", colorCName="n_present", 
+panelFnG2 <- panelFunctionGenerator("kendrickPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_n_present")), 
                                    legendTitle="Number<br>Present")
 
 makeDisplay(groupSummaryDdo, 

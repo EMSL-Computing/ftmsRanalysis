@@ -50,13 +50,18 @@ kendrickPlot(picr, title="Test11", colorPal=NA, colorCName=NA, vkBoundarySet="bs
 kendrickPlot(picr, title="Test12", colorPal=cpal, colorCName=NA, vkBoundarySet="bs1",
                 legendTitle="")
 
+# color by column in e_data
+kendrickPlot(picr, colorCName="EM0011_sample", vkBoundarySet="bs1",
+                legendTitle="Log EM0011<br>Abundance")
+
 ## This should fail: color palette does not match colorCName data type
 kendrickPlot(picr, title="Test13", colorPal=cpal, colorCName="kdefect", vkBoundarySet="bs1",
                 legendTitle="")
 
 
+# Use "Intensity" keyword for colorCName, but data is already logged
 picrSubset <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
-kendrickPlot(picrSubset, title="Test14", colorCName="Intensity", legendTitle="Intensity")
+kendrickPlot(picrSubset, title="Test14", colorCName="Intensity", legendTitle="Log (already)<br>Intensity")
 
 ## this should automatically log transform the data, look for a message on the console:
 picrSubset2 <- subset(picr, samples="EW0161_sample")
