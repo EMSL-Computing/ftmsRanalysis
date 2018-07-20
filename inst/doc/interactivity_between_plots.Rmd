@@ -198,7 +198,7 @@ p3 <- vanKrevelenPlot(.data, title = "Van Krevelen Plot of EM0011", vkBoundarySe
   layout(dragmode="select", showlegend=FALSE)
 p3$x$source <- "vk_source2"
 
-p4 <- densityPlot(.data, variable = "NOSC", yaxis="count", smooth_curve = FALSE, title="NOSC Distribution for EM0011") 
+p4 <- densityPlot(.data, variable = "NOSC", yaxis="count", plot_hist = TRUE, plot_curve = FALSE, title="NOSC Distribution for EM0011") 
 p4$x$source <- "hist_source"
 
 
@@ -265,8 +265,11 @@ output$hist_plot <- renderPlotly({
   } else if (last_event == "hist") { 
     d2 <- event_data("plotly_click", source="hist_source")
     if (!is.null(d2)) {
+      message(names(d2))
+      message(d2$key)
       tmp_dat <- hist_data[d2$pointNumber+1, ]
-      p4 <- p4 %>% add_bars(x=~x, y=~count, width=~barwidth, data=tmp_dat, 
+      print(tmp_dat)
+      p4 <- p4 %>% add_bars(x=~x, y=~y, width=~barwidth, data=tmp_dat, 
                      marker=list(color="cyan")) %>%
         layout(showlegend=FALSE)
     }
