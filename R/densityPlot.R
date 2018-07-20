@@ -44,19 +44,6 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     stop("yaxis must be either 'density' or 'count'")
   }
   
-  if (!is.character(fill_col)) {
-    stop("fill_col must be a string")
-  }
-  if (!startsWith(fill_col, "#")) {
-    if (! (fill_col %in% colors())) {
-      stop("fill_col must be an element of colors() or a hexadecimal color code")
-    }
-    # convert color name to hex string with alpha 0.25
-    fill_col <- do.call(rgb, c(as.list(col2rgb(fill_col)[,1]/255), alpha=0.25))
-  }
-  
-  # End Tests #
-  
   if(is.na(xlabel)){
     xlabel <- variable
   }
@@ -148,7 +135,7 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     mirror = "ticks" # makes box go all the way around not just bottom and left
   )
   
-  p <- p %>% layout(barmode="stack", xaxis=c(ax, list(title=xlabel)), 
+  p <- p %>% layout(barmode="overlay", xaxis=c(ax, list(title=xlabel)), 
                     yaxis=c(ax, list(title=ylabel)))#, range=nice_axis_limits(hist_data$y)))
   
   if(!is.na(title)){
@@ -157,6 +144,8 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
   }
   
   if (plot_hist) {
+    if (yaxis=="count") hist_data <- select(hist_data, -density)
+    if (yaxis=="density") hist_data <- select(hist_data, -count)
     attr(p, "hist_data") <- hist_data
   }
   
