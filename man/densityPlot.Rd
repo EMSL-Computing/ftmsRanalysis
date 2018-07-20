@@ -4,23 +4,32 @@
 \alias{densityPlot}
 \title{Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object}
 \usage{
-densityPlot(icrData, variable, title = NA, yaxis = "density",
-  smooth_curve = TRUE, fill_col = "blue", xlabel = NA,
+densityPlot(icrData, variable, samples = NA, groups = FALSE, title = NA,
+  yaxis = "density", plot_hist = FALSE, plot_curve = TRUE,
+  curve_colors = NA, hist_color = "gray", xlabel = NA,
   ylabel = paste0(toupper(substring(yaxis, 1, 1)), substring(yaxis, 2), sep =
   ""))
 }
 \arguments{
 \item{icrData}{icrData object of class peakIcrData or compoundIcrData}
 
-\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in icrData$e_meta that contains numeric values.}
+\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.}
 
-\item{title}{plot title, default is NULL}
+\item{samples}{vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.}
 
-\item{yaxis}{what should the y-axis represent, "density" or "count"? If "count" no smoothed density curve will be added.}
+\item{groups}{vector of group names to plot. Default of \code{NA} indicates all groups found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no groups, only samples.}
 
-\item{smooth_curve}{TRUE/FALSE should a smoothed curve be added to the plot?}
+\item{title}{plot title, default is NA (no title)}
 
-\item{fill_col}{fill colour to use in plot under smoothed curve, must be a string with color code in hexadecimal format (see \code{\link{rgb}}) or an element of \code{\link{colors}()}}
+\item{yaxis}{what should the y-axis represent, "density" or "count"?}
+
+\item{plot_hist}{TRUE/FALSE should a histogram be added to the plot? A histogram may only be added if a single sample or groups is plotted.}
+
+\item{plot_curve}{TRUE/FALSE should a smoothed curve be added to the plot?}
+
+\item{curve_colors}{named vector of colors for curves, where names correspond to samples or groups chosen. Named colors or hex codes are accepted.}
+
+\item{hist_color}{(single) color for histogram bars. Named colors or hex codes are accepted.}
 
 \item{xlabel}{x axis label, default is NULL, which will result in the same name as "variable"}
 
@@ -30,11 +39,10 @@ densityPlot(icrData, variable, title = NA, yaxis = "density",
 a plotly object
 }
 \description{
-Constructs a density plot for a calculated variable in \code{e_meta} portion of icrData object
+Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{icrData} object
 }
 \details{
-If more than one sample is in \code{icrData}, the density of \code{variable} for all peaks seen in at least 
-one sample will be displayed. The histogram bar data as a data frame is attached to the output as the attribute \code{hist_data}.
+If a histogram is produced, the histogram bar data as a data frame is attached to the output as the attribute \code{hist_data}.
 This may be useful for adding additional data to the plot, e.g. for linking selections in multiple plots.
 }
 \seealso{

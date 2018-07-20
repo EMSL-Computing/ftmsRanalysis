@@ -1,20 +1,23 @@
 #' Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object
 #' 
-#' Constructs a density plot for a calculated variable in \code{e_meta} portion of icrData object
+#' Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{icrData} object
 #' 
 #' @param icrData icrData object of class peakIcrData or compoundIcrData
-#' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in icrData$e_meta that contains numeric values.
-#' @param title plot title, default is NULL
-#' @param yaxis what should the y-axis represent, "density" or "count"? If "count" no smoothed density curve will be added.
-#' @param smooth_curve TRUE/FALSE should a smoothed curve be added to the plot?
-#' @param fill_col fill colour to use in plot under smoothed curve, must be a string with color code in hexadecimal format (see \code{\link{rgb}}) or an element of \code{\link{colors}()}
+#' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
+#' @param samples vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.
+#' @param groups vector of group names to plot. Default of \code{NA} indicates all groups found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no groups, only samples.
+#' @param title plot title, default is NA (no title)
+#' @param yaxis what should the y-axis represent, "density" or "count"? 
+#' @param plot_hist TRUE/FALSE should a histogram be added to the plot? A histogram may only be added if a single sample or groups is plotted.
+#' @param plot_curve TRUE/FALSE should a smoothed curve be added to the plot?
+#' @param curve_colors named vector of colors for curves, where names correspond to samples or groups chosen. Named colors or hex codes are accepted.
+#' @param hist_color (single) color for histogram bars. Named colors or hex codes are accepted.
 #' @param xlabel x axis label, default is NULL, which will result in the same name as "variable"
 #' @param ylabel y axis label, default is "Density"
 #' 
 #' @return a plotly object
 #' 
-#' @details If more than one sample is in \code{icrData}, the density of \code{variable} for all peaks seen in at least 
-#' one sample will be displayed. The histogram bar data as a data frame is attached to the output as the attribute \code{hist_data}.
+#' @details If a histogram is produced, the histogram bar data as a data frame is attached to the output as the attribute \code{hist_data}.
 #' This may be useful for adding additional data to the plot, e.g. for linking selections in multiple plots.
 #' 
 #' @seealso \code{\link{plot_ly}}
@@ -22,14 +25,17 @@
 #' @author Allison Thompson, Lisa Bramer, Amanda White
 #' 
 #' @export
-densityPlot <- function(icrData, variable, title=NA, yaxis="density", smooth_curve=TRUE, 
-                        fill_col="blue", xlabel=NA, ylabel=paste0(toupper(substring(yaxis, 1,1)), substring(yaxis,2), sep="")) {
-
+densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA, 
+                            yaxis="density", plot_hist=FALSE, plot_curve=TRUE, 
+                            curve_colors=NA, hist_color="gray", 
+                            xlabel=NA, ylabel=paste0(toupper(substring(yaxis, 1,1)), substring(yaxis,2), sep="")) {
+  require(plotly)
+  
   # Test inputs #
   if (!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) {
     stop("icrData must be of type peakIcrData or compoundIcrData")
   }
-
+  
   if (is.null(variable) | length(which(colnames(icrData$e_meta) == variable)) != 1) {
     stop("variable must be a single column name found in icrData$e_meta")
   }
@@ -58,84 +64,154 @@ densityPlot <- function(icrData, variable, title=NA, yaxis="density", smooth_cur
   # merge e_data and e_meta #  
   df <- merge(icrData$e_data, icrData$e_meta, by=getMassColName(icrData))
   
-  # if data is not on a log-scale #
-  if(getDataScale(icrData) %in% c('pres', 'abundance')){
-    # subset down to where sample value != 0 #
-    if(length(as.character(icrData$f_data[,getFDataColName(icrData)])) == 1){
-      df <- df[which(df[,as.character(icrData$f_data[,attr(icrData, "cnames")$fdata_cname])] > 0),]
-    }else if(length(as.character(icrData$f_data[,getFDataColName(icrData)])) > 1){
-      df <- df[which(rowSums(df[,as.character(icrData$f_data[,attr(icrData, "cnames")$fdata_cname])] > 0, na.rm=TRUE) > 0),]
-    }else{
-      stop("No samples in object")
-    }
-  }else{
-    # subset down to where sample value != NA #
-    if(length(as.character(icrData$f_data[,getFDataColName(icrData)])) == 1){
-      df <- df[which(!is.na(df[,as.character(icrData$f_data[,attr(icrData, "cnames")$fdata_cname])])),]
-    }else if(length(as.character(icrData$f_data[,getFDataColName(icrData)])) > 1){
-      df <- df[which(rowSums(!is.na(df[,as.character(icrData$f_data[,attr(icrData, "cnames")$fdata_cname])])) > 0),]
-    }else{
-      stop("No samples in object")
-    }
+  # construct a list with the samples for each plot trace
+  trace_subsets <- list()
+  if (identical(groups, NA)) {
+    if (is.null(getGroupDF(icrData)$Group))
+      groups <- FALSE
+    else
+      groups <- unique(getGroupDF(icrData)$Group)
   }
-  # subset down to those able to be plotted #
-  if(any(is.na(df[,variable]))){
-    df <- df[which(!is.na(df[,variable])),]
+  if (!identical(groups, FALSE)) {
+    tmp <- getGroupDF(icrData) %>% 
+      dplyr::group_by(Group) %>% 
+      dplyr::filter(Group %in% groups) %>%
+      dplyr::rename(Sample=!!getFDataColName(icrData)) %>%
+      summarize(samples=list(as.character(unique(Sample))))
+    trace_subsets <- tmp$samples
+    names(trace_subsets) <- tmp$Group
+  }
+  if (identical(samples, NA)) {
+    samples <- intersect(colnames(icrData$e_data), icrData$f_data[, getFDataColName(icrData)])
+  }
+  if (!identical(samples, FALSE)) {
+    tmp <- as.list(samples)
+    names(tmp) <- samples
+    trace_subsets <- c(trace_subsets, tmp)
+  }
+  if (length(trace_subsets) == 0) {
+    stop("No valid samples or groups specified")
+  } else if (length(trace_subsets) > 1 & plot_hist) {
+    warning("Cannot plot histograms when more than one sample or group is chosen")
+    plot_hist <- FALSE
   }
   
-
-  map <- ggplot2::aes_string(x = variable)
-
-  p2 = ggplot2::ggplot(data = df, map) +
-    ggplot2::geom_histogram(ggplot2::aes(y = ..density..), alpha = 0.5, bins = 25) +
-    ggplot2::geom_density(fill = fill_col, alpha = 0.25) +
-    ggplot2::theme_bw() +
-    ggplot2::xlab(xlabel) +
-    ggplot2::ylab(ylabel)
-  # 
-  # if(!is.na(title)){
-  #   p = p +
-  #   ggplot2::ggtitle(title)
-  # }
-
-  # ggplotly(p)
-
-  hist_data <- hist(df[, variable], breaks = 25, plot = FALSE)
-  keys <- lapply(1:length(hist_data$mids), function(i) as.numeric(hist_data$breaks[i:(i+1)]))
-  hist_data <- tibble:::tibble(x=hist_data$mids, count=hist_data$counts, density=hist_data$density, 
-                               barwidth=diff(hist_data$breaks), key=keys)
-
+  # histogram breaks
+  breaks <- seq(min(df[, variable], na.rm=TRUE), max(df[, variable], na.rm=TRUE), length=26)
+  
+  hist_data <- lapply(names(trace_subsets), function(trace_name) {
+    res <- get_hist_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(icrData), breaks)
+    res$Category <- trace_name
+    return(res)
+  })
+  hist_data <- do.call(rbind, hist_data)
+  
+  curve_data <- lapply(names(trace_subsets), function(trace_name) {
+    res <- get_curve_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(icrData), yaxis=yaxis, nbins=512)
+    res$count <- res$density*nrow(df)*(breaks[2]-breaks[1])
+    res$Category <- trace_name
+    return(res)
+  })
+  curve_data <- do.call(rbind, curve_data)
+  
   if (yaxis == "density") {
-    p <- plot_ly() %>%
-      add_bars(x=~x, y=~density, width=~barwidth, key=~key, data=hist_data, marker=list(color="gray")) 
+    curve_data <- dplyr::rename(curve_data, y=density)
+    hist_data <- dplyr::rename(hist_data, y=density)
   } else if (yaxis == "count") {
-    p <- plot_ly() %>%
-      add_bars(x=~x, y=~count, width=~barwidth, key=~key, data=hist_data, marker=list(color="gray")) 
+    curve_data <- dplyr::rename(curve_data, y=count)
+    hist_data <- dplyr::rename(hist_data, y=count)
+  }  
+  yrange <- c(NA, NA)
+  p <- plot_ly()
+  if (plot_hist) {
+    p <- p %>% add_bars(x=~x, y=~y, width=~barwidth, key=~key, data=hist_data, 
+                        marker=list(color=hist_color), showlegend=FALSE) 
   }
   
-  if (smooth_curve) {
-    n <- 512
-    dens_curve <- stats::density(x=df[, variable], weights=rep(1/nrow(df), length=nrow(df)), 
-                                 from = min(df[, variable], na.rm=TRUE), to = max(df[, variable], na.rm=TRUE), 
-                                 bw = "nrd0", adjust = 1, kernel = "gaussian", n = n)
-    dens_curve <- as.data.frame(dens_curve[c("x", "y")])
-    if (yaxis == "count") { # scale density up to match counts
-      dens_curve$y <- dens_curve$y*nrow(df)*hist_data$barwidth[1]
+  if (plot_curve) {
+    if (identical(curve_colors, NA)) {
+      curve_colors <- get_curve_colors(names(trace_subsets))
     }
-    
-    p <- p %>%
-      add_lines(x=~x, y=~y, data=dens_curve, fillcolor=fill_col, fill = 'tonexty', opacity=0.5, 
-                alpha=0.5, showlegend=FALSE, line=list(color=fill_col))
+    if (length(trace_subsets) > 1) {
+      p <- p %>% add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
+                           showlegend=TRUE, colors=curve_colors)
+    } else {
+      p <- p %>% add_lines(x=~x, y=~y, data=curve_data, #alpha=0.5, 
+                           showlegend=FALSE, line=list(color=curve_colors[1]))
+    }
   }
   
-  p <- p %>% layout(barmode="overlay", xaxis=list(title=xlabel), yaxis=list(title=ylabel))
+  # axis styling
+  ax <- list(
+    zeroline = FALSE, # don't plot axes at zero
+    showline = TRUE,
+    mirror = "ticks" # makes box go all the way around not just bottom and left
+  )
+  
+  p <- p %>% layout(barmode="stack", xaxis=c(ax, list(title=xlabel)), 
+                    yaxis=c(ax, list(title=ylabel)))#, range=nice_axis_limits(hist_data$y)))
   
   if(!is.na(title)){
     p <- p %>%
       layout(title=title)
   }
   
-  attr(p, "hist_data") <- hist_data
+  if (plot_hist) {
+    attr(p, "hist_data") <- hist_data
+  }
   
   p
+}
+
+# Internal only helper functions
+
+get_data_vector <- function(edata_cols, variable_vec, data_scale) {
+  # get num present for each peak
+  #browser()
+  counts <- fticRanalysis:::n_present(edata_cols, data_scale)
+  counts$index <- 1:nrow(counts)
+  indices <- unlist(apply(counts, 1, function(x) rep(x["index"], times=x["n_present"])))
+  
+  # replicate points according to how many samples in which they are observed
+  data_vec <- variable_vec[indices]
+  data_vec <- data_vec[!is.na(data_vec)]
+  return(data_vec)
+}
+
+get_hist_data <- function(edata_cols, variable_vec, data_scale, breaks) {
+  data_vec <- get_data_vector(edata_cols, variable_vec, data_scale)
+  hist_data <- hist(data_vec, breaks = breaks, plot = FALSE)
+  keys <- lapply(1:length(hist_data$mids), function(i) as.numeric(hist_data$breaks[i:(i+1)]))
+  hist_data <- tibble:::tibble(x=hist_data$mids, count=hist_data$counts, density=hist_data$density, 
+                               barwidth=diff(hist_data$breaks), key=keys)
+  return(hist_data)
+}
+
+
+get_curve_data <- function(edata_cols, variable_vec, data_scale, yaxis="density", nbins=512) {
+  data_vec <- get_data_vector(edata_cols, variable_vec, data_scale)
+  
+  dens_curve <- stats::density(x=data_vec, weights=rep(1/length(data_vec), length=length(data_vec)), 
+                               from = min(data_vec, na.rm=TRUE), to = max(data_vec, na.rm=TRUE), 
+                               bw = "nrd0", adjust = 1, kernel = "gaussian", n = nbins)
+  dens_curve <- as.data.frame(dens_curve[c("x", "y")])
+  colnames(dens_curve) <- c("x", "density")
+  return(dens_curve)
+}
+
+get_curve_colors <- function(trace_names) {
+  if (length(trace_names) == 1) {
+    colorPal <- c("blue")
+    names(colorPal) <- trace_names
+    return(colorPal)
+  } else if (length(trace_names) > 12) {
+    stop("too many curves to infer a color scheme")
+  } else if (length(trace_names) > 9) {
+    pal_name <- "Set3"
+    pal_colors <- RColorBrewer::brewer.pal(12, "Set3")[1:length(trace_names)]
+  } else {
+    pal_colors <- RColorBrewer::brewer.pal(9, "Set1")[1:length(trace_names)]
+  }
+  names(pal_colors) <- trace_names
+  return(pal_colors)
 }
