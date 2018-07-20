@@ -935,6 +935,41 @@ setDBEoColName <- function(icrData, cname) {
   return(icrData)
 }
 
+#' Get the name of the double-bond equivalent AI column
+#' 
+#' Gets the name of the column in the e\_meta element that contains double-bond equivalent AI values
+#' 
+#' @param icrData an object of type icrData
+#' @return name of double-bond equivalent AI column
+#' @export
+getDBEAIColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  return(attr(icrData, "cnames")$dbeai_cname)
+}
+
+#' Set the name of the double-bond equivalent AI column
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains double-bond equivalent AI information.
+#'
+#' @param icrData an object of type icrData
+#' @param cname column name
+#' @return updated icrData
+#' 
+#' 
+setDBEAIColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!(cname %in% names(icrData$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(icrData, "cnames")$dbeai_cname <- cname
+  return(icrData)
+}
+
 #' Get the name of the elemental composition column
 #' 
 #' Gets the name of the column in the e\_meta element that contains elemental composition

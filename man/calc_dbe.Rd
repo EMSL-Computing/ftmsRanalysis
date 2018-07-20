@@ -10,7 +10,7 @@ calc_dbe(icrData)
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
-an object of the same class as \code{icrData} with a column in \code{e\_meta} giving DBE and DBE-O values
+an object of the same class as \code{icrData} with a column in \code{e\_meta} giving DBE, DBE-O, and DBE_AI values
 }
 \description{
 Calculate double bond equivalent (DBE) and double bond equivalent minus Oxygen (DBE-O) values for peaks where empirical formula is available
