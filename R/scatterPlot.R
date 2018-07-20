@@ -181,8 +181,18 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   }
 
   p <- do.call(add_markers, marker_parms)
+  
+  # axis styling
+  ax <- list(
+    zeroline = FALSE, # don't plot axes at zero
+    showline = TRUE,
+    mirror = "ticks" # makes box go all the way around not just bottom and left
+#    gridcolor = "#eee", # change grid color, "#eee" is default
+#    linewidth = 2 # makes box around plot area slightly wider
+  )
+  
   p <- p %>%
-    layout(xaxis=list(title=xlabel, range=xrange), yaxis=list(title=ylabel, range=yrange))
+    layout(xaxis=c(ax, list(title=xlabel, range=xrange)), yaxis=c(ax, list(title=ylabel, range=yrange)))
   
   if (!is.na(title)) {
     p <- p %>% layout(title=title)
