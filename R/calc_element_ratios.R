@@ -45,6 +45,8 @@ calc_element_ratios <- function(icrData){
   # calculate n:p ratio #
   temp$NtoP_ratio = temp[,n_cname]/temp[,p_cname]
   
+  temp$NtoP_ratio[which(temp[,p_cname] == 0)] = NA
+  
   if(length(which(is.na(temp[,getMFColName(icrData)]))) > 0){
     temp$OtoC_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA
     temp$HtoC_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA

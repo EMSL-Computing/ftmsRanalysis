@@ -54,13 +54,18 @@ vanKrevelenPlot(picr, title="Test11", colorPal=NA, colorCName=NA, vkBoundarySet=
 vanKrevelenPlot(picr, title="Test12", colorPal=cpal, colorCName=NA, vkBoundarySet="bs1",
                 showVKBounds=FALSE, legendTitle="")
 
+# color by column in e_data
+vanKrevelenPlot(picr, colorCName="EM0011_sample", vkBoundarySet="bs1",
+                showVKBounds=TRUE, legendTitle="Log EM0011<br>Abundance")
+
 ## This should fail: color palette does not match colorCName data type
 vanKrevelenPlot(picr, title="Test13", colorPal=cpal, colorCName="kdefect", vkBoundarySet="bs1",
                 showVKBounds=FALSE, legendTitle="")
 
-picrSubset <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
+# Use "Intensity" keyword for colorCName, but data is already logged
+picr2 <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
 vanKrevelenPlot(picrSubset, title="Test14", colorCName="Intensity", vkBoundarySet="bs1",
-                showVKBounds=TRUE, legendTitle="Intensity")
+                showVKBounds=TRUE, legendTitle="Log (already)<br>Intensity")
 
 ## this should automatically log transform the data, look for a message on the console:
 picrSubset2 <- subset(picr, samples="EW0161_sample")
@@ -69,10 +74,17 @@ vanKrevelenPlot(picrSubset2, title="Test15", colorCName="Intensity", vkBoundaryS
 
 # make sure legend has integer values to select/deselect:
 msGroup <- subset(picr, groups="M_S")
-msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
-groupVanKrevelenPlot(msGroup, title="Test16", colorCName="n_present", vkBoundarySet="bs1",
-                showVKBounds=TRUE, legendTitle="Count<br>Present")
+msGroup <- summarizeGroups(msGroup, summary_functions = c("n_present", "prop_present"))
+vanKrevelenPlot(msGroup, title="Test16", colorCName="M_S_n_present", vkBoundarySet="bs1",
+                           showVKBounds=TRUE, legendTitle="Count<br>Present")
 
 # regular continuous color bar
-groupVanKrevelenPlot(msGroup, title="Test17", colorCName="prop_present", vkBoundarySet="bs1",
-                     showVKBounds=TRUE, legendTitle="Proportion<br>Present")
+vanKrevelenPlot(msGroup, title="Test17", colorCName="M_S_prop_present", vkBoundarySet="bs1",
+                           showVKBounds=TRUE, legendTitle="Proportion<br>Present")
+
+# group overlay plot
+picrGroupComp <- divideByGroupComparisons(picr, comparisons="one-factor")
+summary_functions <- "uniqueness_gtest"
+picrCompSummary <- summarizeComparisons(picrGroupComp[[1]]$value, summary_functions)
+vanKrevelenPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", vkBoundarySet = "bs1", showVKBounds=TRUE, 
+                                xlabel="O:C Ratio", ylabel="H:C Ratio") 

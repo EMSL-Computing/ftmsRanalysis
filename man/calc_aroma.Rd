@@ -16,7 +16,7 @@ an object of the same class as \code{icrData} with a column in \code{e\_meta} gi
 Calculate aromaticity and modified aromaticity index values for peaks where empirical formula is available
 }
 \details{
-AI \eqn{= \frac{1 + C - O - S - 0.5(N + P + H)}{C - O - S - N - P}}{= (1 + C - O - S - 0.5*(N + P + H))/(C - O - S - N - P)} and AI_MOD \eqn{= \frac{1 + C - 0.5O - S - 0.5(N + P + H)}{C - 0.5*O - S - N - P}}{= (1 + C - 0.5*O - S - 0.5*(N + P + H))/(C - 0.5*O - S - N - P)}. When the numerator or denomenator is <=0, AI and AI_MOD = 0.
+AI \eqn{= \frac{1 + C - O - S - 0.5(N + P + H)}{C - O - S - N - P}}{= (1 + C - O - S - 0.5*(N + P + H))/(C - O - S - N - P)} and AI_MOD \eqn{= \frac{1 + C - 0.5O - S - 0.5(N + P + H)}{C - 0.5*O - S - N - P}}{= (1 + C - 0.5*O - S - 0.5*(N + P + H))/(C - 0.5*O - S - N - P)}. When the numerator or denominator is <=0, AI and AI_MOD = 0.
 When AI > 0.5 a compound is considered not aromatic, 
 0.5 < = AI <0.67 a compound is aromatic, and when AI >= 0.67 a compound is a condensed aromatic
 }

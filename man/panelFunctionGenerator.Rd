@@ -14,3 +14,32 @@ panelFunctionGenerator(plot_fn_name, ...)
 \description{
 Convenience function to wrap fticRanalysis plotting functions for Trelliscope
 }
+\details{
+Sometimes the additional parameters to pass to the plotting function will depend
+on the key associated with the data in the ddo (e.g. if a column name is prepended with 
+the group name). In that case, see example below for how
+to construct an \code{expr} statement to obtain the necessary information.
+}
+\examples{
+library(fticRanalysis)
+library(trelliscope)
+
+vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE) #temporary directory
+
+data('peakIcrProcessed')
+groupDdo <- divideByGroup(peakIcrProcessed)
+groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
+
+# See expr here:
+panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
+                                    legendTitle="Proportion<br>Present")
+
+makeDisplay(groupSummaryDdo, 
+            panelFn=panelFnG1,
+            name = "Trelliscope test G_1 with VK plot per group",
+            group = "Group")
+view()
+}
+\author{
+Amanda White
+}

@@ -15,8 +15,6 @@
 #' @seealso \code{\link{plot_ly}}
 #' 
 #' @author Amanda White
-#' 
-#' @export
 groupKendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA,
                          xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName) {
   require(dplyr)

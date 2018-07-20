@@ -6,34 +6,49 @@ context("summarizeComparisons function")
 test_that("test of summarizeComparisons on a groupComparison object", {
   data("peakIcrProcessed")
   
-  comparisons <- comparisonMatrix(icrObj = peakIcrProcessed, comparisons = "all")
-  
-  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons)[[1]]$value
-  groups <- as.character(unique(getGroupDF(grpComp)$Group))
-  
-  grpCompSummary <- summarizeComparisons(grpComp, "n_present")
+  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons = "all")[[1]]$value
+
+  grpCompSummary <- summarizeComparisons(grpComp, "uniqueness_gtest")
   
   expect_true(inherits(grpCompSummary, "comparisonSummary"))
   expect_false(inherits(grpCompSummary, "groupComparison"))
-  expect_equal(ncol(grpCompSummary$e_data), 3)
-  expect_true(all(groups %in% colnames(grpCompSummary$e_data)))
+  expect_equal(ncol(grpCompSummary$e_data), 2)
   expect_true(getEDataColName(grpComp) %in% colnames(grpCompSummary$e_data))
   expect_true(all(dim(grpComp$e_meta) == dim(grpCompSummary$e_meta)))
   expect_true(all(colnames(grpComp$e_meta) %in% colnames(grpCompSummary$e_meta)))
-  expect_equal(nrow(grpCompSummary$f_data), length(groups))
-  expect_true(all(groups %in% grpCompSummary$f_data$Group))
-  expect_true(all(unlist(lapply(grpCompSummary$e_data[, groups], function(x) is.numeric(x)))))
+  expect_true(all(grpCompSummary$f_data$Summary_Function_Name == "uniqueness_gtest"))
+  expect_equal(nrow(grpCompSummary$f_data), 1)
+  expect_true(all(unlist(lapply(grpCompSummary$e_data[, 2], function(x) is.factor(x)))))
+  expect_true(all(is.na(grpCompSummary$f_data$Parameters)))
+  
+})
+
+test_that("test of summarizeComparisons on a groupComparison object with additional parameters", {
+  data("peakIcrProcessed")
+  
+  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons = "all")[[1]]$value
+  
+  grpCompSummary <- summarizeComparisons(grpComp, "uniqueness_gtest", list(uniqueness_gtest=list(pval_threshold=0.10)))
+  
+  expect_true(inherits(grpCompSummary, "comparisonSummary"))
+  expect_false(inherits(grpCompSummary, "groupComparison"))
+  expect_equal(ncol(grpCompSummary$e_data), 2)
+  expect_true(getEDataColName(grpComp) %in% colnames(grpCompSummary$e_data))
+  expect_true(all(dim(grpComp$e_meta) == dim(grpCompSummary$e_meta)))
+  expect_true(all(colnames(grpComp$e_meta) %in% colnames(grpCompSummary$e_meta)))
+  expect_true(all(grpCompSummary$f_data$Summary_Function_Name == "uniqueness_gtest"))
+  expect_equal(nrow(grpCompSummary$f_data), 1)
+  expect_true(all(unlist(lapply(grpCompSummary$e_data[, 2], function(x) is.factor(x)))))
+  expect_true(!all(is.null(grpCompSummary$f_data$Parameters)))
   
 })
 
 test_that("test of summarizeComparisons on a ddo", {
   data("peakIcrProcessed")
   
-  comparisons <- comparisonMatrix(icrObj = peakIcrProcessed, comparisons = "all")
+  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons = "one-factor")
   
-  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons)
-  
-  grpCompSummary <- summarizeComparisons(grpComp, "n_present")
+  grpCompSummary <- summarizeComparisons(grpComp, "uniqueness_gtest")
   
   expect_true(inherits(grpCompSummary, "ddo"))
   expect_equal(length(grpCompSummary), length(grpComp))
@@ -41,18 +56,18 @@ test_that("test of summarizeComparisons on a ddo", {
   # test one subset
   i <- 3
   val <- grpCompSummary[[i]]$value
-  groups <- as.character(unique(getGroupDF(grpComp[[i]]$value)$Group))
-    
   expect_true(inherits(val, "comparisonSummary"))
   expect_false(inherits(val, "groupComparison"))
-  expect_equal(ncol(val$e_data), 3)
-  expect_true(all(groups %in% colnames(val$e_data)))
+  expect_equal(ncol(val$e_data), 2)
   expect_true(getEDataColName(grpComp[[i]]$value) %in% colnames(val$e_data))
   expect_true(all(dim(grpComp[[i]]$value$e_meta) == dim(val$e_meta)))
   expect_true(all(colnames(grpComp[[i]]$value$e_meta) %in% colnames(val$e_meta)))
-  expect_equal(nrow(val$f_data), length(groups))
-  expect_true(all(groups %in% val$f_data$Group))
-  expect_true(all(unlist(lapply(val$e_data[, groups], function(x) is.numeric(x)))))
+  expect_equal(nrow(val$f_data), 1)
+  expect_true(all(grpCompSummary$f_data$Summary_Function_Name == "uniqueness_gtest"))
+  expect_equal(nrow(val$f_data), 1)
+  expect_true(all(unlist(lapply(val$e_data[, 2], function(x) is.factor(x)))))
   
 })
+
+## TODO: test with more than one comparison summary function (currently there's only one option)
   

@@ -15,8 +15,6 @@
 #' @seealso \code{\link{plot_ly}}
 #' 
 #' @author Amanda White
-#' 
-#' @export
 comparisonKendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", 
                                    xlabel="Kendrick Mass", ylabel="Kendrick Defect") {
   

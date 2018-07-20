@@ -50,13 +50,18 @@ kendrickPlot(picr, title="Test11", colorPal=NA, colorCName=NA, vkBoundarySet="bs
 kendrickPlot(picr, title="Test12", colorPal=cpal, colorCName=NA, vkBoundarySet="bs1",
                 legendTitle="")
 
+# color by column in e_data
+kendrickPlot(picr, colorCName="EM0011_sample", vkBoundarySet="bs1",
+                legendTitle="Log EM0011<br>Abundance")
+
 ## This should fail: color palette does not match colorCName data type
 kendrickPlot(picr, title="Test13", colorPal=cpal, colorCName="kdefect", vkBoundarySet="bs1",
                 legendTitle="")
 
 
+# Use "Intensity" keyword for colorCName, but data is already logged
 picrSubset <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
-kendrickPlot(picrSubset, title="Test14", colorCName="Intensity", legendTitle="Intensity")
+kendrickPlot(picrSubset, title="Test14", colorCName="Intensity", legendTitle="Log (already)<br>Intensity")
 
 ## this should automatically log transform the data, look for a message on the console:
 picrSubset2 <- subset(picr, samples="EW0161_sample")
@@ -67,7 +72,14 @@ msGroup <- subset(picr, groups="M_S")
 msGroup <- summarizeGroups(msGroup, summary_functions = list("n_present", "prop_present"))
 
 # legend should show integers
-groupKendrickPlot(msGroup, title="Test16", colorCName="n_present", legendTitle="Number<br>Present")
+kendrickPlot(msGroup, title="Test16", colorCName="M_S_n_present", legendTitle="Number<br>Present")
 
 # continuous color bar:
-groupKendrickPlot(msGroup, title="Test17", colorCName="prop_present", legendTitle="Proportion<br>Present")
+kendrickPlot(msGroup, title="Test17", colorCName="M_S_prop_present", legendTitle="Proportion<br>Present")
+
+# group overlay plot
+picrGroupComp <- divideByGroupComparisons(picr, comparisons="one-factor")
+summary_functions <- "uniqueness_gtest"
+picrCompSummary <- summarizeComparisons(picrGroupComp[[1]]$value, summary_functions)
+kendrickPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", 
+                             xlabel="O:C Ratio", ylabel="H:C Ratio") 
