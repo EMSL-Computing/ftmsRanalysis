@@ -85,6 +85,8 @@ dbe_cname \tab character string specifying the name of the column, in \code{e_me
 \tab \cr
 dbeo_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the double-bond equivalent minus oxygen value for each peak/mass \cr
 \tab \cr
+dbeai_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the double-bond equivalent aromaticity index value for each peak/mass \cr
+\tab \cr
 elcomp_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the general elemental composition of each peak/mass \cr
 \tab \cr
 class_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the compound class (e.g. Lignin) of each peak/mass. \cr

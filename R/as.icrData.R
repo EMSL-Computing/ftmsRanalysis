@@ -69,6 +69,8 @@
 #' \tab \cr
 #' dbeo_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the double-bond equivalent minus oxygen value for each peak/mass \cr
 #' \tab \cr
+#' dbeai_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the double-bond equivalent aromaticity index value for each peak/mass \cr
+#' \tab \cr
 #' elcomp_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the general elemental composition of each peak/mass \cr
 #' \tab \cr
 #' class_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the compound class (e.g. Lignin) of each peak/mass. \cr
@@ -88,7 +90,7 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
                         o_cname = NULL, n_cname = NULL, s_cname = NULL, p_cname = NULL, 
                         isotopic_cname = NULL, isotopic_notation = NULL, o2c_cname = NULL, h2c_cname = NULL, kmass_cname = NULL,
                         kdefect_cname = NULL, nosc_cname = NULL, gfe_cname = NULL, mfname_cname = NULL, 
-                        aroma_cname = NULL, modaroma_cname = NULL, dbe_cname = NULL, dbeo_cname = NULL,
+                        aroma_cname = NULL, modaroma_cname = NULL, dbe_cname = NULL, dbeo_cname = NULL, dbeai_cname = NULL,
                         elcomp_cname = NULL, class_cname = NULL, instrument_type = "12T", data_scale = "abundance"){
   
 
@@ -175,6 +177,9 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
     if(!is.null(dbeo_cname)){
       if(!(dbeo_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (minus Oxygen) column ", dbeo_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
     }
+    if(!is.null(dbeai_cname)){
+      if(!(dbeai_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (aromaticity index) column ", dbeai_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+    }
     if(!is.null(elcomp_cname)){
       if(!(elcomp_cname %in% names(e_meta))) stop(paste("Elemental composition column ", elcomp_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
     }
@@ -247,7 +252,8 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
                              h2c_cname = h2c_cname, kmass_cname = kmass_cname, kdefect_cname = kdefect_cname, 
                              nosc_cname = nosc_cname, gfe_cname = gfe_cname, mfname_cname = mfname_cname, 
                              aroma_cname = aroma_cname, modaroma_cname = modaroma_cname, dbe_cname = dbe_cname,
-                             dbeo_cname = dbeo_cname, elcomp_cname = elcomp_cname, class_cname = class_cname)
+                             dbeo_cname = dbeo_cname, dbeai_cname = dbeai_cname, elcomp_cname = elcomp_cname, 
+                             class_cname = class_cname)
   
   attr(res, "data_info") = list(data_scale = data_scale, instrument_type = instrument_type)
   
