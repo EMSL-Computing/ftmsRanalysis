@@ -3,6 +3,7 @@
 S3method(applyFilt,formulaFilt)
 S3method(applyFilt,massFilt)
 S3method(applyFilt,moleculeFilt)
+S3method(plot,peakIcrData)
 S3method(print,compoundIcrData)
 S3method(print,groupSummary)
 S3method(print,moduleIcrData)

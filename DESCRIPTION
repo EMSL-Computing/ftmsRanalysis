@@ -14,7 +14,7 @@ Imports:
     visNetwork,
     dplyr,
     RColorBrewer,
-    plotly,
+    plotly (>= 4.8.0),
     tidyr,
     tibble,
     rlang (>= 0.1.4),
