@@ -166,11 +166,11 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   names(marker_parms)[1] <- ""
   
   if (!is.na(colorCName)) {
-    if (!is.numeric(plot_data[, colorCName]) || is.integer(plot_data[, colorCName])) { # FACTOR OR INTEGER COLOR:
+#    if (!is.numeric(plot_data[, colorCName]) || is.integer(plot_data[, colorCName])) { # FACTOR OR INTEGER COLOR:
       marker_parms <- c(marker_parms, list(color=plot_data[,colorCName], colors=col_vec))
-    } else { #NUMERIC COLOR COLUMN:
-      marker_parms <- c(marker_parms, list(color=plot_data[,colorCName], colors=col_vec, marker = list(colorbar = list(title = legendTitle))))
-    }
+#    } else { #NUMERIC COLOR COLUMN:
+#      marker_parms <- c(marker_parms, list(color=plot_data[,colorCName], colors=col_vec, marker = list(colorbar = list(title = legendTitle))))
+#    }
   } else { #NO COLOR COLUMN:
     if (!identical(const_color, NA)) {
       marker_parms <- c(marker_parms, list(marker=list(color=const_color)))
@@ -181,6 +181,14 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   }
 
   p <- do.call(add_markers, marker_parms)
+  
+  # colorbar title:
+  if (!is.na(colorCName)) {
+    if (is.numeric(plot_data[, colorCName]) && !is.integer(plot_data[, colorCName])) { # NUMERIC NOT INTEGER
+      p <- p %>%
+        colorbar(title=legendTitle)
+    }
+  }
   
   # axis styling
   ax <- list(
