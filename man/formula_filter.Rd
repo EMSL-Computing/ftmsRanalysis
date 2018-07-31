@@ -15,6 +15,10 @@ Object of class 'formulaFilt' that contains the molecule identifier and whether 
 \description{
 This function returns a formulaeFilt object for use with \code{\link{applyFilt}}
 }
+\examples{
+filter_obj <- formula_filter(peakIcrData)
+peakIcrDataFiltered <- applyFilt(filter_obj, remove="NoFormula")
+}
 \author{
 Lisa Bramer
 }

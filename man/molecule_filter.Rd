@@ -15,6 +15,10 @@ Object of class 'moleculeFilt' that contains the molecule identifier and the num
 \description{
 This function returns a moleculeFilt object for use with \code{\link{applyFilt}}
 }
+\examples{
+filter_obj <- molecule_filter(peakIcrData)
+peakIcrDataFiltered <- applyFilt(filter_obj, min_num=2)
+}
 \author{
 Lisa Bramer
 }

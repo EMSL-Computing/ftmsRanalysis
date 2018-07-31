@@ -10,7 +10,10 @@
 #' @author Lisa Bramer
 #'
 #' @export
-
+#'
+#' @examples
+#' filter_obj <- molecule_filter(peakIcrData)
+#' peakIcrDataFiltered <- applyFilt(filter_obj, min_num=2)
 molecule_filter <- function(icrData){
 
   ## some initial checks ##

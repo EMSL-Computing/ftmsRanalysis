@@ -1,11 +1,3 @@
-# icrData <- peakIcrData
-# 
-# icrData <- edata_transform(peakIcrData, "log2")
-# 
-# xlabel <- "Sample"
-# ylabel <- NA
-# title <- "My Title"
-
 #' Plot method for peakIcrData objects
 #' 
 #' Depending on the scale of the object provided, this function with either construct
@@ -64,11 +56,11 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
 
   if (data_scale == "pres") { # do a barplot of num observed
     if (grouped) {
-      counts <- df %>% group_by(Group, Sample) %>% summarize(Count=n()) %>% ungroup()
-      p <- p %>% add_bars(x=~Sample, y=~Count, color=~Group, data=counts)
+      counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=n()) %>% ungroup()
+      p <- p %>% add_bars(x=~Sample, y=~Count, color=~Group, data=counts, hoverinfo="y")
     } else {
-      counts <- df %>% group_by(Sample) %>% summarize(Count=n()) %>% ungroup()
-      p <- p %>% add_bars(x=~Sample, y=~Count, data=counts)
+      counts <- df %>% dplyr::group_by(Sample) %>% dplyr::summarize(Count=n()) %>% ungroup()
+      p <- p %>% add_bars(x=~Sample, y=~Count, data=counts, hoverinfo="y")
     }
   } else { # boxplot
     if (grouped) {
