@@ -94,22 +94,22 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   icrData$e_meta$Hover <- hovertext
   
   p <- scatterPlot(icrData, OC.col, HC.col, colorCName = colorCName, colorPal=colorPal, xlabel=xlabel, ylabel=ylabel,
-                   legendTitle=NA, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
+                   legendTitle=legendTitle, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
   
   if (showVKBounds) {
     if (vk_color_different_than_pts) {
       # if vk boxes are drawn but points are not colored according to vk category, color boxes black
       p <- p %>%
         add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, 
-                     text=vankrev_categories$category, hoverinfo="text", line=list(color="#000000"), showlegend = FALSE) 
+                     text=vankrev_categories$category, hoverinfo="text", line=list(color="#000000"), 
+                     showlegend = FALSE, inherit=FALSE) 
     } else {
       p <- p %>%
         add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, color=~category,
-                     text=vankrev_categories$category, hoverinfo="text", showlegend = FALSE) 
+                     text=vankrev_categories$category, hoverinfo="text", showlegend = FALSE, 
+                     inherit=FALSE) 
     }
   }
-  if (!identical(legendTitle, NA) & nchar(legendTitle) > 0)
-    suppressWarnings({p <- p %>% colorbar(title=legendTitle)})
 
   p
 }

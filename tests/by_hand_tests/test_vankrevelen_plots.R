@@ -64,7 +64,7 @@ vanKrevelenPlot(picr, title="Test13", colorPal=cpal, colorCName="kdefect", vkBou
 
 # Use "Intensity" keyword for colorCName, but data is already logged
 picr2 <- subset(edata_transform(picr, "log"), samples="EW0161_sample")
-vanKrevelenPlot(picrSubset, title="Test14", colorCName="Intensity", vkBoundarySet="bs1",
+vanKrevelenPlot(picr2, title="Test14", colorCName="Intensity", vkBoundarySet="bs1",
                 showVKBounds=TRUE, legendTitle="Log (already)<br>Intensity")
 
 ## this should automatically log transform the data, look for a message on the console:
@@ -88,3 +88,4 @@ summary_functions <- "uniqueness_gtest"
 picrCompSummary <- summarizeComparisons(picrGroupComp[[1]]$value, summary_functions)
 vanKrevelenPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", vkBoundarySet = "bs1", showVKBounds=TRUE, 
                                 xlabel="O:C Ratio", ylabel="H:C Ratio") 
+
