@@ -183,10 +183,10 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   p <- do.call(add_markers, marker_parms)
   
   # colorbar title:
-  if (!is.na(colorCName)) {
+  if (!is.na(colorCName) & !is.na(legendTitle) & nchar(legendTitle) > 0) {
     if (is.numeric(plot_data[, colorCName]) && !is.integer(plot_data[, colorCName])) { # NUMERIC NOT INTEGER
       p <- p %>%
-        colorbar(title=legendTitle)
+        colorbar(title=legendTitle, which=1)
     }
   }
   

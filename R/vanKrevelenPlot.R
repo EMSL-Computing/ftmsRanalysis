@@ -94,7 +94,7 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   icrData$e_meta$Hover <- hovertext
   
   p <- scatterPlot(icrData, OC.col, HC.col, colorCName = colorCName, colorPal=colorPal, xlabel=xlabel, ylabel=ylabel,
-                   legendTitle=legendTitle, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
+                   legendTitle=NA, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
   
   if (showVKBounds) {
     if (vk_color_different_than_pts) {
@@ -108,6 +108,8 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
                      text=vankrev_categories$category, hoverinfo="text", showlegend = FALSE) 
     }
   }
+  if (!identical(legendTitle, NA) & nchar(legendTitle) > 0)
+    suppressWarnings({p <- p %>% colorbar(title=legendTitle)})
 
   p
 }
