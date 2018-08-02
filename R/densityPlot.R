@@ -144,8 +144,8 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
   }
   
   if (plot_hist) {
-    if (yaxis=="count") hist_data <- select(hist_data, -density)
-    if (yaxis=="density") hist_data <- select(hist_data, -count)
+    if (yaxis=="count") hist_data <- dplyr::select(hist_data, -density)
+    if (yaxis=="density") hist_data <- dplyr::select(hist_data, -count)
     attr(p, "hist_data") <- hist_data
   }
   
