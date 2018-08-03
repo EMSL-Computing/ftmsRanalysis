@@ -16,9 +16,9 @@
 #' 
 #' For a \code{filter_object} of type 'massFilt', resulting from calling \code{\link{mass_filter}}:
 #' \tabular{ll}{
-#' \code{min_mass} \tab an numeric value greater than 0, specifying the minimum mass a peak should have in order to retain the peak. Default value is 200. \cr
+#' \code{min_mass} \tab a numeric value greater than 0, specifying the minimum mass a peak should have in order to retain the peak. Default value is 200. \cr
 #' \tab \cr
-#' \code{max_mass} \tab an numeric value greater than \code{min_mass}, specifying the maximum mass a peak should have in order to retain the peak. Default value is 900. \cr
+#' \code{max_mass} \tab a numeric value greater than \code{min_mass}, specifying the maximum mass a peak should have in order to retain the peak. Default value is 900. \cr
 #' }
 #' 
 #' For a \code{filter_object} of type 'formulaFilt', resulting from calling \code{\link{formula_filter}}:
@@ -26,7 +26,16 @@
 #' \code{remove} \tab a character string specifying which set of peaks to filter. Valid options are "NoFormula" and "Formula", defaults to "NoFormula". \cr
 #' }
 #'
-#' @seealso \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}
+#' For a \code{filter_object} of type 'emetaFilt', resulting from calling \code{\link{emeta_filter}}:
+#' \tabular{ll}{
+#' \code{min_val} \tab a numeric value specifying the minimum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
+#' \tab \cr
+#' \code{max_val} \tab a numeric value specifying the maximum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
+#' \tab \cr
+#' \code{cats} \tab a vector of character values specifying the level(s) of the specified 'e_meta' column which should be retained. \cr
+#' }
+
+#' @seealso \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}
 #'
 #' @author Lisa Bramer
 #'
@@ -122,7 +131,7 @@ applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass 
   # check to see whether a massFilt has already been run on icrData #
   if("massFilt" %in% names(attributes(icrData)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(icrData)$filters$massFilt$threshold = c(min_mass, max_mass)
+    min_num_prev <- attributes(icrData)$filters$massFilt$threshold
     
     stop(paste("A mass filter has already been run on this dataset, using a 'min_mass' and 'max_mass' of ", min_num_prev[1], "and ", min_num_prev[2], ".", sep=""))
     
@@ -234,6 +243,92 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
   
   return(results)
 }
+
+# function for emetaFilt
+#' @export
+#' @name applyFilt
+#' @rdname applyFilt
+applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val = NULL, cats = NULL){
+  
+  # check to see whether a moleculeFilt has already been run on icrData #
+  if("emetaFilt" %in% names(attributes(icrData)$filters)){
+    
+    # get previous threshold #
+    min_num_prev <- attributes(icrData)$filters$moleculeFilt$threshold
+    
+    stop("A molecule filter has already been run on this dataset. See Details for more information about how to choose a threshold before applying the filter.")
+    
+    
+  }else{ # no previous emetaFilt, so go ahead and run it like normal #
+    
+    # get variable type #
+    var_type = attr(filter_object, "type")
+    
+    # set some defaults for quantitative variable #
+    if(var_type == "quantitative"){
+      # check that one of min_val and max_val is non NULL #
+      if(is.null(min_val) & is.null(max_val)) stop("At least one of 'min_val' and 'max_val' must be provided to filter the data.")
+      if(is.null(min_val)){min_val = min(filter_object[,2], na.rm = T)}
+      if(is.null(max_val)){max_val = max(filter_object[,2], na.rm = T)}
+      
+      # check that min_val and max_val are numeric #
+      if(!(class(min_val) %in% c("numeric","integer")) | !(class(max_val) %in% c("numeric","integer"))) stop("min_val and max_val must be numeric")
+      
+    }
+    if(var_type == "categorical"){
+      # check that levels are specified #
+      if(is.null(cats)) stop("Levels of the categorical variable to retain must be specified using the 'cats' argument.")
+    }
+    
+
+    edata_cname <- getEDataColName(icrData)
+    
+    # implement filter #
+    if(var_type == "quantitative"){
+      kp_masses = filter_object[which(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val), edata_cname]
+      if(length(kp_masses) == 0) stop("Current min_val and max_val specifications lead to all data being filtered.")
+      
+      rmv_masses = setdiff(filter_object[, edata_cname], kp_masses)
+    }
+    
+    if(var_type == "categorical"){
+      kp_masses = filter_object[which(filter_object$emeta_value %in% cats), edata_cname]
+      if(length(kp_masses) == 0) stop("Current min_val and max_val specifications lead to all data being filtered.")
+      
+      rmv_masses = setdiff(filter_object[, edata_cname], kp_masses)
+    }
+    
+    
+    filter_object_new = list(edata_filt = rmv_masses, emeta_filt = NULL, samples_filt = NULL)
+    
+    # call the function that does the filter application
+    results_pieces <- icr_filter_worker(icrData = icrData, filter_object = filter_object_new)
+    
+    # return filtered data object #
+    results <- icrData
+    results$e_data <- results_pieces$new.edata
+    results$f_data <- results_pieces$new.fdata
+    results$e_meta <- results_pieces$new.emeta
+    
+    # set attributes for which filters were run
+    attr(results, "filters")$emetaFilt <- list(report_text = "", variable = c(), threshold = c(), filtered = c())
+    if(var_type == "categorical"){
+      attr(results, "filters")$emetaFilt$report_text <- paste("A e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was not in the following categories: ", cats, ".", sep="")
+      attr(results, "filters")$emetaFilt$threshold <- cats
+    }
+    if(var_type == "quantitative"){
+      attr(results, "filters")$emetaFilt$report_text <- paste("A e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was less than ", min_val, " or greater than ", max_val, ".", sep="")
+      attr(results, "filters")$emetaFilt$threshold <- c(min_val, max_val)
+    }
+    attr(results, "filters")$emetaFilt$variable = attr(filter_object, "cname")
+    
+    attr(results, "filters")$emetaFilt$filtered <- rmv_masses
+    
+  }
+  
+  return(results)
+}
+
 
 #' Remove items that need to be filtered out
 #'
