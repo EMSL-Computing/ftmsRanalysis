@@ -250,17 +250,20 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
 #' @rdname applyFilt
 applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val = NULL, cats = NULL){
   
-  # check to see whether a moleculeFilt has already been run on icrData #
-  if("emetaFilt" %in% names(attributes(icrData)$filters)){
+    # determine how many filters have already been implemented on the dataset #
+    num_filts = length(attributes(icrData)$filters)
     
-    # get previous threshold #
-    min_num_prev <- attributes(icrData)$filters$moleculeFilt$threshold
+    # create filter name #
+    filt_name = paste("emetaFilt", attr(filter_object, "cname"), sep = "_")
     
-    stop("A molecule filter has already been run on this dataset. See Details for more information about how to choose a threshold before applying the filter.")
-    
-    
-  }else{ # no previous emetaFilt, so go ahead and run it like normal #
-    
+    # check to see whether a formulaFilt has already been run on icrData #
+    if(filt_name %in% names(attributes(icrData)$filters)){
+      
+      stop(paste("An emeta_filter using the variable '", attr(filter_object, "cname"), "' has already been run on this dataset.", sep=""))
+  
+      }else{ # if not go ahead an implement filter #
+      
+   
     # get variable type #
     var_type = attr(filter_object, "type")
     
@@ -310,23 +313,26 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
     
-    # set attributes for which filters were run
-    attr(results, "filters")$emetaFilt <- list(report_text = "", variable = c(), threshold = c(), filtered = c())
+    # set attributes for which filters were run #
+  
+    
+    attr(results, "filters")[[num_filts + 1]] <- list(report_text = "", variable = c(), threshold = c(), filtered = c())
+    names(attr(results, "filters")) = c(names(attr(results, "filters")), filt_name)
     if(var_type == "categorical"){
-      attr(results, "filters")$emetaFilt$report_text <- paste("A e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was not in the following categories: ", cats, ".", sep="")
-      attr(results, "filters")$emetaFilt$threshold <- cats
+      attr(results, "filters")[[num_filts + 1]]$report_text <- paste("An e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was not in the following categories: ", cats, ".", sep="")
+      attr(results, "filters")[[num_filts + 1]]$threshold <- cats
     }
     if(var_type == "quantitative"){
-      attr(results, "filters")$emetaFilt$report_text <- paste("A e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was less than ", min_val, " or greater than ", max_val, ".", sep="")
-      attr(results, "filters")$emetaFilt$threshold <- c(min_val, max_val)
+      attr(results, "filters")[[num_filts + 1]]$report_text <- paste("An e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was less than ", min_val, " or greater than ", max_val, ".", sep="")
+      attr(results, "filters")[[num_filts + 1]]$threshold <- c(min_val, max_val)
     }
-    attr(results, "filters")$emetaFilt$variable = attr(filter_object, "cname")
+    attr(results, "filters")[[num_filts + 1]]$variable = attr(filter_object, "cname")
     
-    attr(results, "filters")$emetaFilt$filtered <- rmv_masses
+    attr(results, "filters")[[num_filts + 1]]$filtered <- rmv_masses
     
-  }
   
-  return(results)
+    return(results)
+  }  
 }
 
 
