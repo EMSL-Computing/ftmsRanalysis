@@ -4,7 +4,8 @@
 \alias{plot.peakIcrData}
 \title{Plot method for peakIcrData objects}
 \usage{
-\method{plot}{peakIcrData}(icrData, title = NA, xlabel = NA, ylabel = NA)
+\method{plot}{peakIcrData}(icrData, title = NA, xlabel = NA,
+  ylabel = NA)
 }
 \arguments{
 \item{icrData}{peakIcrData object}

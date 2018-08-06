@@ -2,13 +2,9 @@
 % Please edit documentation in R/applyFilt.R
 \name{applyFilt}
 \alias{applyFilt}
-\alias{applyFilt}
 \alias{applyFilt.moleculeFilt}
-\alias{applyFilt}
 \alias{applyFilt.massFilt}
-\alias{applyFilt}
 \alias{applyFilt.formulaFilt}
-\alias{applyFilt}
 \alias{applyFilt.emetaFilt}
 \title{Apply a S3 filter  object to an icrData S3 object}
 \usage{
@@ -19,7 +15,8 @@ applyFilt(filter_object, icrData, ...)
 \method{applyFilt}{massFilt}(filter_object, icrData, min_mass = 200,
   max_mass = 900)
 
-\method{applyFilt}{formulaFilt}(filter_object, icrData, remove = "NoFormula")
+\method{applyFilt}{formulaFilt}(filter_object, icrData,
+  remove = "NoFormula")
 
 \method{applyFilt}{emetaFilt}(filter_object, icrData, min_val = NULL,
   max_val = NULL, cats = NULL)

@@ -4,8 +4,8 @@
 \alias{compound_calcs}
 \title{Wrapper function to calculate values associated with individual peaks/compounds}
 \usage{
-compound_calcs(icrData, calc_fns = c("calc_aroma", "calc_dbe", "calc_gibbs",
-  "calc_kendrick", "calc_nosc", "calc_element_ratios"))
+compound_calcs(icrData, calc_fns = c("calc_aroma", "calc_dbe",
+  "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios"))
 }
 \arguments{
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}

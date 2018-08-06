@@ -27,6 +27,24 @@ subset.peakIcrData <- function(icrData, samples=NA, groups=NA) {
   return(result)
 }
 
+#' @rdname subset
+#' @export
+subset.compoundIcrData <- function(icrData, samples=NA, groups=NA) {
+  if (!inherits(icrData, "compoundIcrData")) {
+    stop("icrData must be of type compoundIcrData")
+  }
+  
+  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
+  attr(result, "class") <- class(icrData)
+  attr(result, "cnames") <- attr(icrData, "cnames")
+  attr(result, "DB") <- attr(icrData, "DB")
+  attr(result, "filters") <- attr(icrData, "filters")
+  attr(result, "data_info") <- attr(icrData, "data_info")
+  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  
+  return(result)
+}
+
 # Internal only function that performs the bulk of the subsetting operation,
 # leaving the attributes of the result to be filled in by the individual
 # subset.*IcrData functions.

@@ -4,9 +4,9 @@
 \alias{comparisonVanKrevelenPlot}
 \title{Van Krevelen plot of a group comparison icrData object}
 \usage{
-comparisonVanKrevelenPlot(icrData, title = NA, colorPal = NA, colorCName,
-  vkBoundarySet = "bs1", showVKBounds = TRUE, xlabel = "O:C Ratio",
-  ylabel = "H:C Ratio")
+comparisonVanKrevelenPlot(icrData, title = NA, colorPal = NA,
+  colorCName, vkBoundarySet = "bs1", showVKBounds = TRUE,
+  xlabel = "O:C Ratio", ylabel = "H:C Ratio")
 }
 \arguments{
 \item{icrData}{icrData object of class 'comparisonSummary' as a result of calling \code{\link{summarizeGroupComparisons}}}

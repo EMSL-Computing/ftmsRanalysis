@@ -59,7 +59,7 @@ setInstrumentType <- function(icrData, instrType){
 #' 
 #' @param icrData icrData object
 #' @return character string indicating the instrument type
-#' 
+#' @export
 getGroupDF <- function(icrData){
   if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
   return(attr(icrData, "group_DF"))

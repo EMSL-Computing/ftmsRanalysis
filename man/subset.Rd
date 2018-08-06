@@ -2,9 +2,12 @@
 % Please edit documentation in R/subset.R
 \name{subset.peakIcrData}
 \alias{subset.peakIcrData}
+\alias{subset.compoundIcrData}
 \title{Subset an icrData object according to sample or group}
 \usage{
 \method{subset}{peakIcrData}(icrData, samples = NA, groups = NA)
+
+\method{subset}{compoundIcrData}(icrData, samples = NA, groups = NA)
 }
 \arguments{
 \item{icrData}{icrData object}
