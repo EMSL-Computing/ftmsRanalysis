@@ -12,6 +12,7 @@
 #' @export
 #'
 #' @examples
+#' data("peakIcrData")
 #' filter_obj <- molecule_filter(peakIcrData)
 #' peakIcrDataFiltered <- applyFilt(filter_obj, min_num=2)
 molecule_filter <- function(icrData){

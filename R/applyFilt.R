@@ -33,6 +33,8 @@
 #' \code{max_val} \tab a numeric value specifying the maximum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
 #' \tab \cr
 #' \code{cats} \tab a vector of character values specifying the level(s) of the specified 'e_meta' column which should be retained. \cr
+#' \tab \cr
+#' \code{na.rm} \tab logical value specifying if peaks with NA values for the specified 'e_meta' column should be removed. Default value is TRUE. \cr
 #' }
 
 #' @seealso \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}
@@ -248,7 +250,7 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val = NULL, cats = NULL){
+applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE){
   
     # determine how many filters have already been implemented on the dataset #
     num_filts = length(attributes(icrData)$filters)
@@ -289,6 +291,9 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     # implement filter #
     if(var_type == "quantitative"){
       kp_masses = filter_object[which(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val), edata_cname]
+      if(na.rm == F){
+        kp_masses = c(kp_masses, filter_object[which(is.na(filter_object$emeta_value)), edata_cname])
+      }
       if(length(kp_masses) == 0) stop("Current min_val and max_val specifications lead to all data being filtered.")
       
       rmv_masses = setdiff(filter_object[, edata_cname], kp_masses)
@@ -296,6 +301,9 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     
     if(var_type == "categorical"){
       kp_masses = filter_object[which(filter_object$emeta_value %in% cats), edata_cname]
+      if(na.rm == F){
+        kp_masses = c(kp_masses, filter_object[which(is.na(filter_object$emeta_value)), edata_cname])
+      }
       if(length(kp_masses) == 0) stop("Current min_val and max_val specifications lead to all data being filtered.")
       
       rmv_masses = setdiff(filter_object[, edata_cname], kp_masses)
@@ -317,7 +325,7 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
   
     
     attr(results, "filters")[[num_filts + 1]] <- list(report_text = "", variable = c(), threshold = c(), filtered = c())
-    names(attr(results, "filters")) = c(names(attr(results, "filters")), filt_name)
+    names(attr(results, "filters")) = c(names(attr(results, "filters"))[1:num_filts], filt_name)
     if(var_type == "categorical"){
       attr(results, "filters")[[num_filts + 1]]$report_text <- paste("An e_meta filter was applied to the data, removing ", makePlural(edata_cname), " that had a ", attr(filter_object, "cname"), " value which was not in the following categories: ", cats, ".", sep="")
       attr(results, "filters")[[num_filts + 1]]$threshold <- cats
@@ -329,6 +337,8 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     attr(results, "filters")[[num_filts + 1]]$variable = attr(filter_object, "cname")
     
     attr(results, "filters")[[num_filts + 1]]$filtered <- rmv_masses
+    
+    attr(results, "filters")[[num_filts + 1]]$na.rm <- na.rm
     
   
     return(results)
