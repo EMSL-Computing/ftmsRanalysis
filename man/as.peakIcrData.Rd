@@ -4,8 +4,8 @@
 \alias{as.peakIcrData}
 \title{Convert Data to peakIcrData Class}
 \usage{
-as.peakIcrData(e_data, f_data, e_meta, edata_cname, fdata_cname,
-  mass_cname, ...)
+as.peakIcrData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
+  ...)
 }
 \arguments{
 \item{e_data}{a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed peaks and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.}

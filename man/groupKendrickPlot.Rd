@@ -4,9 +4,9 @@
 \alias{groupKendrickPlot}
 \title{Kendrick plot of icrData object}
 \usage{
-groupKendrickPlot(icrData, title = NA, colorPal = NA,
-  colorCName = NA, xlabel = "Kendrick Mass",
-  ylabel = "Kendrick Defect", legendTitle = colorCName)
+groupKendrickPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
+  xlabel = "Kendrick Mass", ylabel = "Kendrick Defect",
+  legendTitle = colorCName)
 }
 \arguments{
 \item{icrData}{icrData object of class 'groupSummary' as a result of calling \code{\link{summarizeGroups}}}

@@ -2,6 +2,7 @@
 % Please edit documentation in R/data.R
 \name{peakIcrData}
 \alias{peakIcrData}
+\alias{peakIcrData}
 \title{FTICR Data Object of Class peakIcrData}
 \format{A peakIcrData object (see \code{\link{as.peakIcrData}} for details)
 \describe{

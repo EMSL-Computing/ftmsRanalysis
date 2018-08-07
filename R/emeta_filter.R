@@ -19,7 +19,7 @@
 #' filtered_data = applyFilt(filter_object1, peakIcrProcessed, min_val = 0.5, max_val = 1)
 #' 
 #' # filter peaks based on molecular formula #
-#' filter_object2 = emeta_filter(peakIcrProcessed, cname = "MolForm)
+#' filter_object2 = emeta_filter(peakIcrProcessed, cname = "MolForm")
 #' # filter to keep peaks with molecular formula of C12H14O12
 #' filtered_data = applyFilt(filter_object2, peakIcrProcessed, cats = "C12H14O12")
 #' # filter to keep peaks with molecular formula of C12H14O12 and keep NA MolForm peaks
