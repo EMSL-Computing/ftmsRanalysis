@@ -178,7 +178,7 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
 #' @author Lisa Bramer
 #' 
 
-uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thresh, pvalue_threshold = 0.05){
+uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thresh, pvalue_thresh = 0.05){
   
   # check that edata_df is data.frame #
   if(!inherits(edata_df, "data.frame")) stop("edata_df must be of class 'data.frame'")
