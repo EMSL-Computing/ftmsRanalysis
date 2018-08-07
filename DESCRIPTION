@@ -23,6 +23,8 @@ Suggests:
     KeggData,
     MetaCycData,
     knitr,
-    rmarkdown
+    rmarkdown,
+    datadr,
+    trelliscope
 VignetteBuilder: knitr
 RoxygenNote: 6.1.0
