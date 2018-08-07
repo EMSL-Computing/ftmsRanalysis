@@ -75,12 +75,12 @@ uniqueness_nsamps <- function(edata_df, group_df, data_scale, pres_thresh, absn_
   
   
   # construct results vector #
-  res_vec = rep("Absent", nrow(edata_df))
+  res_vec = rep(NA, nrow(edata_df))
   res_vec[which(apply(numpres, 1, min) >= pres_thresh)] = "Observed in Both"
   res_vec[which(numpres$N_grp1 >= pres_thresh & numpres$N_grp2 <= absn_thresh)] = paste("Unique to", grps[1], sep = " ")
   res_vec[which(numpres$N_grp1 <= absn_thresh & numpres$N_grp2 >= pres_thresh)] = paste("Unique to", grps[2], sep = " ")
   
-  data.frame(uniqueness_result = res_vec)
+  data.frame(uniqueness_nsamps = res_vec)
 }
 
 
@@ -154,12 +154,12 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
   
   
   # construct results vector #
-  res_vec = rep("Absent", nrow(edata_df))
+  res_vec = rep(NA, nrow(edata_df))
   res_vec[which(apply(prop_pres, 1, min) >= pres_thresh)] = "Observed in Both"
   res_vec[which(prop_pres$prop_grp1 >= pres_thresh & prop_pres$prop_grp2 <= absn_thresh)] = paste("Unique to", grps[1], sep = " ")
   res_vec[which(prop_pres$prop_grp1 <= absn_thresh & prop_pres$prop_grp2 >= pres_thresh)] = paste("Unique to", grps[2], sep = " ")
   
-  data.frame(uniqueness_result = res_vec)
+  data.frame(uniqueness_prop = res_vec)
 }
 
 
@@ -249,11 +249,11 @@ uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thres
   min_val_grp = apply(numpres, 1, min)
   
   # construct results vector #
-  res_vec = rep("Absent", nrow(edata_df))
+  res_vec = rep(NA, nrow(edata_df))
   res_vec[which(min_val_grp >= pres_thresh)] = "Observed in Both"
   res_vec[which(gtest_res$pvals <= pvalue_thresh & max_val_grp >= pres_thresh)] = paste("Unique to", gtest_res$major.group[which(gtest_res$pvals <= pvalue_thresh & max_val_grp >= pres_thresh)], sep = " ")
   
-  data.frame(uniqueness_result = res_vec)
+  data.frame(uniqueness_gtest = res_vec)
 }
 
 
