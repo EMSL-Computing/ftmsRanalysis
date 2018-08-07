@@ -7,10 +7,10 @@
 summary.icrData <- function(icrData) {
   
   res <- list()
-  samp_names <- unique(icrData$f_data[, getFDataColName(icrData)])
+  samp_names <- as.character(unique(icrData$f_data[, getFDataColName(icrData)]))
   res$Samples <- length(samp_names)
   res$Molecules <- nrow(icrData$e_data)
-  data_vals <- icrData$e_data[, samp_names]
+  data_vals <- as.matrix(icrData$e_data[, samp_names])
   if (getDataScale(icrData) == "abundance" | getDataScale(icrData) == "pres") {
     nmissing <- sum(data_vals == 0 | is.na(data_vals))
   } else {
