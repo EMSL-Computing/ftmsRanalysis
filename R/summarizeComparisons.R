@@ -45,6 +45,10 @@ summarizeComparisons <- function(compIcrData, summary_functions, summary_functio
   
 }
 
+getGroupComparisonSummaryFunctionNames <- function() {
+  return(c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop"))
+}
+
 .summarizeComparisonsInternal <- function(compIcrData, summary_functions, summary_function_params=NULL) {
   
   # Get function objects from names
