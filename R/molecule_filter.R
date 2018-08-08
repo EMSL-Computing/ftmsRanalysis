@@ -24,7 +24,7 @@ molecule_filter <- function(icrData){
   edata_id = getEDataColName(icrData)
 
   # get row sums of nonmiss = number of times each feature is observed #
-  num_obs <- apply(icrData$e_data[,-which(names(icrData$e_data) == edata_id)] > 0, 1, sum)
+  num_obs <- n_present(icrData$e_data[,-edata_id], data_scale = getDataScale(icrData))
   
   # output #
   output <- data.frame(icrData$e_data[, edata_id], num_obs)
