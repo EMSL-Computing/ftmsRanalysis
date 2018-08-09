@@ -1,6 +1,6 @@
 #' Plot mass filter object
 #'
-#' @param fiter_obj massFilt object, created by \code{\link{mass_filter}} function
+#' @param filter_obj massFilt object, created by \code{\link{mass_filter}} function
 #' @param min_mass (optional) minimum mass, for highlighting graph
 #' @param max_mass (optional) maximum mass, for highlighting graph
 #' @param title title
@@ -15,7 +15,7 @@
 #' @examples
 #' filter_obj <- mass_filter(peakIcrData)
 #' plot(filter_obj, min_mass = 200, max_mass = 800)
-plot.massFilt <- function(fiter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count") {
+plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count") {
   
   data_range <- range(filter_obj$Mass, na.rm=TRUE)
   
