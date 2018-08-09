@@ -12,6 +12,7 @@
 #' @export
 #'
 #' @examples
+#' data("peakIcrData")
 #' filter_obj <- molecule_filter(peakIcrData)
 #' peakIcrDataFiltered <- applyFilt(filter_obj, min_num=2)
 molecule_filter <- function(icrData){
@@ -25,7 +26,7 @@ molecule_filter <- function(icrData){
 
   # get row sums of nonmiss = number of times each feature is observed #
   num_obs <- n_present(icrData$e_data[,-edata_id], data_scale = getDataScale(icrData))
-  
+
   # output #
   output <- data.frame(icrData$e_data[, edata_id], num_obs)
   names(output) <- c(edata_id, "Num_Observations")

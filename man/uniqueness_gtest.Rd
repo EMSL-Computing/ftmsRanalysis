@@ -4,16 +4,21 @@
 \alias{uniqueness_gtest}
 \title{Determine Unique and Common Masses Between Two Groups}
 \usage{
-uniqueness_gtest(edata_df, group_df, data_scale, pval_threshold = 0.05)
+uniqueness_gtest(edata_df, group_df, data_scale, pres_fn, pres_thresh,
+  pvalue_threshold = 0.05)
 }
 \arguments{
 \item{edata_df}{data.frame giving samples expression profiles for samples belonging to one of two groups}
 
 \item{group_df}{data.frame giving sample names and column indicating group membership. Column indicating group membership should be named 'Group' and have exactly two unique values}
 
-\item{data_scale}{character string indicating the scale of the data. Acceptable values are 'log', log2', 'log10', 'abundance', and 'pres'}
+\item{data_scale}{character string giving scale the data is on. Current acceptable values are: "log", "log2", "log10", "abundance", "pres"}
 
-\item{pval_threshold}{p-value threshold at which masses with a g-test p-value less than \code{pval_threshold} are considered to be unique to the group with more samples having a non-zero observed value for that mass. Masses with a g-test p-value greater than the threshold are not considered to be unique to either group}
+\item{pres_fn}{character string indicating the function to use when determining if a peak/compound is present for a group. Current options include "nsamps" and "prop".}
+
+\item{pres_thresh}{numeric value indicating the threshold (e.g. number of samples, proportion of samples, etc.), inclusive, that are required for a peak to be considered present/observed in a group.}
+
+\item{pvalue_thresh}{p-value threshold at which masses with a g-test p-value less than or equal to \code{pval_threshold} are considered to be unique to the group with more observed proportion/number of samples, which also exceeds \code{pres_thresh}}
 }
 \description{
 Use a g-test to compare two groups and determine which peaks are uniquely expressed in each group based on a p-value threshold

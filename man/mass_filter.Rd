@@ -19,6 +19,7 @@ Subset data based on specified range of mass values
 Use this in conjunction with \code{\link{applyFilt}} to retain peaks which have a mass between \code{min_mass} and \code{max_mass} (inclusive) and filter all other peaks from the data.
 }
 \examples{
+data("peakIcrData")
 filter_obj <- mass_filter(peakIcrData)
 peakIcrDataFiltered <- applyFilt(filter_obj, min_mass=200, max_mass=900)
 }
