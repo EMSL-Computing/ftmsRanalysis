@@ -18,7 +18,7 @@ summary.icrData <- function(icrData) {
   }
   res$Percent_Missing <- nmissing/prod(dim(data_vals))*100
   
-  class(res) <- "icrDataSummary"
+  class(res) <- c("icrDataSummary", "list")
   return(res)
 }
 
