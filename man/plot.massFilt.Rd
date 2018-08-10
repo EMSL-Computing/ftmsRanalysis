@@ -4,11 +4,11 @@
 \alias{plot.massFilt}
 \title{Plot mass filter object}
 \usage{
-\method{plot}{massFilt}(fiter_obj, min_mass = NA, max_mass = NA,
+\method{plot}{massFilt}(filter_obj, min_mass = NA, max_mass = NA,
   title = NA, xlabel = "Mass", ylabel = "Count")
 }
 \arguments{
-\item{fiter_obj}{massFilt object, created by \code{\link{mass_filter}} function}
+\item{filter_obj}{massFilt object, created by \code{\link{mass_filter}} function}
 
 \item{min_mass}{(optional) minimum mass, for highlighting graph}
 

@@ -6,8 +6,8 @@
 \usage{
 plotlyHeatmap(zMatrix, xLabels = colnames(zMatrix),
   yLabels = rownames(zMatrix), pal = "YlOrRd", hoverText = NA,
-  colorbarTitle = "Color Scale", zLimits = range(zMatrix, na.rm = TRUE),
-  margins = list(l = 200))
+  colorbarTitle = "Color Scale", zLimits = range(zMatrix, na.rm =
+  TRUE), margins = list(l = 200))
 }
 \arguments{
 \item{zMatrix}{numeric matrix of values for the heatmap}

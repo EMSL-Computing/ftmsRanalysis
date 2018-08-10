@@ -273,8 +273,8 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     if(var_type == "quantitative"){
       # check that one of min_val and max_val is non NULL #
       if(is.null(min_val) & is.null(max_val)) stop("At least one of 'min_val' and 'max_val' must be provided to filter the data.")
-      if(is.null(min_val)){min_val = min(filter_object[,2], na.rm = T)}
-      if(is.null(max_val)){max_val = max(filter_object[,2], na.rm = T)}
+      if(is.null(min_val)){min_val = min(filter_object[,2], na.rm = TRUE)}
+      if(is.null(max_val)){max_val = max(filter_object[,2], na.rm = TRUE)}
       
       # check that min_val and max_val are numeric #
       if(!(class(min_val) %in% c("numeric","integer")) | !(class(max_val) %in% c("numeric","integer"))) stop("min_val and max_val must be numeric")
@@ -291,7 +291,7 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     # implement filter #
     if(var_type == "quantitative"){
       kp_masses = filter_object[which(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val), edata_cname]
-      if(na.rm == F){
+      if(na.rm == FALSE){
         kp_masses = c(kp_masses, filter_object[which(is.na(filter_object$emeta_value)), edata_cname])
       }
       if(length(kp_masses) == 0) stop("Current min_val and max_val specifications lead to all data being filtered.")
@@ -301,7 +301,7 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     
     if(var_type == "categorical"){
       kp_masses = filter_object[which(filter_object$emeta_value %in% cats), edata_cname]
-      if(na.rm == F){
+      if(na.rm == FALSE){
         kp_masses = c(kp_masses, filter_object[which(is.na(filter_object$emeta_value)), edata_cname])
       }
       if(length(kp_masses) == 0) stop("Current min_val and max_val specifications lead to all data being filtered.")

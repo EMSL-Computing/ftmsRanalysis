@@ -116,7 +116,7 @@ getGroupComparisonSummaryFunctionNames <- function() {
   
   res <- fticRanalysis:::setDataScale(res, "summary")
   if (!is.null(getDatabase(compIcrData))) {
-    res <- fticRanalysis:::setDatabase(res, db)
+    res <- fticRanalysis:::setDatabase(res, getDatabase(compIcrData))
   }
   
   return(res)

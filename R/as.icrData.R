@@ -324,7 +324,7 @@ as.compoundIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname,
 #' @details \code{as.reactionIcrData} constructs a reactionIcrData object which is an icrData object where the rows of \code{e_data} correspond to reactions.
 #' @rdname as.reactionIcrData
 
-as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname, instrument_type = "12T", db=NA...){
+as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname, instrument_type = "12T", db=NA, ...){
   
   # initial checks #
   

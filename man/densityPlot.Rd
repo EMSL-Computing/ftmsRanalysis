@@ -4,11 +4,11 @@
 \alias{densityPlot}
 \title{Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object}
 \usage{
-densityPlot(icrData, variable, samples = NA, groups = FALSE, title = NA,
-  yaxis = "density", plot_hist = FALSE, plot_curve = TRUE,
-  curve_colors = NA, hist_color = "gray", xlabel = NA,
-  ylabel = paste0(toupper(substring(yaxis, 1, 1)), substring(yaxis, 2), sep =
-  ""))
+densityPlot(icrData, variable, samples = NA, groups = FALSE,
+  title = NA, yaxis = "density", plot_hist = FALSE,
+  plot_curve = TRUE, curve_colors = NA, hist_color = "gray",
+  xlabel = NA, ylabel = paste0(toupper(substring(yaxis, 1, 1)),
+  substring(yaxis, 2), sep = ""))
 }
 \arguments{
 \item{icrData}{icrData object of class peakIcrData or compoundIcrData}

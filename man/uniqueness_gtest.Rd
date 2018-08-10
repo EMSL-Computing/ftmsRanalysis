@@ -5,7 +5,7 @@
 \title{Determine Unique and Common Masses Between Two Groups}
 \usage{
 uniqueness_gtest(edata_df, group_df, data_scale, pres_fn, pres_thresh,
-  pvalue_threshold = 0.05)
+  pvalue_thresh = 0.05)
 }
 \arguments{
 \item{edata_df}{data.frame giving samples expression profiles for samples belonging to one of two groups}

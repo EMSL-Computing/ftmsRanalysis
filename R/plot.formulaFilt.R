@@ -1,6 +1,6 @@
 #' Plot formula filter 
 #'
-#' @param fiter_obj object of type 'formulaFilt', the output of \code{\link{formula_filter}} 
+#' @param filter_obj object of type 'formulaFilt', the output of \code{\link{formula_filter}} 
 #' @param remove which items to remove ('NoFormula', or 'Formula'). This only affects plot coloring, no filtering is performed during plotting step.
 #' @param title title for plot
 #' @param xlabel x-axis label for plot
@@ -14,7 +14,7 @@
 #' @examples
 #' filter_obj <- formula_filter(peakIcrData)
 #' plot(filter_obj, remove='NoFormula')
-plot.formulaFilt <- function(fiter_obj, remove = NA, title=NA, xlabel="", ylabel="Count") {
+plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabel="Count") {
   
   counts <- table(filter_obj$Formula_Assigned)
   

@@ -1,6 +1,6 @@
 #' Plot molecule filter data
 #'
-#' @param fiter_obj moleculeFilt object, created by \code{\link{molecule_filter}} function
+#' @param filter_obj moleculeFilt object, created by \code{\link{molecule_filter}} function
 #' @param min_num minimum number of observations for filtering (only affects graph coloring/labeling, no data filtering is performed in this step)
 #' @param title title for plot
 #' @param xlabel x-axis label for plot
@@ -14,7 +14,7 @@
 #' @examples
 #' filter_obj <- molecule_filter(peakIcrData)
 #' plot(filter_obj, min_num=2)
-plot.moleculeFilt <- function(fiter_obj, min_num=NA, title=NA, xlabel="Observed", ylabel="Count") {
+plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Observed", ylabel="Count") {
   
   counts <- table(filter_obj$Num_Observations)
   
