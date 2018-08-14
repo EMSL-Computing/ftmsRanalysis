@@ -4,11 +4,11 @@
 \alias{plot.moleculeFilt}
 \title{Plot molecule filter data}
 \usage{
-\method{plot}{moleculeFilt}(fiter_obj, min_num = NA, title = NA,
+\method{plot}{moleculeFilt}(filter_obj, min_num = NA, title = NA,
   xlabel = "Observed", ylabel = "Count")
 }
 \arguments{
-\item{fiter_obj}{moleculeFilt object, created by \code{\link{molecule_filter}} function}
+\item{filter_obj}{moleculeFilt object, created by \code{\link{molecule_filter}} function}
 
 \item{min_num}{minimum number of observations for filtering (only affects graph coloring/labeling, no data filtering is performed in this step)}
 

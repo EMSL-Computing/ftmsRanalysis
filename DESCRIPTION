@@ -12,7 +12,7 @@ Imports:
     igraph,
     scales,
     visNetwork,
-    dplyr,
+    dplyr (>= 0.7.0),
     RColorBrewer,
     plotly (>= 4.8.0),
     tidyr,

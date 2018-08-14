@@ -4,11 +4,11 @@
 \alias{plot.formulaFilt}
 \title{Plot formula filter}
 \usage{
-\method{plot}{formulaFilt}(fiter_obj, remove = NA, title = NA,
+\method{plot}{formulaFilt}(filter_obj, remove = NA, title = NA,
   xlabel = "", ylabel = "Count")
 }
 \arguments{
-\item{fiter_obj}{object of type 'formulaFilt', the output of \code{\link{formula_filter}}}
+\item{filter_obj}{object of type 'formulaFilt', the output of \code{\link{formula_filter}}}
 
 \item{remove}{which items to remove ('NoFormula', or 'Formula'). This only affects plot coloring, no filtering is performed during plotting step.}
 
