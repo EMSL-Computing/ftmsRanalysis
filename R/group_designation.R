@@ -58,7 +58,7 @@ group_designation <- function(icrData, main_effects, covariates=NULL, var.name=F
     Group = temp_data[,names(temp_data) %in% main_effects]
     
     # create output formatted with first column being sample id and second column group id #
-    output = data.frame(Sample.ID = temp_data[,samp_id], Group = as.character(Group))
+    output = data.frame(Sample.ID = temp_data[,samp_id], Group = factor(as.character(Group)))
     names(output)[1] = samp_id
     
   }
@@ -88,7 +88,7 @@ group_designation <- function(icrData, main_effects, covariates=NULL, var.name=F
     
     # create output formatted with first column being sample id and second column group id #
     # third+ columns are the original main effect levels #
-    output = data.frame(Sample.ID = temp_data[,samp_id], Group = Group, obs.effects)
+    output = data.frame(Sample.ID = temp_data[,samp_id], Group = factor(Group), obs.effects)
     names(output)[1] = samp_id
   }
   
