@@ -104,10 +104,10 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   if(!(edata_cname %in% names(e_meta))) stop(paste("Peak/Mass column ", edata_cname," not found in e_meta. Column names for peak/mass identifiers must match for e_data and e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
   
   # check that e_data has unique rows #
-  if(nrow(e_data) != length(unique(e_data[, edata_cname]))) stop("The 'edata_cname' identifier is non-unique.")
+  if(nrow(e_data) != length(unique(dplyr::pull(e_data, edata_cname)))) stop("The 'edata_cname' identifier is non-unique.")
 
   # check that f_data has unique rows #
-  if(nrow(f_data) != length(unique(f_data[, fdata_cname]))) stop("The 'fdata_cname' identifier is non-unique.")
+  if(nrow(f_data) != length(unique(dplyr::pull(f_data, fdata_cname)))) stop("The 'fdata_cname' identifier is non-unique.")
 
   # check that instrument_type is a valid string #
   if(!(instrument_type %in% c("21T", "12T"))) stop("Instrument type is not valid. See details of as.peakIcrData for valid options.")
@@ -196,12 +196,12 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   
   # check that all samples in e_data are present in f_data #
   edat_sampid = which(names(e_data) == edata_cname) 
-  samps.miss = sum(!(names(e_data[,-edat_sampid]) %in% f_data[,fdata_cname]))
+  samps.miss = sum(!(names(e_data[,-edat_sampid]) %in% dplyr::pull(f_data,fdata_cname)))
   if( samps.miss > 0) stop(paste( samps.miss, " samples from e_data not found in f_data", sep = ""))
   
   # check for any extra samples in f_data not in e_data - necessary to remove before group_designation function #
-  if(any(!(f_data[,fdata_cname] %in% names(e_data)))){
-    f_data <- f_data[-which(!(f_data[,fdata_cname] %in% names(e_data))),]
+  if(any(!(dplyr::pull(f_data, fdata_cname) %in% names(e_data)))){
+    f_data <- f_data[-which(!(dplyr::pull(f_data,fdata_cname) %in% names(e_data))),]
     warning("Extra samples were found in f_data that were not in e_data. These have been removed from f_data.")
   }
   
@@ -210,20 +210,20 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   
   # if e_meta is provided, check that all peaks in e_data occur in e_meta #
   if(!is.null(e_meta)){
-    if(sum(!(e_data[,edata_cname] %in% e_meta[,edata_cname])) > 0 ) stop("Not all peaks in e_data are present in e_meta")
+    if(sum(!(dplyr::pull(e_data,edata_cname) %in% dplyr::pull(e_meta,edata_cname))) > 0 ) stop("Not all peaks in e_data are present in e_meta")
   }
   
   # if e_meta is provided, remove any extra features that were provided #
   if(!is.null(e_meta)){
-    if(any(!(e_meta[,edata_cname] %in% e_data[,edata_cname]))){
-      e_meta <- e_meta[-which(!(e_meta[,edata_cname] %in% e_data[,edata_cname])),]
+    if(any(!(dplyr::pull(e_meta,edata_cname) %in% dplyr::pull(e_data,edata_cname)))){
+      e_meta <- e_meta[-which(!(dplyr::pull(e_meta, edata_cname) %in% dplyr::pull(e_data, edata_cname))),]
       warning("Extra peaks were found in e_meta that were not in e_data. These have been removed from e_meta.")
     }
   }
   
   # convert the unique identifier column to character, to avoid factors #
-  e_data[,edata_cname] = as.character(e_data[,edata_cname])
-  e_meta[,edata_cname] = as.character(e_meta[,edata_cname])
+  e_data[, edata_cname] = as.character(dplyr::pull(e_data, edata_cname))
+  e_meta[, edata_cname] = as.character(dplyr::pull(e_meta, edata_cname))
   
   # check that if isotopic_cname is non-NULL then isotopic_notation is also non-NULL # 
   if(!is.null(isotopic_cname)){
@@ -235,8 +235,8 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
     # filter out peaks where isotopic_cname = TRUE #
     ids_rmv = e_meta[which(as.character(e_meta[,isotopic_cname]) == isotopic_notation),edata_cname]
     if(length(ids_rmv) > 0){
-      e_meta = e_meta[-which(e_meta[,edata_cname] %in% ids_rmv), ]
-      e_data = e_data[-which(e_data[,edata_cname] %in% ids_rmv), ]
+      e_meta = e_meta[-which(dplyr::pull(e_meta, edata_cname) %in% ids_rmv), ]
+      e_data = e_data[-which(dplyr::pull(e_data, edata_cname) %in% ids_rmv), ]
     }
   }
   
@@ -338,22 +338,22 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
   if(!(edata_cname %in% names(e_meta))) stop(paste("Column ", edata_cname," not found in e_meta. Column names for dentifiers must match for e_data and e_meta. See details of as.reactionIcrData for specifying column names.", sep = ""))
   
   # check that e_data has unique rows #
-  if(nrow(e_data) != length(unique(e_data[, edata_cname]))) stop("The 'edata_cname' identifier is non-unique.")
+  if(nrow(e_data) != length(unique(dplyr::pull(e_data, edata_cname)))) stop("The 'edata_cname' identifier is non-unique.")
   
   # check that f_data has unique rows #
-  if(nrow(f_data) != length(unique(f_data[, fdata_cname]))) stop("The 'fdata_cname' identifier is non-unique.")
+  if(nrow(f_data) != length(unique(dplyr::pull(f_data, fdata_cname)))) stop("The 'fdata_cname' identifier is non-unique.")
   
   # check that the Sample column name is in f_data column names #
   if(!(fdata_cname %in% names(f_data))) stop(paste("Sample column ", fdata_cname, " not found in f_data. See details of as.pepData for specifying column names.", sep = ""))
   
   # check that all samples in e_data are present in f_data #
   edat_sampid = which(names(e_data) == edata_cname) 
-  samps.miss = sum(!(names(e_data[,-edat_sampid]) %in% f_data[,fdata_cname]))
+  samps.miss = sum(!(names(e_data[,-edat_sampid]) %in% dplyr::pull(f_data, fdata_cname)))
   if( samps.miss > 0) stop(paste( samps.miss, " samples from e_data not found in f_data", sep = ""))
   
   # check for any extra samples in f_data not in e_data - necessary to remove before group_designation function #
-  if(any(!(f_data[,fdata_cname] %in% names(e_data)))){
-    f_data <- f_data[-which(!(f_data[,fdata_cname] %in% names(e_data))),]
+  if(any(!(dplyr::pull(f_data, fdata_cname) %in% names(e_data)))){
+    f_data <- f_data[-which(!(dplyr::pull(f_data, fdata_cname) %in% names(e_data))),]
     warning("Extra samples were found in f_data that were not in e_data. These have been removed from f_data.")
   }
   
@@ -362,13 +362,13 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
   
   # if e_meta is provided, check that all peaks in e_data occur in e_meta #
   if(!is.null(e_meta)){
-    if(sum(!(e_data[,edata_cname] %in% e_meta[,edata_cname])) > 0 ) stop("Not all identifiers in e_data are present in e_meta")
+    if(sum(!(dplyr::pull(e_data, edata_cname) %in% dplyr::pull(e_meta, edata_cname))) > 0 ) stop("Not all identifiers in e_data are present in e_meta")
   }
   
   # if e_meta is provided, remove any extra features that were provided #
   if(!is.null(e_meta)){
-    if(any(!(e_meta[,edata_cname] %in% e_data[,edata_cname]))){
-      e_meta <- e_meta[-which(!(e_meta[,edata_cname] %in% e_data[,edata_cname])),]
+    if(any(!(dplyr::pull(e_meta, edata_cname) %in% dplyr::pull(e_data, edata_cname)))){
+      e_meta <- e_meta[-which(!(dplyr::pull(e_meta, edata_cname) %in% dplyr::pull(e_data, edata_cname))),]
       warning("Extra rows were found in e_meta that were not in e_data. These have been removed from e_meta.")
     }
   }
@@ -379,8 +379,8 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
   }
   
   # convert the unique identifier column to character, to avoid factors #
-  e_data[,edata_cname] = as.character(e_data[,edata_cname])
-  e_meta[,edata_cname] = as.character(e_meta[,edata_cname])
+  e_data[, edata_cname] = as.character(dplyr::pull(e_data, edata_cname))
+  e_meta[, edata_cname] = as.character(dplyr::pull(e_meta, edata_cname))
   
   # store results #
   res = list(e_data = e_data, f_data = f_data, e_meta = e_meta)
@@ -435,22 +435,22 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
   if(!(edata_cname %in% names(e_meta))) stop(paste("Column ", edata_cname," not found in e_meta. Column names for dentifiers must match for e_data and e_meta. See details of as.reactionIcrData for specifying column names.", sep = ""))
   
   # check that e_data has unique rows #
-  if(nrow(e_data) != length(unique(e_data[, edata_cname]))) stop("The 'edata_cname' identifier is non-unique.")
+  if(nrow(e_data) != length(unique(dplyr::pull(e_data, edata_cname)))) stop("The 'edata_cname' identifier is non-unique.")
   
   # check that f_data has unique rows #
-  if(nrow(f_data) != length(unique(f_data[, fdata_cname]))) stop("The 'fdata_cname' identifier is non-unique.")
+  if(nrow(f_data) != length(unique(dplyr::pull(f_data, fdata_cname)))) stop("The 'fdata_cname' identifier is non-unique.")
   
   # check that the Sample column name is in f_data column names #
   if(!(fdata_cname %in% names(f_data))) stop(paste("Sample column ", fdata_cname, " not found in f_data. See details of as.pepData for specifying column names.", sep = ""))
   
   # check that all samples in e_data are present in f_data #
   edat_sampid = which(names(e_data) == edata_cname) 
-  samps.miss = sum(!(names(e_data[,-edat_sampid]) %in% f_data[,fdata_cname]))
+  samps.miss = sum(!(names(e_data[,-edat_sampid]) %in% dplyr::pull(f_data, fdata_cname)))
   if( samps.miss > 0) stop(paste( samps.miss, " samples from e_data not found in f_data", sep = ""))
   
   # check for any extra samples in f_data not in e_data - necessary to remove before group_designation function #
-  if(any(!(f_data[,fdata_cname] %in% names(e_data)))){
-    f_data <- f_data[-which(!(f_data[,fdata_cname] %in% names(e_data))),]
+  if(any(!(dplyr::pull(f_data, fdata_cname) %in% names(e_data)))){
+    f_data <- f_data[-which(!(dplyr::pull(f_data, fdata_cname) %in% names(e_data))),]
     warning("Extra samples were found in f_data that were not in e_data. These have been removed from f_data.")
   }
   
@@ -459,13 +459,13 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
   
   # if e_meta is provided, check that all peaks in e_data occur in e_meta #
   if(!is.null(e_meta)){
-    if(sum(!(e_data[,edata_cname] %in% e_meta[,edata_cname])) > 0 ) stop("Not all identifiers in e_data are present in e_meta")
+    if(sum(!(dplyr::pull(e_data, edata_cname) %in% dplyr::pull(e_meta, edata_cname))) > 0 ) stop("Not all identifiers in e_data are present in e_meta")
   }
   
   # if e_meta is provided, remove any extra features that were provided #
   if(!is.null(e_meta)){
-    if(any(!(e_meta[,edata_cname] %in% e_data[,edata_cname]))){
-      e_meta <- e_meta[-which(!(e_meta[,edata_cname] %in% e_data[,edata_cname])),]
+    if(any(!(dplyr::pull(e_meta, edata_cname) %in% dplyr::pull(e_data, edata_cname)))){
+      e_meta <- e_meta[-which(!(dplyr::pull(e_meta, edata_cname) %in% dplyr::pull(e_data, edata_cname))),]
       warning("Extra rows were found in e_meta that were not in e_data. These have been removed from e_meta.")
     }
   }
@@ -479,8 +479,8 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
   }
   
   # convert the unique identifier column to character, to avoid factors #
-  e_data[,edata_cname] = as.character(e_data[,edata_cname])
-  e_meta[,edata_cname] = as.character(e_meta[,edata_cname])
+  e_data[, edata_cname] = as.character(dplyr::pull(e_data, edata_cname))
+  e_meta[, edata_cname] = as.character(dplyr::pull(e_meta, edata_cname))
   
   # store results #
   res = list(e_data = e_data, f_data = f_data, e_meta = e_meta)

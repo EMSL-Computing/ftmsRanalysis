@@ -20,7 +20,7 @@
 summarizeComparisons <- function(compIcrData, summary_functions, summary_function_params=NULL) {
   if (missing(compIcrData)) stop("compIcrData is missing")
   if (missing(compIcrData)) stop("summary_functions is missing")
-  if (length(summary_functions) != 1) stop("summary_functions must have length 1")
+  #if (length(summary_functions) != 1) stop("summary_functions must have length 1")
   
   if (!(inherits(compIcrData, "groupComparison") | inherits(compIcrData, "ddo") ) )
     stop("compIcrData must be of type groupComparison or a ddo containing groupComparisons")
@@ -77,9 +77,14 @@ getGroupComparisonSummaryFunctionNames <- function() {
     #   dplyr::select(groupDF, dplyr::one_of("Group", getFDataColName(compIcrData))),
     #   data_scale)
     tmp_result <- do.call(summary_functions[[fname]], parms)
+    if (is.null(summary_function_params[[fname]])) {
+      summary_params <- NA
+    } else {
+      summary_params <- list(summary_function_params[[fname]])
+    }
     tmp_fdata <- tibble::tibble(Comparison_Summary_Column=colnames(tmp_result), 
                             Summary_Function_Name=fname, 
-                            Parameters=ifelse(is.null(summary_function_params[[fname]]), NA, summary_function_params[[fname]]))
+                            Parameters=summary_params)
     attr(tmp_result, "f_data") <- tmp_fdata
     return(tmp_result)
   })
@@ -87,7 +92,7 @@ getGroupComparisonSummaryFunctionNames <- function() {
   new_fdata <- do.call(rbind, lapply(edata_cols, function(x) attr(x, "f_data")))
   new_edata <- data.frame(compIcrData$e_data[, getEDataColName(compIcrData)], do.call(cbind, edata_cols))
   colnames(new_edata)[1] <- getEDataColName(compIcrData)
-    
+  
   if (inherits(compIcrData, "peakIcrData")) {
     res <- as.peakIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
                           getMassColName(compIcrData), mf_cname=getMFColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
