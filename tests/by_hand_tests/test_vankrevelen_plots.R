@@ -85,7 +85,7 @@ vanKrevelenPlot(msGroup, title="Test17", colorCName="M_S_prop_present", vkBounda
 # group overlay plot
 picrGroupComp <- divideByGroupComparisons(picr, comparisons="one-factor")
 summary_functions <- "uniqueness_gtest"
-picrCompSummary <- summarizeComparisons(picrGroupComp[[1]]$value, summary_functions)
+picrCompSummary <- summarizeGroupComparisons(picrGroupComp[[1]]$value, summary_functions)
 vanKrevelenPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", vkBoundarySet = "bs1", showVKBounds=TRUE, 
                                 xlabel="O:C Ratio", ylabel="H:C Ratio") 
 

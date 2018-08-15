@@ -10,7 +10,7 @@ vanKrevelenPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
 }
 \arguments{
 \item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', (output of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}),
-or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'comparisonSummary' object (output of \code{\link{summarizeComparisons}}).}
+or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'comparisonSummary' object (output of \code{\link{summarizeGroupComparisons}}).}
 
 \item{title}{plot title}
 

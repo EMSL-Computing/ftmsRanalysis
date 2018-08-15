@@ -1,14 +1,14 @@
-## Tests on summarizeComparisons
+## Tests on summarizeGroupComparisons
 
 library(fticRanalysis)
-context("summarizeComparisons function")
+context("summarizeGroupComparisons function")
 
-test_that("test of summarizeComparisons on a groupComparison object", {
+test_that("test of summarizeGroupComparisons on a groupComparison object", {
   data("peakIcrProcessed")
   
   grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons = "all")[[1]]$value
 
-  grpCompSummary <- summarizeComparisons(grpComp, summary_functions="uniqueness_gtest", 
+  grpCompSummary <- summarizeGroupComparisons(grpComp, summary_functions="uniqueness_gtest", 
                                          summary_function_params=list(
                                            uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)
                                          ))
@@ -25,12 +25,12 @@ test_that("test of summarizeComparisons on a groupComparison object", {
 
 })
 
-test_that("test of summarizeComparisons on a ddo", {
+test_that("test of summarizeGroupComparisons on a ddo", {
   data("peakIcrProcessed")
   
   grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons = "one-factor")
   
-  grpCompSummary <- summarizeComparisons(grpComp, summary_functions="uniqueness_gtest", 
+  grpCompSummary <- summarizeGroupComparisons(grpComp, summary_functions="uniqueness_gtest", 
                                          summary_function_params=list(
                                            uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)
                                          ))
@@ -56,12 +56,12 @@ test_that("test of summarizeComparisons on a ddo", {
 
 ## TODO: test with more than one comparison summary function (currently there's only one option)
   
-test_that("test of summarizeComparisons with multiple summary functions on a groupComparison object", {
+test_that("test of summarizeGroupComparisons with multiple summary functions on a groupComparison object", {
   data("peakIcrProcessed")
   
   grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons = "all")[[1]]$value
   
-  grpCompSummary <- summarizeComparisons(grpComp, summary_functions=c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop"), 
+  grpCompSummary <- summarizeGroupComparisons(grpComp, summary_functions=c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop"), 
                                          summary_function_params=list(
                                            uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05),
                                            uniqueness_nsamps=list(pres_thresh=3, absn_thresh=1),

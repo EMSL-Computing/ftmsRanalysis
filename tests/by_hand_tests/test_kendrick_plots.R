@@ -80,6 +80,6 @@ kendrickPlot(msGroup, title="Test17", colorCName="M_S_prop_present", legendTitle
 # group overlay plot
 picrGroupComp <- divideByGroupComparisons(picr, comparisons="one-factor")
 summary_functions <- "uniqueness_gtest"
-picrCompSummary <- summarizeComparisons(picrGroupComp[[1]]$value, summary_functions)
+picrCompSummary <- summarizeGroupComparisons(picrGroupComp[[1]]$value, summary_functions)
 kendrickPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="unique_gtest", 
                              xlabel="O:C Ratio", ylabel="H:C Ratio") 
