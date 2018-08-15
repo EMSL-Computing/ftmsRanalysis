@@ -287,6 +287,7 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     
 
     edata_cname <- getEDataColName(icrData)
+    filter_object[edata_cname] <- as.character(filter_object[,edata_cname])
     
     # implement filter #
     if(var_type == "quantitative"){
@@ -309,7 +310,7 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
       rmv_masses = setdiff(filter_object[, edata_cname], kp_masses)
     }
     
-    
+    if(rlang::is_empty(rmv_masses)){rmv_masses <- NULL}
     filter_object_new = list(edata_filt = rmv_masses, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application

@@ -42,7 +42,7 @@ emeta_filter <- function(icrData, cname){
   emeta_val = icrData$e_meta[,cname]
   
   # output #
-  output <- data.frame(icrData$e_meta[, edata_id], emeta_val)
+  output <- data.frame(icrData$e_meta[, edata_id], emeta_val, stringsAsFactors = FALSE)
   names(output) <- c(edata_id, "emeta_value")
   
   # reorder to match e_data:
