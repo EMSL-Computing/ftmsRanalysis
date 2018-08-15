@@ -130,3 +130,93 @@ test_that("formula filters work correctly on peakIcrData", {
   expect_error(tmp <- applyFilt(filtData, peakIcrData, remove="invalid"))
   
 })
+
+test_that("emeta filters work correctly on peakIcrData", {
+  data("peakIcrData")
+  
+  # select 3 random numeric columns and 1 categorical (fixed as MolForm) to test.  
+  # I excluded C13 since currently it only has 1 level.
+  cols <- sapply(peakIcrData$e_meta[,which(!(colnames(peakIcrData$e_meta) %in% c(getEDataColName(peakIcrData), "C13")))], is.numeric) %>% 
+    which() %>% 
+    sample(3) %>% 
+    names() %>% c("MolForm")
+  
+  filterlist <- lapply(cols, function(colname){
+    emeta_filter(peakIcrData, colname)
+  })
+  
+  expect_true(all(sapply(filterlist, inherits, what = c("emetaFilt", "data.frame"))))
+  expect_true(all(sapply(filterlist, ncol) == 2))
+  expect_true(all(sapply(1:4, function(i){
+                        class(filterlist[[i]]$emeta_value) == class(peakIcrData$e_meta[,cols[i]])
+                        })),
+              info = "type mismatch between icrdata column and filter column")
+  
+  ### test numeric ###
+  
+  # max/min for each of the three numeric filters
+  maxlist <- sapply(cols[1:3], function(col){
+    max(peakIcrData$e_meta[col], na.rm = TRUE)
+  })
+  
+  minlist <- sapply(cols[1:3], function(col){
+    min(peakIcrData$e_meta[col], na.rm = TRUE)
+  })
+  
+  for(i in 1:3){
+    filtered_obj <- applyFilt(filterlist[[i]], peakIcrData, minlist[[i]], maxlist[[i]])
+    
+    # max/min values in the filter should not affect e_meta
+    expect_true(all(filtered_obj$e_meta == peakIcrData$e_meta, na.rm = TRUE))
+    
+    # numeric range that is a subset of the range of the column
+    newmax = runif(1, median(peakIcrData$e_meta[,cols[i]], na.rm = TRUE), maxlist[[i]])
+    newmin = runif(1, minlist[[i]], median(peakIcrData$e_meta[,cols[i]], na.rm = TRUE))
+    
+    filtered_obj <- applyFilt(filterlist[[i]], peakIcrData, newmin, newmax)
+    
+    expect_equal(nrow(filtered_obj$e_meta), 
+                 nrow(filterlist[[i]] %>% dplyr::filter(emeta_value <= newmax, emeta_value >= newmin)))
+    
+    filtSumm <- summary(filterlist[[i]])
+    expect_true(ncol(filtSumm) == 2)
+    expect_true(inherits(filtSumm, "table"))
+    expect_true(all(c(getEDataColName(peakIcrData), "emeta_value") %in% stringr::str_trim(colnames(filtSumm))))
+    
+    expect_true(!is.null(attr(filtered_obj, "filter")))
+    expect_true(!is.null(attr(filtered_obj, "filter")[[paste0("emetaFilt_", cols[i])]]))
+    
+    # test some things that should fail
+    expect_error(tmp <- applyFilt(filterlist[[i]], peakIcrData, min_val = maxlist[[i]], max_val = minlist[[i]]))
+    expect_error(tmp <- applyFilt(filterlist[[i]], peakIcrData, min_val = minlist[[i]] - 100, max_val = minlist[[i]] - 0.1^10))
+  }
+  
+  ### test categorical ###
+  
+  cats = filterlist[[4]]$emeta_value %>% unique() %>% setdiff(NA)
+  
+  filtered_obj <- applyFilt(filterlist[[4]], peakIcrData, cats = cats, na.rm = FALSE)
+  
+  # returns same object if all NON-NA levels specified and na.rm = FALSE
+  expect_true(all(filtered_obj$e_meta == peakIcrData$e_meta, na.rm = TRUE))
+  
+  # subset of categories
+ 
+  cats <- sample(cats, ceiling(length(cats)/2))  
+  filtered_obj <- applyFilt(filterlist[[4]], peakIcrData, cats = cats, na.rm = FALSE)
+  
+  expect_equal(nrow(filtered_obj$e_meta), 
+               nrow(filterlist[[4]] %>% dplyr::filter(emeta_value %in% c(cats, NA))))
+  
+  filtSumm <- summary(filterlist[[4]])
+  expect_true(ncol(filtSumm) == 2)
+  expect_true(inherits(filtSumm, "table"))
+  expect_true(all(c(getEDataColName(peakIcrData), "emeta_value") %in% stringr::str_trim(colnames(filtSumm))))
+  
+  expect_true(!is.null(attr(filtered_obj, "filter")))
+  expect_true(!is.null(attr(filtered_obj, "filter")$emetaFilt_MolForm))
+
+  # test some things that should fail
+  expect_error(tmp <- applyFilt(filterlist[[4]], peakIcrData, cats = "_31234___RIDICULOUS-^^^--***#$#% CHAR ARG"))
+  
+})
