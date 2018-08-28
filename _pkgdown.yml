@@ -10,7 +10,7 @@ home:
     href: https://msc-viz.emsl.pnnl.gov
 navbar:
   structure:
-    left:  [home, reference, articles, news]
+    left:  [home, intro, reference, articles, news]
     right:
       - icon: fa-github
         href: https://github.com/lmbramer
