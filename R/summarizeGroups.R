@@ -15,6 +15,7 @@
 #' 
 #' @author Amanda White
 #' 
+#' @importFrom dplyr %>%
 #' @export
 #' 
 #' @examples

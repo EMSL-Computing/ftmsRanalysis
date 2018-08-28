@@ -18,7 +18,7 @@ This function returns a moleculeFilt object for use with \code{\link{applyFilt}}
 \examples{
 data("peakIcrData")
 filter_obj <- molecule_filter(peakIcrData)
-peakIcrDataFiltered <- applyFilt(filter_obj, min_num=2)
+peakIcrDataFiltered <- applyFilt(filter_obj, peakIcrData, min_num=2)
 }
 \author{
 Lisa Bramer

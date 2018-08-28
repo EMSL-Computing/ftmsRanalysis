@@ -7,6 +7,7 @@
 #' 
 #' @author Amanda White
 #' 
+#' @importFrom dplyr %>%
 #' @export
 mapCompoundsToReactions <- function(compoundIcrData) {
   if (!inherits(compoundIcrData, "compoundIcrData")) {

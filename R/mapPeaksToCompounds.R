@@ -8,6 +8,7 @@
 #' 
 #' @author Amanda White
 #' 
+#' @importFrom dplyr %>%
 #' @export
 mapPeaksToCompounds <- function(peakIcrData, db="KEGG") {
   if (!inherits(peakIcrData, "peakIcrData")) {

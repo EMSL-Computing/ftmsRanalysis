@@ -15,6 +15,7 @@
 #' 
 #' @author Allison Thompson
 #' 
+#' @importFrom dplyr %>%
 #' @export
 classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Classes", title=NULL, vkBoundarySet="bs1", classColName=NULL) {
   

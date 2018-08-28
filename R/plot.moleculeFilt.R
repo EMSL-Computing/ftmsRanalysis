@@ -23,8 +23,8 @@ plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Observed
   
   plot_data <- data.frame(x=as.numeric(names(values)), count=values)
   
-  p <- plot_ly() %>%
-      add_bars(x=~x, y=~count, data=plot_data, width=1, showlegend=FALSE, hoverinfo="y",
+  p <- plotly::plot_ly() %>%
+    plotly::add_bars(x=~x, y=~count, data=plot_data, width=1, showlegend=FALSE, hoverinfo="y",
                marker=list(color="gray"))  
   
   # axis styling
@@ -35,23 +35,23 @@ plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Observed
   )
   
   p <- p %>%
-    layout(barmode="overlay", xaxis=c(ax, list(title=xlabel), automargin=TRUE), yaxis=c(ax, list(title=ylabel)))
+    plotly::layout(barmode="overlay", xaxis=c(ax, list(title=xlabel), automargin=TRUE), yaxis=c(ax, list(title=ylabel)))
   
   if (!identical(min_num, NA)) {
     tmp_dat <- dplyr::filter(plot_data, x==min_num)
-    p <- p %>% add_bars(x=~x, y=~count, width=1, data=tmp_dat, 
+    p <- p %>% plotly::add_bars(x=~x, y=~count, width=1, data=tmp_dat, 
                           marker=list(color="red"), hoverinfo="y")
     
     # annotations
     annotations <-
       list(x=tmp_dat$x[1], y=tmp_dat$count[1], text=as.character(tmp_dat$count[1]), yanchor="bottom", 
            showarrow=FALSE)#, textangle=-90)
-    p <- p %>% layout(annotations=annotations)
+    p <- p %>% plotly::layout(annotations=annotations)
     
   }
   
   if (!identical(title, NA)) {
-    p <- p %>% layout(title=title)
+    p <- p %>% plotly::layout(title=title)
   }
   
   p

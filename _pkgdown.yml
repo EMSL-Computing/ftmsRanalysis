@@ -1,0 +1,142 @@
+template:
+  path: "pkgdown-template"
+  params:
+    bootswatch: cosmo
+#title: FTICR Data Analysis in R
+home:
+#  strip_header: true
+  links:
+  - text: Learn more
+    href: https://msc-viz.emsl.pnnl.gov
+navbar:
+  structure:
+    left:  [home, reference, articles, news]
+    right:
+      - icon: fa-github
+        href: https://github.com/lmbramer
+reference:
+- title: icrData object construction
+  desc: Functions to construct an icrData object
+  contents:
+  - '`as.compoundIcrData`'
+  - '`as.moduleIcrData`'
+  - '`as.peakIcrData`'
+  - '`as.reactionIcrData`'
+  - '`subset.peakIcrData`'
+  - '`summary.icrData`'
+- title: Meta data calculation
+  desc: Functions to calculate meta-data fields
+  contents:
+  - '`compound_calcs`'
+  - '`assign_class`'
+  - '`assign_elemental_composition`'
+  - '`assign_mf`'
+- title: Filtering
+  desc: Functions to filter
+  contents:
+  - '`applyFilt`'
+  - '`mass_filter`'
+  - '`molecule_filter`'
+  - '`formula_filter`'
+  - '`emeta_filter`'
+  - '`plot.formulaFilt`'
+  - '`plot.massFilt`'
+  - '`plot.moleculeFilt`'
+  - '`plot.peakIcrData`'
+  - '`summary.formulaFilt`'
+  - '`summary.massFilt`'
+  - '`summary.moleculeFilt`'
+- title: Data transformation
+  desc: Functions to transform data (e.g. scale)
+  contents:
+  - '`edata_replace`'
+  - '`edata_transform`'
+- title: Treatment groups and group comparisons
+  desc: Defining experimental groups and comparisons
+  contents:
+  - '`group_designation`'
+  - '`comparisonMatrix`'
+  - '`concat`'
+  - '`divideByGroup`'
+  - '`summarizeGroups`'
+  - '`divideByGroupComparisons`'
+  - '`divideBySample`'
+  - '`summarizeGroupComparisons`'
+  - '`uniqueness_gtest`'
+  - '`uniqueness_nsamps`'
+  - '`uniqueness_prop`'
+- title: Visualization
+  desc: Visualization methods
+  contents:
+  - '`classesPlot`'
+  - '`densityPlot`'
+  - '`kendrickPlot`'
+  - '`vanKrevelenPlot`'
+  - '`scatterPlot`'
+  - '`vignette_interactivity_between_plots`'
+  - '`panelFunctionGenerator`'
+- title: Database mapping
+  desc: Functions to map to biological databases
+  contents:
+  - '`mapPeaksToCompounds`'
+  - '`mapCompoundsToReactions`'
+  - '`mapCompoundsToModules`'
+  - '`parseModuleReaction`'
+  - '`plotReactionGraph`'
+  - '`plotlyHeatmap`'
+- title: Convenience methods
+  desc: ~
+  contents:
+  - '`getEDataColName`'
+  - '`getElCompColName`'
+  - '`getExtractionColName`'
+  - '`getFDataColName`'
+  - '`getGibbsColName`'
+  - '`getDataScale`'
+  - '`getDatabase`'
+  - '`getGroupDF`'
+  - '`getGroupSummaryFunctionNames`'
+  - '`getInstrumentType`'
+  - '`getModuleName`'
+  - '`getObservedVanKrevelenCategories`'
+  - '`getVanKrevelenCategories`'
+  - '`getVanKrevelenCategoryBounds`'
+- title: Column name methods
+  desc: Methods to get the column name used to store various meta data values
+  contents:
+  - '`getAromaColName`'
+  - '`getCarbonColName`'
+  - '`getClassColName`'
+  - '`getCompoundColName`'
+  - '`getDBEAIColName`'
+  - '`getDBEColName`'
+  - '`getDBEoColName`'
+  - '`getHCRatioColName`'
+  - '`getHydrogenColName`'
+  - '`getIsotopicColName`'
+  - '`getKendrickDefectColName`'
+  - '`getKendrickMassColName`'
+  - '`getMFColName`'
+  - '`getMFNameColName`'
+  - '`getMassColName`'
+  - '`getModAromaColName`'
+  - '`getModuleColName`'
+  - '`getModuleNodeColName`'
+  - '`getNCRatioColName`'
+  - '`getNOSCColName`'
+  - '`getNPRatioColName`'
+  - '`getNitrogenColName`'
+  - '`getOCRatioColName`'
+  - '`getOxygenColName`'
+  - '`getPCRatioColName`'
+  - '`getPhosphorusColName`'
+  - '`getReactionColName`'
+  - '`getSulfurColName`'
+- title: Example data objects
+  desc: Example data included in the `fticRanalysis` package
+  contents:
+  - '`peakIcrData`'
+  - '`peakIcrProcessed`'
+  - '`fticr12T_edata`'
+  - '`fticr12T_emeta`'
+  - '`fticr12T_fdata`'
