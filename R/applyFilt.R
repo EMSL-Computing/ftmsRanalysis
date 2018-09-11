@@ -239,7 +239,7 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
     attr(results, "filters")$formulaFilt <- list(report_text = "", threshold = c(), filtered = c())
     attr(results, "filters")$formulaFilt$report_text <- paste("A formula filter was applied to the data, removing ", makePlural(edata_cname), " that had ", remove, " assigned. A total of ", length(filter.edata), " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
     attr(results, "filters")$formulaFilt$threshold <- remove
-    attr(results, "filters")$moleculeFilt$filtered <- filter.edata
+    attr(results, "filters")$formulaFilt$filtered <- filter.edata
     
   }
   
