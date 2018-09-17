@@ -1005,38 +1005,108 @@ setElCompColName <- function(icrData, cname) {
   return(icrData)
 }
 
-#' Get the name of the peak class column
+#' Get the name of the peak class column based on boundary set 1
 #' 
-#' Gets the name of the column in the e\_meta element that contains peak class information
+#' Gets the name of the column in the e\_meta element that contains peak class information based on "bs1"
 #' 
 #' @param icrData an object of type icrData
 #' @return name of peak class column
 #' @export
-getClassColName <- function(icrData){
+getBS1ColName <- function(icrData){
   if (!inherits(icrData, "icrData")) {
     stop("icrData must be of type icrData")
   } 
-  return(attr(icrData, "cnames")$class_cname)
+  return(attr(icrData, "cnames")$bs1class_cname)
 }
 
-#' Set the name of the peak class column
+#' Set the name of the peak class column based on boundary set 1
 #' 
 #' Sets the name of the column in the e_meta element that 
-#' contains peak class information.
+#' contains peak class information based on "bs1".
 #'
 #' @param icrData an object of type icrData
 #' @param cname column name
 #' @return updated icrData
 #' 
 #' 
-setClassColName <- function(icrData, cname) {
+setBS1ColName <- function(icrData, cname) {
   if (!inherits(icrData, "icrData")) {
     stop("icrData must be of type icrData")
   } 
   if (!(cname %in% names(icrData$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(icrData, "cnames")$class_cname <- cname
+  attr(icrData, "cnames")$bs1class_cname <- cname
+  return(icrData)
+}
+
+#' Get the name of the peak class column based on boundary set 2
+#' 
+#' Gets the name of the column in the e\_meta element that contains peak class information based on "bs2"
+#' 
+#' @param icrData an object of type icrData
+#' @return name of peak class column
+#' @export
+getBS2ColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  return(attr(icrData, "cnames")$bs2class_cname)
+}
+
+#' Set the name of the peak class column based on boundary set 2
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains peak class information based on "bs2".
+#'
+#' @param icrData an object of type icrData
+#' @param cname column name
+#' @return updated icrData
+#' 
+#' 
+setBS2ColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!(cname %in% names(icrData$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(icrData, "cnames")$bs2class_cname <- cname
+  return(icrData)
+}
+
+#' Get the name of the peak class column based on boundary set 3
+#' 
+#' Gets the name of the column in the e\_meta element that contains peak class information based on "bs3"
+#' 
+#' @param icrData an object of type icrData
+#' @return name of peak class column
+#' @export
+getBS3ColName <- function(icrData){
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  return(attr(icrData, "cnames")$bs3class_cname)
+}
+
+#' Set the name of the peak class column based on boundary set 3
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains peak class information based on "bs3".
+#'
+#' @param icrData an object of type icrData
+#' @param cname column name
+#' @return updated icrData
+#' 
+#' 
+setBS3ColName <- function(icrData, cname) {
+  if (!inherits(icrData, "icrData")) {
+    stop("icrData must be of type icrData")
+  } 
+  if (!(cname %in% names(icrData$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(icrData, "cnames")$bs3class_cname <- cname
   return(icrData)
 }
 
