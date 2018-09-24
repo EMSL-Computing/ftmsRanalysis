@@ -59,14 +59,14 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
   }
   
   if(boundary_set == "bs1"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], assign_bs1)
+    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], MoreArgs = list(bound_match), assign_bs1)
   }
   if(boundary_set == "bs2"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], assign_bs2)
+    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], MoreArgs = list(bound_match), assign_bs2)
     classes[which(classes == "")] = "Other"
   }
   if(boundary_set == "bs3"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], x_nc = temp2[,getNCRatioColName(icrData)], x_pc = temp2[,getPCRatioColName(icrData)], x_np = temp2[,getNPRatioColName(icrData)], x_o = temp2[,getOxygenColName(icrData)], x_n = temp2[,getNitrogenColName(icrData)], x_s = temp2[,getSulfurColName(icrData)], x_p = temp2[,getPhosphorusColName(icrData)], x_mass = temp2[,getMassColName(icrData)], assign_bs3)
+    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], x_nc = temp2[,getNCRatioColName(icrData)], x_pc = temp2[,getPCRatioColName(icrData)], x_np = temp2[,getNPRatioColName(icrData)], x_o = temp2[,getOxygenColName(icrData)], x_n = temp2[,getNitrogenColName(icrData)], x_s = temp2[,getSulfurColName(icrData)], x_p = temp2[,getPhosphorusColName(icrData)], x_mass = temp2[,getMassColName(icrData)], MoreArgs = list(bound_match), assign_bs3)
     classes[which(classes == "")] = "Other"
     classes[grep("Nucleotide", classes)] = "Nucleotide"
   }
@@ -76,7 +76,8 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
   comp_class[forms] = classes
   
   # add the column to e_meta #
-  assign(paste("temp$", boundary_set, "_class", sep = ""), comp_class)
+  temp[,(ncol(temp) + 1)] = comp_class
+  names(temp)[ncol(temp)] = paste(boundary_set, "_class", sep = "")
   
   # reassign temp back to e_meta in icrData #
   icrData$e_meta = temp
@@ -96,7 +97,7 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
 }
 
 
-assign_bs1 = function(x_hc, x_oc){
+assign_bs1 = function(x_hc, x_oc, bound_match){
   ids = which(x_hc >= bound_match$HC.low & x_hc <= bound_match$HC.high & x_oc >= bound_match$OC.low & x_oc <= bound_match$OC.high)
   if(length(ids) > 0){
     paste(rownames(bound_match)[ids], collapse = ";")
@@ -105,7 +106,7 @@ assign_bs1 = function(x_hc, x_oc){
   }
 }
 
-assign_bs2 = function(x_hc, x_oc){
+assign_bs2 = function(x_hc, x_oc, bound_match){
 
   lips = ifelse(x_hc >= bound_match$HC.low[1] & x_hc <= bound_match$HC.high[1] & x_oc > bound_match$OC.low[1] & x_oc <= bound_match$OC.high[1], "Lipid", NA)
   unsa = ifelse(x_hc >= bound_match$HC.low[2] & x_hc < bound_match$HC.high[2] & x_oc >= bound_match$OC.low[2] & x_oc <= bound_match$OC.high[2], "Unsat Hydrocarbons", NA)
@@ -121,7 +122,7 @@ assign_bs2 = function(x_hc, x_oc){
   temps
 }
 
-assign_bs3 = function(x_hc, x_oc, x_nc, x_pc, x_np, x_o, x_n, x_p, x_s, x_mass){
+assign_bs3 = function(x_hc, x_oc, x_nc, x_pc, x_np, x_o, x_n, x_p, x_s, x_mass, bound_match){
   lips = ifelse(x_hc >= bound_match$HC.low[1] & x_oc <= bound_match$OC.high[1] & x_nc <= bound_match$NC.high[1] & x_pc < bound_match$PC.high[1] & x_np <= bound_match$NP.high[1], "Lipid", NA)
   prot1 = ifelse(x_hc > bound_match$HC.low[2] & x_hc < bound_match$HC.high[2] & x_oc > bound_match$OC.low[2] & x_oc <= bound_match$OC.high[2] & x_nc >= bound_match$NC.low[2] & x_nc <= bound_match$NC.high[2] & x_pc < bound_match$PC.high[2] & x_n >= bound_match$N.low[2], "Protein", NA)
   prot2 = ifelse(x_hc > bound_match$HC.low[3] & x_hc < bound_match$HC.high[3] & x_oc > bound_match$OC.low[3] & x_oc <= bound_match$OC.high[3] & x_nc > bound_match$NC.low[3] & x_nc <= bound_match$NC.high[3] & x_pc < bound_match$PC.high[3] & x_n >= bound_match$N.low[3], "Protein", NA)
