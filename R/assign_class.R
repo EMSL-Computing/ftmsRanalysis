@@ -109,7 +109,7 @@ assign_bs1 = function(x_hc, x_oc, bound_match){
 assign_bs2 = function(x_hc, x_oc, bound_match){
 
   lips = ifelse(x_hc >= bound_match$HC.low[1] & x_hc <= bound_match$HC.high[1] & x_oc > bound_match$OC.low[1] & x_oc <= bound_match$OC.high[1], "Lipid", NA)
-  unsa = ifelse(x_hc >= bound_match$HC.low[2] & x_hc < bound_match$HC.high[2] & x_oc >= bound_match$OC.low[2] & x_oc <= bound_match$OC.high[2], "Unsat Hydrocarbons", NA)
+  unsa = ifelse(x_hc >= bound_match$HC.low[2] & x_hc < bound_match$HC.high[2] & x_oc >= bound_match$OC.low[2] & x_oc <= bound_match$OC.high[2], "Unsat Hydrocarbon", NA)
   prot = ifelse(x_hc >= bound_match$HC.low[3] & x_hc <= bound_match$HC.high[3] & x_oc > bound_match$OC.low[3] & x_oc <= bound_match$OC.high[3], "Protein", NA)
   lign = ifelse(x_hc >= bound_match$HC.low[4] & x_hc < bound_match$HC.high[4] & x_oc > bound_match$OC.low[4] & x_oc <= bound_match$OC.high[4], "Lignin", NA)
   carb = ifelse(x_hc >= bound_match$HC.low[5] & x_hc <= bound_match$HC.high[5] & x_oc > bound_match$OC.low[5] & x_oc <= bound_match$OC.high[5], "Carbohydrate", NA)

@@ -37,7 +37,7 @@ getVanKrevelenCategoryBounds <- function(boundary_set) {
   S.high = rep("< Inf", 9)
   mass.low = rep(">= 0", 9)
   mass.high = rep("< Inf", 9)
-  category = c("Lipid","Unsat Hydrocarbons", "Proteins","Lignin","Carbohydrate","Amino Sugar","Tannin","Cond Hydrocarbons","Other")
+  category = c("Lipid","Unsat Hydrocarbon", "Protein","Lignin","Carbohydrate","Amino Sugar","Tannin","Cond Hydrocarbon","Other")
   }
   if(boundary_set == "bs2"){
     HC.low = c(">= 1.5", ">= 0.8", ">= 1.5", ">= 0.8", ">= 1.5", ">= 1.5", ">= 0.8", ">= 0.2", ">= 0")
@@ -60,7 +60,7 @@ getVanKrevelenCategoryBounds <- function(boundary_set) {
     S.high = rep("< Inf", 9)
     mass.low = rep(">= 0", 9)
     mass.high = rep("< Inf", 9)
-    category = c("Lipid","Unsat Hydrocarbons", "Proteins","Lignin","Carbohydrate","Amino Sugar","Tannin","Cond Hydrocarbons","Other")
+    category = c("Lipid","Unsat Hydrocarbon", "Protein","Lignin","Carbohydrate","Amino Sugar","Tannin","Cond Hydrocarbon","Other")
   }
   if(boundary_set == "bs3"){
     OC.low = c(">= 0", "> 0.12", "> 0.6", ">= 0.61", ">= 0.8", ">= 0.5", ">= 0", ">= 0")

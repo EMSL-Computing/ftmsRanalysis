@@ -99,7 +99,7 @@ test_that("formula filters work correctly on peakIcrData", {
   expect_true(nrow(peakIcrData$e_data) >= nrow(peakIcrData2$e_data))
   
   expect_true(!is.null(attr(peakIcrData2, "filter")))
-  expect_true(!is.null(attr(peakIcrData2, "filter")$moleculeFilt))
+  expect_true(!is.null(attr(peakIcrData2, "filter")$formulaFilt))
   ## TODO do we want to test more things about the attribute here?
   
   # summary method
@@ -123,7 +123,7 @@ test_that("formula filters work correctly on peakIcrData", {
   expect_true(nrow(peakIcrData$e_data) >= nrow(peakIcrData3$e_data))
   
   expect_true(!is.null(attr(peakIcrData3, "filter")))
-  expect_true(!is.null(attr(peakIcrData3, "filter")$moleculeFilt))
+  expect_true(!is.null(attr(peakIcrData3, "filter")$formulaFilt))
   ## TODO do we want to test more things about the attribute here?
   
   # test some things that should fail  

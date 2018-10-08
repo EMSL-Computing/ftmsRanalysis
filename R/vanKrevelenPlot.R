@@ -58,11 +58,11 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
   
   OC.col <- getOCRatioColName(icrData)
-  if (is.null(OC.col) | !is.element(OC.col, colnames(icrData$e_meta))) {
+  if (is.null(OC.col) | !isTRUE(is.element(OC.col, colnames(icrData$e_meta)))) {
     stop("O:C ratio column attribute is not set or is not present in icrData$e_meta")
   }
   HC.col <- getHCRatioColName(icrData)
-  if (is.null(HC.col) | !is.element(HC.col, colnames(icrData$e_meta))) {
+  if (is.null(HC.col) | !isTRUE(is.element(HC.col, colnames(icrData$e_meta)))) {
     stop("H:C ratio column attribute is not set or is not present in icrData$e_meta")
   }
   
@@ -73,7 +73,7 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
   vk_color_different_than_pts <- FALSE
   if (!is.na(vkBoundarySet)) {
     icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
-    icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta$Class)
+    icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta[,paste0(vkBoundarySet, "_class")])
     
     # data.frame of van krevelen bounds for plotting purposes
     vankrev_categories <- getVanKrevelenPlottingDF(vkBoundarySet)

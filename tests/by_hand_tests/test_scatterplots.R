@@ -28,7 +28,7 @@ scatterPlot(icrData, xCName, yCName, colorCName="N")
 
 # color by a factor
 icrData <- assign_class(icrData)
-icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta$Class)
+icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta$bs1_class)
 scatterPlot(icrData, xCName, yCName, colorCName="Class", xlabel = "My X Label", ylabel="My Y Label")
 
 # don't specify a color column

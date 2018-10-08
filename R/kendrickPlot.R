@@ -71,7 +71,7 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   # Van Krevelen categories
   if (!is.na(vkBoundarySet) & is.na(colorCName)) {
     icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
-    icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta$Class)
+    icrData$e_meta$Class <- gsub(";.*", "", icrData$e_meta[,paste0(vkBoundarySet, "_class")])
     colorCName <- "Class"
   }
 
