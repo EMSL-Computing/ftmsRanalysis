@@ -67,7 +67,9 @@ getGroupDF <- function(icrData){
 
 setGroupDF <- function(icrData, group_df) {
   if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
-  if (!inherits(group_df, "data.frame")) stop("group_df must be of type data.frame")
+  if (!identical(group_df, NULL)) {
+    if (!inherits(group_df, "data.frame")) stop("group_df must be of type data.frame")
+  }
   attr(icrData, "group_DF") <- group_df
   invisible(icrData)
 }
