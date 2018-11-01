@@ -25,8 +25,8 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
   color_vec <- c(Formula="gray", NoFormula="gray")
   if (!identical(remove, NA)) color_vec[names(color_vec) != remove] <- "red"
   
-  p <- plot_ly() %>%
-    add_bars(x=~x, y=~count, color=~x, colors=color_vec, data=plot_data, showlegend=FALSE, hoverinfo="y") 
+  p <- plotly::plot_ly() %>%
+    plotly::add_bars(x=~x, y=~count, color=~x, colors=color_vec, data=plot_data, showlegend=FALSE, hoverinfo="y") 
   
   # axis styling
   ax <- list(
@@ -41,11 +41,11 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
   })
 
   p <- p %>%
-    layout(barmode="overlay", annotations=annotations, 
-           xaxis=c(ax, list(title=xlabel), automargin=TRUE), yaxis=c(ax, list(title=ylabel)))
+    plotly::layout(barmode="overlay", annotations=annotations, 
+                   xaxis=c(ax, list(title=xlabel), automargin=TRUE), yaxis=c(ax, list(title=ylabel)))
 
   if (!identical(title, NA)) {
-    p <- p %>% layout(title=title)
+    p <- p %>% plotly::layout(title=title)
   }
   
   p

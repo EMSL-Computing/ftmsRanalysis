@@ -13,7 +13,7 @@
 #' @examples
 #' data("peakIcrData")
 #' filter_obj <- formula_filter(peakIcrData)
-#' peakIcrDataFiltered <- applyFilt(filter_obj, remove="NoFormula")
+#' peakIcrDataFiltered <- applyFilt(filter_obj, peakIcrData, remove="NoFormula")
 formula_filter <- function(icrData){
   
   # check that icrData is of appropriate class #

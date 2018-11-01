@@ -87,7 +87,9 @@ mapPeaksToCompounds <- function(peakIcrData, db="KEGG") {
   }
   attr(res, "cnames") <- cnames.new
   attr(res, "filters") <- attr(peakIcrData, "filters")
-  res <- fticRanalysis:::setGroupDF(res, getGroupDF(peakIcrData))
+  if (!is.null(getGroupDF(peakIcrData))) {
+    res <- fticRanalysis:::setGroupDF(res, getGroupDF(peakIcrData))
+  }
   # attr(res, "instrument_type") <- attr(peakIcrData, "instrument_type")
   # attr(res, "data_info") <- attr(peakIcrData, "data_info")
   res <- fticRanalysis:::setDatabase(res, db)

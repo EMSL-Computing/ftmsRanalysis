@@ -33,7 +33,11 @@ test_that("mapPeaksToCompounds works correctly mapping to MetaCyc", {
   expect_true(inherits(compIcrData, "compoundIcrData"))
   expect_true(all(c("e_data", "e_meta", "f_data") %in% names(compIcrData)))
   
-  testCompareAttributes(compIcrData, peakIcrProcessed, "class")
+  testCompareAttributes(compIcrData, peakIcrProcessed, excludeAttr=c("class", "DB", "cnames"))
+  peakCNames <- attr(peakIcrProcessed, "cnames")
+  compCNames <- attr(peakIcrProcessed, "cnames")
+  expect_true(identical(peakCNames, compCNames[names(peakCNames)]))
+
   expect_true(nrow(compIcrData$e_data) < nrow(peakIcrProcessed$e_data))
   expect_true(identical(compIcrData$f_data, peakIcrProcessed$f_data))
   
@@ -61,7 +65,11 @@ test_that("mapPeaksToCompounds works correctly mapping to Kegg", {
   expect_true(inherits(compIcrData, "compoundIcrData"))
   expect_true(all(c("e_data", "e_meta", "f_data") %in% names(compIcrData)))
   
-  testCompareAttributes(compIcrData, peakIcrProcessed, "class")
+  testCompareAttributes(compIcrData, peakIcrProcessed, excludeAttr=c("class", "DB", "cnames"))
+  peakCNames <- attr(peakIcrProcessed, "cnames")
+  compCNames <- attr(peakIcrProcessed, "cnames")
+  expect_true(identical(peakCNames, compCNames[names(peakCNames)]))
+
   expect_true(nrow(compIcrData$e_data) < nrow(peakIcrProcessed$e_data))
   expect_true(identical(compIcrData$f_data, peakIcrProcessed$f_data))
   
