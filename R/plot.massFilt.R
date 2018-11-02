@@ -16,35 +16,41 @@
 #' filter_obj <- mass_filter(peakIcrData)
 #' plot(filter_obj, min_mass = 200, max_mass = 800)
 plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count") {
-  
-  data_range <- range(filter_obj$Mass, na.rm=TRUE)
-  
-  if (identical(min_mass, NA) & !identical(max_mass, NA)) max_mass <- data_range[2]
-  if (!identical(min_mass, NA) & identical(max_mass, NA)) min_mass <- data_range[1]
-  
-  if (!identical(min_mass, NA) & min_mass < data_range[1]) min_mass <- data_range[1]
-  if (!identical(max_mass, NA) & max_mass > data_range[2]) max_mass <- data_range[2]
-  
+  fticRanalysis:::.filterNumericRangePlot(filter_obj, "Mass", min_mass, max_mass, title, xlabel, ylabel)
+}
+
+
+# Internal only function to plot a filter object (mass or emeta) based on a range of values
+.filterNumericRangePlot <- function(filter_obj, field_name, min_val=NA, max_val=NA, title=NA, xlabel=field_name, ylabel="Count") {
+  data_vector <- dplyr::pull(filter_obj, field_name)
+  data_range <- range(data_vector, na.rm=TRUE)
+
+  if (identical(min_val, NA) & !identical(max_val, NA)) min_val <- data_range[1]
+  if (!identical(min_val, NA) & identical(max_val, NA)) max_val <- data_range[2]
+
+  if (!identical(min_val, NA) & min_val < data_range[1]) min_val <- data_range[1]
+  if (!identical(max_val, NA) & max_val > data_range[2]) max_val <- data_range[2]
+
   colored <- FALSE
-  if (identical(min_mass, NA) & identical(max_mass, NA)) {
+  if (identical(min_val, NA) & identical(max_val, NA)) {
     breaks=pretty(data_range, n=25)
   } else { # come up with breaks the hard way!
     colored <- TRUE
     
-    range_prop <- (max_mass-min_mass)/diff(data_range)
-    breaks1 <- pretty(c(min_mass, max_mass), n=round(range_prop*25))
+    range_prop <- (max_val-min_val)/diff(data_range)
+    breaks1 <- pretty(c(min_val, max_val), n=round(range_prop*25))
     binsize <- diff(breaks1)[1]
     colored_bins <- data.frame(x=breaks1[-1]-diff(breaks1)/2, category="Keep")
 
-    n1 <- ceiling((min_mass-data_range[1])/binsize)
-    n2 <- ceiling((data_range[2]-max_mass)/binsize)
-    breaks <- c(seq(to=min_mass-binsize, length=n1, by=binsize), breaks1, seq(from=max_mass+binsize, length=n2, by=binsize))
+    n1 <- ceiling((min_val-data_range[1])/binsize)
+    n2 <- ceiling((data_range[2]-max_val)/binsize)
+    breaks <- c(seq(to=min_val-binsize, length=n1, by=binsize), breaks1, seq(from=max_val+binsize, length=n2, by=binsize))
     
     if (max(breaks) < data_range[2] | min(breaks) > data_range[1]) 
       stop("You did something wrong calculating those breaks!")
   }
   
-  hist_data <- hist(filter_obj$Mass, breaks = breaks, plot = FALSE)
+  hist_data <- hist(data_vector, breaks = breaks, plot = FALSE)
   
   plot_data <- data.frame(x=hist_data$mids, count=hist_data$counts, binwidth=diff(breaks))
   
@@ -64,7 +70,7 @@ plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel
     keep_total <- sum(keep_bins$count)
     highest_count <- max(keep_bins$count)
     annotations <-
-      list(x=(min_mass+max_mass)/2, y=highest_count, text=sprintf("%d Peaks Retained", keep_total), yanchor="bottom", 
+      list(x=(min_val+max_val)/2, y=highest_count, text=sprintf("%d Peaks Retained", keep_total), yanchor="bottom", 
            showarrow=FALSE)#, textangle=-90)
     p <- p %>% plotly::layout(annotations=annotations)
     
