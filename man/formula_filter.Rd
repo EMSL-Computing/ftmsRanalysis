@@ -18,7 +18,7 @@ This function returns a formulaeFilt object for use with \code{\link{applyFilt}}
 \examples{
 data("peakIcrData")
 filter_obj <- formula_filter(peakIcrData)
-peakIcrDataFiltered <- applyFilt(filter_obj, remove="NoFormula")
+peakIcrDataFiltered <- applyFilt(filter_obj, peakIcrData, remove="NoFormula")
 }
 \author{
 Lisa Bramer

@@ -51,10 +51,10 @@ plot(filter_object1)
 # filter peaks based on molecular formula #
 filter_object2 = emeta_filter(peakIcrProcessed, cname = "MolForm")
 
-#  Nothing retained:
+#  Only non-NAs retained:
 plot(filter_object2)
 
-# Only NA's retained
+# Everthing retained
 plot(filter_object2, na.rm=FALSE)
 
 # Only 1 MolForm retained

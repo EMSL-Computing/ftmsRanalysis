@@ -21,7 +21,7 @@ Use this in conjunction with \code{\link{applyFilt}} to retain peaks which have 
 \examples{
 data("peakIcrData")
 filter_obj <- mass_filter(peakIcrData)
-peakIcrDataFiltered <- applyFilt(filter_obj, min_mass=200, max_mass=900)
+peakIcrDataFiltered <- applyFilt(filter_obj, peakIcrData, min_mass=200, max_mass=900)
 }
 \author{
 Lisa Bramer
