@@ -23,7 +23,7 @@
 #' @seealso \code{\link{plot_ly}}
 #' 
 #' @author Allison Thompson, Lisa Bramer, Amanda White
-#' 
+#' @importFrom dplyr %>%
 #' @export
 densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA, 
                             yaxis="density", plot_hist=FALSE, plot_curve=TRUE, 
