@@ -15,7 +15,7 @@
 #'
 # @examples
 vanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1", uniquenessColName=NA) {
-  divisionType = getDivisionType(icrData)
+  divisionType <- fticRanalysis:::getDivisionType(icrData)
   if (divisionType == "sample") {
     sample_colnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
     sample_colnames <- sample_colnames[sample_colnames %in% colnames(icrData$e_data)]

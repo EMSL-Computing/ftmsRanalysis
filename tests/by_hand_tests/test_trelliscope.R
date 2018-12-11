@@ -27,6 +27,7 @@ panelFnS2 <- panelFunctionGenerator("kendrickPlot", vkBoundarySet="bs1")
 
 makeDisplay(sampleDdo, 
             panelFn=panelFnS2,
+            cogFn=kendrickCognostics,
             name = "Trelliscope test S_2 with Kendrick",
             group = "Sample")
 
@@ -71,26 +72,9 @@ panelFnG2 <- panelFunctionGenerator("kendrickPlot", colorCName=expr(paste0(getSp
 
 makeDisplay(groupSummaryDdo, 
             panelFn=panelFnG2,
+            cogFn=kendrickCognostics,
             name = "Trelliscope test G_2 with Kendrick plot per group",
             group = "Group")
-
-
-##########################################################
-## GROUP COMPARISON PLOTS
-
-peakIcrProcessed <- assign_class(peakIcrProcessed, "bs1")
-grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
-grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
-                                               summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
-
-## TEST G-1: VK group plot, color by proportion present
-panelFnGC1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="uniqueness_gtest")
-
-makeDisplay(grpCompSummaryDdo, 
-            panelFn=panelFnGC1,
-            cogFn=vanKrevelenCognostics,
-            name = "Trelliscope test GC_1 with VK plot per group",
-            group = "Group_Comparison")
 
 
 
@@ -106,4 +90,30 @@ makeDisplay(groupDdo,
 view()
 
 
+##########################################################
+## GROUP COMPARISON PLOTS
+
+peakIcrProcessed <- assign_class(peakIcrProcessed, "bs1")
+grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
+grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
+                                               summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
+
+## TEST GC-1: VK group comparison plot
+panelFnGC1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="uniqueness_gtest")
+
+makeDisplay(grpCompSummaryDdo, 
+            panelFn=panelFnGC1,
+            cogFn=vanKrevelenCognostics,
+            name = "Trelliscope test GC_1 with VK group comparison",
+            group = "Group_Comparison")
+
+
+## TEST GC-2: Kendrick group comparison plot
+panelFnGC2 <- panelFunctionGenerator("kendrickPlot", colorCName="uniqueness_gtest")
+
+makeDisplay(grpCompSummaryDdo, 
+            panelFn=panelFnGC2,
+            cogFn=kendrickCognostics,
+            name = "Trelliscope test GC_2 with Kendrick group comparison",
+            group = "Group_Comparison")
 
