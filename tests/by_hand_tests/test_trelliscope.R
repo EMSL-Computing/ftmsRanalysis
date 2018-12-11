@@ -17,6 +17,7 @@ panelFnS1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", titl
 
 makeDisplay(sampleDdo, 
             panelFn=panelFnS1,
+            cogFn=vanKrevelenCognostics,
             name = "Trelliscope test S_1 with VK",
             group = "Sample")
 
@@ -59,6 +60,7 @@ panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=expr(paste0(ge
 
 makeDisplay(groupSummaryDdo, 
             panelFn=panelFnG1,
+            cogFn=vanKrevelenCognostics,
             name = "Trelliscope test G_1 with VK plot per group",
             group = "Group")
 
@@ -71,6 +73,25 @@ makeDisplay(groupSummaryDdo,
             panelFn=panelFnG2,
             name = "Trelliscope test G_2 with Kendrick plot per group",
             group = "Group")
+
+
+##########################################################
+## GROUP COMPARISON PLOTS
+
+peakIcrProcessed <- assign_class(peakIcrProcessed, "bs1")
+grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
+grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
+                                               summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
+
+## TEST G-1: VK group plot, color by proportion present
+panelFnGC1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="uniqueness_gtest")
+
+makeDisplay(grpCompSummaryDdo, 
+            panelFn=panelFnGC1,
+            cogFn=vanKrevelenCognostics,
+            name = "Trelliscope test GC_1 with VK plot per group",
+            group = "Group_Comparison")
+
 
 
 ## TEST G-3: classes plot for each group
