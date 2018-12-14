@@ -41,12 +41,12 @@ makeDisplay(sampleDdo,
             group = "Sample")
 
 
-## TEST 4: densityPlot of NOSC
+## TEST S-4: densityPlot of NOSC
 panelFn4 <- panelFunctionGenerator("densityPlot", variable="NOSC")
-
 makeDisplay(sampleDdo, 
             panelFn=panelFn4,
-            name = "Trelliscope test 4 with density",
+            cogFn=densityCognostics("NOSC"),
+            name = "Trelliscope test G_4 with density",
             group = "Sample")
 
 ##########################################################
@@ -87,6 +87,15 @@ makeDisplay(groupDdo,
             group = "Group")
 
 
+## TEST G-4: density plot for each group
+panelFnG4 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
+
+makeDisplay(groupDdo, 
+            panelFn=panelFnG4,
+            cogFn=densityCognostics("NOSC"),
+            name = "Trelliscope test G_4 with densityPlot",
+            group = "Group")
+
 view()
 
 
@@ -115,5 +124,14 @@ makeDisplay(grpCompSummaryDdo,
             panelFn=panelFnGC2,
             cogFn=kendrickCognostics,
             name = "Trelliscope test GC_2 with Kendrick group comparison",
+            group = "Group_Comparison")
+
+## TEST GC-3: Density group comparison plot
+panelFnGC3 <- panelFunctionGenerator("densityPlot", variable="NOSC", samples=FALSE, groups=NA)
+
+makeDisplay(grpCompDdo, 
+            panelFn=panelFnGC3,
+            cogFn=densityCognostics("NOSC"),
+            name = "Trelliscope test GC_3 with density group comparison",
             group = "Group_Comparison")
 

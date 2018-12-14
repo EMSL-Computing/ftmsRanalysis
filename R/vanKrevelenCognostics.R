@@ -16,24 +16,22 @@
 # @examples
 vanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1", uniquenessColName=NA) {
   divisionType <- fticRanalysis:::getDivisionType(icrData)
-  if (divisionType == "sample") {
+  if (divisionType == "sample" | divisionType == "group") {
     sample_colnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
     sample_colnames <- sample_colnames[sample_colnames %in% colnames(icrData$e_data)]
     presInd <- fticRanalysis:::n_present(icrData$e_data[, sample_colnames], 
                                          fticRanalysis:::getDataScale(icrData)) > 0
     
-    cogs <- commonVanKrevelenCognostics(icrData, presInd, vkBoundarySet=vkBoundarySet)
+    cogs <- fticRanalysis:::commonVanKrevelenCognostics(icrData, presInd, vkBoundarySet=vkBoundarySet)
     
-    # add f_data columns
-    fdata_cols <- setdiff(colnames(icrData$f_data), getFDataColName(icrData))
-    more_cogs <- lapply(fdata_cols, function(cc) {
-      cog(val=icrData$f_data[1, cc], desc=cc)
-    })
-    names(more_cogs) <- fdata_cols
-    cogs <- c(cogs, more_cogs)
+    if (divisionType == "sample") {
+      cogs <- c(cogs, fticRanalysis:::sampleCognostics(icrData))
+    } else {
+      cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
+    }
     return(cogs)
     
-  } else if (divisionType == "group") {
+  } else if (divisionType == "groupSummary") {
     cname <- grep(pattern = ".*_n_present", x = colnames(icrData$e_data), value=TRUE)
     if (length(cname) == 0) {
       cname <- grep(pattern = ".*_prop_present", x = colnames(icrData$e_data), value=TRUE)
@@ -41,22 +39,16 @@ vanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1", uniquenessColNam
     if (length(cname) == 0) stop("Cannot find appropriate group summary column of e_data, looking for 'n_present' or 'prop_present'")
     
     presInd <- icrData$e_data[, cname] > 0 
-    cogs <- commonVanKrevelenCognostics(icrData, presInd, vkBoundarySet=vkBoundarySet)
+    cogs <- fticRanalysis:::commonVanKrevelenCognostics(icrData, presInd, vkBoundarySet=vkBoundarySet)
     
-    # add group defining columns
-    groupDF <- fticRanalysis:::getGroupDF(icrData)
-    if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
-    cols <- c(attr(groupDF, "main_effects"), attr(groupDF, "covariates"))
-    more_cogs <- lapply(cols, function(cc) {
-      cog(val=groupDF[1, cc], desc=cc)
-    })
-    names(more_cogs) <- cols
-    cogs <- c(cogs, more_cogs)
+    cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
     return(cogs)
   
-  } else if (divisionType == "group_comparison") {
-    cogs <- comparisonVanKrevelenCognostics(icrData, vkBoundarySet=vkBoundarySet, uniquenessColName=uniquenessColName)
+  } else if (divisionType == "group_comparison_summary") {
+    cogs <- fticRanalysis:::comparisonSummaryVanKrevelenCognostics(icrData, vkBoundarySet=vkBoundarySet, uniquenessColName=uniquenessColName)
     return(cogs)
+  } else {
+    stop(sprintf("vanKrevelenCognostics doesn't work with objects of this type (%s)", divisionType))
   }
   
 }
@@ -86,8 +78,31 @@ commonVanKrevelenCognostics <- function(icrData, presenceIndicator, vkBoundarySe
   return(cogs)
 }
 
-# Cognostics for group comparison icrData objects
-comparisonVanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1", uniquenessColName=NA) {
+# Cogs for samples: f_data columns
+sampleCognostics <- function(icrData) {
+  # add f_data columns
+  fdata_cols <- setdiff(colnames(icrData$f_data), getFDataColName(icrData))
+  more_cogs <- lapply(fdata_cols, function(cc) {
+    cog(val=icrData$f_data[1, cc], desc=cc)
+  })
+  names(more_cogs) <- fdata_cols
+  return(more_cogs)
+}
+
+# Cogs for groups: group defining columns of f_data
+groupCognostics <- function(icrData) {
+  groupDF <- fticRanalysis:::getGroupDF(icrData)
+  if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
+  cols <- c(attr(groupDF, "main_effects"), attr(groupDF, "covariates"))
+  more_cogs <- lapply(cols, function(cc) {
+    cog(val=groupDF[1, cc], desc=cc)
+  })
+  names(more_cogs) <- cols
+  return(more_cogs)
+}
+
+# Cognostics for comparison summary icrData objects
+comparisonSummaryVanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1", uniquenessColName=NA) {
   if (!inherits(icrData, "comparisonSummary")) stop("icrData must be of class 'comparisonSummary'")
   groupDF <- getGroupDF(icrData)
   if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
@@ -145,9 +160,15 @@ getDivisionType <- function(icrData) {
   if (getFDataColName(icrData) %in% names(svars)) {
     return("sample")
   } else if ("Group" %in% names(svars)) {
-    return("group")
-  } else if (inherits(icrData, "comparisonSummary")) {
+    if (inherits(icrData, "groupSummary")) {
+      return("groupSummary")
+    } else {
+      return("group")
+    }
+  } else if (inherits(icrData, "groupComparison")) {
     return("group_comparison")
+  } else if (inherits(icrData, "comparisonSummary")) {
+    return("group_comparison_summary")
   } else {
     stop("Unknown division type")
   }

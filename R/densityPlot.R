@@ -5,7 +5,7 @@
 #' @param icrData icrData object of class peakIcrData or compoundIcrData
 #' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
 #' @param samples vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.
-#' @param groups vector of group names to plot. Default of \code{NA} indicates all groups found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no groups, only samples.
+#' @param groups vector of group names to plot. Value of \code{NA} indicates all groups found in \code{icrData} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.
 #' @param title plot title, default is NA (no title)
 #' @param yaxis what should the y-axis represent, "density" or "count"? 
 #' @param plot_hist TRUE/FALSE should a histogram be added to the plot? A histogram may only be added if a single sample or groups is plotted.
