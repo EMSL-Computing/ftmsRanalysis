@@ -4,12 +4,9 @@
 \alias{vanKrevelenCognostics}
 \title{Default cognostics for Van Krevelen plots in Trelliscope}
 \usage{
-vanKrevelenCognostics(icrData, vkBoundarySet = "bs1",
-  uniquenessColName = NA)
+vanKrevelenCognostics(vkBoundarySet = "bs1", uniquenessColName = NA)
 }
 \arguments{
-\item{icrData}{}
-
 \item{vkBoundarySet}{Van Krevelen boundary set to use for calculating class proportions}
 
 \item{uniquenessColName}{if \code{icrData} is a group comparison summary object, what is the 
@@ -17,9 +14,52 @@ name of the column that specifies uniqueness to a group? If only one uniqueness 
 been applied this is unnecessary. (See \code{\link{summarizeComparisons}}.)}
 }
 \value{
-list of cognostics
+a function that may be applied to objects of type \code{peakIcrData}, \code{groupSummary},
+and \code{comparisonSummary}
 }
 \description{
-The vanKrevelenCognostics function provides a set of default cognostics
-to be used with Van Krevelen plots in Trelliscope.
+The \code{vanKrevelenCognostics} function provides a set of default cognostics
+to be used with Van Krevelen plots in Trelliscope. The \code{vanKrevelenCognostics}
+function accepts the boundary set used for Van Krevelen class calculations
+and (for \code{comparisonSummary} objects only) the name of the column to use
+for identifying which peaks are observed in which group. It 
+returns a function that may be applied to each \code{icrData} object, as is
+appropriate for use with the \code{\link{makeDisplay}} function. See 
+Examples section for use.
+}
+\examples{
+\dontrun{
+library(fticRanalysis)
+library(trelliscope)
+
+vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
+data('peakIcrProcessed')
+
+## Van Krevelen plot for each sample
+sampleDdo <- divideBySample(peakIcrProcessed)
+panelFn1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
+
+# Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions
+makeDisplay(sampleDdo, 
+         panelFn=panelFn1,
+         cogFn=vanKrevelenCognostics(vkBoundarySet="bs2"),
+         name = "Van_Krevelen_plots_per_sample")
+
+## Van Krevelen plots for group comparison summaries
+grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
+grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
+                                            summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
+
+panelFn2 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="uniqueness_gtest")
+
+# Note: uniquenessColName parameter tells vanKrevelenCognostics which column to use to determine 
+# group uniqueness for each peak. If only one summary function is used in summarizeGroupComparisons
+# then it will be inferred, otherwise it's necessary to specify. 
+makeDisplay(grpCompSummaryDdo, 
+         panelFn=panelFn2,
+         cogFn=vanKrevelenCognostics(uniquenessColName="uniqueness_gtest"),
+         name = "Van_Krevelen_plots_for_group_comparison_summaries")
+         
+view()
+}
 }

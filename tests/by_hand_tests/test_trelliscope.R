@@ -17,7 +17,7 @@ panelFnS1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", titl
 
 makeDisplay(sampleDdo, 
             panelFn=panelFnS1,
-            cogFn=vanKrevelenCognostics,
+            cogFn=vanKrevelenCognostics(vkBoundarySet="bs2"),
             name = "Trelliscope test S_1 with VK",
             group = "Sample")
 
@@ -27,7 +27,7 @@ panelFnS2 <- panelFunctionGenerator("kendrickPlot", vkBoundarySet="bs1")
 
 makeDisplay(sampleDdo, 
             panelFn=panelFnS2,
-            cogFn=kendrickCognostics,
+            cogFn=kendrickCognostics(vkBoundarySet="bs1"),
             name = "Trelliscope test S_2 with Kendrick",
             group = "Sample")
 
@@ -37,6 +37,7 @@ panelFnS3 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="Intensity")
 
 makeDisplay(sampleDdo, 
             panelFn=panelFnS3,
+            cogFn=vanKrevelenCognostics(),
             name = "Trelliscope test S_3 with VK",
             group = "Sample")
 
@@ -46,7 +47,7 @@ panelFn4 <- panelFunctionGenerator("densityPlot", variable="NOSC")
 makeDisplay(sampleDdo, 
             panelFn=panelFn4,
             cogFn=densityCognostics("NOSC"),
-            name = "Trelliscope test G_4 with density",
+            name = "Trelliscope test S_4 with density",
             group = "Sample")
 
 ##########################################################
@@ -61,7 +62,7 @@ panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=expr(paste0(ge
 
 makeDisplay(groupSummaryDdo, 
             panelFn=panelFnG1,
-            cogFn=vanKrevelenCognostics,
+            cogFn=vanKrevelenCognostics(),
             name = "Trelliscope test G_1 with VK plot per group",
             group = "Group")
 
@@ -72,7 +73,7 @@ panelFnG2 <- panelFunctionGenerator("kendrickPlot", colorCName=expr(paste0(getSp
 
 makeDisplay(groupSummaryDdo, 
             panelFn=panelFnG2,
-            cogFn=kendrickCognostics,
+            cogFn=kendrickCognostics(),
             name = "Trelliscope test G_2 with Kendrick plot per group",
             group = "Group")
 
@@ -112,7 +113,7 @@ panelFnGC1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="uniqueness_g
 
 makeDisplay(grpCompSummaryDdo, 
             panelFn=panelFnGC1,
-            cogFn=vanKrevelenCognostics,
+            cogFn=vanKrevelenCognostics(),
             name = "Trelliscope test GC_1 with VK group comparison",
             group = "Group_Comparison")
 
@@ -122,7 +123,7 @@ panelFnGC2 <- panelFunctionGenerator("kendrickPlot", colorCName="uniqueness_gtes
 
 makeDisplay(grpCompSummaryDdo, 
             panelFn=panelFnGC2,
-            cogFn=kendrickCognostics,
+            cogFn=kendrickCognostics(),
             name = "Trelliscope test GC_2 with Kendrick group comparison",
             group = "Group_Comparison")
 
@@ -132,6 +133,5 @@ panelFnGC3 <- panelFunctionGenerator("densityPlot", variable="NOSC", samples=FAL
 makeDisplay(grpCompDdo, 
             panelFn=panelFnGC3,
             cogFn=densityCognostics("NOSC"),
-            name = "Trelliscope test GC_3 with density group comparison",
+            name = "Trelliscope test GC_3 with density on group comparison",
             group = "Group_Comparison")
-

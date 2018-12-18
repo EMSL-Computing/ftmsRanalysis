@@ -36,6 +36,10 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     stop("icrData must be of type peakIcrData or compoundIcrData")
   }
   
+  if (inherits(icrData, "comparisonSummary")) {
+    stop("icrData must not be a comparisonSummary object")
+  }
+  
   if (is.null(variable) | length(which(colnames(icrData$e_meta) == variable)) != 1) {
     stop("variable must be a single column name found in icrData$e_meta")
   }

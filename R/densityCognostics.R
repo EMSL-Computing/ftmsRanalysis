@@ -1,15 +1,46 @@
 #' Default cognostics for density plots in Trelliscope
 #' 
-#' The densityCognostics function provides a set of default cognostics
-#' to be used with density plots in Trelliscope.
+#' The \code{densityCognostics} function provides a set of default cognostics
+#' to be used with density plots in Trelliscope. The \code{densityCognostics}
+#' function accepts the name of the variable used for the density plot and
+#' returns a function that may be applied to each \code{icrData} object, as is
+#' appropriate for use with the \code{\link{makeDisplay}} function. See 
+#' Examples section for use.
 #'
-#' @param icrData 
 #' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
 #' 
-#' @return list of cognostics
+#' @return a function that may be applied to objects of type \code{peakIcrData} and \code{groupSummary}
 #' @export
 #'
-# @examples
+#' @examples
+#' \dontrun{
+#' library(fticRanalysis)
+#' library(trelliscope)
+#' 
+#' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
+#' data('peakIcrProcessed')
+#' 
+#' ## Plot density of NOSC variable for each sample
+#' sampleDdo <- divideBySample(peakIcrProcessed)
+#' panelFn1 <- panelFunctionGenerator("densityPlot", variable="NOSC")
+#' makeDisplay(sampleDdo, 
+#'             panelFn=panelFn1,
+#'             cogFn=densityCognostics("NOSC"),
+#'             name = "NOSC_density_by_sample",
+#'             group = "Sample")
+#'
+#' ## Plot density of NOSC for each group
+#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' panelFn2 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
+#' 
+#' makeDisplay(groupDdo, 
+#'             panelFn=panelFn2,
+#'             cogFn=densityCognostics("NOSC"),
+#'             name = "NOSC_density_by_group",
+#'             group = "Group")
+#' 
+#' view()
+#' }
 densityCognostics <- function(variable) {
   fn <- function(icrData) {
     divisionType <- fticRanalysis:::getDivisionType(icrData)
@@ -28,7 +59,7 @@ densityCognostics <- function(variable) {
       }
       return(cogs)
       
-    } else if (divisionType == "group_summary") {
+    } else if (divisionType == "groupSummary") {
       cname <- grep(pattern = ".*_n_present", x = colnames(icrData$e_data), value=TRUE)
       if (length(cname) == 0) {
         cname <- grep(pattern = ".*_prop_present", x = colnames(icrData$e_data), value=TRUE)
@@ -41,7 +72,7 @@ densityCognostics <- function(variable) {
       cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
       return(cogs)
       
-    } else if (divisionType == "group_comparison") {
+    } else if (divisionType == "groupComparison") {
       cogs <- fticRanalysis:::comparisonDensityCognostics(icrData, variable)
       return(cogs)
     } else {
@@ -66,21 +97,35 @@ commonDensityCognostics <- function(icrData, variable, presenceIndicator) {
   return(cogs)
 }
 
-# Cognostics for group comparison icrData objects
-comparisonDensityCognostics <- function(icrData, variable) {
-  if (!inherits(icrData, "groupComparison")) stop("icrData must be of class 'groupComparison'")
+# Cognostics for group comparison and comparison summary icrData objects
+comparisonDensityCognostics <- function(icrData, variable, uniquenessColName=NA) {
   groupDF <- getGroupDF(icrData)
   if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
-  
   groups <- as.character(unique(groupDF$Group))
-  sampColName <- getFDataColName(icrData)
-  groupList <- lapply(groups, function(g) as.character(groupDF[groupDF[,"Group"] == g, sampColName]))
-  names(groupList) <- groups  
-  
-  presInd1 <- fticRanalysis:::n_present(icrData$e_data[, groupList[[1]]], 
-                                       fticRanalysis:::getDataScale(icrData)) > 0
-  presInd2 <- fticRanalysis:::n_present(icrData$e_data[, groupList[[2]]], 
-                                        fticRanalysis:::getDataScale(icrData)) > 0
+
+  if (inherits(icrData, "groupComparison")) {
+    sampColName <- getFDataColName(icrData)
+    groupList <- lapply(groups, function(g) as.character(groupDF[groupDF[,"Group"] == g, sampColName]))
+    names(groupList) <- groups  
+    
+    presInd1 <- fticRanalysis:::n_present(icrData$e_data[, groupList[[1]]], 
+                                         fticRanalysis:::getDataScale(icrData)) > 0
+    presInd2 <- fticRanalysis:::n_present(icrData$e_data[, groupList[[2]]], 
+                                          fticRanalysis:::getDataScale(icrData)) > 0
+    
+  # } else if (inherits(icrData, "comparisonSummary")) {
+  #   if (identical(uniquenessColName, NA)) {
+  #     uniquenessColName <- setdiff(colnames(icrData$e_data), getEDataColName(icrData))
+  #     if (length(uniquenessColName) != 1) stop("Cannot determine with column to use for uniqueness, please specify 'uniquenessColName' parameter")
+  #   }
+  #   indNa <- is.na(icrData$e_data[, uniquenessColName])
+  #   uniqueCol <- as.character(icrData$e_data[, uniquenessColName])
+  #   presInd1 <- !indNa & (uniqueCol == sprintf("Unique to %s", groups[1]) | uniqueCol == "Observed in Both")
+  #   presInd2 <- !indNa & (uniqueCol == sprintf("Unique to %s", groups[2]) | uniqueCol == "Observed in Both")
+  #   
+  } else {
+    stop("icrData must be of class 'groupComparison'")
+  }  
   
   .data.g1 <- dplyr::pull(icrData$e_meta, variable)[presInd1]
   .data.g2 <- dplyr::pull(icrData$e_meta, variable)[presInd2]
