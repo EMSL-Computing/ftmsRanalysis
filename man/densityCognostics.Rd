@@ -10,7 +10,7 @@ densityCognostics(variable)
 \item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.}
 }
 \value{
-a function that may be applied to objects of type \code{peakIcrData}, and \code{groupSummary}
+a function that may be applied to objects of type \code{peakIcrData} and \code{groupSummary}
 }
 \description{
 The \code{densityCognostics} function provides a set of default cognostics
