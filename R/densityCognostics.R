@@ -91,7 +91,7 @@ commonDensityCognostics <- function(icrData, variable, presenceIndicator) {
     num_peaks=trelliscope::cog(val = sum(presenceIndicator, na.rm=TRUE), desc="Number of peaks observed"),
     mean=trelliscope::cog(val=mean(.data, na.rm=TRUE), desc=sprintf("Mean of %s", variable)),
     median=trelliscope::cog(val=median(.data, na.rm=TRUE), desc=sprintf("Median of %s", variable)),
-    variance=trelliscope::cog(val=var(.data, na.rm=TRUE), desc=sprintf("Variance of %s", variable)),
+    stdev=trelliscope::cog(val=sqrt(var(.data, na.rm=TRUE)), desc=sprintf("Standard deviation of %s", variable)),
     skewness=trelliscope::cog(val=skewness(.data), desc=sprintf("Skewness of %s", variable))
   )
   return(cogs)
@@ -137,15 +137,15 @@ comparisonDensityCognostics <- function(icrData, variable, uniquenessColName=NA)
     ks.statistic=trelliscope::cog(val =ks.val$statistic, desc="Kolmogorov-Smirnov statistic for two-sided test"),
     ks.pvalue=trelliscope::cog(val =ks.val$p.value, desc="P-value of Kolmogorov-Smirnov statistic for two-sided test"),
     num_peaks_g1=trelliscope::cog(val=sum(presInd1), desc="Number of peaks observed in group 1"),
-    mean_group1=trelliscope::cog(val=mean(.data.g1, na.rm=TRUE), desc=sprintf("Mean of %s for peaks observed in group 1", variable)),
-    median_group1=trelliscope::cog(val=median(.data.g1, na.rm=TRUE), desc=sprintf("Median of %s for peaks observed in group 1", variable)),
-    variance_group1=trelliscope::cog(val=var(.data.g1, na.rm=TRUE), desc=sprintf("Variance of %s for peaks observed in group 1", variable)),
-    skewness_group1=trelliscope::cog(val=skewness(.data.g1), desc=sprintf("Skewness of %s for peaks observed in group 1", variable)),
     num_peaks_g2=trelliscope::cog(val=sum(presInd2), desc="Number of peaks observed in group 2"),
-    mean_group2=trelliscope::cog(val=mean(.data.g2, na.rm=TRUE), desc=sprintf("Mean of %s for peaks observed in group 2", variable)),
-    median_group2=trelliscope::cog(val=median(.data.g2, na.rm=TRUE), desc=sprintf("Median of %s for peaks observed in group 2", variable)),
-    variance_group2=trelliscope::cog(val=var(.data.g2, na.rm=TRUE), desc=sprintf("Variance of %s for peaks observed in group 2", variable)),
-    skewness_group2=trelliscope::cog(val=skewness(.data.g2), desc=sprintf("Skewness of %s for peaks observed in group 2", variable))
+    mean_diff_group1_minus_group2=trelliscope::cog(val=mean(.data.g1, na.rm=TRUE)-mean(.data.g2, na.rm=TRUE), 
+                                             desc=sprintf("Difference of mean values of %s (group 1 - group 2)", variable)),
+    median_diff_group1_minus_group2=trelliscope::cog(val=median(.data.g1, na.rm=TRUE)-median(.data.g2, na.rm=TRUE), 
+                                             desc=sprintf("Difference of median values of %s (group 1 - group 2)", variable)),
+    stdev_diff_group1_minus_group2=trelliscope::cog(val=sqrt(var(.data.g1, na.rm=TRUE))-sqrt(var(.data.g2, na.rm=TRUE)), 
+                                             desc=sprintf("Difference of square root values of %s (group 1 - group 2)", variable)),
+    skewness_diff_group1_minus_group2=trelliscope::cog(val=skewness(.data.g1)-skewness(.data.g2), 
+                                              desc=sprintf("Difference of skewness values of %s (group 1 - group 2)", variable))
   )
 
   return(cogs)

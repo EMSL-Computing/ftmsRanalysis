@@ -180,7 +180,7 @@ comparisonSummaryVanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1",
       trelliscope::cog(val=sum(unlist(vkClasses[which(presInd[[g]])]) == cc, na.rm=TRUE)/denom, 
           desc=sprintf("Proportion of observed peaks of class %s unique to group %s", cc, g))
     })
-    names(x) <- paste("prop_unique_", gsub(" ", "_", allClasses), "_group_", g, sep="")
+    names(x) <- paste("prop_", gsub(" ", "_", allClasses), "_unique_group_", g, sep="")
     return(x)
   })
   classProportions <- do.call(c, classProportions)
