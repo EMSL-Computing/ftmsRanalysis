@@ -17,7 +17,7 @@ densityPlot(icrData, variable, samples = NA, groups = FALSE,
 
 \item{samples}{vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.}
 
-\item{groups}{vector of group names to plot. Default of \code{NA} indicates all groups found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no groups, only samples.}
+\item{groups}{vector of group names to plot. Value of \code{NA} indicates all groups found in \code{icrData} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.}
 
 \item{title}{plot title, default is NA (no title)}
 
