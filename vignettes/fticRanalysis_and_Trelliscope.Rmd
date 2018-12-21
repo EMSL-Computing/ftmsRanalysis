@@ -70,9 +70,9 @@ The `fticRanalysis` package provides a wrapper function (`panelFunctionGenerator
 
 A cognostics function is a function that calculates summary statistics on each subset of data. These statistics are then provided in the user interface for sorting and filtering. Example cognostics could include data quantiles, related meta-data or even links to external web resources if desired. 
 
-TODO: describe default cognostics functionality here
+There are a few cognostics functions in `fticRanalysis` designed to provide default cognostics relevant to Van Krevelen plots, Kendrick plots and density plots. These are called, respectively, `vanKrevelenCognostics`, `kendrickCognostics` and `densityCognostics`. Each of these functions is designed to accept parameters similar to their respective plotting functions (e.g. Van Krevelen boundary set, or which variable is used for density plots), and they each return a *function* which may be passed to Trelliscope. This function will be applied to each data subset individually. Cognostics function examples are shown below.
 
-We need to define an output directory for our Trelliscope display. (The output will be a Shiny app, and may be then transferred to a Shiny server if desired.) For this vignette we'll just create a directory under R's temporary directory
+In order to create a Trelliscope display, we need to define an output directory to store it. (The output will be a Shiny app, and may be then transferred to a Shiny server if desired.) For this vignette we'll just create a directory under R's temporary directory
 
 ```{r}
 vdbDir <- vdbConn(file.path(tempdir(), "trelliscope_vignette"), autoYes = TRUE)
@@ -85,11 +85,12 @@ panelFn1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs1")
 panelFn1(bySample[[1]]$value)
 ```
 
-To apply the panel function to each sample and generate a Trelliscope *display*, use the `makeDisplay` command.
+To apply the panel function to each sample and generate a Trelliscope *display*, use the `makeDisplay` command. 
 
 ```{r eval=FALSE}
 makeDisplay(bySample, 
             panelFn=panelFn1,
+            cogFn=vanKrevelenCognostics(vkBoundarySet="bs1"),
             name = "Van_Krevelen_plots_for_each_sample",
             group = "Sample")
 ```
@@ -98,11 +99,14 @@ Use the `view()` command to open the Trelliscope app in a browser and browse thr
 
 You may have noticed in the call to `panelFunctionGenerator` we provided a parameter (`vkBoundarySet`) that is a parameter to the `vanKrevelenPlot` function. This is how additional parameters beyond the `icrData` object may be provided. For example, we could choose to color the points by a meta-data column such as NOSC. Trelliscope is designed to allow multiple displays (or sets of plots) in one session.
 
+In the `makeDisplay` call above, also note the use of `vanKrevelenCognostics` with the same `vkBoundarySet` parameter used above to define `panelFn1`.
+
 ```{r eval=FALSE}
 panelFn2 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="NOSC", vkBoundarySet="bs2", showVKBounds=TRUE)
 
 makeDisplay(bySample, 
             panelFn=panelFn2,
+            cogFn=vanKrevelenCognostics(vkBoundarySet="bs2"),
             name = "Van_Krevelen_plots_colored_by_NOSC",
             group = "Sample")
 view()
@@ -115,6 +119,7 @@ panelFn3 <- panelFunctionGenerator("kendrickPlot")
 
 makeDisplay(bySample, 
             panelFn=panelFn3,
+            cogFn=kendrickCognostics(),
             name = "Kendrick_plots_for_each_sample",
             group = "Sample")
 view()
@@ -137,6 +142,7 @@ panelFn4 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
 
 makeDisplay(byGroup, 
             panelFn=panelFn4,
+            cogFn=densityCognostics(variable="NOSC"),
             name = "NOSC_density_for_each_group",
             group = "Group")
 view()
@@ -187,6 +193,7 @@ Next, create a Trelliscope display and view it.
 ```{r eval=FALSE}
 makeDisplay(allGroupComp, 
             panelFn=panelFn5,
+            cogFn=densityCognostics(variable="NOSC"),
             name = "NOSC_distribution_comparisons",
             group = "Group_Comparison")
 view()
@@ -197,12 +204,13 @@ view()
 The last type of display is of group comparison summaries. We'll use the group comparison object created above and apply a summary function to it, then construct a Van Krevelen plot for each comparison showing which peaks are unique to each group and which are shared according to a G-test statistic.
 
 ```{r}
-grpCompSummary <- summarizeGroupComparisons(allGroupComp, summary_functions = "uniqueness_gtest",
-                                            summary_function_params = list(uniqueness_gtest=list(
-                                              pres_fn="prop",
-                                              pres_thres=0.5,
-                                              pvalue_thresh=0.05
-                                            )))
+grpCompSummary <- summarizeGroupComparisons(allGroupComp, 
+                      summary_functions = "uniqueness_gtest",
+                      summary_function_params = list(uniqueness_gtest=list(
+                        pres_fn="prop",
+                        pres_thres=0.5,
+                        pvalue_thresh=0.05
+                      )))
 summary(grpCompSummary[[1]]$value$e_data)
 ```
 
@@ -218,10 +226,12 @@ Now construct a display in Trelliscope:
 ```{r eval=FALSE}
 makeDisplay(grpCompSummary, 
             panelFn=panelFn6,
+            cogFn=vanKrevelenCognostics(uniquenessColName="uniqueness_gtest"),
             name = "Van_Krevelen_group_comparisons",
             group = "Group_Comparison_Summary")
 view()
 ```
 
+For group comparison summaries, the `vanKrevelenCognostics` and `kendrickCognostics` accept a parameter called `uniquenessColName` which is the column used to determine if a peak is observed in each group. Generally that should be the same as the column used to color the points.
 
 
