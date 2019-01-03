@@ -29,7 +29,7 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   tmp <- legendTitle
   
   logColorCol <- FALSE
-  if (!is.na(colorCName)) {
+  if (!is.na(colorCName) & getDataScale(icrData) == "12T") {
     if (colorCName =="Intensity") {
       if (ncol(icrData$e_data) > 2) {
         stop("If colorCName == 'Intensity' then only one sample column may be present in icrData$e_data")
@@ -66,6 +66,12 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   if (is.na(colorCName) & is.na(vkBoundarySet)) {
     stop("at least one of colorCName or vkBoundarySet must be specified")
+  }
+  
+  # If data is not 12T then do a heatmap instead of points
+  if (getDataScale(icrData) != "12T") {
+    return(.internal21THeatmap(icrData, xCName=km_col, yCName=kd_col, xBreaks=100, yBreaks=100, 
+                               colorPal=colorPal, xlabel=xlabel, ylabel=ylabel))
   }
   
   # Van Krevelen categories

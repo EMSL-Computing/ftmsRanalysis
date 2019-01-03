@@ -70,6 +70,12 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
   
+  # If data is not 12T then do a heatmap instead of points
+  if (getDataScale(icrData) != "12T") {
+    return(.internal21THeatmap(icrData, xCName=OC.col, yCName=HC.col, xBreaks=100, yBreaks=100, 
+                               colorPal=colorPal, xlabel=xlabel, ylabel=ylabel))
+  }
+  
   vk_color_different_than_pts <- FALSE
   if (!is.na(vkBoundarySet)) {
     icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
