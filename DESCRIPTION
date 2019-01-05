@@ -1,13 +1,15 @@
 Package: fticRanalysis
 Title: Analysis and visualization tools for ICR data
 Version: 0.4
-Authors@R: c(person("Lisa", "Bramer", email = "lisa.bramer@pnnl.gov", role = c("aut", "cre")), person("Amanda", "White", email = "amanda.white@pnnl.gov", role = c("aut")))
+Authors@R: c(person("Lisa", "Bramer", email = "lisa.bramer@pnnl.gov", role = c("aut", "cre")), person("Amanda", "White", email = "amanda.white@pnnl.gov", role = c("aut")), person("Allison", "Thompson", email = "allison.thompson@pnnl.gov", role = c("aut")))
 Description: A collection of useful analysis and visualization tools for ICR data.
 Depends:
     R (>= 3.4.0)
 License: file LICENSE + DISCLAIMER
 Encoding: UTF-8
 LazyData: true
+URL: https://github.com/EMSL-Computing/fticRanalysis
+BugReports: https://github.com/EMSL-Computing/fticRanalysis/issues
 Imports:
     igraph,
     scales,
