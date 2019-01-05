@@ -68,12 +68,6 @@ kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBounda
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
   
-  # If data is not 12T then do a heatmap instead of points
-  if (getDataScale(icrData) != "12T") {
-    return(.internal21THeatmap(icrData, xCName=km_col, yCName=kd_col, xBreaks=100, yBreaks=100, 
-                               colorPal=colorPal, xlabel=xlabel, ylabel=ylabel))
-  }
-  
   # Van Krevelen categories
   if (!is.na(vkBoundarySet) & is.na(colorCName)) {
     icrData <- assign_class(icrData, boundary_set = vkBoundarySet)

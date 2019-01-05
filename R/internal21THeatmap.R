@@ -1,6 +1,6 @@
 # Internal only function to produce a heatmap for 21T data (Kendrick and Van Krevelen Plots)
-# xData: numeric vector of values for the x axis
-# yData: numeric vector of values for the y axis, must be same length as xData
+# icrData: icrData object
+# xCName/yCName: column names for x and y data
 # xBreaks/yBreaks: either a number of breaks, or a vector of break endpoints
 # colorPal: either a name of an RColorBrewer palette or a color palette function (e.g. scales package)
 #     that maps the range [0,1] to colors
@@ -33,7 +33,6 @@
   ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData))[,1] > 0
   
   obs_peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
-  message(sprintf("%d peaks retained", length(obs_peaks)))
   plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs_peaks), ]
   xData <- dplyr::pull(plot_data, xCName)
   yData <- dplyr::pull(plot_data, yCName)
