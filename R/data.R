@@ -54,7 +54,14 @@ NULL
 #'   \item{e_meta}{a \eqn{p \times 10} data.frame of meta information for each peak/mass.}
 #' }
 #' 
-#' @details Created by running the following code 'as.peakIcrData(e_data = fticr12T_edata, f_data = fticr12T_fdata, e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", fdata_cname = "SampleID",isotopic_cname = "C13", isotopic_notation = "1",c_cname = "C", h_cname = "H", o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P",instrument_type = "12T")'
+#' @details Created by running the following code 
+#' \preformatted{
+#' as.peakIcrData(e_data = fticr12T_edata, f_data = fticr12T_fdata, 
+#'                e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", 
+#'                fdata_cname = "SampleID",isotopic_cname = "C13", 
+#'                isotopic_notation = "1",c_cname = "C", h_cname = "H", 
+#'                o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P", 
+#'                instrument_type = "12T")}
 #' @rdname peakIcrData
 #' @name peakIcrData
 NULL
@@ -66,11 +73,17 @@ NULL
 #' @format A peakIcrData object (see \code{\link{as.peakIcrData}} for details)
 #' \describe{
 #'   \item{e_data}{a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of peaks observed and \eqn{n} is the number of samples. Each row corresponds to data for each peak/mass}
-#'   \item{f_data}{a data.frame with \eqn{n} rows. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.}
+#'   \item{f_data}{a data.frame with \eqn{n} s. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.}
 #'   \item{e_meta}{a \eqn{p \times 10} data.frame of meta information for each peak/mass.}
 #' }
 #' 
-#' @details Created by running the following code 'as.peakIcrData(e_data = fticr12T_edata, f_data = fticr12T_fdata, e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", fdata_cname = "SampleID",isotopic_cname = "C13", isotopic_notation = "1",c_cname = "C", h_cname = "H", o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P", instrument_type = "12T")'. Then \code{\link{group_designation}} was run and filters to restrict peaks to those with a mass between 200 and 900 which had been seen in at least two samples were implemented.
+#' @details Created by running the following commands:
+#' \preformatted{
+#' peakIcrProcessed <- group_designation(peakIcrData, main_effects=c("Location", "Crop.Flora"))
+#' peakIcrProcessed <- compound_calcs(peakIcrProcessed)
+#' peakIcrProcessed <- applyFilt(mass_filter(peakIcrProcessed), peakIcrProcessed, min_mass=200, max_mass=900)
+#' peakIcrProcessed <- applyFilt(molecule_filter(peakIcrProcessed), peakIcrProcessed, min=2)
+#' }
 #' @rdname peakIcrProcessed
 #' @name peakIcrProcessed
 NULL

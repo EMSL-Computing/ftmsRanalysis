@@ -13,5 +13,12 @@
 An S3 object of class peakIcrData
 }
 \details{
-Created by running the following code 'as.peakIcrData(e_data = fticr12T_edata, f_data = fticr12T_fdata, e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", fdata_cname = "SampleID",isotopic_cname = "C13", isotopic_notation = "1",c_cname = "C", h_cname = "H", o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P",instrument_type = "12T")'
+Created by running the following code 
+\preformatted{
+as.peakIcrData(e_data = fticr12T_edata, f_data = fticr12T_fdata, 
+               e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", 
+               fdata_cname = "SampleID",isotopic_cname = "C13", 
+               isotopic_notation = "1",c_cname = "C", h_cname = "H", 
+               o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P", 
+               instrument_type = "12T")}
 }
