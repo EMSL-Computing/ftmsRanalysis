@@ -11,9 +11,7 @@ home:
 navbar:
   structure:
     left:  [home, intro, reference, articles, news]
-    right:
-      - icon: fa-github
-        href: https://github.com/EMSL-Computing
+    right: github
 reference:
 - title: icrData object construction
   desc: Functions to construct an icrData object
@@ -92,11 +90,6 @@ reference:
 - title: Convenience methods
   desc: ~
   contents:
-  - '`getEDataColName`'
-  - '`getElCompColName`'
-  - '`getExtractionColName`'
-  - '`getFDataColName`'
-  - '`getGibbsColName`'
   - '`getDataScale`'
   - '`getDatabase`'
   - '`getGroupDF`'
@@ -116,6 +109,11 @@ reference:
   - '`getDBEAIColName`'
   - '`getDBEColName`'
   - '`getDBEoColName`'
+  - '`getEDataColName`'
+  - '`getElCompColName`'
+  - '`getExtractionColName`'
+  - '`getFDataColName`'
+  - '`getGibbsColName`'
   - '`getHCRatioColName`'
   - '`getHydrogenColName`'
   - '`getIsotopicColName`'
@@ -145,3 +143,7 @@ reference:
   - '`fticr12T_edata`'
   - '`fticr12T_emeta`'
   - '`fticr12T_fdata`'
+
+github:
+  - icon: fa-github
+    href: https://github.com/EMSL-Computing
