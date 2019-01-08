@@ -30,15 +30,9 @@ knitr::opts_chunk$set(
 # Introduction
 
 ## FTICR Analysis
-* Fourier-transform ion cyclotron resonance (FTICR) mass spectrometry is a type of mass spectrometery for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.
+Fourier-transform ion cyclotron resonance (FTICR) mass spectrometry is a type of mass spectrometery for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.  Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. Data resulting from FTICR instrument runs can be interpreted as the area under a peak for each observed peak. It is important to note that these are comparable in magnitude within a sample but are not comparable across samples.
 
-* Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. 
-
-* Data resulting from FTICR instrument runs can be interpreted as the area under a peak for each observed peak. These are comparable in magnitude within a sample but are not comparable across samples.
-
-## fticRanalysis
-
-The fticRanalysis package was designed to help with various steps of processing FTICR data, including:
+The `fticRanalysis` package was designed to help with various steps of processing FTICR data, including:
 
 * data formatting and manipulation  
 * reproducible analysis pipeline  
@@ -49,13 +43,9 @@ The fticRanalysis package was designed to help with various steps of processing 
     * multiple samples   
     * group comparisons  
 
-## The Experiment
+## Example data
 
-* Goal: assess differences in soil organic matter between multiple locations and crop types
-* Measurement: 12T FTICR mass spectrometer
-* Subset of full experiment data
-* Locations: M, W
-* Crop Flora: S, C
+An example dataset has been included with the `fticRanalysis` package. This dataset is a subset of an experiment to assess differences in soil organic matter between multiple locations and crop types. The data were collected from two locations (M and W) for two crop flora (S and C). The data were analyzed with a 12T FTICR mass spectrometer. 
 
 # Data loading
 
@@ -109,7 +99,7 @@ picr <- as.peakIcrData(fticr12T_edata, fticr12T_fdata, fticr12T_emeta,
 picr
 ```
 
-## Other Parameters 
+The `as.peakIcrData` function also allows for the following (optional) parameters:
 
 * data_scale - assumed to be 'abundance' or area under the peak. Other options include: log2, log10, log, presence/absence (0/1)  
 * instrument_type - assumed to be 12T/15T; vizualization methods for 21T coming  
@@ -120,9 +110,7 @@ picr
 * instrument_type - assumed to be 12T/15T; vizualization methods for 21T coming  
 * extraction_cname - name of column in f_data specifying extraction (e.g. water)
 
-## peakIcrDataObject 
-
-The peakIcrData object contains three elements, named e_data, f_data, and e_meta:
+The resulting `peakIcrData` object contains three elements, named e_data, f_data, and e_meta:
 ```{r}
 names(picr)
 ```
@@ -132,13 +120,13 @@ During object constructing, the molecular formula is calculated from the element
 tail(picr$e_meta)
 ```
 
-## Summary method
+There is a summary method:
 
 ```{r}
 summary(picr)
 ```
 
-## Plot method
+... and a default plot method:
 
 ```{r message=FALSE}
 plot(picr)
@@ -146,47 +134,49 @@ plot(picr)
 
 # Preprocessing
 
-
 ## Transforming abundance values
 
-* When dealing with 'omics data quantitatively, we often log-transform to stabilize variances and reduce skew for downstream statistics.  
-
-* It's common to treat FTICR data as presence/absence data
+When dealing with 'omics data quantitatively, we often log-transform to stabilize variances and reduce skew for downstream statistics. Alternatively, it's common to treat FTICR data as presence/absence data. We can use the `edata_transform` function to transform the data scale for either of these options.
 
 ```{r}
 picr <- edata_transform(picr, data_scale="log2")
+
+# for presence/absence transformation:
+edata_transform(picr, data_scale="pres")
 ```
 
-Or replace 0s with NAs
+It's also common to replace 0s with NAs.
 
 ```{r, eval = F}
 edata_replace(picr, x = 0, y = NA)
 ```
 
-## Plot transformed data
+When we plot the transformed data, the difference in scale is obvious.
 
 ```{r}
 plot(picr)
 ```
 
-## Calculating meta-data values
-NOSC, aromaticity, O:C and H:C ratios, etc. 
+## Calculating meta-data
+It is frequently useful for biological analysis to calculate meta-data about each peak, such as NOSC, aromaticity, and elemental ratios. This can be done via the `compound_calcs` function. By default, this function calculates all available meta-data fields, specific fields can be chosen with the `calc_fns` parameter.
 
 ```{r}
 picr <- compound_calcs(picr)
 picr
 ```
 
-## Assigning classes 
-
-`bs1` - Kim, S., et al (2003). Analytical Chemistry.  
-`bs2` - Bailey, V. et al (2017). Soil Biology and Biochemistry.  
-`bs3` - Rivas-Ubach, A., et al (2018). Analytical chemistry. -- coming soon
+Biologistics frequently assign peaks to biological classes on the basis of their elemental ratios. The `assign_class` function performs this calculation. 
 
 ```{r}
 picr <- assign_class(picr, boundary_set = "bs1")
-table(picr$e_meta$Class)
+table(picr$e_meta[, getBS1ColName(picr)])
 ```
+
+There are three sets of class boundary definitions that may be used (for the `boundary_set` parameter) corresponding to the following publications:
+
+* `bs1` - [Kim, S., et al (2003). Analytical Chemistry.](https://dx.doi.org/10.1021/ac034415p)  
+* `bs2` - [Bailey, V. et al (2017). Soil Biology and Biochemistry.](https://dx.doi.org/10.1016/j.soilbio.2016.11.025)
+* `bs3` - [Rivas-Ubach, A., et al (2018). Analytical chemistry.](https://dx.doi.org/10.1021/acs.analchem.8b00529)
 
 ## Filtering
 
@@ -197,7 +187,7 @@ There are multiple types of filtering algorithms provided in `fticRanalysis`:
 * __Formula filter__: filter rows based on whether they have a molecular formula
 * __Emeta filter__: filter rows of e_data based on a quantity/column in e_meta
 
-## Filtering example
+For example, to filter peaks to include only masses between 200 and 900: 
 
 ```{r}
 filter_obj <- mass_filter(picr)
@@ -211,8 +201,6 @@ picr <- applyFilt(filter_obj, picr, min_mass = 200,
 summary(picr)
 ```
 
-## Other filter types
-
 Other filtering options include number of molecule observations, formula presence or absence, or emeta columns.
 
 ```{r}
@@ -224,7 +212,7 @@ summary(picr)
 
 # Visualizations of one sample
 
-## Subsetting to one sample
+To construct plots of a single sample, first we must subset the data to contain only one sample, via the `subset` method.
 
 ```{r}
 one_sample <- subset(picr, samples="EM0011_sample")
@@ -237,38 +225,15 @@ A Van Krevelen plot shows H:C ratio vs O:C ratio for each peak observed in a sam
 that has a mass formula (thus H:C and O:C are known). By default, the points are 
 colored according to functional class.
 
-## Van Krevelen plot example
-
 ```{r message=FALSE, warning=FALSE}
 vanKrevelenPlot(one_sample, title="EM0011_sample")
 ```
-
-## Customizing a Van Krevelen plot 
 
 By default, this function colors by Van Krevelen class. However, we can also color the points according to other meta data columns in the `e_meta` object.
 
 ```{r}
 vanKrevelenPlot(one_sample, colorCName="PtoC_ratio", 
                 title="Color by P:C Ratio", legendTitle = "P:C Ratio")
-```
-
-## Density plot 
-
-We can also plot the distributions of any (numeric) column of meta-data (i.e. column of `e_meta`). 
-
-```{r}
-densityPlot(one_sample, variable = "NOSC", plot_curve=TRUE, plot_hist=TRUE,
-            title="NOSC Distribution for EM0011_sample")
-```
-
-## Histogram
-
-It's also possible to plot just the histogram or just the density curve with this function with the `plot_hist` and `plot_curve` parameters.
-
-```{r}
-densityPlot(one_sample, variable = "kmass", 
-            title="Kendrick Mass for EM0011_sample", plot_hist=TRUE, 
-            plot_curve = FALSE, yaxis="count")
 ```
 
 ## Kendrick plot
@@ -281,16 +246,27 @@ Ions of the same family have the same Kendrick mass defect and are positioned al
 kendrickPlot(one_sample, title="Kendrick Plot for EM0011_sample")
 ```
 
-# Analysis of experimental groups
+## Histogram
 
-## Experiment goal
+We can also plot the distributions of any (numeric) column of meta-data (i.e. column of `e_meta`). 
+
+```{r}
+densityPlot(one_sample, variable = "NOSC", plot_curve=TRUE, plot_hist=TRUE,
+            title="NOSC Distribution for EM0011_sample")
+```
+
+It's also possible to plot just the histogram or just the density curve with this function with the `plot_hist` and `plot_curve` parameters.
+
+```{r}
+densityPlot(one_sample, variable = "kmass", 
+            title="Kendrick Mass for EM0011_sample", plot_hist=TRUE, 
+            plot_curve = FALSE, yaxis="count")
+```
+
+# Comparison of experimental groups
 
 The goal of this experiment was to identify differences in soil organic matter between
-sample locations and crop types.
-
-In order to do that we need to compare experimental treatments (groups). 
-
-## How to define groups
+sample locations and crop types. In order to do that we need to compare experimental treatments (groups). 
 
 The `group_designation` method defines treatment groups based on the variable(s)
 specified as main effects. 
@@ -300,8 +276,6 @@ picr <- group_designation(picr, main_effects=c("Crop.Flora"))
 getGroupDF(picr)
 ```
 
-## Summarizing groups
-
 The `summarizeGroups` function calculates group-level summaries per peak, such as the number or proportion of samples in which peak is observed. The resulting object's `e_data` element contains one column per group, per summary function.
 
 ```{r message=FALSE}
@@ -310,21 +284,18 @@ group_summary <- summarizeGroups(picr, summary_functions =
 head(group_summary$e_data)
 ```
 
-## Comparing distributions between two groups
+We can use the `densityPlot` function to compare distributions of some meta-data field between groups.
 
 ```{r}
-
 densityPlot(picr, samples=FALSE, groups=c("S","C"), variable="NOSC", 
             title="Comparison of NOSC Between Crop Types") 
 ```
 
+We might also want to look at which peaks occur only in one group or another, versus those that appear in both groups. To do that, we perform a statistical test called the [G-Test](https://en.wikipedia.org/wiki/G-test). This test will tell us for each peak whether it appears in one group or both. 
 
-## Constructing group comparison subsets
-
-Create peakIcrData objects that each contain two groups to facilitate group comparisons
+The first step is to create peakIcrData objects that each contain two groups to facilitate group comparisons
 
 ```{r}
-
 byGroup <- divideByGroupComparisons(picr, 
                                 comparisons = "all")[[1]]$value
 
@@ -337,13 +308,10 @@ crop_unique <- summarizeGroupComparisons(byGroup,
 tail(crop_unique$e_data)
 ```
 
-## Van Krevelen plot comparing groups
+Then we can construct a Van Krevelen plot colored by group membership.
 
 ```{r}
 vanKrevelenPlot(crop_unique, colorCName = "uniqueness_gtest")
 ```
 
-## Integration with biological databases
-
-* Functionality to map peaks to compounds, reactions, and modules
-* Vignette coming soon!
+The same could be done with a Kendrick plot. 
