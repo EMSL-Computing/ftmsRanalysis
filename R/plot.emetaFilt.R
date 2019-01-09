@@ -55,7 +55,7 @@ plot.emetaFilt <- function(filter_obj, min_val = NA, max_val = NA, cats = NA, na
   
   plot_data <- data.frame(x=names(counts), count=as.vector(counts), stringsAsFactors = FALSE)
   plot_data$x <- factor(plot_data$x, levels=c("Peaks Retained", "Peaks Removed"))
-  color_vec <- c(`Peaks Retained`="red", `Peaks Removed`="gray")
+  color_vec <- c(`Peaks Retained`="blue", `Peaks Removed`="gray")
   
   p <- plotly::plot_ly() %>%
     plotly::add_bars(x=~x, y=~count, color=~x, colors=color_vec, data=plot_data, showlegend=FALSE, hoverinfo="y") 

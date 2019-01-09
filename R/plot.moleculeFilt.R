@@ -40,7 +40,7 @@ plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Observed
   if (!identical(min_num, NA)) {
     tmp_dat <- dplyr::filter(plot_data, x==min_num)
     p <- p %>% plotly::add_bars(x=~x, y=~count, width=1, data=tmp_dat, 
-                                marker=list(color="red"), hoverinfo="y")
+                                marker=list(color="blue"), hoverinfo="y")
     
     # annotations
     annotations <-

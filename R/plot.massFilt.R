@@ -59,7 +59,7 @@ plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel
     p <- p %>%
       plotly::add_bars(x=~x, y=~count, data=plot_data, width=~binwidth, showlegend=FALSE, hoverinfo="y", marker=list(color="gray"))  
   } else {
-    color_vec <- c(Keep="red", Remove="gray")
+    color_vec <- c(Keep="blue", Remove="gray")
     plot_data <- plot_data %>% dplyr::left_join(colored_bins, by="x") %>%
       dplyr::mutate(category=ifelse(is.na(category), "Remove", "Keep"))
     p <- p %>% 

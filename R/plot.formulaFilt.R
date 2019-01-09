@@ -23,7 +23,7 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
   plot_data$x[plot_data$x == "TRUE"] <- "Formula"
   plot_data$x <- factor(plot_data$x, levels=c("Formula", "NoFormula"))
   color_vec <- c(Formula="gray", NoFormula="gray")
-  if (!identical(remove, NA)) color_vec[names(color_vec) != remove] <- "red"
+  if (!identical(remove, NA)) color_vec[names(color_vec) != remove] <- "blue"
   
   p <- plotly::plot_ly() %>%
     plotly::add_bars(x=~x, y=~count, color=~x, colors=color_vec, data=plot_data, showlegend=FALSE, hoverinfo="y") 
