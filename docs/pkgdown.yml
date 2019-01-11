@@ -4,4 +4,5 @@ pkgdown_sha: ~
 articles:
   fticRanalysis: fticRanalysis.html
   fticRanalysis_and_Trelliscope: fticRanalysis_and_Trelliscope.html
+  van_krevelen_plots: van_krevelen_plots.html
 

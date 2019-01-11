@@ -85,8 +85,8 @@ reference:
   - '`mapCompoundsToModules`'
   - '`parseModuleReaction`'
   - '`combinePeaksWithSameFormula`' 
-  - '`plotReactionGraph`'
-  - '`plotlyHeatmap`'
+#  - '`plotReactionGraph`'
+#  - '`plotlyHeatmap`'
 - title: Convenience methods
   desc: ~
   contents:

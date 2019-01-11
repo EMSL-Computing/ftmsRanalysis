@@ -11,7 +11,7 @@ The `fticRanalysis` package was designed to help with various steps of processin
 * multiple samples
 * group comparisons
 
-The `fticRanalysis` package was developed at Pacific Northwest National Laboratory (http://www.pnnl.gov). See here for more information: https://msc-viz.emsl.pnnl.gov. 
+The `fticRanalysis` package was developed at [Pacific Northwest National Laboratory](http://www.pnnl.gov){target="_blank"}. See here for more information: [https://msc-viz.emsl.pnnl.gov](https://msc-viz.emsl.pnnl.gov){target="_blank"}. 
 
 See the [Get started](articles/fticRanalysis.html) page for a tutorial.
 
