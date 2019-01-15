@@ -68,7 +68,7 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
       dplyr::group_by(Group) %>% 
       dplyr::filter(Group %in% groups) %>%
       dplyr::rename(Sample=!!getFDataColName(icrData)) %>%
-      summarize(samples=list(as.character(unique(Sample))))
+      dplyr::summarize(samples=list(as.character(unique(Sample))))
     trace_subsets <- tmp$samples
     names(trace_subsets) <- tmp$Group
   }
