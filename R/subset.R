@@ -7,11 +7,12 @@
 #' @param icrData icrData object
 #' @param samples sample ID or vector of sample IDs
 #' @param groups group name or vector of group names
+#' @param check_rows logical indicating whether to remove peaks that have no observations after subsetting
 #' @return icrData object that contains only the subset of the original
 #'         data related to the samples or groups provided
 #' @rdname subset
 #' @export
-subset.peakIcrData <- function(icrData, samples=NA, groups=NA) {
+subset.peakIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
   if (!inherits(icrData, "peakIcrData")) {
     stop("icrData must be of type peakIcrData")
   }
@@ -20,6 +21,12 @@ subset.peakIcrData <- function(icrData, samples=NA, groups=NA) {
   attr(result, "class") <- class(icrData)
   attr(result, "cnames") <- attr(icrData, "cnames")
   attr(result, "DB") <- attr(icrData, "DB")
+  
+  if(check_rows){
+    molfilt <- molecule_filter(result)
+    if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
+  }
+  
   attr(result, "filters") <- attr(icrData, "filters")
   attr(result, "data_info") <- attr(icrData, "data_info")
   attr(result, "instrument_type") <- attr(icrData, "instrument_type")
@@ -29,7 +36,7 @@ subset.peakIcrData <- function(icrData, samples=NA, groups=NA) {
 
 #' @rdname subset
 #' @export
-subset.compoundIcrData <- function(icrData, samples=NA, groups=NA) {
+subset.compoundIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
   if (!inherits(icrData, "compoundIcrData")) {
     stop("icrData must be of type compoundIcrData")
   }
@@ -38,7 +45,13 @@ subset.compoundIcrData <- function(icrData, samples=NA, groups=NA) {
   attr(result, "class") <- class(icrData)
   attr(result, "cnames") <- attr(icrData, "cnames")
   attr(result, "DB") <- attr(icrData, "DB")
+  
+  if(check_rows){
+    molfilt <- molecule_filter(result)
+    if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
+  }
   attr(result, "filters") <- attr(icrData, "filters")
+  
   attr(result, "data_info") <- attr(icrData, "data_info")
   attr(result, "instrument_type") <- attr(icrData, "instrument_type")
   

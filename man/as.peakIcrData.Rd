@@ -88,7 +88,8 @@ dbeo_cname \tab character string specifying the name of the column, in \code{e_m
 dbeai_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the double-bond equivalent aromaticity index value for each peak/mass \cr
 \tab \cr
 elcomp_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the general elemental composition of each peak/mass \cr
-
+\tab \cr
+check_rows \tab logical indicating whether to remove peaks with no nonzero entries.  Defaults to FALSE \cr
 }
 }
 \author{

@@ -72,7 +72,8 @@
 #' dbeai_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the double-bond equivalent aromaticity index value for each peak/mass \cr
 #' \tab \cr
 #' elcomp_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the general elemental composition of each peak/mass \cr
-#' 
+#' \tab \cr
+#' check_rows \tab logical indicating whether to remove peaks with no nonzero entries.  Defaults to FALSE \cr
 #' }
 #'
 #'@author Lisa Bramer
@@ -89,7 +90,7 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
                         isotopic_cname = NULL, isotopic_notation = NULL, o2c_cname = NULL, h2c_cname = NULL, kmass_cname = NULL,
                         kdefect_cname = NULL, nosc_cname = NULL, gfe_cname = NULL, mfname_cname = NULL, 
                         aroma_cname = NULL, modaroma_cname = NULL, dbe_cname = NULL, dbeo_cname = NULL, dbeai_cname = NULL,
-                        elcomp_cname = NULL, instrument_type = "12T", data_scale = "abundance"){
+                        elcomp_cname = NULL, instrument_type = "12T", data_scale = "abundance", check_rows = FALSE){
   
 
   # check that e_data, f_data, and e_meta are data.frames #
@@ -254,12 +255,18 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   
   # set group dataframe attribute to NULL, will be filled in after running group_designation function #
   attr(res, "group_DF") = NULL
-  
-  # set filters attributes #
-  attr(res, "filters") = NULL
 
   # set class of list #
   class(res) = c("peakIcrData","icrData")
+  
+  # check for empty rows and remove them with molfilt 
+  if(check_rows){
+    molfilt <- molecule_filter(res)
+    if(any(molfilt$Num_Observations == 0)) res <- applyFilt(molfilt, res, min_num = 1)
+  }
+  
+  # set filters attributes #
+  attr(res, "filters") = NULL
   
   # if mf_cname is NULL and elemental columns are non-NULL, construct formulae #
   if(is.null(mf_cname) & all(c(!is.null(c_cname), !is.null(h_cname), !is.null(o_cname), !is.null(n_cname), !is.null(s_cname), !is.null(p_cname)))){

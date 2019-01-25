@@ -61,19 +61,19 @@ combinePeaksWithSameFormula <- function(icrData) {
     icrData <- edata_transform(icrData, "abundance")
   }
   
-  sample_cols <- as.character(pull(icrData$f_data, getFDataColName(icrData)))
+  sample_cols <- as.character(dplyr::pull(icrData$f_data, getFDataColName(icrData)))
   
   edata <- suppressWarnings(
     icrData$e_data %>%
-    mutate(index=1:nrow(icrData$e_data)) %>%
-    right_join(massMFComb, by=getEDataColName(icrData)) %>%
-    group_by(MF) 
+    dplyr::mutate(index=1:nrow(icrData$e_data)) %>%
+    dplyr::right_join(massMFComb, by=getEDataColName(icrData)) %>%
+    dplyr::group_by(MF) 
   )
   
   # get first ID and index for each MF
   massMFFinal <- edata %>%
-    rename_(ID=getEDataColName(icrData)) %>%
-    summarize(ID=first(ID), index=min(index))
+    dplyr::rename_(ID=getEDataColName(icrData)) %>%
+    dplyr::summarize(ID=first(ID), index=min(index))
   colnames(massMFFinal)[2] <- getEDataColName(icrData)
   
   # get IDs to remove
@@ -83,11 +83,11 @@ combinePeaksWithSameFormula <- function(icrData) {
   # sum rows for each set of MF  
   edata <- suppressWarnings(
     edata %>%
-    summarize_at(sample_cols, sum) %>%
-    full_join(massMFFinal, by="MF")
+    dplyr::summarize_at(sample_cols, sum) %>%
+    dplyr::full_join(massMFFinal, by="MF")
   )
   row_ids <- edata$index
-  edata <- select(edata, -c(index, MF))
+  edata <- dplyr::select(edata, -c(index, MF))
 
   # order columns same as original
   edata <- as.data.frame(edata[, c(getEDataColName(icrData), sample_cols)])
