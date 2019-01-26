@@ -73,7 +73,7 @@ combinePeaksWithSameFormula <- function(icrData) {
   # get first ID and index for each MF
   massMFFinal <- edata %>%
     dplyr::rename_(ID=getEDataColName(icrData)) %>%
-    dplyr::summarize(ID=first(ID), index=min(index))
+    dplyr::summarize(ID=dplyr::first(ID), index=min(index))
   colnames(massMFFinal)[2] <- getEDataColName(icrData)
   
   # get IDs to remove
