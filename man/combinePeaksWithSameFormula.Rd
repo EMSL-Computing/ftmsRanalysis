@@ -17,9 +17,9 @@ If multiple peaks are mapped to the same mass formula it can cause problems
 or inconsistencies when mapping data to a biological database. The
 \code{combinePeaksWithSameFormula} combines rows of \code{icrData$e_data}
 that map to the same mass formula:
-* If data is abundance: columns are summed
-* If data is log scale: data are converted to abundance, then columns are summed and re-transformed to the original scale
-* If data is presence/absence: 'or' function is applied to each column
+* If data is abundance: values are summed for each column
+* If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
+* If data is presence/absence: 'or' function is applied to each column (if at least one peak is observed, the peak is denoted as observed)
 }
 \details{
 It is recommended to call the \code{combinePeaksWithSameFormula} function
