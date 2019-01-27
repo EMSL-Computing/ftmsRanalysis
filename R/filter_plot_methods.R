@@ -270,7 +270,7 @@ plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel
 #' @examples
 #' filter_obj <- molecule_filter(peakIcrData)
 #' plot(filter_obj, min_num=2)
-plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Observed", ylabel="Count") {
+plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Minimum Number of Samples for which a Peak is Observed", ylabel="Number of Peaks") {
   
   counts <- table(filter_obj$Num_Observations)
   

@@ -1,3 +1,5 @@
+#' Summary method for moleculeFilt object
+#' 
 #'@export
 #'@rdname summary.moleculeFilt
 #'@name summary.moleculeFilt
@@ -48,106 +50,9 @@ summary.moleculeFilt <- function(filter_object, min_num=NULL){
   }
 }
 
-#'@export
-#'@rdname summary.moleculeFilt
-#'@name summary.moleculeFilt
-#'
-#'@param filter_object an object of class 'moleculeFilt' created by running \code{\link{molecule_filter}}
-#'@param min_num an integer value specifying the minimum number of times each peak must be observed across all samples
-#'
-#'@return If \code{min_num} is provided, a summary of the effect of implementing a filter with the specified threshold. Otherwise, a summary of the number of peaks which were observed over the number of possible samples.
-summary.moleculeFilt <- function(filter_object, min_num=NULL){
-  
-  if(!is.null(min_num)) {
-    # check that min_num is not a vector #
-    if(length(min_num) > 1) stop("min_num must be of length 1")
-    # check that min_num is numeric >= 0 #
-    if(!is.numeric(min_num) | min_num < 0) stop("min_num must be an integer >= 0")
-    # check that min_num is an integer #
-    if(min_num %% 1 != 0) stop("min_num must be an integer >= 0")
-    # check that min_num is less than the max number of observations #
-    if(min_num > max(filter_object$Num_Observations)) stop("min_num cannot be greater than the number of samples")
-  }
-  
-  # return the numeric version of plot, the threshold used, the number that would be tested and the number that would not be tested
-  
-  # how many peptides appear in the dataset once, twice, 3 times, etc.
-  cut_data <- table(cut(filter_object$Num_Observations, breaks = -1:max(filter_object$Num_Observations)))
-  pep_observation_counts <- data.frame(num_observations=0:(length(cut_data)-1), num_peaks=cut_data)
-  pep_observation_counts = pep_observation_counts[,-2]
-  names(pep_observation_counts)[2] = "num_peaks"
-  
-  if(!is.null(min_num)){
-    # get number molecules tested
-    num_not_filtered<- sum(pep_observation_counts$num_peaks[pep_observation_counts$num_observations >= min_num])
-    
-    # get number molecules not tested
-    num_filtered <- sum(pep_observation_counts$num_peaks[pep_observation_counts$num_observations < min_num])
-    
-  }
-  
-  res <- list(pep_observation_counts=pep_observation_counts, min_num=min_num, num_not_filtered=num_not_filtered, num_filtered=num_filtered)
-  
-  
-  if(is.null(min_num)){
-    print(pep_observation_counts, row.names = F)
-  }else{
-    catmat <- data.frame(c("Minimum Number:"=min_num, "Filtered:"=res$num_filtered, "Not Filtered:"=res$num_not_filtered))  
-    names(catmat) = ""
-    print(catmat)
-  }
-}
 
-#'@export
-#'@rdname summary.moleculeFilt
-#'@name summary.moleculeFilt
+#'Summary method for massFilt object
 #'
-#'@param filter_object an object of class 'moleculeFilt' created by running \code{\link{molecule_filter}}
-#'@param min_num an integer value specifying the minimum number of times each peak must be observed across all samples
-#'
-#'@return If \code{min_num} is provided, a summary of the effect of implementing a filter with the specified threshold. Otherwise, a summary of the number of peaks which were observed over the number of possible samples.
-summary.moleculeFilt <- function(filter_object, min_num=NULL){
-  
-  if(!is.null(min_num)) {
-    # check that min_num is not a vector #
-    if(length(min_num) > 1) stop("min_num must be of length 1")
-    # check that min_num is numeric >= 0 #
-    if(!is.numeric(min_num) | min_num < 0) stop("min_num must be an integer >= 0")
-    # check that min_num is an integer #
-    if(min_num %% 1 != 0) stop("min_num must be an integer >= 0")
-    # check that min_num is less than the max number of observations #
-    if(min_num > max(filter_object$Num_Observations)) stop("min_num cannot be greater than the number of samples")
-  }
-  
-  # return the numeric version of plot, the threshold used, the number that would be tested and the number that would not be tested
-  
-  # how many peptides appear in the dataset once, twice, 3 times, etc.
-  cut_data <- table(cut(filter_object$Num_Observations, breaks = -1:max(filter_object$Num_Observations)))
-  pep_observation_counts <- data.frame(num_observations=0:(length(cut_data)-1), num_peaks=cut_data)
-  pep_observation_counts = pep_observation_counts[,-2]
-  names(pep_observation_counts)[2] = "num_peaks"
-  
-  if(!is.null(min_num)){
-    # get number molecules tested
-    num_not_filtered<- sum(pep_observation_counts$num_peaks[pep_observation_counts$num_observations >= min_num])
-    
-    # get number molecules not tested
-    num_filtered <- sum(pep_observation_counts$num_peaks[pep_observation_counts$num_observations < min_num])
-    
-  }
-  
-  res <- list(pep_observation_counts=pep_observation_counts, min_num=min_num, num_not_filtered=num_not_filtered, num_filtered=num_filtered)
-  
-  
-  if(is.null(min_num)){
-    print(pep_observation_counts, row.names = F)
-  }else{
-    catmat <- data.frame(c("Minimum Number:"=min_num, "Filtered:"=res$num_filtered, "Not Filtered:"=res$num_not_filtered))  
-    names(catmat) = ""
-    print(catmat)
-  }
-}
-
 #'@export
 #'@rdname summary.massFilt
 #'@name summary.massFilt
@@ -188,6 +93,8 @@ summary.massFilt <- function(filter_object, min_mass = NULL, max_mass = NULL){
 }
 
 
+#'Summary method for formulaFilt object
+#'
 #'@export
 #'@rdname summary.formulaFilt
 #'@name summary.formulaFilt
@@ -223,7 +130,7 @@ summary.formulaFilt <- function(filter_object, remove = NULL){
 
 
 
-#' Summarize emetaFilt object
+#'Summary method for emetaFilt object
 #'
 #'@rdname summary.emetaFilt
 #'@name summary.emetaFilt

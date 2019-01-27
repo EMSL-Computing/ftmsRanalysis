@@ -2,7 +2,7 @@
 % Please edit documentation in R/filter_summary_methods.R
 \name{summary.emetaFilt}
 \alias{summary.emetaFilt}
-\title{Summarize emetaFilt object}
+\title{Summary method for emetaFilt object}
 \usage{
 \method{summary}{emetaFilt}(filter_object, min_val = NULL,
   max_val = NULL, cats = NULL, na.rm = TRUE)
@@ -22,5 +22,5 @@
 If relevant parameter(s) are provided, a summary of the effect of implementing a filter. Otherwise, a five number summary and the mean value for the filter variable (quantitative) or a summary of the number of peaks per category (categorical).
 }
 \description{
-Summarize emetaFilt object
+Summary method for emetaFilt object
 }
