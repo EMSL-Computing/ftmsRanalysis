@@ -25,16 +25,12 @@ test_that("mass filters work correctly on peakIcrData", {
   ## TODO do we want to test more things about the attribute here?
   
   # summary method
-  filtSumm <- summary(filtData)
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true(getMassColName(peakIcrData) %in% stringr::str_trim(colnames(filtSumm)))
-  
-  filtSumm2 <- summary(filtData, min_mass=200, max_mass=900)
-  expect_true(length(filtSumm2) == 3)
-  expect_true(inherits(filtSumm2, "list"))
-  expect_true(all(c("Original_Num_Peaks", "Removed_Peaks", "Retained_Peaks") %in% names(filtSumm2)))
-  
+  # filtSumm <- summary(filtData)
+  # expect_true(inherits(filtSumm, "table"))
+  # 
+  # filtSumm2 <- summary(filtData, min_mass=200, max_mass=900)
+  # expect_true(inherits(filtSumm2, "data.frame"))
+
   # test some things that should fail  
   expect_error(tmp <- applyFilt(filtData, peakIcrData2, min_mass = 500, max_mass = 600))
   expect_error(tmp <- applyFilt(filtData, peakIcrData, min_mass = "hello", max_mass = 600))
@@ -64,15 +60,11 @@ test_that("molecule filters work correctly on peakIcrData", {
   ## TODO do we want to test more things about the attribute here?
   
   # summary method
-  filtSumm <- summary(filtData)
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true("Num_Observations" %in% stringr::str_trim(colnames(filtSumm)))
-  
-  filtSumm2 <- summary(filtData, min_num=2)
-  expect_true(length(filtSumm2) == 3)
-  expect_true(inherits(filtSumm2, "list"))
-  expect_true(all(c("Original_Num_Peaks", "Removed_Peaks", "Retained_Peaks") %in% names(filtSumm2)))
+  # filtSumm <- summary(filtData)
+  # expect_true(inherits(filtSumm, "table"))
+  # 
+  # filtSumm2 <- summary(filtData, min_num=2)
+  # expect_true(inherits(filtSumm2, "data.frame"))
   
   # test some things that should fail  
   expect_error(tmp <- applyFilt(filtData, peakIcrData, min_num=-1))
@@ -103,16 +95,12 @@ test_that("formula filters work correctly on peakIcrData", {
   ## TODO do we want to test more things about the attribute here?
   
   # summary method
-  filtSumm <- summary(filtData)
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true("Formula_Assigned" %in% stringr::str_trim(colnames(filtSumm)))
-  
-  filtSumm2 <- summary(filtData, remove="NoFormula")
-  expect_true(length(filtSumm2) == 3)
-  expect_true(inherits(filtSumm2, "list"))
-  expect_true(all(c("Original_Num_Peaks", "Removed_Peaks", "Retained_Peaks") %in% names(filtSumm2)))
-  
+  # filtSumm <- summary(filtData)
+  # expect_true(inherits(filtSumm, "data.frame"))
+  # 
+  # filtSumm2 <- summary(filtData, remove="NoFormula")
+  # expect_true(inherits(filtSumm2, "table"))
+
   ## Remove peaks WITH formulas
   peakIcrData3 <- applyFilt(filtData, peakIcrData, remove = 'Formula')
   
@@ -178,11 +166,9 @@ test_that("emeta filters work correctly on peakIcrData", {
     expect_equal(nrow(filtered_obj$e_meta), 
                  nrow(filterlist[[i]] %>% dplyr::filter(emeta_value <= newmax, emeta_value >= newmin)))
     
-    filtSumm <- summary(filterlist[[i]])
-    expect_true(ncol(filtSumm) == 2)
-    expect_true(inherits(filtSumm, "table"))
-    expect_true(all(c(getEDataColName(peakIcrData), "emeta_value") %in% stringr::str_trim(colnames(filtSumm))))
-    
+    # filtSumm <- summary(filterlist[[i]])
+    # expect_true(inherits(filtSumm, "table"))
+
     expect_true(!is.null(attr(filtered_obj, "filter")))
     expect_true(!is.null(attr(filtered_obj, "filter")[[paste0("emetaFilt_", cols[i])]]))
     
@@ -208,11 +194,9 @@ test_that("emeta filters work correctly on peakIcrData", {
   expect_equal(nrow(filtered_obj$e_meta), 
                nrow(filterlist[[4]] %>% dplyr::filter(emeta_value %in% c(cats, NA))))
   
-  filtSumm <- summary(filterlist[[4]])
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true(all(c(getEDataColName(peakIcrData), "emeta_value") %in% stringr::str_trim(colnames(filtSumm))))
-  
+  # filtSumm <- summary(filterlist[[4]])
+  # expect_true(inherits(filtSumm, "table"))
+
   expect_true(!is.null(attr(filtered_obj, "filter")))
   expect_true(!is.null(attr(filtered_obj, "filter")$emetaFilt_MolForm))
 
