@@ -57,11 +57,11 @@ uniqueness_nsamps <- function(edata_df, group_df, data_scale, pres_thresh, absn_
   # check that absn_thresh is less than pres_thresh #
   if(!(absn_thresh < pres_thresh)) stop("absn_thresh must be less than pres_thresh")
   # if data is not in presence/absence form, convert to pres/abs (number or NA) #
-  if(data_scale != "pres"){
+  
     for(i in 1:ncol(edata_df)){
       edata_df[which(edata_df[,i] == 0), i] = NA
     }
-  }
+  
   
   # pull group membership column and ensure that order matches edata_df column order #
   ord_groupdf = group_df[match(names(edata_df), group_df[,samp_colname]),]
@@ -137,11 +137,11 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
   if(!(absn_thresh < pres_thresh)) stop("absn_thresh must be less than pres_thresh")
 
   # if data is not in presence/absence form, convert to pres/abs (number or NA) #
-  if(data_scale != "pres"){
+  
     for(i in 1:ncol(edata_df)){
       edata_df[which(edata_df[,i] == 0), i] = NA
     }
-  }
+  
   
   # pull group membership column and ensure that order matches edata_df column order #
   ord_groupdf = group_df[match(names(edata_df), group_df[,samp_colname]),]
@@ -181,7 +181,6 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
 #' 
 
 uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thresh, pvalue_thresh = 0.05){
-  
   # check that edata_df is data.frame #
   if(!inherits(edata_df, "data.frame")) stop("edata_df must be of class 'data.frame'")
   
@@ -220,12 +219,11 @@ uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thres
   if(!(pres_thresh >= 0 & pres_thresh <= 1)) stop("pres_thresh must be a numeric value between 0 and 1 inclusive")  
   }
   
-  # if data is not in presence/absence form, convert to pres/abs #
-  if(data_scale != "pres"){
+  # change 0's to NA's for the g-test #
     for(i in 1:ncol(edata_df)){
       edata_df[which(edata_df[,i] == 0), i] = NA
     }
-  }
+
   
   # pull group membership column and ensure that order matches edata_df column order #
   ord_groupdf = group_df[match(names(edata_df), group_df[,samp_colname]),]
