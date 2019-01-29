@@ -31,6 +31,9 @@ filter_obj <- formula_filter(peakIcrData)
 # Formula bar should be blue
 plot(filter_obj, remove='NoFormula')
 
+# NoFormula bar should be blue
+plot(filter_obj, remove='Formula')
+
 # No blue bars
 plot(filter_obj)
 
