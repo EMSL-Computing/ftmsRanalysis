@@ -28,25 +28,25 @@ summary.moleculeFilt <- function(filter_object, min_num=NULL){
   pep_observation_counts <- data.frame(num_observations=0:(length(cut_data)-1), num_peaks=cut_data)
   pep_observation_counts = pep_observation_counts[,-2]
   names(pep_observation_counts)[2] = "num_peaks"
-  
-  if(!is.null(min_num)){
+  if(is.null(min_num)){
+    res <- pep_observation_counts$num_peaks
+    names(res) <- sprintf("Peaks with %d Observations", pep_observation_counts$num_observations)
+    class(res) <- c("summaryDefault", class(res))
+    return(res)
+    
+  } else {
     # get number molecules tested
     num_not_filtered<- sum(pep_observation_counts$num_peaks[pep_observation_counts$num_observations >= min_num])
     
     # get number molecules not tested
     num_filtered <- sum(pep_observation_counts$num_peaks[pep_observation_counts$num_observations < min_num])
+
+    res <- list(pep_observation_counts=pep_observation_counts, min_num=min_num, num_not_filtered=num_not_filtered, num_filtered=num_filtered)
     
-  }
-  
-  res <- list(pep_observation_counts=pep_observation_counts, min_num=min_num, num_not_filtered=num_not_filtered, num_filtered=num_filtered)
-  
-  
-  if(is.null(min_num)){
-    print(pep_observation_counts, row.names = F)
-  }else{
-    catmat <- data.frame(c("Minimum Number:"=min_num, "Filtered:"=res$num_filtered, "Not Filtered:"=res$num_not_filtered))  
-    names(catmat) = ""
-    print(catmat)
+    catmat <- c("Minimum Number"=min_num, "Filtered"=res$num_filtered, "Not Filtered"=res$num_not_filtered)
+    class(catmat) <- c("summaryDefault", class(catmat))
+    return(catmat)
+    
   }
 }
 
@@ -81,13 +81,13 @@ summary.massFilt <- function(filter_object, min_mass = NULL, max_mass = NULL){
   
   # if both min and max are null calculate the five number summary #  
   if(is.null(min_mass) & is.null(max_mass)) {
-    summary(filter_object$Mass)
+    return(summary(filter_object$Mass))
   }else{
     num_not_filtered = sum(filter_object$Mass >= min_mass & filter_object$Mass <= max_mass)
     num_filtered = nrow(filter_object) - num_not_filtered
-    catmat <- data.frame(c("Minimum Mass:"=min_mass, "Maximum Mass:"=max_mass, "Filtered:"=round(num_filtered,0), "Not Filtered:"=round(num_not_filtered,0)))  
-    names(catmat) = ""
-    print(catmat)
+    catmat <- c("Minimum Mass"=min_mass, "Maximum Mass"=max_mass, "Filtered"=round(num_filtered,0), "Not Filtered"=round(num_not_filtered,0))
+    class(catmat) <- c("summaryDefault", class(catmat))
+    return(catmat)
   }
   
 }
@@ -109,20 +109,20 @@ summary.formulaFilt <- function(filter_object, remove = NULL){
   }
   # if remove is NULL return distribution #  
   if(is.null(remove)) {
-    catmat = data.frame(c("Formula Assigned:"=sum(filter_object$Formula_Assigned), "No Formula Assigned:"=nrow(filter_object)-sum(filter_object$Formula_Assigned)))
-    names(catmat) = ""
-    print(catmat)
+    catmat = c("Formula Assigned"=sum(filter_object$Formula_Assigned), "No Formula Assigned"=nrow(filter_object)-sum(filter_object$Formula_Assigned))
+    class(catmat) <- c("summaryDefault", class(catmat))
+    return(catmat)
   }else{
     num_noform = sum(filter_object$Formula_Assigned)
     num_form = nrow(filter_object) - num_noform
     if(remove == "NoFormula"){
-    catmat <- data.frame(c("Remove:"=remove, "Filtered:"=num_noform, "Not Filtered:"=num_form))  
-    names(catmat) = ""
-    print(catmat)
+      catmat <- list("Remove"=remove, "Filtered"=num_noform, "Not Filtered"=num_form)
+      class(catmat) <- c("summaryDefault", class(catmat))
+      return(catmat)
     }else{
-      catmat <- data.frame(c("Remove:"=remove, "Filtered:"=num_form, "Not Filtered:"=num_noform))  
-      names(catmat) = ""
-      print(catmat)  
+      catmat <- list("Remove"=remove, "Filtered"=num_form, "Not Filtered"=num_noform)
+      class(catmat) <- c("summaryDefault", class(catmat))
+      return(catmat)
     }
   
   }
@@ -176,41 +176,35 @@ summary.emetaFilt <- function(filter_object, min_val = NULL, max_val = NULL, cat
   if(var_type == "quantitative"){
     # if both min and max are null #
     if(is.null(min_val) & is.null(max_val)){
-      print(summary(filter_object$emeta_value))
+      return(summary(filter_object$emeta_value))
     }else{
       if(na.rm == TRUE){
-      num_not_filtered = sum(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val, na.rm = T)
-      num_filtered = nrow(filter_object) - num_not_filtered
-      catmat <- data.frame(c("Filter Variable:"=var_name,"Minimum Value:"=min_val, "Maximum Value:"=max_val, "Filtered:"=round(num_filtered,0), "Not Filtered:"=round(num_not_filtered,0)))  
-      names(catmat) = ""
-      print(catmat)
+        num_not_filtered = sum(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val, na.rm = T)
       }else{
         num_not_filtered = sum(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val, na.rm = T) + sum(is.na(filter_object$emeta_value))
-        num_filtered = nrow(filter_object) - num_not_filtered
-        catmat <- data.frame(c("Filter Variable:"=var_name,"Minimum Value:"=min_val, "Maximum Value:"=max_val, "Filtered:"=round(num_filtered,0), "Not Filtered:"=round(num_not_filtered,0)))  
-        names(catmat) = ""
-        print(catmat)  
       }
+      num_filtered = nrow(filter_object) - num_not_filtered
+      catmat <- list("Filter Variable"=var_name,"Minimum Value"=min_val, "Maximum Value"=max_val, "Filtered"=round(num_filtered,0), "Not Filtered"=round(num_not_filtered,0))
+      class(catmat) <- c("summaryDefault", class(catmat))
+      return(catmat)
     }
   }
   if(var_type == "categorical"){
     # if cats is null #
     if(is.null(cats)){
-      table(filter_object$emeta_value)
+      res <- table(filter_object$emeta_value)
+      class(res) <- c("summaryDefault",class(res))
+      return(res)
     }else{
       if(na.rm == TRUE){
         num_not_filtered = sum(filter_object$emeta_value %in% cats)
-        num_filtered = nrow(filter_object) - num_not_filtered
-        catmat <- data.frame(c("Filter Variable:"=var_name,"Categories Kept:"=paste(cats, collapse = ","), "Filtered:"=round(num_filtered,0), "Not Filtered:"=round(num_not_filtered,0)))  
-        names(catmat) = ""
-        print(catmat)
       }else{
         num_not_filtered = sum(filter_object$emeta_value %in% cats) + sum(is.na(filter_object$emeta_value))
-        num_filtered = nrow(filter_object) - num_not_filtered
-        catmat <- data.frame(c("Filter Variable:"=var_name,"Categories Kept:"=paste(c("NA",cats), collapse = ","), "Filtered:"=round(num_filtered,0), "Not Filtered:"=round(num_not_filtered,0)))  
-        names(catmat) = ""
-        print(catmat)
       }
+      num_filtered = nrow(filter_object) - num_not_filtered
+      catmat <- list("Filter Variable"=var_name,"Categories Kept"=paste(cats, collapse = ","), "Filtered"=round(num_filtered,0), "Not Filtered"=round(num_not_filtered,0))
+      class(catmat) <- c("summaryDefault", class(catmat))
+      return(catmat)
     }
   }
 }
