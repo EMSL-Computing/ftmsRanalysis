@@ -24,7 +24,7 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
   
   
   if(is.null(xaxis)){
-    xaxis <- getFDataColName(icrData)
+    xaxis <- fticRanalysis:::getFDataColName(icrData)
   }
   
   if(!(xaxis %in% c(colnames(icrData$f_data), colnames(attr(icrData, "group_DF"))))){
@@ -38,29 +38,31 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
   
   if(is.null(classColName) & !is.null(vkBoundarySet)){
     if(!(vkBoundarySet) %in% c("bs1","bs2")){ stop("vkBoundarySet must be one of 'bs1' or 'bs2'.") }
-    classes$VKClassesForPlot <- factor(fticRanalysis:::getVanKrevelenCategories(icrData, vkBoundarySet), levels=rownames(fticRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)))
+    classes$VKClassesForPlot <- fticRanalysis:::assign_class(icrData, vkBoundarySet)$e_meta[,paste(vkBoundarySet,"class",sep="_")]
+    classes$VKClassesForPlot <- gsub(";.*", "",classes$VKClassesForPlot)
+    classes$VKClassesForPlot <- factor(classes$VKClassesForPlot, levels=rownames(fticRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds))
   }else if(!is.null(classColName)){
     if(!(classColName) %in% colnames(icrData$e_meta)){ stop("classColName not found in icrData$e_meta.") }
-    classes$VKClassesForPlot <- icrData$e_meta[match(icrData$e_meta[,getMassColName(icrData)], classes[,getMassColName(icrData)]), classColName]
+    classes$VKClassesForPlot <- icrData$e_meta[match(icrData$e_meta[,fticRanalysis:::getMassColName(icrData)], classes[,fticRanalysis:::getMassColName(icrData)]), classColName]
   }else{
     stop("Unsure what to use to color by, please specify either 'vkBoundarySet' or 'classColName'")
   }
   
   classes <- reshape2::melt(classes)
-  colnames(classes)[which(colnames(classes) == "variable")] <- getFDataColName(icrData)
+  colnames(classes)[which(colnames(classes) == "variable")] <- fticRanalysis:::getFDataColName(icrData)
   classes <- merge(classes, icrData$e_meta, by=getMassColName(icrData))
   
   # remove unassigned 
-  if(any(is.na(classes[,getMFColName(icrData)]))){
-    classes <- classes[-which(is.na(classes[,getMFColName(icrData)])),]
+  if(any(is.na(classes[,fticRanalysis:::getMFColName(icrData)]))){
+    classes <- classes[-which(is.na(classes[,fticRanalysis:::getMFColName(icrData)])),]
     classes <- droplevels(classes)
   }
   
   # merge peaks with metadata or group_DF
   if(xaxis %in% colnames(attr(icrData, "group_DF"))){
-    classes <- merge(classes, attr(icrData, "group_DF"), by=getFDataColName(icrData))
+    classes <- merge(classes, attr(icrData, "group_DF"), by=fticRanalysis:::getFDataColName(icrData))
   }else{
-    classes <- merge(classes, icrData$f_data, by=getFDataColName(icrData)) 
+    classes <- merge(classes, icrData$f_data, by=fticRanalysis:::getFDataColName(icrData)) 
   }
   
   if(xaxis == getFDataColName(icrData)){
