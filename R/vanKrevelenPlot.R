@@ -20,9 +20,6 @@
 #' @export
 vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                             xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
-  require(dplyr)
-  require(plotly)
-  require(scales)
 
   # here's an R quirk: legendTitle=colorCName by default. legendTitle value is not 'fixed' until the first
   # time it's evaluated. So if legendTitle is not explicitly set and I change colorCName in this function
@@ -106,12 +103,12 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
     if (vk_color_different_than_pts) {
       # if vk boxes are drawn but points are not colored according to vk category, color boxes black
       p <- p %>%
-        add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, 
+        plotly::add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, 
                      text=vankrev_categories$category, hoverinfo="text", line=list(color="#000000"), 
                      showlegend = FALSE, inherit=FALSE) 
     } else {
       p <- p %>%
-        add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, color=~category,
+        plotly::add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, color=~category,
                      text=vankrev_categories$category, hoverinfo="text", showlegend = FALSE, 
                      inherit=FALSE) 
     }

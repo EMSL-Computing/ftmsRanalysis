@@ -21,8 +21,7 @@
 #' scatterPlot(peakIcrProcessed, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for peakIcrProcessed")
 scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xlabel=xCName, ylabel=yCName, 
                         legendTitle=colorCName, title=NA, xrange=NA, yrange=NA, logColorCol=FALSE, hoverTextCName=NA) {
-  require(plotly)
-  
+
   if (missing(icrData)) stop("icrData must be provided")
   if (missing(xCName)) stop("xCName must be provided")
   if (missing(yCName)) stop("yCName must be provided")
@@ -161,7 +160,7 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
     yrange <- fticRanalysis:::nice_axis_limits(plot_data[, yCName])
   }
 
-  p <- plot_ly(plot_data, x=plot_data[,xCName], y=plot_data[,yCName]) 
+  p <- plotly::plot_ly(plot_data, x=plot_data[,xCName], y=plot_data[,yCName]) 
   marker_parms <- list(a=p, key=plot_data[, getEDataColName(icrData)])
   names(marker_parms)[1] <- ""
   
@@ -180,13 +179,13 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
     marker_parms <- c(marker_parms, list(text=plot_data[, hoverTextCName], hoverinfo="text"))
   }
 
-  p <- do.call(add_markers, marker_parms)
+  p <- do.call(plotly::add_markers, marker_parms)
   
   # colorbar title:
   if (!is.na(colorCName) & !is.na(legendTitle) & nchar(legendTitle) > 0) {
     if (is.numeric(plot_data[, colorCName]) && !is.integer(plot_data[, colorCName])) { # NUMERIC NOT INTEGER
       p <- p %>%
-        colorbar(title=legendTitle, which=1)
+        plotly::colorbar(title=legendTitle, which=1)
     }
   }
   
@@ -200,10 +199,10 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   )
   
   p <- p %>%
-    layout(xaxis=c(ax, list(title=xlabel, range=xrange)), yaxis=c(ax, list(title=ylabel, range=yrange)))
+    plotly::layout(xaxis=c(ax, list(title=xlabel, range=xrange)), yaxis=c(ax, list(title=ylabel, range=yrange)))
   
   if (!is.na(title)) {
-    p <- p %>% layout(title=title)
+    p <- p %>% plotly::layout(title=title)
   }
   return(p)
   

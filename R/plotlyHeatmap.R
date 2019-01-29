@@ -39,10 +39,6 @@ plotlyHeatmap <- function(zMatrix, xLabels=colnames(zMatrix),
         colorbarTitle="Color Scale", zLimits=range(zMatrix, na.rm=TRUE), 
         margins=list(l=200)) {
 
-#    require(plotly)
-#    require(scales)
-#    require(RColorBrewer)
-#browser()        
     #color palette
     if (is.character(pal)) {
         #color.pal <- scales::col_numeric(pal, zLimits, na.color="#FFFFFF")

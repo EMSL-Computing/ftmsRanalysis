@@ -17,8 +17,7 @@
 #' plot(edata_transform(peakIcrData, "log2"))
 #' plot(edata_transform(peakIcrProcessed, "pres"))
 plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
-  require(plotly)
-  
+
   # Tests
   if (!inherits(icrData, "peakIcrData")) stop("icrData must be of type peakIcrData")
   if (inherits(icrData, "groupSummary") | inherits(icrData, "comparisonSummary")) {
@@ -46,7 +45,7 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
   }
   
   # If group information is present, color by groups
-  p <- plot_ly()
+  p <- plotly::plot_ly()
   grouped <- FALSE
   if (!is.null(fticRanalysis:::getGroupDF(icrData))) {
     grouped <- TRUE
@@ -56,19 +55,19 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
 
   if (data_scale == "pres") { # do a barplot of num observed
     if (grouped) {
-      counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=n()) %>% ungroup()
-      p <- p %>% add_bars(x=~Sample, y=~Count, color=~Group, data=counts, hoverinfo="y")
+      counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=n()) %>% dplyr::ungroup()
+      p <- p %>% plotly::add_bars(x=~Sample, y=~Count, color=~Group, data=counts, hoverinfo="y")
     } else {
-      counts <- df %>% dplyr::group_by(Sample) %>% dplyr::summarize(Count=n()) %>% ungroup()
-      p <- p %>% add_bars(x=~Sample, y=~Count, data=counts, hoverinfo="y")
+      counts <- df %>% dplyr::group_by(Sample) %>% dplyr::summarize(Count=n()) %>% dplyr::ungroup()
+      p <- p %>% plotly::add_bars(x=~Sample, y=~Count, data=counts, hoverinfo="y")
     }
   } else { # boxplot
     if (grouped) {
       p <- p %>%
-        add_boxplot(x=~Sample, y=~Value, color=~Group, data=df)
+        plotly::add_boxplot(x=~Sample, y=~Value, color=~Group, data=df)
     } else {
       p <- p %>%
-        add_boxplot(x=~Sample, y=~Value, data=df)
+        plotly::add_boxplot(x=~Sample, y=~Value, data=df)
     }
     
   }
@@ -81,10 +80,10 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
   )
   
   p <- p %>%
-    layout(xaxis=c(ax, list(title=xlabel), tickangle=-90, automargin=TRUE), yaxis=c(ax, list(title=ylabel)))
+    plotly::layout(xaxis=c(ax, list(title=xlabel), tickangle=-90, automargin=TRUE), yaxis=c(ax, list(title=ylabel)))
   
   if (!is.na(title)) {
-    p <- p %>% layout(title=title)
+    p <- p %>% plotly::layout(title=title)
   }
   
   p
