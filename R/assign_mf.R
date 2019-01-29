@@ -4,7 +4,7 @@
 #' 
 #' @param icrData an object of class 'icrData', typically a result of \code{\link{as.icrData}}. e_meta must be present.
 #' 
-#' @details Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. KEGG). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
+#' @details Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. MetaCyc). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
 #' 
 #' @return an object of class 'icrData' with a column in \code{e\_meta} giving the molecular formula.
 #' 

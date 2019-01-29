@@ -20,9 +20,6 @@
 #' @export
 vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", showVKBounds=TRUE, 
                             xlabel="O:C Ratio", ylabel="H:C Ratio", legendTitle=colorCName) {
-  require(dplyr)
-  require(plotly)
-  require(scales)
 
   # here's an R quirk: legendTitle=colorCName by default. legendTitle value is not 'fixed' until the first
   # time it's evaluated. So if legendTitle is not explicitly set and I change colorCName in this function
@@ -70,6 +67,12 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
   
+  # If data is not 12T then do a heatmap instead of points
+  if (getInstrumentType(icrData) != "12T") {
+    return(.internal21THeatmap(icrData, xCName=OC.col, yCName=HC.col, xBreaks=100, yBreaks=100, 
+                               colorPal=colorPal, xlabel=xlabel, ylabel=ylabel))
+  }
+  
   vk_color_different_than_pts <- FALSE
   if (!is.na(vkBoundarySet)) {
     icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
@@ -100,12 +103,12 @@ vanKrevelenPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBou
     if (vk_color_different_than_pts) {
       # if vk boxes are drawn but points are not colored according to vk category, color boxes black
       p <- p %>%
-        add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, 
+        plotly::add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, 
                      text=vankrev_categories$category, hoverinfo="text", line=list(color="#000000"), 
                      showlegend = FALSE, inherit=FALSE) 
     } else {
       p <- p %>%
-        add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, color=~category,
+        plotly::add_segments(x=~x0, y=~y0, xend=~x1, yend=~y1, data=vankrev_categories, color=~category,
                      text=vankrev_categories$category, hoverinfo="text", showlegend = FALSE, 
                      inherit=FALSE) 
     }

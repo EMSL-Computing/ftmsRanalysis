@@ -5,7 +5,7 @@
 #' @param icrData icrData object of class peakIcrData or compoundIcrData
 #' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
 #' @param samples vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.
-#' @param groups vector of group names to plot. Default of \code{NA} indicates all groups found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no groups, only samples.
+#' @param groups vector of group names to plot. Value of \code{NA} indicates all groups found in \code{icrData} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.
 #' @param title plot title, default is NA (no title)
 #' @param yaxis what should the y-axis represent, "density" or "count"? 
 #' @param plot_hist TRUE/FALSE should a histogram be added to the plot? A histogram may only be added if a single sample or groups is plotted.
@@ -29,11 +29,14 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
                             yaxis="density", plot_hist=FALSE, plot_curve=TRUE, 
                             curve_colors=NA, hist_color="gray", 
                             xlabel=NA, ylabel=paste0(toupper(substring(yaxis, 1,1)), substring(yaxis,2), sep="")) {
-  require(plotly)
   
   # Test inputs #
   if (!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) {
     stop("icrData must be of type peakIcrData or compoundIcrData")
+  }
+  
+  if (inherits(icrData, "comparisonSummary")) {
+    stop("icrData must not be a comparisonSummary object")
   }
   
   if (is.null(variable) | length(which(colnames(icrData$e_meta) == variable)) != 1) {
@@ -64,7 +67,7 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
       dplyr::group_by(Group) %>% 
       dplyr::filter(Group %in% groups) %>%
       dplyr::rename(Sample=!!getFDataColName(icrData)) %>%
-      summarize(samples=list(as.character(unique(Sample))))
+      dplyr::summarize(samples=list(as.character(unique(Sample))))
     trace_subsets <- tmp$samples
     names(trace_subsets) <- tmp$Group
   }
@@ -109,9 +112,9 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     hist_data <- dplyr::rename(hist_data, y=count)
   }  
   yrange <- c(NA, NA)
-  p <- plot_ly()
+  p <- plotly::plot_ly()
   if (plot_hist) {
-    p <- p %>% add_bars(x=~x, y=~y, width=~barwidth, key=~key, data=hist_data, 
+    p <- p %>% plotly::add_bars(x=~x, y=~y, width=~barwidth, key=~key, data=hist_data, 
                         marker=list(color=hist_color), showlegend=FALSE) 
   }
   
@@ -120,10 +123,10 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
       curve_colors <- fticRanalysis:::get_curve_colors(names(trace_subsets))
     }
     if (length(trace_subsets) > 1) {
-      p <- p %>% add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
+      p <- p %>% plotly::add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
                            showlegend=TRUE, colors=curve_colors)
     } else {
-      p <- p %>% add_lines(x=~x, y=~y, data=curve_data, #alpha=0.5, 
+      p <- p %>% plotly::add_lines(x=~x, y=~y, data=curve_data, #alpha=0.5, 
                            showlegend=FALSE, line=list(color=curve_colors[1]))
     }
   }
@@ -135,12 +138,12 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     mirror = "ticks" # makes box go all the way around not just bottom and left
   )
   
-  p <- p %>% layout(barmode="overlay", xaxis=c(ax, list(title=xlabel)), 
+  p <- p %>% plotly::layout(barmode="overlay", xaxis=c(ax, list(title=xlabel)), 
                     yaxis=c(ax, list(title=ylabel)))#, range=nice_axis_limits(hist_data$y)))
   
   if(!is.na(title)){
     p <- p %>%
-      layout(title=title)
+      plotly::layout(title=title)
   }
   
   if (plot_hist) {

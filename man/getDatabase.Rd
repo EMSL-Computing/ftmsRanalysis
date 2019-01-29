@@ -10,7 +10,7 @@ getDatabase(icrData)
 \item{icrData}{an object of type icrData}
 }
 \value{
-database (KEGG or MetaCyc)
+database (e.g. MetaCyc)
 }
 \description{
 Get the database associated with an object that has been mapped to

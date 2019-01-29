@@ -19,17 +19,13 @@
 #' @export
 kendrickPlot <- function(icrData, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", 
                          xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName) {
-  require(dplyr)
-  require(plotly)
-  require(scales)
 
   # here's an R quirk: legendTitle=colorCName by default. legendTitle value is not 'fixed' until the first
   # time it's evaluated. So if legendTitle is not explicitly set and I change colorCName in this function
   # before accessing legendTitle, legendTitle will be given the new colorCName value!
   tmp <- legendTitle
-  
   logColorCol <- FALSE
-  if (!is.na(colorCName)) {
+  if (!is.na(colorCName) & getInstrumentType(icrData) == "12T") {
     if (colorCName =="Intensity") {
       if (ncol(icrData$e_data) > 2) {
         stop("If colorCName == 'Intensity' then only one sample column may be present in icrData$e_data")

@@ -26,14 +26,20 @@ test_that("mass filters work correctly on peakIcrData", {
   
   # summary method
   filtSumm <- summary(filtData)
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true(getMassColName(peakIcrData) %in% stringr::str_trim(colnames(filtSumm)))
+  expect_true(inherits(filtSumm, "summaryDefault"))
+  expect_true(is.numeric(filtSumm))
   
   filtSumm2 <- summary(filtData, min_mass=200, max_mass=900)
-  expect_true(length(filtSumm2) == 3)
-  expect_true(inherits(filtSumm2, "list"))
-  expect_true(all(c("Original_Num_Peaks", "Removed_Peaks", "Retained_Peaks") %in% names(filtSumm2)))
+  expect_true(inherits(filtSumm2, "summaryDefault"))
+  expect_true(is.numeric(filtSumm2))
+
+  filtSumm3 <- summary(filtData, min_mass=200)
+  expect_true(inherits(filtSumm3, "summaryDefault"))
+  expect_true(is.numeric(filtSumm3))
+  
+  filtSumm4 <- summary(filtData, max_mass=900)
+  expect_true(inherits(filtSumm4, "summaryDefault"))
+  expect_true(is.numeric(filtSumm4))
   
   # test some things that should fail  
   expect_error(tmp <- applyFilt(filtData, peakIcrData2, min_mass = 500, max_mass = 600))
@@ -65,14 +71,10 @@ test_that("molecule filters work correctly on peakIcrData", {
   
   # summary method
   filtSumm <- summary(filtData)
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true("Num_Observations" %in% stringr::str_trim(colnames(filtSumm)))
-  
+  expect_true(inherits(filtSumm, "summaryDefault"))
+
   filtSumm2 <- summary(filtData, min_num=2)
-  expect_true(length(filtSumm2) == 3)
-  expect_true(inherits(filtSumm2, "list"))
-  expect_true(all(c("Original_Num_Peaks", "Removed_Peaks", "Retained_Peaks") %in% names(filtSumm2)))
+  expect_true(inherits(filtSumm2, "summaryDefault"))
   
   # test some things that should fail  
   expect_error(tmp <- applyFilt(filtData, peakIcrData, min_num=-1))
@@ -104,15 +106,14 @@ test_that("formula filters work correctly on peakIcrData", {
   
   # summary method
   filtSumm <- summary(filtData)
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true("Formula_Assigned" %in% stringr::str_trim(colnames(filtSumm)))
-  
+  expect_true(inherits(filtSumm, "summaryDefault"))
+
   filtSumm2 <- summary(filtData, remove="NoFormula")
-  expect_true(length(filtSumm2) == 3)
-  expect_true(inherits(filtSumm2, "list"))
-  expect_true(all(c("Original_Num_Peaks", "Removed_Peaks", "Retained_Peaks") %in% names(filtSumm2)))
-  
+  expect_true(inherits(filtSumm2, "summaryDefault"))
+
+  filtSumm3 <- summary(filtData, remove="Formula")
+  expect_true(inherits(filtSumm3, "summaryDefault"))
+
   ## Remove peaks WITH formulas
   peakIcrData3 <- applyFilt(filtData, peakIcrData, remove = 'Formula')
   
@@ -179,9 +180,16 @@ test_that("emeta filters work correctly on peakIcrData", {
                  nrow(filterlist[[i]] %>% dplyr::filter(emeta_value <= newmax, emeta_value >= newmin)))
     
     filtSumm <- summary(filterlist[[i]])
-    expect_true(ncol(filtSumm) == 2)
-    expect_true(inherits(filtSumm, "table"))
-    expect_true(all(c(getEDataColName(peakIcrData), "emeta_value") %in% stringr::str_trim(colnames(filtSumm))))
+    expect_true(inherits(filtSumm, "summaryDefault"))
+    
+    filtSumm2 <- summary(filterlist[[i]], min_val = newmin, max_val=newmax)
+    expect_true(inherits(filtSumm2, "summaryDefault"))
+    
+    filtSumm3 <- summary(filterlist[[i]], min_val = newmin)
+    expect_true(inherits(filtSumm3, "summaryDefault"))
+    
+    filtSumm4 <- summary(filterlist[[i]], max_val=newmax)
+    expect_true(inherits(filtSumm4, "summaryDefault"))
     
     expect_true(!is.null(attr(filtered_obj, "filter")))
     expect_true(!is.null(attr(filtered_obj, "filter")[[paste0("emetaFilt_", cols[i])]]))
@@ -209,9 +217,10 @@ test_that("emeta filters work correctly on peakIcrData", {
                nrow(filterlist[[4]] %>% dplyr::filter(emeta_value %in% c(cats, NA))))
   
   filtSumm <- summary(filterlist[[4]])
-  expect_true(ncol(filtSumm) == 2)
-  expect_true(inherits(filtSumm, "table"))
-  expect_true(all(c(getEDataColName(peakIcrData), "emeta_value") %in% stringr::str_trim(colnames(filtSumm))))
+  expect_true(inherits(filtSumm, "summaryDefault"))
+
+  filtSumm2 <- summary(filterlist[[4]], cats=cats)
+  expect_true(inherits(filtSumm2, "summaryDefault"))
   
   expect_true(!is.null(attr(filtered_obj, "filter")))
   expect_true(!is.null(attr(filtered_obj, "filter")$emetaFilt_MolForm))

@@ -1,0 +1,121 @@
+---
+title: "Van Krevelen Plots"
+author: "Amanda White"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 1
+    number_sections: true
+  pkgdown:
+    toc: true
+    toc_depth: 1
+
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.width = 8, 
+  fig.height = 6
+)
+```
+
+Van Krevelen (VK) plots do something useful that I will have to find out about some other time. 
+
+A Van Krevelen plot displays the H:C versus O:C ratios for each peak observed. The `fticRanalysis` package 
+provides a method to construct these plots, with a variety of options. Van Krevelen typically display peaks 
+colored by functional class. There are 3 options for calculating those classes in this package, which are drawn
+from the following publications:
+
+* `bs1` - [Kim, S., et al (2003). Analytical Chemistry.](https://dx.doi.org/10.1021/ac034415p){target="_blank"}
+* `bs2` - [Bailey, V. et al (2017). Soil Biology and Biochemistry.](https://dx.doi.org/10.1016/j.soilbio.2016.11.025){target="_blank"}
+* `bs3` - [Rivas-Ubach, A., et al (2018). Analytical chemistry.](https://dx.doi.org/10.1021/acs.analchem.8b00529){target="_blank"}
+
+Please note that the Rivas-Ubach (`bs3`) boundaries should only be used for plant matter data. __Lisa: do we want to insert more 
+discussion on the differences between these boundary sets?__
+
+# Single Sample Van Krevelen Plots
+
+To construct a VK plot for a single sample, first construct a subset containing only the sample of interest. By default the `vanKrevelenPlot` function will color points according to their class using the `bs1` definition.
+
+```{r message=FALSE}
+library(fticRanalysis)
+data("peakIcrProcessed")
+
+one_sample <- subset(peakIcrProcessed, samples="EM0011_sample")
+vanKrevelenPlot(one_sample)
+```
+
+The resulting plot is a [`plot_ly`](https://cran.r-project.org/package=plotly) object and is interactive. Click on a name in the legend on the right to toggle whether those points are visible. Double-click any name to show only the corresponding points. Mouse over a point to see its molecular formula and mass. Other buttons for zooming, panning and exporting to PDF become visible at the top when the mouse is over the plot area.
+
+There are parameters to customize many of the visible options of this plot. For example to customize the colors, the `colorPal` parameter accepts a color palette function such as `col_factor` in the [`scales`](https://cran.r-project.org/package=scales) package. The `vkBoundarySet` parameter controls which of the 3 boundary sets are used to calculate class; valid options are `bs1` (default), `bs2`, or `bs3`.
+
+```{r}
+library(scales)
+cat_names <- rownames(getVanKrevelenCategoryBounds("bs1")$VKbounds)
+color_palette <- col_factor(palette = "Set1", domain=cat_names)
+
+vanKrevelenPlot(one_sample, colorPal=color_palette, vkBoundarySet = 'bs2')
+```
+
+The `showVKBounds` parameter may be used to toggle on and off the boxes showing the bounds corresponding to the classes (TRUE/FALSE).
+
+The points may be colored by another column of meta-data by using the `colorCName` parameter. By default the function constructs an appropriate color palette for the chosen data type (integer, numeric or factor) but one may be specified using the `colorPal` parameter. Peaks for which the chosen meta-data value is NA will be hidden. (This is also true when coloring by class; peaks without mass formulas cannot be assigned a class.)
+
+Note that when the points are colored by a value other than class, the boxes denoting class boundaries will be black. However, the class labels are available by mousing over the box corners.
+
+```{r}
+vanKrevelenPlot(one_sample, colorCName = "NOSC", title="Van Krevelen Plot Colored by NOSC Value")
+```
+
+```{r}
+vanKrevelenPlot(one_sample, colorCName="N", title="Van Krevelen Plot Colored by Number of N")
+```
+
+The points may also be colored by an `e_data` column such as abundance, transformed abundance or presence/absence. If abundance is used, it will be log-transformed prior to display because the distribution of abundance values typically has a long right tail making the colors difficult to interpret. 
+
+```{r}
+vanKrevelenPlot(one_sample, colorCName="EM0011_sample", legendTitle="log(Abundance)")
+```
+
+
+# Group Van Krevelen Plots
+
+Another use of the `vanKrevelenPlot` function is to plot treatment groups. For example, one can construct a group subset, calculate the number or proporation of samples in which each peak was observed (using `summarizeGroups`) and color the points by that summary.
+
+```{r, message=FALSE}
+ms_group <- subset(peakIcrProcessed, groups="M_S")
+ms_summary <- summarizeGroups(ms_group, summary_functions=c("n_present", "prop_present"))
+ms_summary$f_data
+```
+
+```{r}
+vanKrevelenPlot(ms_summary, colorCName="M_S_n_present", title="M_S Group Colored by Number of Times Observed")
+```
+
+For group plots, the points may still be colored by meta-data columns, and peaks that are observed in any sample in the group will be displayed.
+
+# Group Comparison Van Krevelen Plots
+
+It can be useful to compare peaks that are unique to one treatment group versus another. This can be done by constructing a group comparison object and using `summarizeGroupComparisons` to determine group uniqueness, as shown below.
+
+Clicking the "Observed in Both" label on the right hides those points to focus on the points that are unique to M_S or M_C.
+
+```{r}
+m_groups <- divideByGroupComparisons(peakIcrProcessed, comparisons=list(c("M_S", "M_C")))[[1]]$value
+comp_summary <- summarizeGroupComparisons(m_groups, summary_functions="uniqueness_gtest", 
+                                            summary_function_params=list(
+                                              uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2,
+                                                                    pvalue_thresh=0.05)
+                                          ))
+summary(comp_summary$e_data)
+
+vanKrevelenPlot(comp_summary, colorCName="uniqueness_gtest") 
+```
+

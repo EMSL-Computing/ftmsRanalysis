@@ -1,0 +1,24 @@
+# fticRanalysis
+
+The `fticRanalysis` package was designed to help with various steps of processing FTICR data, including:
+
+* data formatting and manipulation
+* reproducible analysis pipeline
+* filtering data based on various properties
+* calculating meta information for each peak (e.g. NOSC)
+* data visualization and summary
+* one sample
+* multiple samples
+* group comparisons
+
+The `fticRanalysis` package was developed at [Pacific Northwest National Laboratory](http://www.pnnl.gov){target="_blank"}. See here for more information: [https://msc-viz.emsl.pnnl.gov](https://msc-viz.emsl.pnnl.gov){target="_blank"}. 
+
+See the [Get started](articles/fticRanalysis.html) page for a tutorial.
+
+### Installation
+
+The package may be installed from github using the command:
+
+```{r eval=FALSE}
+devtools::install_github("EMSL-Computing/fticRanalysis")
+```

@@ -5,9 +5,11 @@
 \alias{subset.compoundIcrData}
 \title{Subset an icrData object according to sample or group}
 \usage{
-\method{subset}{peakIcrData}(icrData, samples = NA, groups = NA)
+\method{subset}{peakIcrData}(icrData, samples = NA, groups = NA,
+  check_rows = FALSE)
 
-\method{subset}{compoundIcrData}(icrData, samples = NA, groups = NA)
+\method{subset}{compoundIcrData}(icrData, samples = NA, groups = NA,
+  check_rows = FALSE)
 }
 \arguments{
 \item{icrData}{icrData object}
@@ -15,6 +17,8 @@
 \item{samples}{sample ID or vector of sample IDs}
 
 \item{groups}{group name or vector of group names}
+
+\item{check_rows}{logical indicating whether to remove peaks that have no observations after subsetting}
 }
 \value{
 icrData object that contains only the subset of the original

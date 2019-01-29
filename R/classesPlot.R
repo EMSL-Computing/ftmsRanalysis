@@ -15,7 +15,7 @@
 #' 
 #' @author Allison Thompson
 #' 
-#' @export
+#'
 classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Classes", title=NULL, vkBoundarySet="bs1", classColName=NULL) {
   
   # Initial Checks #

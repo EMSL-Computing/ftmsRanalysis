@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapCompoundsToReactions.R
 \name{mapCompoundsToReactions}
 \alias{mapCompoundsToReactions}
-\title{Map compound level data to reactions in either KEGG or MetaCyc}
+\title{Map compound level data to reactions in MetaCyc}
 \usage{
 mapCompoundsToReactions(compoundIcrData)
 }
@@ -13,8 +13,9 @@ mapCompoundsToReactions(compoundIcrData)
 reactionIcrData object
 }
 \description{
-Map compound data to KEGG or MetaCyc reactions. The database used
-is determined by the database previously used to map peaks to compounds.
+Map compound data to MetaCyc modules. Additional database options may be added in the future.
+For MetaCyc, modules are pathways that are not super-pathways. 
+This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
 }
 \author{
 Amanda White

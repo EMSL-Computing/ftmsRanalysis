@@ -2,7 +2,6 @@
 
 library(fticRanalysis)
 library(MetaCycData)
-library(KeggData)
 context("mapPeaksToCompounds function")
 
 # convenience function to compare attributes between a peakIcrData and compoundIcrData
@@ -57,42 +56,10 @@ test_that("mapPeaksToCompounds works correctly mapping to MetaCyc", {
   
 })
 
-test_that("mapPeaksToCompounds works correctly mapping to Kegg", {
-  data("peakIcrProcessed")
-  
-  expect_warning(compIcrData <- mapPeaksToCompounds(peakIcrProcessed, db="KEGG"))
-  
-  expect_true(inherits(compIcrData, "compoundIcrData"))
-  expect_true(all(c("e_data", "e_meta", "f_data") %in% names(compIcrData)))
-  
-  testCompareAttributes(compIcrData, peakIcrProcessed, excludeAttr=c("class", "DB", "cnames"))
-  peakCNames <- attr(peakIcrProcessed, "cnames")
-  compCNames <- attr(peakIcrProcessed, "cnames")
-  expect_true(identical(peakCNames, compCNames[names(peakCNames)]))
-
-  expect_true(nrow(compIcrData$e_data) < nrow(peakIcrProcessed$e_data))
-  expect_true(identical(compIcrData$f_data, peakIcrProcessed$f_data))
-  
-  edata_cname <- getEDataColName(compIcrData)
-  expect_true(all(compIcrData$e_meta[, edata_cname] %in% compIcrData$e_data[, edata_cname]))
-  expect_true(all(compIcrData$e_data[, edata_cname] %in% compIcrData$e_meta[, edata_cname]))
-  expect_true(edata_cname != getEDataColName(peakIcrProcessed))
-  expect_true(sum(is.na(compIcrData$e_meta[, getCompoundColName(compIcrData)])) == 0)
-  
-  expect_equal(getDataScale(compIcrData), getDataScale(peakIcrProcessed))
-  
-  # test using transformed data as input
-  
-  peakIcr2 <- edata_transform(peakIcrProcessed, "log2")
-  expect_warning(compIcrData2 <- mapPeaksToCompounds(peakIcr2, db="KEGG"))
-  expect_equal(getDataScale(compIcrData2), getDataScale(peakIcr2))
-  
-})
-
 test_that("mapPeaksToCompounds fails correctly with bad parameters", {
   data("peakIcrProcessed")
   
-  expect_error(tmp <- mapPeaksToCompounds(peakIcrProcessed, db="invalid_db"), regexp = "db must be one of")
+  expect_error(tmp <- mapPeaksToCompounds(peakIcrProcessed, db="invalid_db"), regexp = "db must be")
   
   expect_error(tmp <- mapPeaksToCompounds(iris), regexp = "must be an object of type peakIcrData")
   

@@ -4,16 +4,17 @@
 \alias{getModuleName}
 \title{Get module name}
 \usage{
-getModuleName(module_ids, db = "KEGG")
+getModuleName(module_ids, db = "MetaCyc")
 }
 \arguments{
 \item{module_ids}{a character vector of module IDs}
 
-\item{db}{database to match, one of 'KEGG' or 'MetaCyc'}
+\item{db}{database to match, currently 'MetaCyc' is the only allowed value}
 }
 \value{
 character vector of module names
 }
 \description{
 Get the module name(s) for one or more module IDs.
+This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
 }

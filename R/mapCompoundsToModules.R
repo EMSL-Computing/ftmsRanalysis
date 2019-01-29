@@ -1,8 +1,9 @@
-#' Map compound level data to modules in either KEGG or MetaCyc
+#' Map compound level data to modules in MetaCyc
 #' 
-#' Map compound data to KEGG or MetaCyc modules The database used
-#' is determined by the database previously used to map peaks to compounds.
-#' For MetaCyc, modules are pathways that are not super-pathways
+#' Map compound data to MetaCyc modules. Additional database options may be added in the future.
+#' For MetaCyc, modules are pathways that are not super-pathways. 
+#' This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
+#' 
 #' @param compoundIcrData an object of type compoundIcrData
 #' @return moduleIcrData object
 #' 
@@ -18,22 +19,7 @@ mapCompoundsToModules <- function(compoundIcrData) {
   }
 
   db <- getDatabase(compoundIcrData)
-  if (toupper(db) == "KEGG") {
-    require(KeggData)
-    data("kegg_compounds")
-    compounds <- kegg_compounds
-    
-    data("kegg_compound_reaction_map")
-    comp_rxn_map <- kegg_compound_reaction_map
-    
-    data("kegg_module_reaction_map")
-    mod_rxn_map <- kegg_module_reaction_map
-    
-    # mapping from compound --> reaction --> module node
-    data("kegg_reaction_module_node_map")
-    reaction_module_node_map <- kegg_reaction_module_node_map
-
-  } else if (toupper(db) == "METACYC") {
+  if (toupper(db) == "METACYC") {
     require(MetaCycData)
 
     data("mc_compounds")
@@ -105,9 +91,7 @@ mapCompoundsToModules <- function(compoundIcrData) {
   if (!is.null(attr(compoundIcrData, "filters")) && !is.null(attr(compoundIcrData, "filters")$massFilt)) {
     thresh.min <- min(attr(compoundIcrData, "filters")$massFilt$threshold)
     thresh.max <- max(attr(compoundIcrData, "filters")$massFilt$threshold)
-    if (toupper(db) == "KEGG") {
-      obs_comp <- fticRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
-    } else if (toupper(db) == "METACYC") {
+    if (toupper(db) == "METACYC") {
       obs_comp <- fticRanalysis:::metacyc_mass_filter(obs_comp, thresh.min, thresh.max)
     } else {
       stop(paste("Unknown database:", db))
