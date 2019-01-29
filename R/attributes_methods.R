@@ -3,7 +3,7 @@
 #' Get the database associated with an object that has been mapped to
 #' the compound or module level.
 #' @param icrData an object of type icrData
-#' @return database (KEGG or MetaCyc)
+#' @return database (e.g. MetaCyc)
 #' @export
 getDatabase <- function(icrData) {
     if (!inherits(icrData, "icrData")) {

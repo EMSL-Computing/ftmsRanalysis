@@ -293,7 +293,7 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
 #' @param edata_cname character string specifying the name of the column containing a unique identifier for each peak/mass in \code{e_data} and \code{e_meta}.
 #' @param fdata_cname character string specifying the name of the column containing the sample identifiers in \code{f_data}.
 #' @param mass_cname character string specifying the name of the column containing the peak/mass identifiers in \code{e_meta}. Note: this is often the same as \code{edata_cname} for cases where mass is used as a unique identifier.
-#' @param compound_cname character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. Kegg, MetaCyc)
+#' @param compound_cname character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. MetaCyc)
 #' @param ... further arguments (see as.\code{\link{peakIcrData}})
 #'
 #' @details \code{as.compoundIcrData} constructs a compoundIcrData object which is an icrData object where the rows of \code{e_data} correspond to compounds.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapCompoundsToModules.R
 \name{mapCompoundsToModules}
 \alias{mapCompoundsToModules}
-\title{Map compound level data to modules in either KEGG or MetaCyc}
+\title{Map compound level data to modules in MetaCyc}
 \usage{
 mapCompoundsToModules(compoundIcrData)
 }
@@ -13,9 +13,9 @@ mapCompoundsToModules(compoundIcrData)
 moduleIcrData object
 }
 \description{
-Map compound data to KEGG or MetaCyc modules The database used
-is determined by the database previously used to map peaks to compounds.
-For MetaCyc, modules are pathways that are not super-pathways
+Map compound data to MetaCyc modules. Additional database options may be added in the future.
+For MetaCyc, modules are pathways that are not super-pathways. 
+This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
 }
 \author{
 Amanda White

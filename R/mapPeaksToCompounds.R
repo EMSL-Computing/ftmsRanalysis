@@ -1,35 +1,23 @@
 #' Map peak ICR data to compounds 
 #' 
-#' Map peak leve ICR data to compounds from either KEGG or MetaCyc. 
+#' Map peak leve ICR data to compounds from MetaCyc. Additional database options may be added in the future.
 #' @param peakIcrData object of type peakIcrData
-#' @param db database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-#' the KeggData package or the MetaCycData package respectively.
+#' @param db database to map to, currently 'MetaCyc' (case insensitive) is the 
+#' only option. This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
 #' @return compoundIcrObject
 #' 
 #' @author Amanda White
 #' 
 #' @export
-mapPeaksToCompounds <- function(peakIcrData, db="KEGG") {
+mapPeaksToCompounds <- function(peakIcrData, db="MetaCyc") {
   if (!inherits(peakIcrData, "peakIcrData")) {
     stop("peakIcrData must be an object of type peakIcrData")
   }
-  if (!(toupper(db) %in% c("KEGG", "METACYC"))) {
-    stop("db must be one of 'KEGG' or 'MetaCyc'")
+  if (!(toupper(db) %in% c("METACYC"))) {
+    stop("db must be 'MetaCyc'")
   }
 
-  if (toupper(db) == "KEGG") {
-    require(KeggData)
-    data("kegg_compounds")
-    compounds <- kegg_compounds
-    # rm(kegg_compounds)
-    
-    data("kegg_compounds_per_formula")
-    compounds_per_formula <- kegg_compounds_per_formula
-    colnames(compounds_per_formula) <- c(getMFColName(peakIcrData), "Num_Compounds_Per_Formula")
-    # rm(kegg_compounds_per_formula)
-    
-    db_name <- "KEGG"
-  } else if (toupper(db) == "METACYC") {
+  if (toupper(db) == "METACYC") {
     require(MetaCycData)
     data("mc_compounds")
     compounds <- mc_compounds %>%

@@ -4,19 +4,19 @@
 \alias{mapPeaksToCompounds}
 \title{Map peak ICR data to compounds}
 \usage{
-mapPeaksToCompounds(peakIcrData, db = "KEGG")
+mapPeaksToCompounds(peakIcrData, db = "MetaCyc")
 }
 \arguments{
 \item{peakIcrData}{object of type peakIcrData}
 
-\item{db}{database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-the KeggData package or the MetaCycData package respectively.}
+\item{db}{database to map to, currently 'MetaCyc' (case insensitive) is the 
+only option. This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).}
 }
 \value{
 compoundIcrObject
 }
 \description{
-Map peak leve ICR data to compounds from either KEGG or MetaCyc.
+Map peak leve ICR data to compounds from MetaCyc. Additional database options may be added in the future.
 }
 \author{
 Amanda White
