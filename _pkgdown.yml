@@ -45,6 +45,7 @@ reference:
   - '`summary.formulaFilt`'
   - '`summary.massFilt`'
   - '`summary.moleculeFilt`'
+  - '`summary.emetaFilt`'
 - title: Data transformation
   desc: Functions to transform data (e.g. scale)
   contents:

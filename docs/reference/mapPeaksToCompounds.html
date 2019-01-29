@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Map peak ICR data to compounds — mapPeaksToCompounds" />
 
-<meta property="og:description" content="Map peak leve ICR data to compounds from either KEGG or MetaCyc." />
+<meta property="og:description" content="Map peak leve ICR data to compounds from MetaCyc. Additional database options may be added in the future." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -130,11 +130,11 @@
 
     <div class="ref-description">
     
-    <p>Map peak leve ICR data to compounds from either KEGG or MetaCyc.</p>
+    <p>Map peak leve ICR data to compounds from MetaCyc. Additional database options may be added in the future.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mapPeaksToCompounds</span>(<span class='no'>peakIcrData</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"KEGG"</span>)</pre>
+    <pre class="usage"><span class='fu'>mapPeaksToCompounds</span>(<span class='no'>peakIcrData</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"MetaCyc"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,8 +145,8 @@
     </tr>
     <tr>
       <th>db</th>
-      <td><p>database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-the KeggData package or the MetaCycData package respectively.</p></td>
+      <td><p>database to map to, currently 'MetaCyc' (case insensitive) is the 
+only option. This requires the MetaCycData package (http://github.com/EMSL-Computing/MetaCycData).</p></td>
     </tr>
     </table>
     

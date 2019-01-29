@@ -32,7 +32,8 @@
 
 <meta property="og:title" content="Get module name — getModuleName" />
 
-<meta property="og:description" content="Get the module name(s) for one or more module IDs." />
+<meta property="og:description" content="Get the module name(s) for one or more module IDs.
+This requires the MetaCycData package (http://github.com/EMSL-Computing/MetaCycData)." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -130,11 +131,12 @@
 
     <div class="ref-description">
     
-    <p>Get the module name(s) for one or more module IDs.</p>
+    <p>Get the module name(s) for one or more module IDs.
+This requires the MetaCycData package (http://github.com/EMSL-Computing/MetaCycData).</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>getModuleName</span>(<span class='no'>module_ids</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"KEGG"</span>)</pre>
+    <pre class="usage"><span class='fu'>getModuleName</span>(<span class='no'>module_ids</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"MetaCyc"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -145,7 +147,7 @@
     </tr>
     <tr>
       <th>db</th>
-      <td><p>database to match, one of 'KEGG' or 'MetaCyc'</p></td>
+      <td><p>database to match, currently 'MetaCyc' is the only allowed value</p></td>
     </tr>
     </table>
     

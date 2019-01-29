@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Combine rows of icrData with the same mass formula — combinePeaksWithSameFormula • fticRanalysis</title>
+<title>Summary method for emetaFilt object — summary.emetaFilt • fticRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,15 +30,9 @@
 
 
 
-<meta property="og:title" content="Combine rows of icrData with the same mass formula — combinePeaksWithSameFormula" />
+<meta property="og:title" content="Summary method for emetaFilt object — summary.emetaFilt" />
 
-<meta property="og:description" content="If multiple peaks are mapped to the same mass formula it can cause problems 
-or inconsistencies when mapping data to a biological database. The
-combinePeaksWithSameFormula combines rows of icrData$e_data
-that map to the same mass formula:
-* If data is abundance: values are summed for each column
-* If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
-* If data is presence/absence: 'or' function is applied to each column (if at least one peak is observed, the peak is denoted as observed)" />
+<meta property="og:description" content="Summary method for emetaFilt object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -129,46 +123,51 @@ that map to the same mass formula:
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Combine rows of icrData with the same mass formula</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/combinePeaksWithSameFormula.R'><code>R/combinePeaksWithSameFormula.R</code></a></small>
-    <div class="hidden name"><code>combinePeaksWithSameFormula.Rd</code></div>
+    <h1>Summary method for emetaFilt object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/filter_summary_methods.R'><code>R/filter_summary_methods.R</code></a></small>
+    <div class="hidden name"><code>summary.emetaFilt.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>If multiple peaks are mapped to the same mass formula it can cause problems 
-or inconsistencies when mapping data to a biological database. The
-<code>combinePeaksWithSameFormula</code> combines rows of <code>icrData$e_data</code>
-that map to the same mass formula:
-* If data is abundance: values are summed for each column
-* If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
-* If data is presence/absence: 'or' function is applied to each column (if at least one peak is observed, the peak is denoted as observed)</p>
+    <p>Summary method for emetaFilt object</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>icrData</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for emetaFilt</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>filter_object</span>, <span class='kw'>min_val</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_val</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>cats</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>data of type <code>peakIcrData</code></p></td>
+      <th>filter_object</th>
+      <td><p>an object of class 'emetaFilt' created by running <code><a href='emeta_filter.html'>emeta_filter</a></code></p></td>
+    </tr>
+    <tr>
+      <th>min_val</th>
+      <td><p>used only if filter variable specified was quantitative. Minimum value which the filter variable can take (inclusive) to remain in the data</p></td>
+    </tr>
+    <tr>
+      <th>max_val</th>
+      <td><p>used only if filter variable specified was quantitative. Maximum value which the filter variable can take (inclusive) to remain in the data</p></td>
+    </tr>
+    <tr>
+      <th>cats</th>
+      <td><p>used only if filter variable specified was categorical. Levels of categorical variable which should be retained in the data</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>should peaks with an NA value for the filter variable be removed. Defaults to TRUE.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>peakIcrData</code> object where now two rows of <code>e_data</code> map to the same mass formula</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>It is recommended to call the <code>combinePeaksWithSameFormula</code> function
-before using <code>mapPeaksToCompounds</code>.</p>
+    <p>If relevant parameter(s) are provided, a summary of the effect of implementing a filter. Otherwise, a five number summary and the mean value for the filter variable (quantitative) or a summary of the number of peaks per category (categorical).</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>peakIcrProcessed</span>)</div><div class='output co'>#&gt; <span class='message'>313 mass formulas with duplicate values found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -176,11 +175,7 @@ before using <code>mapPeaksToCompounds</code>.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+          </ul>
 
   </div>
 </div>
