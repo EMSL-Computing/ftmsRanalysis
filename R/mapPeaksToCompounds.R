@@ -9,7 +9,7 @@
 #' @author Amanda White
 #' 
 #' @export
-mapPeaksToCompounds <- function(peakIcrData, db="KEGG") {
+mapPeaksToCompounds <- function(peakIcrData, db="MetaCyc") {
   if (!inherits(peakIcrData, "peakIcrData")) {
     stop("peakIcrData must be an object of type peakIcrData")
   }
