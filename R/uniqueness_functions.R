@@ -28,8 +28,8 @@ uniqueness_nsamps <- function(edata_df, group_df, data_scale, pres_thresh, absn_
   if(length(unique(group_df$Group)) != 2) stop("Group column in group_df must contain exactly two group levels")
 
   # check that data_scale is valid #
-  if(class(data_scale) != "character") stop("data_scale must be of class 'character'")
-  if(!(data_scale %in% c("log", "log2", "log10", "abundance", "pres"))) stop("data_scale value is not an invalid option.")
+  # if(class(data_scale) != "character") stop("data_scale must be of class 'character'")
+  # if(!(data_scale %in% c("log", "log2", "log10", "abundance", "pres"))) stop("data_scale value is not an invalid option.")
   
   # determine which column gives the samples in group_df #
   samp_colname = names(group_df)[which(names(group_df) != "Group")]
@@ -115,8 +115,8 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
   if(length(unique(group_df$Group)) != 2) stop("Group column in group_df must contain exactly two group levels")
   
   # check that data_scale is valid #
-  if(class(data_scale) != "character") stop("data_scale must be of class 'character'")
-  if(!(data_scale %in% c("log", "log2", "log10", "abundance", "pres"))) stop("data_scale value is not an invalid option.")
+  # if(class(data_scale) != "character") stop("data_scale must be of class 'character'")
+  # if(!(data_scale %in% c("log", "log2", "log10", "abundance", "pres"))) stop("data_scale value is not an invalid option.")
   
   # determine which column gives the samples in group_df #
   samp_colname = names(group_df)[which(names(group_df) != "Group")]
@@ -192,8 +192,8 @@ uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thres
   if(!("Group" %in% names(group_df))) stop("group_df must have one column named 'Group' giving sample group membership")
   
   # check that data_scale is valid #
-  if(class(data_scale) != "character") stop("data_scale must be of class 'character'")
-  if(!(data_scale %in% c("log", "log2", "log10", "abundance", "pres"))) stop("data_scale value is not an invalid option.")
+  # if(class(data_scale) != "character") stop("data_scale must be of class 'character'")
+  # if(!(data_scale %in% c("log", "log2", "log10", "abundance", "pres"))) stop("data_scale value is not an invalid option.")
   
   # check that pres_fn is valid #
   if(!(pres_fn %in% c("nsamps", "prop"))) stop("Specified 'pres_fn' is not a valid option.")

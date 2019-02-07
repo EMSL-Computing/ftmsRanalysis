@@ -58,6 +58,54 @@ subset.compoundIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FA
   return(result)
 }
 
+#' @rdname subset
+#' @export
+subset.reactionIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(icrData, "reactionIcrData")) {
+    stop("icrData must be of type reactionIcrData")
+  }
+  
+  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
+  attr(result, "class") <- class(icrData)
+  attr(result, "cnames") <- attr(icrData, "cnames")
+  attr(result, "DB") <- attr(icrData, "DB")
+  
+  if(check_rows){
+    molfilt <- molecule_filter(result)
+    if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
+  }
+  attr(result, "filters") <- attr(icrData, "filters")
+  
+  attr(result, "data_info") <- attr(icrData, "data_info")
+  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  
+  return(result)
+}
+
+#' @rdname subset
+#' @export
+subset.moduleIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(icrData, "moduleIcrData")) {
+    stop("icrData must be of type moduleIcrData")
+  }
+  
+  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
+  attr(result, "class") <- class(icrData)
+  attr(result, "cnames") <- attr(icrData, "cnames")
+  attr(result, "DB") <- attr(icrData, "DB")
+  
+  if(check_rows){
+    molfilt <- molecule_filter(result)
+    if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
+  }
+  attr(result, "filters") <- attr(icrData, "filters")
+  
+  attr(result, "data_info") <- attr(icrData, "data_info")
+  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  
+  return(result)
+}
+
 # Internal only function that performs the bulk of the subsetting operation,
 # leaving the attributes of the result to be filled in by the individual
 # subset.*IcrData functions.
