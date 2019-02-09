@@ -42,6 +42,9 @@ mapPeaksToCompounds <- function(peakIcrData, db="MetaCyc") {
     # rm(mc_compounds_per_formula)
     
     db_name <- "MetaCyc"
+    
+    # reassign molecular formulas using metacyc format
+    suppressMessages(peakIcrData <- fticRanalysis:::assign_mf(peakIcrData, metacyc=TRUE))
   }
   
   # get only peaks that have mass formulas
