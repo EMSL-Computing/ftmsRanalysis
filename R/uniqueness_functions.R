@@ -69,8 +69,8 @@ uniqueness_nsamps <- function(edata_df, group_df, data_scale, pres_thresh, absn_
 
   
   # calculate the maximum (over the two groups) number of samples observed per group #
-  numpres = data.frame(N_grp1 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp1_samps)]), 1, sum),
-                            N_grp2 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp2_samps)]), 1, sum)
+  numpres = data.frame(N_grp1 = apply(!is.na(edata_df[which(names(edata_df) %in% grp1_samps)]), 1, sum),
+                            N_grp2 = apply(!is.na(edata_df[which(names(edata_df) %in% grp2_samps)]), 1, sum)
                         )
   
   
@@ -149,8 +149,8 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
   
   
   # calculate the maximum (over the two groups) number of samples observed per group #
-  prop_pres = data.frame(prop_grp1 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp1_samps)]), 1, sum)/length(grp1_samps),
-                       prop_grp2 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp2_samps)]), 1, sum)/length(grp2_samps)
+  prop_pres = data.frame(prop_grp1 = apply(!is.na(edata_df[which(names(edata_df) %in% grp1_samps)]), 1, sum)/length(grp1_samps),
+                       prop_grp2 = apply(!is.na(edata_df[which(names(edata_df) %in% grp2_samps)]), 1, sum)/length(grp2_samps)
   )
   
   
@@ -235,14 +235,14 @@ uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thres
   
   # summarize presence by group #
   if(pres_fn == "nsamps"){
-    numpres = data.frame(N_grp1 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp1_samps)]), 1, sum),
-                       N_grp2 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp2_samps)]), 1, sum)
+    numpres = data.frame(N_grp1 = apply(!is.na(edata_df[which(names(edata_df) %in% grp1_samps)]), 1, sum),
+                       N_grp2 = apply(!is.na(edata_df[which(names(edata_df) %in% grp2_samps)]), 1, sum)
     )
   }
   if(pres_fn == "prop"){
     # calculate the maximum (over the two groups) number of samples observed per group #
-    numpres = data.frame(N_grp1 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp1_samps)]), 1, sum)/length(grp1_samps),
-                         N_grp2 = apply(!is.na(edata_df[,which(names(edata_df) %in% grp2_samps)]), 1, sum)/length(grp2_samps)
+    numpres = data.frame(N_grp1 = apply(!is.na(edata_df[which(names(edata_df) %in% grp1_samps)]), 1, sum)/length(grp1_samps),
+                         N_grp2 = apply(!is.na(edata_df[which(names(edata_df) %in% grp2_samps)]), 1, sum)/length(grp2_samps)
     )
     
   }
