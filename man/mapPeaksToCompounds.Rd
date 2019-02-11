@@ -4,7 +4,7 @@
 \alias{mapPeaksToCompounds}
 \title{Map peak ICR data to compounds}
 \usage{
-mapPeaksToCompounds(peakIcrData, db = "KEGG")
+mapPeaksToCompounds(peakIcrData, db = "MetaCyc")
 }
 \arguments{
 \item{peakIcrData}{object of type peakIcrData}

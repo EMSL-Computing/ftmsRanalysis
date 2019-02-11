@@ -4,7 +4,7 @@
 \alias{getModuleName}
 \title{Get module name}
 \usage{
-getModuleName(module_ids, db = "KEGG")
+getModuleName(module_ids, db = "MetaCyc")
 }
 \arguments{
 \item{module_ids}{a character vector of module IDs}

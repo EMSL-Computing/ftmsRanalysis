@@ -416,14 +416,14 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
 #' @param fdata_cname character string specifying the name of the column containing the sample identifiers in \code{f_data}.
 #' @param module_cname character string specifying the name of the column containing the module identifiers in \code{e_meta}.
 #' @param module_node_cname character string specifying the name of the column containing the module node identifiers in \code{e_meta}
-#' @param node_label_cname character string specifying the name of the column containing the display name for each module node, in \code{e_meta}
 #' @param ... further arguments
 #'
 #' @details \code{as.moduleIcrData} constructs a moduleIcrData object which is an icrData object where the rows of \code{e_data} correspond to unique module nodes.
 #' @rdname as.moduleIcrData
+# @param node_label_cname character string specifying the name of the column containing the display name for each module node, in \code{e_meta}
 
 as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, module_cname, module_node_cname, 
-                             node_label_cname=NULL, instrument_type = "12T", db=NA, ...){
+                             instrument_type = "12T", db=NA, ...){
   
   # initial checks #
   
@@ -476,8 +476,8 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
   if (!is.null(e_meta)) {
     if(!(module_cname %in% names(e_meta))) stop(paste("Module column", module_cname, " not found in e_meta.", sep = ""))
     if(!(module_node_cname %in% names(e_meta))) stop(paste("Module node column", module_node_cname, " not found in e_meta.", sep = ""))
-    if(!is.null(node_label_cname))
-       if (!(node_label_cname %in% names(e_meta))) stop(paste("Node label column", node_label_cname, " not found in e_meta.", sep = ""))
+    # if(!is.null(node_label_cname))
+    #    if (!(node_label_cname %in% names(e_meta))) stop(paste("Node label column", node_label_cname, " not found in e_meta.", sep = ""))
   }
   
   # convert the unique identifier column to character, to avoid factors #

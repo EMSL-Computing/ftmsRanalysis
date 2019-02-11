@@ -29,7 +29,6 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
                             yaxis="density", plot_hist=FALSE, plot_curve=TRUE, 
                             curve_colors=NA, hist_color="gray", 
                             xlabel=NA, ylabel=paste0(toupper(substring(yaxis, 1,1)), substring(yaxis,2), sep="")) {
-  require(plotly)
   
   # Test inputs #
   if (!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) {
@@ -113,9 +112,9 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     hist_data <- dplyr::rename(hist_data, y=count)
   }  
   yrange <- c(NA, NA)
-  p <- plot_ly()
+  p <- plotly::plot_ly()
   if (plot_hist) {
-    p <- p %>% add_bars(x=~x, y=~y, width=~barwidth, key=~key, data=hist_data, 
+    p <- p %>% plotly::add_bars(x=~x, y=~y, width=~barwidth, key=~key, data=hist_data, 
                         marker=list(color=hist_color), showlegend=FALSE) 
   }
   
@@ -124,10 +123,10 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
       curve_colors <- fticRanalysis:::get_curve_colors(names(trace_subsets))
     }
     if (length(trace_subsets) > 1) {
-      p <- p %>% add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
+      p <- p %>% plotly::add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
                            showlegend=TRUE, colors=curve_colors)
     } else {
-      p <- p %>% add_lines(x=~x, y=~y, data=curve_data, #alpha=0.5, 
+      p <- p %>% plotly::add_lines(x=~x, y=~y, data=curve_data, #alpha=0.5, 
                            showlegend=FALSE, line=list(color=curve_colors[1]))
     }
   }
@@ -139,12 +138,12 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
     mirror = "ticks" # makes box go all the way around not just bottom and left
   )
   
-  p <- p %>% layout(barmode="overlay", xaxis=c(ax, list(title=xlabel)), 
+  p <- p %>% plotly::layout(barmode="overlay", xaxis=c(ax, list(title=xlabel)), 
                     yaxis=c(ax, list(title=ylabel)))#, range=nice_axis_limits(hist_data$y)))
   
   if(!is.na(title)){
     p <- p %>%
-      layout(title=title)
+      plotly::layout(title=title)
   }
   
   if (plot_hist) {

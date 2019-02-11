@@ -9,7 +9,7 @@
 #' @author Amanda White
 #' 
 #' @export
-mapPeaksToCompounds <- function(peakIcrData, db="KEGG") {
+mapPeaksToCompounds <- function(peakIcrData, db="MetaCyc") {
   if (!inherits(peakIcrData, "peakIcrData")) {
     stop("peakIcrData must be an object of type peakIcrData")
   }
@@ -42,6 +42,9 @@ mapPeaksToCompounds <- function(peakIcrData, db="KEGG") {
     # rm(mc_compounds_per_formula)
     
     db_name <- "MetaCyc"
+    
+    # reassign molecular formulas using metacyc format
+    suppressMessages(peakIcrData <- fticRanalysis:::assign_mf(peakIcrData, metacyc=TRUE))
   }
   
   # get only peaks that have mass formulas

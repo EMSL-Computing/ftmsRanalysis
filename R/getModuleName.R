@@ -7,7 +7,7 @@
 #'
 #' @return character vector of module names
 #' @export
-getModuleName <- function(module_ids, db="KEGG") {
+getModuleName <- function(module_ids, db="MetaCyc") {
   if (missing(module_ids)) stop("module_ids must be specified")
   if (!is.character(module_ids)) stop("module_ids must be a character vector")
   

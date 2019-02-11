@@ -5,8 +5,8 @@
 \title{Convert Data to moduleIcrData Class}
 \usage{
 as.moduleIcrData(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname,
-  module_cname, module_node_cname, node_label_cname = NULL,
-  instrument_type = "12T", db = NA, ...)
+  module_cname, module_node_cname, instrument_type = "12T", db = NA,
+  ...)
 }
 \arguments{
 \item{e_data}{a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed module nodes and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.}
@@ -22,8 +22,6 @@ as.moduleIcrData(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname,
 \item{module_cname}{character string specifying the name of the column containing the module identifiers in \code{e_meta}.}
 
 \item{module_node_cname}{character string specifying the name of the column containing the module node identifiers in \code{e_meta}}
-
-\item{node_label_cname}{character string specifying the name of the column containing the display name for each module node, in \code{e_meta}}
 
 \item{...}{further arguments}
 }

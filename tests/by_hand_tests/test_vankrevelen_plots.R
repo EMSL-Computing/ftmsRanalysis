@@ -44,7 +44,7 @@ cpal <- scales::col_factor("YlOrRd", levels=levels(picr$e_meta$random_factor_2))
 vanKrevelenPlot(picr, title="Test9", colorPal=cpal, colorCName="random_factor_2", vkBoundarySet="bs1",
                 showVKBounds=FALSE, legendTitle="random_factor_2")
 
-cpal <- scales::col_factor("Set3", levels=rownames(getVanKrevelenCategoryBounds("bs1")))
+cpal <- scales::col_factor("Set3", levels=rownames(getVanKrevelenCategoryBounds("bs1")$VKbounds))
 vanKrevelenPlot(picr, title="Test10", colorPal=cpal, colorCName=NA, vkBoundarySet="bs1",
                 showVKBounds=TRUE, legendTitle="")
 
@@ -84,8 +84,11 @@ vanKrevelenPlot(msGroup, title="Test17", colorCName="M_S_prop_present", vkBounda
 
 # group overlay plot
 picrGroupComp <- divideByGroupComparisons(picr, comparisons="one-factor")
-summary_functions <- "uniqueness_gtest"
-picrCompSummary <- summarizeGroupComparisons(picrGroupComp[[1]]$value, summary_functions)
+picrCompSummary <- summarizeGroupComparisons(picrGroupComp[[1]]$value, summary_functions="uniqueness_gtest", 
+                                             summary_function_params=list(
+                                               uniqueness_gtest=list(pres_fn="prop", pres_thresh=0.2,
+                                                                     pvalue_thresh=0.05)
+                                             ))
 vanKrevelenPlot(picrCompSummary, title="Test18", colorPal=NA, colorCName="uniqueness_gtest", vkBoundarySet = "bs1", showVKBounds=TRUE, 
                                 xlabel="O:C Ratio", ylabel="H:C Ratio") 
 

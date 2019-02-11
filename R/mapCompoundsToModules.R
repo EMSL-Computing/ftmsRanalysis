@@ -115,7 +115,7 @@ mapCompoundsToModules <- function(compoundIcrData) {
   }
   
   obs_comp <- dplyr::group_by(obs_comp, Module_Node_Comb) %>%
-    dplyr::summarise(`N_Observable_Compounds`=n_distinct(Compound))
+    dplyr::summarise(`N_Observable_Compounds`=dplyr::n_distinct(Compound))
   e_meta <- dplyr::left_join(e_meta, obs_comp, by="Module_Node_Comb") %>% as.data.frame()
   e_meta <- dplyr::arrange(e_meta, Module, Module_Node_Comb)
   
@@ -128,6 +128,7 @@ mapCompoundsToModules <- function(compoundIcrData) {
 #   result <- fticRanalysis:::setDatabase(result, db)
   result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundIcrData))
 #   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundIcrData))
+  result <- fticRanalysis:::setDataScale(result, "count")
   attr(result, "filters") <- attr(compoundIcrData, "filters")
   
   ## TODO: are there any other cnames that need to be carried through??

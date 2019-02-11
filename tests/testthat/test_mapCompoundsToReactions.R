@@ -18,7 +18,7 @@ test_that("mapCompoundsToReactions works correctly mapping to MetaCyc", {
   expect_true(all(rxnIcrData$e_data[, edata_cname] %in% rxnIcrData$e_meta[, edata_cname]))
   expect_true(edata_cname != getEDataColName(peakIcrProcessed))
   expect_true(sum(is.na(rxnIcrData$e_meta[, getReactionColName(rxnIcrData)])) == 0)
-  expect_true(is.na(getDataScale(rxnIcrData)))
+  expect_true(getDataScale(rxnIcrData) == "count")
   
   # check that all edata values are integer
   tmp_edata <- rxnIcrData$e_data[, -1]
@@ -57,7 +57,7 @@ test_that("mapCompoundsToReactions works correctly mapping to KEGG", {
   expect_true(all(rxnIcrData$e_data[, edata_cname] %in% rxnIcrData$e_meta[, edata_cname]))
   expect_true(edata_cname != getEDataColName(peakIcrProcessed))
   expect_true(sum(is.na(rxnIcrData$e_meta[, getReactionColName(rxnIcrData)])) == 0)
-  expect_true(is.na(getDataScale(rxnIcrData)))
+  expect_true(getDataScale(rxnIcrData) == "count")
   
   # check that all edata values are integer
   tmp_edata <- rxnIcrData$e_data[, -1]

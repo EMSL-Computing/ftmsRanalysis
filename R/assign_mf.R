@@ -3,6 +3,7 @@
 #' Construct molecular formulae based on element counts 
 #' 
 #' @param icrData an object of class 'icrData', typically a result of \code{\link{as.icrData}}. e_meta must be present.
+#' @param metacyc TRUE/FALSE, use MetaCyc style formulae? (FALSE by default)
 #' 
 #' @details Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. KEGG). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
 #' 
@@ -11,7 +12,7 @@
 #' @author Lisa Bramer
 #'
 
-assign_mf <- function(icrData){
+assign_mf <- function(icrData, metacyc=FALSE){
   
   # check that icrData is of the correct class #
   if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
@@ -36,7 +37,9 @@ assign_mf <- function(icrData){
       temp = gsub(pattern = "P1$", replacement = "P", temp)
       
       # get rid of 1's #     
-      temp = gsub("(?<=[[:alpha:]])1(?=[[:alpha:]])", "", temp, perl=TRUE)
+      if (!metacyc) {
+        temp = gsub("(?<=[[:alpha:]])1(?=[[:alpha:]])", "", temp, perl=TRUE)
+      }
       
       # get rid of zeros #
       temp = gsub(pattern = "[[:alpha:]]0", replacement = "", temp)

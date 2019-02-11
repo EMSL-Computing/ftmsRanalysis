@@ -3,12 +3,20 @@
 \name{subset.peakIcrData}
 \alias{subset.peakIcrData}
 \alias{subset.compoundIcrData}
+\alias{subset.reactionIcrData}
+\alias{subset.moduleIcrData}
 \title{Subset an icrData object according to sample or group}
 \usage{
 \method{subset}{peakIcrData}(icrData, samples = NA, groups = NA,
   check_rows = FALSE)
 
 \method{subset}{compoundIcrData}(icrData, samples = NA, groups = NA,
+  check_rows = FALSE)
+
+\method{subset}{reactionIcrData}(icrData, samples = NA, groups = NA,
+  check_rows = FALSE)
+
+\method{subset}{moduleIcrData}(icrData, samples = NA, groups = NA,
   check_rows = FALSE)
 }
 \arguments{
