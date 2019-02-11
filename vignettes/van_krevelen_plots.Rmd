@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Van Krevelen (VK) plots do something useful that I will have to find out about some other time. 
+A Van Krevelen (VK) plot displays the H:C versus O:C ratios for each peak observed. VK plots were designed to give a researcher a straightforward method for visualizing complicated mass spectra allowing for quick comparison of spectra (samples) in terms of possible reaction pathways and major classes of compounds of which the spectra is comprised.
 
-A Van Krevelen plot displays the H:C versus O:C ratios for each peak observed. The `fticRanalysis` package 
+The `fticRanalysis` package 
 provides a method to construct these plots, with a variety of options. Van Krevelen typically display peaks 
 colored by functional class. There are 3 options for calculating those classes in this package, which are drawn
 from the following publications:
@@ -37,8 +37,7 @@ from the following publications:
 * `bs2` - [Bailey, V. et al (2017). Soil Biology and Biochemistry.](https://dx.doi.org/10.1016/j.soilbio.2016.11.025){target="_blank"}
 * `bs3` - [Rivas-Ubach, A., et al (2018). Analytical chemistry.](https://dx.doi.org/10.1021/acs.analchem.8b00529){target="_blank"}
 
-Please note that the Rivas-Ubach (`bs3`) boundaries should only be used for plant matter data. __Lisa: do we want to insert more 
-discussion on the differences between these boundary sets?__
+Please note that the Rivas-Ubach (`bs3`) boundaries should only be used for plant matter data. 
 
 # Single Sample Van Krevelen Plots
 
@@ -66,7 +65,7 @@ vanKrevelenPlot(one_sample, colorPal=color_palette, vkBoundarySet = 'bs2')
 
 The `showVKBounds` parameter may be used to toggle on and off the boxes showing the bounds corresponding to the classes (TRUE/FALSE).
 
-The points may be colored by another column of meta-data by using the `colorCName` parameter. By default the function constructs an appropriate color palette for the chosen data type (integer, numeric or factor) but one may be specified using the `colorPal` parameter. Peaks for which the chosen meta-data value is NA will be hidden. (This is also true when coloring by class; peaks without mass formulas cannot be assigned a class.)
+The points may be colored by another column of molecular property by using the `colorCName` parameter. By default the function constructs an appropriate color palette for the chosen data type (integer, numeric or factor) but one may be specified using the `colorPal` parameter. Peaks for which the chosen meta-data value is NA will be hidden. (This is also true when coloring by class; peaks without mass formulas cannot be assigned a class.)
 
 Note that when the points are colored by a value other than class, the boxes denoting class boundaries will be black. However, the class labels are available by mousing over the box corners.
 

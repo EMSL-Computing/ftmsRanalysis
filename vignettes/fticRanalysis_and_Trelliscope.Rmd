@@ -97,7 +97,7 @@ makeDisplay(bySample,
 
 Use the `view()` command to open the Trelliscope app in a browser and browse through the plots. Important: when returning to the R console after viewing a Trelliscope app, press Ctrl+C or Esc to return focus to the console.
 
-You may have noticed in the call to `panelFunctionGenerator` we provided a parameter (`vkBoundarySet`) that is a parameter to the `vanKrevelenPlot` function. This is how additional parameters beyond the `icrData` object may be provided. For example, we could choose to color the points by a meta-data column such as NOSC. Trelliscope is designed to allow multiple displays (or sets of plots) in one session.
+You may have noticed in the call to `panelFunctionGenerator` we provided a parameter (`vkBoundarySet`) that is a parameter to the `vanKrevelenPlot` function. This is how additional parameters beyond the `icrData` object may be provided. For example, we could choose to color the points by a column giving a molecular property such as NOSC. Trelliscope is designed to allow multiple displays (or sets of plots) in one session.
 
 In the `makeDisplay` call above, also note the use of `vanKrevelenCognostics` with the same `vkBoundarySet` parameter used above to define `panelFn1`.
 
