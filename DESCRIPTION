@@ -1,6 +1,6 @@
 Package: fticRanalysis
 Title: Analysis and visualization tools for ICR data
-Version: 0.4
+Version: 1.0.0
 Authors@R: c(person("Lisa", "Bramer", email = "lisa.bramer@pnnl.gov", role = c("aut", "cre")), 
     person("Amanda", "White", email = "amanda.white@pnnl.gov", role = c("aut")), 
     person("Allison", "Thompson", email = "allison.thompson@pnnl.gov", role = c("ctb")),

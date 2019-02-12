@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summary for mass filter — summary.massFilt • fticRanalysis</title>
+<title>Summary method for massFilt object — summary.massFilt • fticRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Summary for mass filter — summary.massFilt" />
+<meta property="og:title" content="Summary method for massFilt object — summary.massFilt" />
 
-<meta property="og:description" content="Summary for mass filter" />
+<meta property="og:description" content="Summary method for massFilt object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fticRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -123,36 +123,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summary for mass filter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/filter_summary.R'><code>R/filter_summary.R</code></a></small>
+    <h1>Summary method for massFilt object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/filter_summary_methods.R'><code>R/filter_summary_methods.R</code></a></small>
     <div class="hidden name"><code>summary.massFilt.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Summary for mass filter</p>
+    <p>Summary method for massFilt object</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for massFilt</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>filter_obj</span>, <span class='kw'>min_mass</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>max_mass</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>filter_object</span>, <span class='kw'>min_mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>max_mass</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>filter_object</th>
+      <td><p>an object of class 'massFilt' created by running <code><a href='mass_filter.html'>mass_filter</a></code></p></td>
+    </tr>
+    <tr>
       <th>min_mass</th>
-      <td><p>(optional) minimum mass</p></td>
+      <td><p>an integer value specifying the minimum mass a peak must have to be retained in the dataset (inclusive). If only <code>max_mass</code> is provided, then this values is assumed to be the minimum observed mass value.</p></td>
     </tr>
     <tr>
       <th>max_mass</th>
-      <td><p>(optional) maximum mass</p></td>
-    </tr>
-    <tr>
-      <th>fiter_obj</th>
-      <td><p>massFilt object, created by <code><a href='mass_filter.html'>mass_filter</a></code> function</p></td>
+      <td><p>an integer value specifying the maximum mass a peak can have to be retained in the dataset (inclusive). If only <code>min_mass</code> is provided, then this value is assumed to be the maximum observed mass value.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If <code>min_mass</code> and/or <code>max_mass</code> is provided, a summary of the effect of implementing a filter with the specified thresholds. Otherwise, a five-number summary and the mean value of the mass values observed across all samples are given.</p>
     
 
   </div>
@@ -160,7 +165,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

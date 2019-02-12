@@ -66,7 +66,7 @@ colored by group, if grouping information is present in icrData." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fticRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@ colored by group, if grouping information is present in <code>icrData</code>.</p
 
     <pre class="usage"><span class='co'># S3 method for peakIcrData</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>icrData</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>xlabel</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
-  <span class='kw'>ylabel</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+  <span class='kw'>ylabel</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorBy</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,6 +163,10 @@ colored by group, if grouping information is present in <code>icrData</code>.</p
       <th>ylabel</th>
       <td><p>optional label for Y axis, if not provided a label will be constructed based on data scale (e.g. "Abundance" or "Number Observed")</p></td>
     </tr>
+    <tr>
+      <th>colorBy</th>
+      <td><p>"groups" to color by groups, "molform" for whether or not the peak has a molecular formula (presence/absence only), or NA to make all bars the same color</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -171,14 +175,8 @@ colored by group, if grouping information is present in <code>icrData</code>.</p
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='edata_transform.html'>edata_transform</a></span>(<span class='no'>peakIcrData</span>, <span class='st'>"log2"</span>))</div><div class='output co'>#&gt; <span class='message'>Loading required package: plotly</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘plotly’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:ggplot2’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    last_plot</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:graphics’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    layout</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='edata_transform.html'>edata_transform</a></span>(<span class='no'>peakIcrProcessed</span>, <span class='st'>"pres"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `Sample`/`SampleID` joining character vector and factor, coercing into character vector</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='edata_transform.html'>edata_transform</a></span>(<span class='no'>peakIcrData</span>, <span class='st'>"log2"</span>))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='fu'><a href='edata_transform.html'>edata_transform</a></span>(<span class='no'>peakIcrProcessed</span>, <span class='st'>"pres"</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: Column `Sample`/`SampleID` joining character vector and factor, coercing into character vector</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

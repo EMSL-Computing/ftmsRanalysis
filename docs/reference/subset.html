@@ -65,7 +65,7 @@ or group must be specified." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fticRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -139,10 +139,20 @@ or <code>group</code> must be specified.</p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for peakIcrData</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='co'># S3 method for compoundIcrData</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># S3 method for reactionIcrData</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># S3 method for moduleIcrData</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,6 +168,10 @@ or <code>group</code> must be specified.</p>
     <tr>
       <th>groups</th>
       <td><p>group name or vector of group names</p></td>
+    </tr>
+    <tr>
+      <th>check_rows</th>
+      <td><p>logical indicating whether to remove peaks that have no observations after subsetting</p></td>
     </tr>
     </table>
     

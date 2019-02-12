@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summary for molecule filter — summary.moleculeFilt • fticRanalysis</title>
+<title>Summary method for moleculeFilt object — summary.moleculeFilt • fticRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Summary for molecule filter — summary.moleculeFilt" />
+<meta property="og:title" content="Summary method for moleculeFilt object — summary.moleculeFilt" />
 
-<meta property="og:description" content="Summary for molecule filter" />
+<meta property="og:description" content="Summary method for moleculeFilt object" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fticRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -123,32 +123,36 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Summary for molecule filter</h1>
-    <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/filter_summary.R'><code>R/filter_summary.R</code></a></small>
+    <h1>Summary method for moleculeFilt object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/filter_summary_methods.R'><code>R/filter_summary_methods.R</code></a></small>
     <div class="hidden name"><code>summary.moleculeFilt.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Summary for molecule filter</p>
+    <p>Summary method for moleculeFilt object</p>
     
     </div>
 
     <pre class="usage"><span class='co'># S3 method for moleculeFilt</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>filter_obj</span>, <span class='kw'>min_num</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/summary'>summary</a></span>(<span class='no'>filter_object</span>, <span class='kw'>min_num</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>min_num</th>
-      <td><p>(optional) minimum number of observations</p></td>
+      <th>filter_object</th>
+      <td><p>an object of class 'moleculeFilt' created by running <code><a href='molecule_filter.html'>molecule_filter</a></code></p></td>
     </tr>
     <tr>
-      <th>fiter_obj</th>
-      <td><p>moleculeFilt object, created by <code><a href='molecule_filter.html'>molecule_filter</a></code> function</p></td>
+      <th>min_num</th>
+      <td><p>an integer value specifying the minimum number of times each peak must be observed across all samples</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>If <code>min_num</code> is provided, a summary of the effect of implementing a filter with the specified threshold. Otherwise, a summary of the number of peaks which were observed over the number of possible samples.</p>
     
 
   </div>
@@ -156,7 +160,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

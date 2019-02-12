@@ -36,9 +36,9 @@
 or inconsistencies when mapping data to a biological database. The
 combinePeaksWithSameFormula combines rows of icrData$e_data
 that map to the same mass formula:
-* If data is abundance: columns are summed
-* If data is log scale: data are converted to abundance, then columns are summed and re-transformed to the original scale
-* If data is presence/absence: 'or' function is applied to each column" />
+* If data is abundance: values are summed for each column
+* If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
+* If data is presence/absence: 'or' function is applied to each column (if at least one peak is observed, the peak is denoted as observed)" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -69,7 +69,7 @@ that map to the same mass formula:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fticRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -140,9 +140,9 @@ that map to the same mass formula:
 or inconsistencies when mapping data to a biological database. The
 <code>combinePeaksWithSameFormula</code> combines rows of <code>icrData$e_data</code>
 that map to the same mass formula:
-* If data is abundance: columns are summed
-* If data is log scale: data are converted to abundance, then columns are summed and re-transformed to the original scale
-* If data is presence/absence: 'or' function is applied to each column</p>
+* If data is abundance: values are summed for each column
+* If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
+* If data is presence/absence: 'or' function is applied to each column (if at least one peak is observed, the peak is denoted as observed)</p>
     
     </div>
 
@@ -168,7 +168,7 @@ before using <code>mapPeaksToCompounds</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>peakIcrProcessed</span>)</div><div class='output co'>#&gt; <span class='message'>313 mass formulas with duplicate values found</span></div><div class='output co'>#&gt; <span class='error'>Error in pull(icrData$f_data, getFDataColName(icrData)): could not find function "pull"</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>peakIcrProcessed</span>)</div><div class='output co'>#&gt; <span class='message'>313 mass formulas with duplicate values found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -63,7 +63,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">fticRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -134,7 +134,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>assign_mf</span>(<span class='no'>icrData</span>)</pre>
+    <pre class="usage"><span class='fu'>assign_mf</span>(<span class='no'>icrData</span>, <span class='kw'>metacyc</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,6 +142,10 @@
     <tr>
       <th>icrData</th>
       <td><p>an object of class 'icrData', typically a result of <code>as.icrData</code>. e_meta must be present.</p></td>
+    </tr>
+    <tr>
+      <th>metacyc</th>
+      <td><p>TRUE/FALSE, use MetaCyc style formulae? (FALSE by default)</p></td>
     </tr>
     </table>
     
