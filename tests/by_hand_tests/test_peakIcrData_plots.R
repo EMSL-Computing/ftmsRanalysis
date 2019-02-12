@@ -22,13 +22,25 @@ plot(data2, title="Test2")
 plot(data3, title="Test3")
 
 # abundance boxplots, with groups
-plot(data4, title="Test4")
+plot(data4, title="Test4", colorBy="groups")
 
 # log2 abundance boxplots, no groups
 plot(data5, title="Test5")
 
 # presence barplots, no groups
-plot(data6, title="Test6")
+plot(data3, title="Test6")
+
+# presence barplots, with groups
+plot(data6, title="Test7")
+
+# presence barplots colored according to molecular form
+plot(data6, title="Test8", colorBy="molform")
+
+# presence barplots on data with group info, but colored according to molecular form
+plot(data3, title="Test9", colorBy="molform")
+
+# suppress coloring by groups
+plot(data4, title="Test10", colorBy=NA)
 
 # test custom axis labels
-plot(data4, title="Test7", xlabel = "Sample Name", ylabel="You should really log transform this")
+plot(data4, title="Test11", xlabel = "Sample Name", ylabel="You should really log transform this")

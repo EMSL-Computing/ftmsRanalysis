@@ -9,6 +9,7 @@
 #' @param title optional title for the plot
 #' @param xlabel optional label for X axis, if not provided "Sample" will be used
 #' @param ylabel optional label for Y axis, if not provided a label will be constructed based on data scale (e.g. "Abundance" or "Number Observed")
+#' @param colorBy "groups" to color by groups, "molform" for whether or not the peak has a molecular formula (presence/absence only), or NA to make all bars the same color
 #'
 #' @return a \code{plotly} graph object
 #' @export
@@ -16,7 +17,7 @@
 #' @examples
 #' plot(edata_transform(peakIcrData, "log2"))
 #' plot(edata_transform(peakIcrProcessed, "pres"))
-plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
+plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="groups") {
 
   # Tests
   if (!inherits(icrData, "peakIcrData")) stop("icrData must be of type peakIcrData")
@@ -26,6 +27,12 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
   data_scale <- getDataScale(icrData)
   if (data_scale == "" | identical(data_scale, NULL) | identical(data_scale, NA)) {
     stop(sprintf("Unknown data scale '%s': this data is not appropriate for plotting with this function", data_scale))
+  }
+  if (!is.na(colorBy) & !(colorBy %in% c("groups", "molform"))) {
+    stop("Invalid value for colorBy: must be one of 'groups', 'molform' or NA")
+  }
+  if (identical(colorBy, "molform") & data_scale != "pres") {
+    stop("colorBy = 'molform' can only be used if data is presence/absence")
   }
   # end tests
   
@@ -44,19 +51,40 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA) {
     df <- df %>% dplyr::filter(!is.na(Value))
   }
   
-  # If group information is present, color by groups
+  # If group information is present and colorBy == "groups", color bars by groups
   p <- plotly::plot_ly()
   grouped <- FALSE
-  if (!is.null(fticRanalysis:::getGroupDF(icrData))) {
-    grouped <- TRUE
-    groupDF <- fticRanalysis:::getGroupDF(icrData)
-    df <- df %>% dplyr::left_join(groupDF, by=c(Sample=getFDataColName(icrData)))
+  if (identical(colorBy, "groups")) {
+    if (!is.null(fticRanalysis:::getGroupDF(icrData))) {
+      grouped <- TRUE
+      groupDF <- fticRanalysis:::getGroupDF(icrData)
+      df <- df %>% dplyr::left_join(groupDF, by=c(Sample=getFDataColName(icrData)))
+    }
   }
 
   if (data_scale == "pres") { # do a barplot of num observed
+    # browser()
     if (grouped) {
       counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=n()) %>% dplyr::ungroup()
       p <- p %>% plotly::add_bars(x=~Sample, y=~Count, color=~Group, data=counts, hoverinfo="y")
+    
+    } else if (identical(colorBy, "molform")) { # stacked barplots showing counts of molecular form vs not for each sample
+      df2 <- df %>% 
+        dplyr::left_join(dplyr::select(icrData$e_meta, "Mass", "MolForm")) %>% 
+        dplyr::mutate(HasMolForm=!is.na(MolForm))
+      
+      counts <- df2 %>% 
+        dplyr::group_by(Sample, HasMolForm) %>% 
+        dplyr::summarize(Count=n()) %>% 
+        dplyr::ungroup() %>%
+        tidyr::spread(HasMolForm, Count) %>%
+        dplyr::rename(MolForm=`TRUE`, NoMolForm=`FALSE`)
+      
+      p <- p %>% 
+        plotly::add_bars(data=counts, x=~Sample, y=~NoMolForm, name="No Molecular Form", marker=list(color="#d62728")) %>%
+        plotly::add_bars(data=counts, x=~Sample, y=~MolForm, type="bar", name="Has Molecular Form", marker=list(color="#1f77b4")) %>%
+        plotly::layout(yaxis = list(title = 'Count'), barmode = 'stack')
+      
     } else {
       counts <- df %>% dplyr::group_by(Sample) %>% dplyr::summarize(Count=n()) %>% dplyr::ungroup()
       p <- p %>% plotly::add_bars(x=~Sample, y=~Count, data=counts, hoverinfo="y")

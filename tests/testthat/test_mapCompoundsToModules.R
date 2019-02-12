@@ -20,7 +20,7 @@ test_that("mapCompoundsToModules works correctly mapping to MetaCyc", {
   expect_true(sum(is.na(modIcrData$e_meta[, getModuleColName(modIcrData)])) == 0)
   expect_true(sum(is.na(modIcrData$e_meta[, getModuleNodeColName(modIcrData)])) == 0)
   
-  expect_true(is.na(getDataScale(modIcrData)))
+  expect_true(getDataScale(modIcrData) == "count")
   
   # check that all edata values are integer
   tmp_edata <- modIcrData$e_data[, -1]

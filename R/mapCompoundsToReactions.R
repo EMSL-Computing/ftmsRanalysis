@@ -89,7 +89,7 @@ mapCompoundsToReactions <- function(compoundIcrData) {
   }
   
   obs_comp <- dplyr::group_by(obs_comp, Reaction) %>%
-    dplyr::summarise(`N_Observable_Compounds`=n_distinct(Compound))
+    dplyr::summarise(`N_Observable_Compounds`=dplyr::n_distinct(Compound))
   e_meta <- dplyr::left_join(e_meta, obs_comp, by="Reaction")
   
   result <- as.reactionIcrData(e_data, compoundIcrData$f_data, e_meta, edata_cname = "Reaction", 
@@ -99,8 +99,8 @@ mapCompoundsToReactions <- function(compoundIcrData) {
   #attributes from compoundIcrData to carry forward:
 #   result <- fticRanalysis:::setDatabase(result, db)
   result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundIcrData))
-#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundIcrData))
-#   result <- fticRanalysis:::setDataScale(result, NA)
+#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundIcrData)) 
+  result <- fticRanalysis:::setDataScale(result, "count")
   attr(result, "filters") <- attr(compoundIcrData, "filters")
   
   ## TODO: are there any other cnames that need to be carried through??

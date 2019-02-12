@@ -4,10 +4,12 @@
 \alias{assign_mf}
 \title{Assign Molecular Formulae Based on Element Counts}
 \usage{
-assign_mf(icrData)
+assign_mf(icrData, metacyc = FALSE)
 }
 \arguments{
 \item{icrData}{an object of class 'icrData', typically a result of \code{\link{as.icrData}}. e_meta must be present.}
+
+\item{metacyc}{TRUE/FALSE, use MetaCyc style formulae? (FALSE by default)}
 }
 \value{
 an object of class 'icrData' with a column in \code{e\_meta} giving the molecular formula.

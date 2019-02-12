@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-Kendrick plots do something useful that I will have to find out about some other time. 
+A Kendrick plot displays the Kendrick defect versus Kendrick mass for each peak observed. Kendrick plots provide a visualization which allows one to sort peaks in a spectra (sample) by their homologous relatives. Compounds that differ from one another by a known structural unit (e.g. $CH_2$) can be identified in the visualization by peaks plotted on horizontal or diagonal straight line.
 
-A Kendrick plot displays the Kendrick defect versus Kendrick mass for each peak observed. The `fticRanalysis` package 
+The `fticRanalysis` package 
 provides a method to construct these plots, with a variety of options which are described below. 
 
 # Single Sample Kendrick Plots
@@ -55,7 +55,7 @@ color_palette <- col_factor(palette = "Set1", domain=cat_names)
 kendrickPlot(one_sample, colorPal=color_palette, vkBoundarySet = 'bs2')
 ```
 
-The points may be colored by another column of meta-data by using the `colorCName` parameter. By default the function constructs an appropriate color palette for the chosen data type (integer, numeric or factor) but one may be specified using the `colorPal` parameter. Black points indicate observed peaks for which the chosen meta-data column is NA.
+The points may be colored by another column of molecular property by using the `colorCName` parameter. By default the function constructs an appropriate color palette for the chosen data type (integer, numeric or factor) but one may be specified using the `colorPal` parameter. Black points indicate observed peaks for which the chosen meta-data column is NA.
 
 ```{r}
 kendrickPlot(one_sample, colorCName = "NOSC", title="Van Krevelen Plot Colored by NOSC Value")

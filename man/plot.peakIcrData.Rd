@@ -5,7 +5,7 @@
 \title{Plot method for peakIcrData objects}
 \usage{
 \method{plot}{peakIcrData}(icrData, title = NA, xlabel = NA,
-  ylabel = NA)
+  ylabel = NA, colorBy = "groups")
 }
 \arguments{
 \item{icrData}{peakIcrData object}
@@ -15,6 +15,8 @@
 \item{xlabel}{optional label for X axis, if not provided "Sample" will be used}
 
 \item{ylabel}{optional label for Y axis, if not provided a label will be constructed based on data scale (e.g. "Abundance" or "Number Observed")}
+
+\item{colorBy}{"groups" to color by groups, "molform" for whether or not the peak has a molecular formula (presence/absence only), or NA to make all bars the same color}
 }
 \value{
 a \code{plotly} graph object

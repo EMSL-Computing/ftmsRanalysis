@@ -98,7 +98,14 @@ getGroupComparisonSummaryFunctionNames <- function() {
                           getMassColName(compIcrData), mf_cname=getMFColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
   } else if (inherits(compIcrData, "compoundIcrData")) {
     res <- as.compoundIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
-                              getMassColName(compIcrData), getCompoundColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
+                              mass_cname=getMassColName(compIcrData), getCompoundColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
+  } else if (inherits(compIcrData, "reactionIcrData")) {
+    res <- as.reactionIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
+                              getReactionColName(compIcrData), instrument_type=getInstrumentType(compIcrData), db=getDatabase(compIcrData) )
+  } else if (inherits(compIcrData, "moduleIcrData")) {
+    res <- as.moduleIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
+                            getModuleColName(compIcrData), getModuleNodeColName(compIcrData), 
+                            instrument_type=getInstrumentType(compIcrData) )
   }
   
   # copy other attributes to new object

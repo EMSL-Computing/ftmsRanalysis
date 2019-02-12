@@ -2,10 +2,10 @@ pandoc: 1.19.2.1
 pkgdown: 1.3.0
 pkgdown_sha: ~
 articles:
-  _density_plots: _density_plots.html
-  _kendrick_plots: _kendrick_plots.html
   _mapping_to_metacyc: _mapping_to_metacyc.html
-  _van_krevelen_plots: _van_krevelen_plots.html
+  density_plots: density_plots.html
   fticRanalysis: fticRanalysis.html
   fticRanalysis_and_Trelliscope: fticRanalysis_and_Trelliscope.html
+  kendrick_plots: kendrick_plots.html
+  van_krevelen_plots: van_krevelen_plots.html
 
