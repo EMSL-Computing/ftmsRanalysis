@@ -53,11 +53,19 @@ vanKrevelenPlot(one_sample)
 
 The resulting plot is a [`plot_ly`](https://cran.r-project.org/package=plotly) object and is interactive. Click on a name in the legend on the right to toggle whether those points are visible. Double-click any name to show only the corresponding points. Mouse over a point to see its molecular formula and mass. Other buttons for zooming, panning and exporting to PDF become visible at the top when the mouse is over the plot area.
 
-There are parameters to customize many of the visible options of this plot. For example to customize the colors, the `colorPal` parameter accepts a color palette function such as `col_factor` in the [`scales`](https://cran.r-project.org/package=scales) package. The `vkBoundarySet` parameter controls which of the 3 boundary sets are used to calculate class; valid options are `bs1` (default), `bs2`, or `bs3`.
+There are parameters to customize many of the visible options of this plot. For example, the `vkBoundarySet` parameter controls which of the 3 boundary sets are used to calculate class; valid options are `bs1` (default), `bs2`, or `bs3`. To see the differences between the `bs1` and `bs2` class definitions, it's possible to display two plots side by side: 
+
+```{r fig.width = 10}
+p1 <- vanKrevelenPlot(one_sample, vkBoundarySet = "bs1")
+p2 <- vanKrevelenPlot(one_sample, vkBoundarySet = "bs2")
+plotly::subplot(p1, p2)
+```
+
+To customize the colors, the `colorPal` parameter accepts a color palette function such as `col_factor` in the [`scales`](https://cran.r-project.org/package=scales) package. 
 
 ```{r}
 library(scales)
-cat_names <- rownames(getVanKrevelenCategoryBounds("bs1")$VKbounds)
+cat_names <- rownames(getVanKrevelenCategoryBounds("bs2")$VKbounds)
 color_palette <- col_factor(palette = "Set1", domain=cat_names)
 
 vanKrevelenPlot(one_sample, colorPal=color_palette, vkBoundarySet = 'bs2')

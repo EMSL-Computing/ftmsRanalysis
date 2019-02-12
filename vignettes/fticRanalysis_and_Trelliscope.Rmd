@@ -112,14 +112,37 @@ makeDisplay(bySample,
 view()
 ```
 
-Next we will construct a Kendrick plot for each sample.
+Next we will construct a Kendrick plot for each sample. We can also augment the cognostics function wtih additional values if desired. For example, `kendrickCognostics` already calculates the mean of the Kendrick mass and Kendrick defect but we could add the medians of both fields.
 
 ```{r eval=FALSE}
 panelFn3 <- panelFunctionGenerator("kendrickPlot")
 
+customCogFn <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
+  defKendrick <- kendrickCognostics(vkBoundarySet, uniquenessColName)
+  fn <- function(icrData) {
+    cogs <- defKendrick(icrData)
+    
+    sample_colnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
+    sample_colnames <- sample_colnames[sample_colnames %in% colnames(icrData$e_data)]
+    presInd <- fticRanalysis:::n_present(icrData$e_data[, sample_colnames], 
+                                         fticRanalysis:::getDataScale(icrData)) > 0
+    
+    massColname <- fticRanalysis:::getKendrickMassColName(icrData)
+    defectColname <- fticRanalysis:::getKendrickDefectColName(icrData)
+    
+    cogs <- c(cogs, list(
+      median_kendrick_mass = trelliscope::cog(val=median(icrData$e_meta[presInd, massColname], na.rm=TRUE),
+                                            desc="Median observed Kendrick mass"),
+      median_kendrick_defect = trelliscope::cog(val=median(icrData$e_meta[presInd, defectColname], na.rm=TRUE),
+                                            desc="Median observed Kendrick defect")
+    ))
+    return(cogs)
+  }
+}
+
 makeDisplay(bySample, 
             panelFn=panelFn3,
-            cogFn=kendrickCognostics(),
+            cogFn=customCogFn(),
             name = "Kendrick_plots_for_each_sample",
             group = "Sample")
 view()
