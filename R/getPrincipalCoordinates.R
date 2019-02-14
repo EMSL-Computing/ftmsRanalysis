@@ -1,14 +1,14 @@
 #' Get principal coordinates for the samples in an icrData object
 #'
-#' Calculate the principal coordinates of the samples in an icrData object. Uses \code{\link{vegan::vegdist}} to calculate pairwise distances between samples, and \code{\link{ape::pcoa}} to calculate the principal coordinates.
+#' Calculate the principal coordinates of the samples in an icrData object. Uses \code{\link{vegdist}} to calculate pairwise distances between samples, and \code{\link{pcoa}} to calculate the principal coordinates.
 #' 
 #' @param icrData object of type \code{icrData} 
-#' @param dist_metric distance metric for computing pairwise distances between all samples. See \code{\link{vegan::vegdist}} for options. Default is "bray".
+#' @param dist_metric distance metric for computing pairwise distances between all samples. See \code{\link{vegdist}} for options. Default is "bray".
 #' @param n_dims number of dimensions to return, default is 5. Must be less than the number of samples in \code{icrData}
 #'
 #' @return data.frame of coordinates where each sample is a row
 #' @export
-#' @seealso \link{vegan::vegdist}, \link{ape::pcoa}
+#' @seealso \link{vegdist}, \link{pcoa}
 #'
 #' @examples
 #' coords <- getPrincipalCoordinates(peakIcrProcessed, dist_metric="jaccard", n_dims=7))
@@ -35,7 +35,7 @@ getPrincipalCoordinates <- function(icrData, dist_metric="bray", n_dims=5) {
   
   pcoa_res <- ape::pcoa(dist_mat)
   pcoa_vec <- pcoa_res$vectors[, 1:n_dims]
-  attr(pcoa_vec, "r_2") <- pcoa_res$values$Relative_eig[1:n_dims]
-  
+  attr(pcoa_vec, "R^2") <- pcoa_res$values$Relative_eig[1:n_dims]
+
   return(pcoa_vec)
 }

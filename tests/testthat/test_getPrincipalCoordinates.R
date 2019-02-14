@@ -8,9 +8,9 @@ test_that("basic tests on getPrincipalCoordinates", {
   
   expect_true(is.numeric(res1))
   expect_equal(dim(res1), c(20, 5))
-  expect_true(!is.null(attr(res1, "r_2")))
-  expect_true(is.numeric(attr(res1, "r_2")))
-  expect_equal(length(attr(res1, "r_2")), 5)
+  expect_true(!is.null(attr(res1, "R^2")))
+  expect_true(is.numeric(attr(res1, "R^2")))
+  expect_equal(length(attr(res1, "R^2")), 5)
   
   res2 <- getPrincipalCoordinates(picr, dist_metric="manhattan")
   
