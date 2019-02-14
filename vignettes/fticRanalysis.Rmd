@@ -111,7 +111,7 @@ The resulting `peakIcrData` object contains three elements, named e_data, f_data
 names(picr)
 ```
 
-During object constructing, the molecular formula is calculated from the elemental columns (and elemental columns would be created in the case that molecular formulae were provided):
+During object construction, the molecular formula is calculated from the elemental columns (and elemental columns would be created in the case that molecular formulae were provided):
 ```{r}
 tail(picr$e_meta)
 ```
