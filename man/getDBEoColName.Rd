@@ -4,10 +4,10 @@
 \alias{getDBEoColName}
 \title{Get the name of the double-bond equivalent minus oxygen column}
 \usage{
-getDBEoColName(icrData)
+getDBEoColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of double-bond equivalent column

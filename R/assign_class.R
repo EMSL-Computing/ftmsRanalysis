@@ -2,7 +2,7 @@
 #' 
 #' Assigns a compound class to each peak/mass, where possible, based Oxygen:Carbon ratio and Hydrogen:Carbon ratio and a chosen boundary set.
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param boundary_set character vector specifying which boundary set to use when determining class. Valid options are currently "bs1", "bs2" and "bs3". Defaults to "bs1". See Details for more information on boundary sets.
 #' @param calc_ratios logical argument, if elemental ratios needed for class assignment are not already calculated, should they be added to the data? Defaults to TRUE.
 #' 
@@ -12,16 +12,16 @@
 #' Bailey, V. L., Smith, A. P., Tfaily, M., Fansler, S. J., & Bond-Lamberty, B. (2017). Differences in soluble organic carbon chemistry in pore waters sampled from different pore size domains. Soil Biology and Biochemistry, 107, 133-143.
 #' Rivas-Ubach, A., Liu, Y., Bianchi, T. S., Toliċ, N., Jansson, C., & Paša-Tolić, L. (2018). Moving beyond the van Krevelen diagram: A new stoichiometric approach for compound classification in organisms. Analytical chemistry. DOI: 10.1021/acs.analchem.8b00529 
 #' 
-#' @return an object of the same class as \code{icrData} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
+#' @return an object of the same class as \code{ftmsObj} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
 #' 
 #' @author Lisa Bramer
 #' 
 #' @export
 
-assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
+assign_class <- function(ftmsObj, boundary_set = "bs1", calc_ratios = TRUE){
   
-  # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
+  # check that ftmsObj is of the correct class #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
   # check that boundary_set is valid argument #
   if(!(boundary_set %in% c("bs1", "bs2", "bs3"))) stop("Invalid option provided for boundary_set argument.")
@@ -31,9 +31,9 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
   
   # check that O:C and H:C are non-NULL #
   # if they are NULL check calc_vankrev argument and act accordingly #
-  if(is.null(getOCRatioColName(icrData)) | is.null(getHCRatioColName(icrData)) | is.null(getNCRatioColName(icrData)) | is.null(getPCRatioColName(icrData)) | is.null(getNPRatioColName(icrData))){
+  if(is.null(getOCRatioColName(ftmsObj)) | is.null(getHCRatioColName(ftmsObj)) | is.null(getNCRatioColName(ftmsObj)) | is.null(getPCRatioColName(ftmsObj)) | is.null(getNPRatioColName(ftmsObj))){
     if(calc_ratios == TRUE){
-      icrData = compound_calcs(icrData, "calc_element_ratios")
+      ftmsObj = compound_calcs(ftmsObj, "calc_element_ratios")
     }else{
       stop("Elemental ratio data (e.g. O:C) not found in data and calc_ratios = FALSE. Set calc_ratios = TRUE or ensure ratios are present and specified in your data")
     }
@@ -45,11 +45,11 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
 
   
   # get e_meta #
-  temp = icrData$e_meta
+  temp = ftmsObj$e_meta
   
   # identify rows without molecular formula #
-  noforms = which(is.na(temp[,getMFColName(icrData)]))
-  forms = which(!is.na(temp[,getMFColName(icrData)]))
+  noforms = which(is.na(temp[,getMFColName(ftmsObj)]))
+  forms = which(!is.na(temp[,getMFColName(ftmsObj)]))
   
   # if there are rows with no MF, take them out #  
   if(length(noforms) > 0){
@@ -59,14 +59,14 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
   }
   
   if(boundary_set == "bs1"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], MoreArgs = list(bound_match), assign_bs1)
+    classes = mapply(x_hc = temp2[,getHCRatioColName(ftmsObj)], x_oc = temp2[,getOCRatioColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs1)
   }
   if(boundary_set == "bs2"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], MoreArgs = list(bound_match), assign_bs2)
+    classes = mapply(x_hc = temp2[,getHCRatioColName(ftmsObj)], x_oc = temp2[,getOCRatioColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs2)
     classes[which(classes == "")] = "Other"
   }
   if(boundary_set == "bs3"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(icrData)], x_oc = temp2[,getOCRatioColName(icrData)], x_nc = temp2[,getNCRatioColName(icrData)], x_pc = temp2[,getPCRatioColName(icrData)], x_np = temp2[,getNPRatioColName(icrData)], x_o = temp2[,getOxygenColName(icrData)], x_n = temp2[,getNitrogenColName(icrData)], x_s = temp2[,getSulfurColName(icrData)], x_p = temp2[,getPhosphorusColName(icrData)], x_mass = temp2[,getMassColName(icrData)], MoreArgs = list(bound_match), assign_bs3)
+    classes = mapply(x_hc = temp2[,getHCRatioColName(ftmsObj)], x_oc = temp2[,getOCRatioColName(ftmsObj)], x_nc = temp2[,getNCRatioColName(ftmsObj)], x_pc = temp2[,getPCRatioColName(ftmsObj)], x_np = temp2[,getNPRatioColName(ftmsObj)], x_o = temp2[,getOxygenColName(ftmsObj)], x_n = temp2[,getNitrogenColName(ftmsObj)], x_s = temp2[,getSulfurColName(ftmsObj)], x_p = temp2[,getPhosphorusColName(ftmsObj)], x_mass = temp2[,getMassColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs3)
     classes[which(classes == "")] = "Other"
     classes[grep("Nucleotide", classes)] = "Nucleotide"
   }
@@ -79,21 +79,21 @@ assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
   temp[,(ncol(temp) + 1)] = comp_class
   names(temp)[ncol(temp)] = paste(boundary_set, "_class", sep = "")
   
-  # reassign temp back to e_meta in icrData #
-  icrData$e_meta = temp
+  # reassign temp back to e_meta in ftmsObj #
+  ftmsObj$e_meta = temp
   
   # set the classcname #
   if(boundary_set == "bs1"){
-    icrData = setBS1ColName(icrData, paste(boundary_set, "_class", sep = ""))
+    ftmsObj = setBS1ColName(ftmsObj, paste(boundary_set, "_class", sep = ""))
   }
   if(boundary_set == "bs2"){
-    icrData = setBS2ColName(icrData, paste(boundary_set, "_class", sep = ""))
+    ftmsObj = setBS2ColName(ftmsObj, paste(boundary_set, "_class", sep = ""))
   }
   if(boundary_set == "bs3"){
-    icrData = setBS3ColName(icrData, paste(boundary_set, "_class", sep = ""))
+    ftmsObj = setBS3ColName(ftmsObj, paste(boundary_set, "_class", sep = ""))
   }
-  # return icrData #
-  return(icrData)
+  # return ftmsObj #
+  return(ftmsObj)
 }
 
 

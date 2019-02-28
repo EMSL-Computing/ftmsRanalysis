@@ -4,10 +4,10 @@
 \alias{getModAromaColName}
 \title{Get the name of the modified aromaticity column}
 \usage{
-getModAromaColName(icrData)
+getModAromaColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of modified aromaticity column

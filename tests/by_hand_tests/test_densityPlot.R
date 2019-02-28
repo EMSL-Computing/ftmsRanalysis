@@ -4,27 +4,27 @@ library(fticRanalysis)
 
 data("examplePeakData")
 data("exampleProcessedPeakData")
-icrData <- subset(exampleProcessedPeakData, groups="M_S")
-samples <- as.character(dplyr::filter(getGroupDF(icrData), Group=="M_S")$SampleID)
+peakObj <- subset(exampleProcessedPeakData, groups="M_S")
+samples <- as.character(dplyr::filter(getGroupDF(peakObj), Group=="M_S")$SampleID)
 
 # should plot all sample curves, no histograms, no groups
-densityPlot(icrData, "NOSC", samples=NA, groups = FALSE)
+densityPlot(peakObj, "NOSC", samples=NA, groups = FALSE)
 
 # should plot one group and several samples, no hist, no warning
-densityPlot(icrData, variable="kmass", groups="M_S", samples=samples, plot_curve = TRUE, plot_hist = FALSE)
+densityPlot(peakObj, variable="kmass", groups="M_S", samples=samples, plot_curve = TRUE, plot_hist = FALSE)
 
 # should plot one sample, curve and hist
-densityPlot(icrData, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=TRUE, plot_hist=TRUE)
+densityPlot(peakObj, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=TRUE, plot_hist=TRUE)
 
 # one sample, hist only, density y axis
-densityPlot(icrData, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=FALSE, plot_hist=TRUE)
+densityPlot(peakObj, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=FALSE, plot_hist=TRUE)
 
 # one sample, hist only, count y axis
-densityPlot(icrData, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=FALSE, 
+densityPlot(peakObj, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=FALSE, 
                 plot_hist=TRUE, yaxis="count")
 
 # one sample, curve only
-densityPlot(icrData, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=TRUE, plot_hist=FALSE)
+densityPlot(peakObj, variable="NOSC", samples="EM0011_sample", groups=FALSE, plot_curve=TRUE, plot_hist=FALSE)
 
 # two groups, curves only
 densityPlot(exampleProcessedPeakData, variable="NOSC", samples=FALSE, groups=c("M_S", "M_C"), plot_curve=TRUE, plot_hist=FALSE)

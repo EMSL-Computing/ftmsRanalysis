@@ -17,17 +17,17 @@ print.peakData <- function(picr) {
   invisible(picr)
 }
 
-# internal only method for constructing print info for common parts of icrData objects
-.common_print_data <- function(icrObj) {
-  if (!inherits(icrObj, "icrData")) stop("Not a icrData object")
+# internal only method for constructing print info for common parts of ftmsData objects
+.common_print_data <- function(ftmsObj) {
+  if (!inherits(ftmsObj, "ftmsData")) stop("Not a ftmsData object")
   
   res <- NULL
-  if (!is.null(icrObj$e_meta)) {
-    res <- c(res, sprintf("Meta data columns: [%s]", paste(colnames(icrObj$e_meta), collapse = ", ")))
+  if (!is.null(ftmsObj$e_meta)) {
+    res <- c(res, sprintf("Meta data columns: [%s]", paste(colnames(ftmsObj$e_meta), collapse = ", ")))
   }
   
-  if (!is.null(getGroupDF(icrObj))) {
-    group.df <- getGroupDF(icrObj)
+  if (!is.null(getGroupDF(ftmsObj))) {
+    group.df <- getGroupDF(ftmsObj)
     group.str <- sprintf("Group info: main effects=[%s]", paste(attr(group.df, "main_effects"), collapse=", "))
     if (!is.null(attr(group.df, "covariates"))) {
       group.str <- sprintf("%s, covariates=[%s]", group.str, paste(attr(group.df, "covariates"), collapse=", "))
@@ -35,8 +35,8 @@ print.peakData <- function(picr) {
     res <- c(res, group.str)
   }
 
-  if (!is.null(attr(icrObj, "filters"))) {
-    res <- c(res, unlist(lapply(attr(icrObj, "filters"), function(x) return(x$report_text))))
+  if (!is.null(attr(ftmsObj, "filters"))) {
+    res <- c(res, unlist(lapply(attr(ftmsObj, "filters"), function(x) return(x$report_text))))
   }
   
   return(res)
@@ -97,25 +97,25 @@ print.moduleData <- function(micr) {
 }
 
 #' @export
-print.groupSummary <- function(icrData) {
-  if (!inherits(icrData, "groupSummary")) stop("Not a groupSummary object")
-  if (is.null(icrData) | all(is.na(icrData))) {
-    print(icrData)
-    invisible(icrData)
+print.groupSummary <- function(ftmsObj) {
+  if (!inherits(ftmsObj, "groupSummary")) stop("Not a groupSummary object")
+  if (is.null(ftmsObj) | all(is.na(ftmsObj))) {
+    print(ftmsObj)
+    invisible(ftmsObj)
   }
-  groupname <- unique(getGroupDF(icrData)$Group)
-  res <- c(sprintf("groupSummary object derived from %s", class(icrData)[2]), 
-           sprintf("# Rows: %d", nrow(icrData$e_data)),
-           sprintf("Summary columns: [%s]", paste(icrData$f_data[, getFDataColName(icrData)], collapse = ", ")),
+  groupname <- unique(getGroupDF(ftmsObj)$Group)
+  res <- c(sprintf("groupSummary object derived from %s", class(ftmsObj)[2]), 
+           sprintf("# Rows: %d", nrow(ftmsObj$e_data)),
+           sprintf("Summary columns: [%s]", paste(ftmsObj$f_data[, getFDataColName(ftmsObj)], collapse = ", ")),
            sprintf("Groups: %s", paste(groupname, collapse=", ")),
-           sprintf("# Samples in group: %d", nrow(getGroupDF(icrData))))
+           sprintf("# Samples in group: %d", nrow(getGroupDF(ftmsObj))))
   
-  res <- c(res, .common_print_data(icrData))
+  res <- c(res, .common_print_data(ftmsObj))
   
   # remove Group info line:
   ind <- grepl("^Group info: ", res)
   res <- res[!ind]
   
   cat(res, sep="\n")
-  invisible(icrData)
+  invisible(ftmsObj)
 }

@@ -4,10 +4,10 @@
 \alias{emeta_filter}
 \title{Create e\_meta filter object}
 \usage{
-emeta_filter(icrData, cname)
+emeta_filter(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of the class 'peakData' or 'compoundData'}
+\item{ftmsObj}{an object of the class 'peakData' or 'compoundData'}
 
 \item{cname}{character string giving name of column in \code{e_meta} which filter should be based upon.}
 }

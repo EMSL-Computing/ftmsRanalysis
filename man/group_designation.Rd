@@ -4,11 +4,11 @@
 \alias{group_designation}
 \title{Creates Data Frame for Group Membership Based on Specified Main Effects}
 \usage{
-group_designation(icrData, main_effects, covariates = NULL,
+group_designation(ftmsObj, main_effects, covariates = NULL,
   var.name = FALSE)
 }
 \arguments{
-\item{icrData}{an object of the class 'icrData', usually created by \code{\link{as.peakData}}.}
+\item{ftmsObj}{an object of the class 'ftmsData', usually created by \code{\link{as.peakData}}.}
 
 \item{main_effects}{a character vector with no more than two variable names that should be used as main effects to determine group membership of samples. The variable name must match a column name from \code{f_data}.}
 
@@ -17,7 +17,7 @@ group_designation(icrData, main_effects, covariates = NULL,
 \item{var.name}{logical, if there are more than one main effect, when making a group, include (TRUE) or exclude (FALSE) main effect names in group For example, if TRUE, "Location_M;Crop_S". If FALSE, "M_S". Default is FALSE.}
 }
 \value{
-An object of the same class as the input \code{icrData} object - the provided object with the samples filtered out, if any NAs were produced in designating groups. An attribute 'group_DF', a data.frame with columns for sample id and group, is added to the object. If two main effects are provided the original main effect levels for each sample are returned as the third and fourth columns of the data.frame. If time_course is included, a column for 'TimeCourse' will be output as well. Additionally, the covariates provided will be listed as attributes of this data.frame.
+An object of the same class as the input \code{ftmsObj} object - the provided object with the samples filtered out, if any NAs were produced in designating groups. An attribute 'group_DF', a data.frame with columns for sample id and group, is added to the object. If two main effects are provided the original main effect levels for each sample are returned as the third and fourth columns of the data.frame. If time_course is included, a column for 'TimeCourse' will be output as well. Additionally, the covariates provided will be listed as attributes of this data.frame.
 }
 \description{
 The method assigns each sample to a group, for future analyses, based on the variable(s) specified as main effects.

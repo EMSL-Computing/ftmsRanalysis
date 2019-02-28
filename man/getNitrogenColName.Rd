@@ -4,10 +4,10 @@
 \alias{getNitrogenColName}
 \title{Get the name of the nitrogen column}
 \usage{
-getNitrogenColName(icrData)
+getNitrogenColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of nitrogen column

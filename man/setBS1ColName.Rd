@@ -4,15 +4,15 @@
 \alias{setBS1ColName}
 \title{Set the name of the peak class column based on boundary set 1}
 \usage{
-setBS1ColName(icrData, cname)
+setBS1ColName(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrData
+updated ftmsObj
 }
 \description{
 Sets the name of the column in the e_meta element that 

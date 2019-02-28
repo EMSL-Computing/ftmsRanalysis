@@ -2,23 +2,23 @@
 #' 
 #' Construct a matrix of pairwise comparisons (pairs can be either samples or groups)
 #' 
-#' @param icrDataObj icrData object
+#' @param ftmsObj ftmsData object
 #' @param comparisons dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, 'one-factor' will create a matrix of pairwise comparisons to be made where only one 'main_effect' changes between the two groups, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.
 #' @param control if wanting to only compare against a control, must specify which group or sample is the control
 #' @return a matrix of which pairwise comparisons to make
-comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
-  if (missing(icrObj)) stop("icrObj is missing")
+comparisonMatrix <- function(ftmsObj, comparisons, control=NULL) {
+  if (missing(ftmsObj)) stop("ftmsObj is missing")
   if (missing(comparisons)) stop("comparisons is missing")
-  if (!inherits(icrObj, "icrData")) stop("icrObj must be of type icrData")
+  if (!inherits(ftmsObj, "ftmsData")) stop("ftmsObj must be of type ftmsData")
   
-  groupDF <- attr(icrObj, "group_DF")
+  groupDF <- attr(ftmsObj, "group_DF")
   if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF
     
     if(all(tolower(comparisons) == "one-factor")){ stop("The 'one-factor' specification cannot be used without a group data frame. Please use 'group_designation' first.") }
     
-    samp.names <- unique(icrObj$f_data[, getFDataColName(icrObj)])
+    samp.names <- unique(ftmsObj$f_data[, getFDataColName(ftmsObj)])
     groupDF <- data.frame(Sample=samp.names, Group=samp.names)
-    colnames(groupDF)[1] <- getFDataColName(icrObj)
+    colnames(groupDF)[1] <- getFDataColName(ftmsObj)
   }
   
   if (!missing(control) & !is.null(control)) {
@@ -47,7 +47,7 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
       }
     }
   }else if(tolower(comparisons) == "one-factor"){
-    pairs <- one_factor_change(icrObj, groupDF)
+    pairs <- one_factor_change(ftmsObj, groupDF)
     pairs <- do.call(cbind, pairs)
   }else{
     stop("check that comparisons argument is either 'all', 'control', 'one-factor', or a list of specific comparisons")
@@ -62,20 +62,20 @@ comparisonMatrix <- function(icrObj, comparisons, control=NULL) {
 #' Construct a list of pairwise comparisons, where only
 #' one main effect changes between each group
 #' 
-#' @param icrDataObj icrData object
-#' @param groupDF group data frame from icrData object
+#' @param ftmsObj ftmsData object
+#' @param groupDF group data frame from ftmsData object
 #' @return a list of which pairwise comparisons to make
 
-one_factor_change <- function(icrObj, groupDF){
+one_factor_change <- function(ftmsObj, groupDF){
   
   # Get only uniuqe groups
   df <- groupDF[!duplicated(groupDF$Group),]
   
   # Remove Sample and Group columns
   if(ncol(df) > 2){
-    df <- df[,-which(colnames(df) %in% c(getFDataColName(icrObj), "Group"))]
+    df <- df[,-which(colnames(df) %in% c(getFDataColName(ftmsObj), "Group"))]
   }else{
-    df <- as.data.frame(df[,-which(colnames(df) %in% getFDataColName(icrObj))])
+    df <- as.data.frame(df[,-which(colnames(df) %in% getFDataColName(ftmsObj))])
     colnames(df) <- "Group"
   }
   

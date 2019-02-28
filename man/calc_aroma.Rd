@@ -4,13 +4,13 @@
 \alias{calc_aroma}
 \title{Calculate Aromaticity and Modified Aromaticity Values}
 \usage{
-calc_aroma(icrData)
+calc_aroma(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
-an object of the same class as \code{icrData} with a column in \code{e\_meta} giving aromaticity and modified aromaticity values
+an object of the same class as \code{ftmsObj} with a column in \code{e\_meta} giving aromaticity and modified aromaticity values
 }
 \description{
 Calculate aromaticity and modified aromaticity index values for peaks where empirical formula is available

@@ -26,5 +26,5 @@ as.reactionData(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname,
 Converts a list object or several data.frames of FTICR data to an object of the class 'reactionData'. Objects of the class 'reactionData' are lists with two obligatory components \code{e_data} and \code{f_data} and one optional compounent, \code{e_meta}.
 }
 \details{
-\code{as.reactionData} constructs a reactionData object which is an icrData object where the rows of \code{e_data} correspond to reactions.
+\code{as.reactionData} constructs a reactionData object which is an ftmsData object where the rows of \code{e_data} correspond to reactions.
 }

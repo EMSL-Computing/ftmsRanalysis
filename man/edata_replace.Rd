@@ -4,20 +4,20 @@
 \alias{edata_replace}
 \title{Replace Values Equal to x with y}
 \usage{
-edata_replace(icrData, x, y)
+edata_replace(ftmsObj, x, y)
 }
 \arguments{
-\item{icrData}{an object of the class 'peakData', or 'compoundData'}
+\item{ftmsObj}{an object of the class 'peakData', or 'compoundData'}
 
 \item{x}{value to be replaced, usually numeric or NA}
 
 \item{y}{replacment value, usually numeric or NA}
 }
 \value{
-data object of the same class as icrData
+data object of the same class as ftmsObj
 }
 \description{
-This function finds all values of x in the e_data element of icrData and replaces them with y
+This function finds all values of x in the e_data element of ftmsObj and replaces them with y
 }
 \details{
 This function is often used to replace any 0 values in \code{e_data} with NA's.

@@ -4,10 +4,10 @@
 \alias{getCompoundColName}
 \title{Get the name of the compound column}
 \usage{
-getCompoundColName(icrData)
+getCompoundColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of mass column

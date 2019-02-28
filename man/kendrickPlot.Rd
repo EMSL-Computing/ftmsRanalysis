@@ -2,20 +2,20 @@
 % Please edit documentation in R/kendrickPlot.R
 \name{kendrickPlot}
 \alias{kendrickPlot}
-\title{Kendrick plot of icrData object}
+\title{Kendrick plot of an ftmsData object}
 \usage{
-kendrickPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
+kendrickPlot(ftmsObj, title = NA, colorPal = NA, colorCName = NA,
   vkBoundarySet = "bs1", xlabel = "Kendrick Mass",
   ylabel = "Kendrick Defect", legendTitle = colorCName)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{title}{plot title}
 
 \item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
 
-\item{colorCName}{column name of \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
+\item{colorCName}{column name of \code{ftmsObj$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
 
 \item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
 
@@ -30,7 +30,7 @@ a plotly object
 }
 \description{
 Constructs a Kendrick plot (Kendrick defect vs Kendrick mass) for an
-object of type icrData.
+object of type ftmsData.
 }
 \seealso{
 \code{\link{plot_ly}}

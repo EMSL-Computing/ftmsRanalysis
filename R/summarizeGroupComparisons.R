@@ -9,7 +9,7 @@
 #'
 #' @param compIcrData a groupComparison object or a ddo of groupComparison objects, i.e. the output 
 #' of \code{\link{divideByGroupComparisons}}.
-#' @param summary_functions vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
+#' @param summary_functions vector of summary function names to apply to each row of \code{ftmsObj$e_data} for each group. Valid
 #' summary function names are given by \code{\link{getGroupComparisonSummaryFunctionNames}}. 
 #' @param summary_function_params named list of list of other parameters to pass to the summary functions. Names should
 #' match values in \code{summary_functions}, each value should be a list of name/value parameters, e.g.

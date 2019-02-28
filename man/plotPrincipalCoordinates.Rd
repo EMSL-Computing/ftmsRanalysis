@@ -2,9 +2,9 @@
 % Please edit documentation in R/plotPrincipalCoordinates.R
 \name{plotPrincipalCoordinates}
 \alias{plotPrincipalCoordinates}
-\title{Plot principal coordinates of icrData samples}
+\title{Plot principal coordinates of ftmsData samples}
 \usage{
-plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, icrData = NA,
+plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, ftmsObj = NA,
   title = NA, xlabel = sprintf("Principal Coordinate \%d", x),
   ylabel = sprintf("Principal Coordinate \%d", y),
   includeR2OnAxes = TRUE)
@@ -16,7 +16,7 @@ plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, icrData = NA,
 
 \item{y}{numeric value, which column of \code{pcoaMat} should serve as the y-axis}
 
-\item{icrData}{optional, if provided points will be colored according to the groups defined in \code{icrData}}
+\item{ftmsObj}{optional, if provided points will be colored according to the groups defined in \code{ftmsObj}}
 
 \item{title}{optional plot title}
 
@@ -30,9 +30,9 @@ plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, icrData = NA,
 a \code{\link{plotly}} plot object
 }
 \description{
-Constructs a scatter plot of any combination of principal coordinates calculated by the \code{\link{getPrincipalCoordinates}} function. If an associated \code{icrData} object is provided with groups defined, the resulting plot will be colored by group membership.
+Constructs a scatter plot of any combination of principal coordinates calculated by the \code{\link{getPrincipalCoordinates}} function. If an associated \code{ftmsData} object is provided with groups defined, the resulting plot will be colored by group membership.
 }
 \examples{
 pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
-plotPrincipalCoordinates(pcoaMat, x=2, y=3, icrData=exampleProcessedPeakData)
+plotPrincipalCoordinates(pcoaMat, x=2, y=3, ftmsObj=exampleProcessedPeakData)
 }

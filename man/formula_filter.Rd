@@ -4,10 +4,10 @@
 \alias{formula_filter}
 \title{Formula filter object}
 \usage{
-formula_filter(icrData)
+formula_filter(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of the class 'peakData' or 'compoundData'}
+\item{ftmsObj}{an object of the class 'peakData' or 'compoundData'}
 }
 \value{
 Object of class 'formulaFilt' that contains the molecule identifier and whether a formula could be assigned or not. This can be used in conjunction with \code{\link{applyFilt}} to filter peaks without a formula assigned.

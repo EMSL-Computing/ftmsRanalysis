@@ -4,13 +4,13 @@
 \alias{calc_element_ratios}
 \title{Calculate Elemental Ratios}
 \usage{
-calc_element_ratios(icrData)
+calc_element_ratios(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
 }
 \value{
-an object of the same class as \code{icrData} with columns in \code{e_meta} giving elemental ratios
+an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving elemental ratios
 }
 \description{
 Calculates the Oxygen:Carbon, Hydrogen:Carbon, Nitrogen:Carbon, Phosphorus:Carbon, and Nitrogen:Phosphorus ratios

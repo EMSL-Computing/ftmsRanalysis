@@ -2,19 +2,19 @@
 % Please edit documentation in R/divideBySample.R
 \name{divideBySample}
 \alias{divideBySample}
-\title{Divide icrData by sample to form a ddo}
+\title{Divide an ftmsData objecdt by sample to form a ddo}
 \usage{
-divideBySample(icrData)
+divideBySample(ftmsObj)
 }
 \arguments{
-\item{icrData}{icrData object}
+\item{ftmsObj}{ftmsData object}
 }
 \value{
-a ddo where each division is a subset of \code{icrData} corresponding
+a ddo where each division is a subset of \code{ftmsObj} corresponding
         to a single sample
 }
 \description{
-Construct a \code{\link{ddo}} from an \code{icrData} object by dividing
+Construct a \code{\link{ddo}} from an \code{ftmsData} object by dividing
 by sample. The resulting object may be used with Trelliscope to make
 plots for each sample.
 }

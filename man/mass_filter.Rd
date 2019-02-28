@@ -4,10 +4,10 @@
 \alias{mass_filter}
 \title{Filter Data Based on Mass Range}
 \usage{
-mass_filter(icrData)
+mass_filter(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
 an object of class 'massFilt'

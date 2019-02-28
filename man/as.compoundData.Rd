@@ -28,5 +28,5 @@ as.compoundData(e_data, f_data, e_meta, edata_cname, fdata_cname,
 Converts a list object or several data.frames of FTICR data to an object of the class 'compoundData'. Objects of the class 'compoundData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}.
 }
 \details{
-\code{as.compoundData} constructs a compoundData object which is an icrData object where the rows of \code{e_data} correspond to compounds.
+\code{as.compoundData} constructs a compoundData object which is an ftmsData object where the rows of \code{e_data} correspond to compounds.
 }

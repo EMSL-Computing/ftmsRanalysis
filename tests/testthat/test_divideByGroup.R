@@ -14,7 +14,7 @@ test_that("basic tests on divideByGroup", {
   
   groups <- unique(getGroupDF(exampleProcessedPeakData)$Group)
   
-  groupDdo <- divideByGroup(icrData = exampleProcessedPeakData)
+  groupDdo <- divideByGroup(ftmsObj = exampleProcessedPeakData)
 
   expect_equal(length(groupDdo), length(groups))
   expect_true(inherits(groupDdo, "ddo"))

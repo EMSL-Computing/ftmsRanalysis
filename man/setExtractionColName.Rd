@@ -4,15 +4,15 @@
 \alias{setExtractionColName}
 \title{Set the name of the extraction column}
 \usage{
-setExtractionColName(icrData, cname)
+setExtractionColName(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrData
+updated ftmsObj
 }
 \description{
 Sets the name of the column in the f_data element that 

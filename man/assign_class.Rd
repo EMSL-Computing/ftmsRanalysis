@@ -4,17 +4,17 @@
 \alias{assign_class}
 \title{Assign compound class to each peak/mass}
 \usage{
-assign_class(icrData, boundary_set = "bs1", calc_ratios = TRUE)
+assign_class(ftmsObj, boundary_set = "bs1", calc_ratios = TRUE)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{boundary_set}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1", "bs2" and "bs3". Defaults to "bs1". See Details for more information on boundary sets.}
 
 \item{calc_ratios}{logical argument, if elemental ratios needed for class assignment are not already calculated, should they be added to the data? Defaults to TRUE.}
 }
 \value{
-an object of the same class as \code{icrData} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
+an object of the same class as \code{ftmsObj} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
 }
 \description{
 Assigns a compound class to each peak/mass, where possible, based Oxygen:Carbon ratio and Hydrogen:Carbon ratio and a chosen boundary set.

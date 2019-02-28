@@ -257,7 +257,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   attr(res, "group_DF") = NULL
 
   # set class of list #
-  class(res) = c("peakData","icrData")
+  class(res) = c("peakData","ftmsData")
   
   # check for empty rows and remove them with molfilt 
   if(check_rows){
@@ -296,12 +296,12 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
 #' @param compound_cname character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. Kegg, MetaCyc)
 #' @param ... further arguments (see as.\code{\link{peakData}})
 #'
-#' @details \code{as.compoundData} constructs a compoundData object which is an icrData object where the rows of \code{e_data} correspond to compounds.
+#' @details \code{as.compoundData} constructs a compoundData object which is an ftmsData object where the rows of \code{e_data} correspond to compounds.
 #' @rdname as.compoundData
 
 as.compoundData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, compound_cname, ...){
   res <- as.peakData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
-  class(res) <- c("compoundData", "icrData")
+  class(res) <- c("compoundData", "ftmsData")
   
   # if e_meta is provided, check that reaction_cname is in it
   if (!is.null(e_meta)) {
@@ -323,7 +323,7 @@ as.compoundData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, ma
 #' @param reaction_cname character string specifying the name of the column containing the reaction identifiers in \code{e_meta}.
 #' @param ... further arguments
 #'
-#' @details \code{as.reactionData} constructs a reactionData object which is an icrData object where the rows of \code{e_data} correspond to reactions.
+#' @details \code{as.reactionData} constructs a reactionData object which is an ftmsData object where the rows of \code{e_data} correspond to reactions.
 #' @rdname as.reactionData
 
 as.reactionData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname, instrument_type = "12T", db=NA, ...){
@@ -400,7 +400,7 @@ as.reactionData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cn
   
   attr(res, "DB") <- db
   
-  class(res) <- c("reactionData", "icrData")
+  class(res) <- c("reactionData", "ftmsData")
   return(res)
 }
 
@@ -418,7 +418,7 @@ as.reactionData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cn
 #' @param module_node_cname character string specifying the name of the column containing the module node identifiers in \code{e_meta}
 #' @param ... further arguments
 #'
-#' @details \code{as.moduleData} constructs a moduleData object which is an icrData object where the rows of \code{e_data} correspond to unique module nodes.
+#' @details \code{as.moduleData} constructs a moduleData object which is an ftmsData object where the rows of \code{e_data} correspond to unique module nodes.
 #' @rdname as.moduleData
 # @param node_label_cname character string specifying the name of the column containing the display name for each module node, in \code{e_meta}
 
@@ -500,6 +500,6 @@ as.moduleData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cnam
 
   attr(res, "DB") <- db
   
-  class(res) <- c("moduleData", "icrData")
+  class(res) <- c("moduleData", "ftmsData")
   return(res)
 }

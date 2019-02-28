@@ -4,13 +4,13 @@
 \alias{assign_elemental_composition}
 \title{Assign elemental composition to each peak/mass}
 \usage{
-assign_elemental_composition(icrData)
+assign_elemental_composition(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
-an object of the same class as \code{icrData} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
+an object of the same class as \code{ftmsObj} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
 }
 \description{
 Assigns an elemental composition class to each peak/mass, where possible, based which of: Carbon, Hydrogen, Oxygen, Nitrogen, Sulfur, and Phosporus are present in the peak/mass formula

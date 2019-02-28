@@ -4,10 +4,10 @@
 \alias{getOCRatioColName}
 \title{Get the name of the O:C ratio column}
 \usage{
-getOCRatioColName(icrData)
+getOCRatioColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of O:C ratio column

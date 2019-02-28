@@ -10,7 +10,7 @@ test_that("basic tests on divideBySample", {
   data("exampleProcessedPeakData")
   
   samples <- unique(exampleProcessedPeakData$f_data[, getFDataColName(exampleProcessedPeakData)])
-  sampleDdo <- divideBySample(icrData = exampleProcessedPeakData)
+  sampleDdo <- divideBySample(ftmsObj = exampleProcessedPeakData)
   
   expect_equal(length(sampleDdo), length(samples))
   expect_true(inherits(sampleDdo, "ddo"))

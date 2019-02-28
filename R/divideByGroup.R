@@ -1,27 +1,27 @@
-#' Divide icrData by group to form a ddo
+#' Divide an ftmsData object by group to form a ddo
 #' 
-#' Construct a \code{\link{ddo}} from an \code{icrData} object by dividing
+#' Construct a \code{\link{ddo}} from an \code{ftmsData} object by dividing
 #' by group. The resulting object may be used with Trelliscope to make
 #' plots for each group. The input data must have a \code{group_DF} attribute
 #' defining the groups.
 #' 
-#' @param icrData icrData object
-#' @return a ddo where each division is a subset of \code{icrData} corresponding
+#' @param ftmsObj ftmsData object
+#' @return a ddo where each division is a subset of \code{ftmsObj} corresponding
 #'         to a single group
 #' @seealso \code{\link{ddo}}
 #' @export
-divideByGroup <- function(icrData) {
+divideByGroup <- function(ftmsObj) {
   require(datadr)
-  sample.colname <- getFDataColName(icrData)
-  samples <- as.character(icrData$f_data[, sample.colname])
-  groupDF <- getGroupDF(icrData)
+  sample.colname <- getFDataColName(ftmsObj)
+  samples <- as.character(ftmsObj$f_data[, sample.colname])
+  groupDF <- getGroupDF(ftmsObj)
   if (is.null(groupDF)) stop("This object does not have group designation information")
 
-  edata_nonsample_cols <- setdiff(colnames(icrData$e_data), samples)
+  edata_nonsample_cols <- setdiff(colnames(ftmsObj$e_data), samples)
   
   result <- lapply(unique(groupDF$Group), function(group_name) {
 
-    val <- subset(icrData, groups=group_name)
+    val <- subset(ftmsObj, groups=group_name)
     
     # datadr attributes:
     attr(val, "split") <- data.frame(Group=group_name, stringsAsFactors = FALSE)

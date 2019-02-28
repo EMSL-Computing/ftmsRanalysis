@@ -9,13 +9,13 @@ pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
 plotPrincipalCoordinates(pcoaMat)
 
 # default plot colored by groups
-plotPrincipalCoordinates(pcoaMat, icrData=exampleProcessedPeakData)
+plotPrincipalCoordinates(pcoaMat, ftmsObj=exampleProcessedPeakData)
 
 # different coordinate axes
 plotPrincipalCoordinates(pcoaMat, x=1, y=3)
 
 # different coordinate axes colored by groups
-plotPrincipalCoordinates(pcoaMat, x=3, y=4, icrData=exampleProcessedPeakData)
+plotPrincipalCoordinates(pcoaMat, x=3, y=4, ftmsObj=exampleProcessedPeakData)
 
 # customize axes labels and title
 plotPrincipalCoordinates(pcoaMat, xlabel="Custom x-axis label", ylabel="Custom y-axis label", title="My Title")
@@ -25,12 +25,12 @@ plotPrincipalCoordinates(pcoaMat, xlabel="Custom x-axis label", includeR2OnAxes 
 
 
 #should fail: x is too high
-plotPrincipalCoordinates(pcoaMat, x=7, y=3, icrData=exampleProcessedPeakData)
+plotPrincipalCoordinates(pcoaMat, x=7, y=3, ftmsObj=exampleProcessedPeakData)
 
 #should fail: y is not numeric
-plotPrincipalCoordinates(pcoaMat, x=1, y="3", icrData=exampleProcessedPeakData)
+plotPrincipalCoordinates(pcoaMat, x=1, y="3", ftmsObj=exampleProcessedPeakData)
 
-#should fail: icrData is invalid
-plotPrincipalCoordinates(pcoaMat, x=1, y=3, icrData="hello")
+#should fail: ftmsObj is invalid
+plotPrincipalCoordinates(pcoaMat, x=1, y=3, ftmsObj="hello")
 
 

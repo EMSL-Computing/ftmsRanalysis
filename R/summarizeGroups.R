@@ -4,12 +4,12 @@
 #' function provided must take a data frame with one or more columns corresponding to 
 #' samples. It must return a data frame with the same number of rows and one column. 
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundData' or a ddo of icrData objects 
+#' @param ftmsObj an object of class 'peakData' or 'compoundData' or a ddo of ftmsData objects 
 #' (e.g. the output of \code{\link{divideByGroup}})
-#' @param summary_functions vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
+#' @param summary_functions vector of summary function names to apply to each row of \code{ftmsObj$e_data} for each group. Valid
 #' summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. 
-#' @return If the input is an icrData object, the result will be a new \code{icrData} object where each provided summary function will be applied to each group found in
-#' \code{getGroupDF(icrData)}. If \code{getGroupDF(icrData) == null} the function will assume all samples belong to
+#' @return If the input is an ftmsData object, the result will be a new \code{ftmsData} object where each provided summary function will be applied to each group found in
+#' \code{getGroupDF(ftmsObj)}. If \code{getGroupDF(ftmsObj) == null} the function will assume all samples belong to
 #' a single group. If the input is a ddo the result will be a ddo where each value is the result of applying
 #' \code{summarizeGroups} to each value of the input.
 #' 
@@ -23,28 +23,28 @@
 #' 
 #' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
-summarizeGroups <- function(icrData, summary_functions) {
+summarizeGroups <- function(ftmsObj, summary_functions) {
   require(datadr)
-  if (!(inherits(icrData, "peakData") | !inherits(icrData, "compoundData")) & !inherits(icrData, "ddo") )
-      stop("icrData must be of type peakData, compoundData, or a ddo containing those objects")
-  if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison") | inherits(icrData, "comparisonSummary")) 
-    stop("icrData cannot be a groupSummary, groupComparison or comparisonSummary object")
+  if (!(inherits(ftmsObj, "peakData") | !inherits(ftmsObj, "compoundData")) & !inherits(ftmsObj, "ddo") )
+      stop("ftmsObj must be of type peakData, compoundData, or a ddo containing those objects")
+  if (inherits(ftmsObj, "groupSummary") | inherits(ftmsObj, "groupComparison") | inherits(ftmsObj, "comparisonSummary")) 
+    stop("ftmsObj cannot be a groupSummary, groupComparison or comparisonSummary object")
   if (missing(summary_functions)) stop("summary_function must be provided")
   if (is.vector(summary_functions)) summary_functions <- as.list(summary_functions)
   if (!is.list(summary_functions)) stop("summary_function must be a list")
   
-  if (inherits(icrData, "ddo")) {
-    res <- drPersist(addTransform(icrData, function(v) {
+  if (inherits(ftmsObj, "ddo")) {
+    res <- drPersist(addTransform(ftmsObj, function(v) {
       fticRanalysis:::.summarizeGroupsInternal(v, summary_functions)
     }))
   } else {
-    res <- .summarizeGroupsInternal(icrData, summary_functions)
+    res <- .summarizeGroupsInternal(ftmsObj, summary_functions)
   }
   return(res)
 }
   
-# Internal only function for use on 1 icrData object not a ddo of them
-.summarizeGroupsInternal <- function(icrData, summary_functions) {
+# Internal only function for use on 1 ftmsData object not a ddo of them
+.summarizeGroupsInternal <- function(ftmsObj, summary_functions) {
 
   # Get function objects from names
   summary_func_names <- as.vector(unlist(summary_functions))
@@ -63,25 +63,25 @@ summarizeGroups <- function(icrData, summary_functions) {
   #   names(summary_functions)[ind] <- unlist(lapply(summary_functions[ind], function(f) attr(f, "function_name")))
   # }
 
-  data_scale <- getDataScale(icrData)
-  groupDF <- getGroupDF(icrData)
+  data_scale <- getDataScale(ftmsObj)
+  groupDF <- getGroupDF(ftmsObj)
   if (is.null(groupDF)) {
-    samp_names <- unique(icrData$f_data[, getFDataColName(icrData)])
+    samp_names <- unique(ftmsObj$f_data[, getFDataColName(ftmsObj)])
     groupDF <- data.frame(Sample=samp_names, Group=samp_names)
-    colnames(groupDF)[1] <- getFDataColName(icrData)
+    colnames(groupDF)[1] <- getFDataColName(ftmsObj)
   }
   
   # make sure all samples in groupDF are represented in e_data
-  if (!all(groupDF[, getFDataColName(icrData)] %in% colnames(icrData$e_data))) {
+  if (!all(groupDF[, getFDataColName(ftmsObj)] %in% colnames(ftmsObj$e_data))) {
     stop(sprintf("Columns referenced in groupDF object are not found in e_data: %s", 
-                 paste(setdiff(colnames(icrData$e_meta), groupDF[, getFDataColName(icrData)]), collapse=", ")))
+                 paste(setdiff(colnames(ftmsObj$e_meta), groupDF[, getFDataColName(ftmsObj)]), collapse=", ")))
   }
 
   # for each group of sample columns, apply all summary functions and recombine columns
   edata_cols <- lapply(unique(groupDF$Group), function(grp_name) {
-    samp_cols <- as.character(dplyr::filter(groupDF, Group == grp_name)[, getFDataColName(icrData)])
+    samp_cols <- as.character(dplyr::filter(groupDF, Group == grp_name)[, getFDataColName(ftmsObj)])
     grp_cols <- lapply(summary_functions, function(f) {
-      f(icrData$e_data[,samp_cols], data_scale)
+      f(ftmsObj$e_data[,samp_cols], data_scale)
     })
     grp_cols <- do.call(cbind, grp_cols)
     names(grp_cols) <- make.names(paste0(grp_name, "_", colnames(grp_cols)))
@@ -95,21 +95,21 @@ summarizeGroups <- function(icrData, summary_functions) {
   
   # edata_cols <- unlist(edata_cols, recursive = FALSE)
   
-  new_edata <- data.frame(icrData$e_data[, getEDataColName(icrData)], do.call(cbind, edata_cols))
-  colnames(new_edata)[1] <- getEDataColName(icrData)
+  new_edata <- data.frame(ftmsObj$e_data[, getEDataColName(ftmsObj)], do.call(cbind, edata_cols))
+  colnames(new_edata)[1] <- getEDataColName(ftmsObj)
 
   # new_fdata <- data.frame(Group.Summary.Column=names(edata_cols), Num.Samples=length(samp_cols), 
   #                            Summary.Function.Name=NA, stringsAsFactors = FALSE)
   
-  if (inherits(icrData, "peakData")) {
-    res <- as.peakData(new_edata, new_fdata, icrData$e_meta, getEDataColName(icrData), "Group_Summary_Column", getMassColName(icrData), mf_cname=getMFColName(icrData) )
-  } else if (inherits(icrData, "compoundData")) {
-      res <- as.compoundData(new_edata, new_fdata, icrData$e_meta, getEDataColName(icrData), "Group_Summary_Column", getMassColName(icrData), getCompoundColName(icrData) )
+  if (inherits(ftmsObj, "peakData")) {
+    res <- as.peakData(new_edata, new_fdata, ftmsObj$e_meta, getEDataColName(ftmsObj), "Group_Summary_Column", getMassColName(ftmsObj), mf_cname=getMFColName(ftmsObj) )
+  } else if (inherits(ftmsObj, "compoundData")) {
+      res <- as.compoundData(new_edata, new_fdata, ftmsObj$e_meta, getEDataColName(ftmsObj), "Group_Summary_Column", getMassColName(ftmsObj), getCompoundColName(ftmsObj) )
   }
 
   # copy cnames  attributes to new object
   cnames.new <- attr(res, "cnames")
-  cnames.old <- attr(icrData, "cnames")
+  cnames.old <- attr(ftmsObj, "cnames")
   for (cc in setdiff(names(cnames.old), c("edata_cname", "fdata_cname", "mass_cname", "mf_cname", "compound_cname"))) {
     if (!is.null(cnames.old[[cc]]))
       cnames.new[[cc]] <- cnames.old[[cc]]
@@ -118,12 +118,12 @@ summarizeGroups <- function(icrData, summary_functions) {
 
   # copy attributes from original object to new
   diffAttrNames <- c("cnames", "class", "names", "split", "group_DF")  #attribute names that should not be the same in the result object
-  for (attr_name in setdiff(names(attributes(icrData)), diffAttrNames)) {
-    attr(res, attr_name) <- attr(icrData, attr_name)
+  for (attr_name in setdiff(names(attributes(ftmsObj)), diffAttrNames)) {
+    attr(res, attr_name) <- attr(ftmsObj, attr_name)
   }
   
   new_group_df <- dplyr::select(new_fdata, Group_Summary_Column, Group) %>% 
-    dplyr::left_join(dplyr::select(groupDF, -dplyr::one_of(getFDataColName(icrData))), by="Group") %>%
+    dplyr::left_join(dplyr::select(groupDF, -dplyr::one_of(getFDataColName(ftmsObj))), by="Group") %>%
     unique()
   attr(new_group_df, "main_effects") <- attr(groupDF, "main_effects")
   res <- fticRanalysis:::setGroupDF(res, new_group_df)
@@ -134,8 +134,8 @@ summarizeGroups <- function(icrData, summary_functions) {
   # set data scale
   res <- fticRanalysis:::setDataScale(res, "summary")
   
-  res <- fticRanalysis:::setInstrumentType(res, getInstrumentType(icrData))
-  if (!is.null(getDatabase(icrData))) res <- fticRanalysis:::setDatabase(res, getDatabase(icrData))
+  res <- fticRanalysis:::setInstrumentType(res, getInstrumentType(ftmsObj))
+  if (!is.null(getDatabase(ftmsObj))) res <- fticRanalysis:::setDatabase(res, getDatabase(ftmsObj))
   
   
   return(res)

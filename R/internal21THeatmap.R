@@ -1,39 +1,39 @@
 # Internal only function to produce a heatmap for 21T data (Kendrick and Van Krevelen Plots)
-# icrData: icrData object
+# ftmsObj: ftmsData object
 # xCName/yCName: column names for x and y data
 # xBreaks/yBreaks: either a number of breaks, or a vector of break endpoints
 # colorPal: either a name of an RColorBrewer palette or a color palette function (e.g. scales package)
 #     that maps the range [0,1] to colors
 # title/xlabel/ylabel: plot and axis labels
 # mouseovers: TRUE/FALSE, should mouseovers be constructed? Uses xlabel, ylabel values.
-.internal21THeatmap <- function(icrData, xCName, yCName, xBreaks=100, yBreaks=100, colorPal=NA, 
+.internal21THeatmap <- function(ftmsObj, xCName, yCName, xBreaks=100, yBreaks=100, colorPal=NA, 
                                 title=NA, xlabel=NA, ylabel=NA, mouseovers=TRUE) {
   
-  # Get the two columns of data to plot from icrData
-  if (xCName %in% colnames(icrData$e_data)) {
-    plot_data <- icrData$e_data[, c(getEDataColName(icrData), xCName)]
-  } else if (xCName %in% colnames(icrData$e_meta)) {
-    plot_data <- icrData$e_meta[, c(getEDataColName(icrData), xCName)]
+  # Get the two columns of data to plot from ftmsObj
+  if (xCName %in% colnames(ftmsObj$e_data)) {
+    plot_data <- ftmsObj$e_data[, c(getEDataColName(ftmsObj), xCName)]
+  } else if (xCName %in% colnames(ftmsObj$e_meta)) {
+    plot_data <- ftmsObj$e_meta[, c(getEDataColName(ftmsObj), xCName)]
   } else {
     stop("xCName must be a column name in e_data or e_meta")
   }
   if (!is.numeric(plot_data[, xCName])) stop("xCName must be a numeric column")
   
-  if (yCName %in% colnames(icrData$e_data)) {
-    plot_data <- dplyr::full_join(plot_data, icrData$e_data[, c(getEDataColName(icrData), yCName)], by=getEDataColName(icrData))
-  } else if (yCName %in% colnames(icrData$e_meta)) {
-    plot_data <- dplyr::full_join(plot_data, icrData$e_meta[, c(getEDataColName(icrData), yCName)], by=getEDataColName(icrData))
+  if (yCName %in% colnames(ftmsObj$e_data)) {
+    plot_data <- dplyr::full_join(plot_data, ftmsObj$e_data[, c(getEDataColName(ftmsObj), yCName)], by=getEDataColName(ftmsObj))
+  } else if (yCName %in% colnames(ftmsObj$e_meta)) {
+    plot_data <- dplyr::full_join(plot_data, ftmsObj$e_meta[, c(getEDataColName(ftmsObj), yCName)], by=getEDataColName(ftmsObj))
   } else {
     stop("yCName must be a column name in e_data or e_meta")
   }
   if (!is.numeric(plot_data[, yCName])) stop("yCName must be a numeric column")
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
-  samp_cnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-  ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData))[,1] > 0
+  samp_cnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
+  ind <- fticRanalysis:::n_present(ftmsObj$e_data[,samp_cnames], getDataScale(ftmsObj))[,1] > 0
   
-  obs_peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
-  plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs_peaks), ]
+  obs_peaks <- as.character(ftmsObj$e_data[ind, getEDataColName(ftmsObj)])
+  plot_data <- plot_data[which(plot_data[,getEDataColName(ftmsObj)] %in% obs_peaks), ]
   xData <- dplyr::pull(plot_data, xCName)
   yData <- dplyr::pull(plot_data, yCName)
   

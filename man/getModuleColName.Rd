@@ -4,10 +4,10 @@
 \alias{getModuleColName}
 \title{Get the name of the module column}
 \usage{
-getModuleColName(icrData)
+getModuleColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of mass column

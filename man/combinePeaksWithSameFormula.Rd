@@ -2,12 +2,12 @@
 % Please edit documentation in R/combinePeaksWithSameFormula.R
 \name{combinePeaksWithSameFormula}
 \alias{combinePeaksWithSameFormula}
-\title{Combine rows of icrData with the same mass formula}
+\title{Combine rows of an ftmsData object with the same mass formula}
 \usage{
-combinePeaksWithSameFormula(icrData)
+combinePeaksWithSameFormula(ftmsObj)
 }
 \arguments{
-\item{icrData}{data of type \code{peakData}}
+\item{ftmsObj}{data of type \code{peakData}}
 }
 \value{
 \code{peakData} object where now two rows of \code{e_data} map to the same mass formula
@@ -15,7 +15,7 @@ combinePeaksWithSameFormula(icrData)
 \description{
 If multiple peaks are mapped to the same mass formula it can cause problems 
 or inconsistencies when mapping data to a biological database. The
-\code{combinePeaksWithSameFormula} combines rows of \code{icrData$e_data}
+\code{combinePeaksWithSameFormula} combines rows of \code{ftmsObj$e_data}
 that map to the same mass formula:
 * If data is abundance: values are summed for each column
 * If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale

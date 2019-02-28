@@ -4,13 +4,13 @@
 \alias{parse_mf}
 \title{Parse Molecular Formulae to Obtain Elemental Counts}
 \usage{
-parse_mf(icrData)
+parse_mf(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'icrData', typically a result of \code{\link{as.icrData}}.}
+\item{ftmsObj}{an object of class 'ftmsData', typically a result of \code{\link{as.pealData}}.}
 }
 \value{
-an object of class 'icrData' with a column in \code{e\_meta} giving the molecular formula.
+an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecular formula.
 }
 \description{
 Construct elemental count columns based on provided molecular formulae

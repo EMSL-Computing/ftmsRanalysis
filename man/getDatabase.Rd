@@ -2,12 +2,12 @@
 % Please edit documentation in R/attributes_methods.R
 \name{getDatabase}
 \alias{getDatabase}
-\title{Get database associated with object}
+\title{Get database associated with an ftmsData object}
 \usage{
-getDatabase(icrData)
+getDatabase(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 database (KEGG or MetaCyc)

@@ -1,4 +1,4 @@
-#' Combine multiple distributed data objects of icrData
+#' Combine multiple distributed data objects of ftmsData
 #' 
 #' Combine multiple distributed data objects (ddo) into a single ddo
 #' for further analysis or visualizations. The inputs to this function are
@@ -33,8 +33,8 @@ concat <- function(...) {
   if (length(parms) == 0) return(NULL)
   if (!all(unlist(lapply(parms, function(x) inherits(x, "ddo"))))) 
     stop("input values must be ddo objects")
-  if (!all(unlist(lapply(parms, function(x) inherits(x[[1]]$value, "icrData") | inherits(x[[1]]$value, "groupComparison"))))) 
-    stop("input values must be distributed data objects of icrData or groupComparison objects")
+  if (!all(unlist(lapply(parms, function(x) inherits(x[[1]]$value, "ftmsData") | inherits(x[[1]]$value, "groupComparison"))))) 
+    stop("input values must be distributed data objects of ftmsData or groupComparison objects")
   
   if (length(parms) == 1) return(parms[[1]])
   

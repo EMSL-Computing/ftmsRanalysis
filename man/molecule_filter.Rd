@@ -4,10 +4,10 @@
 \alias{molecule_filter}
 \title{Molecule filter object}
 \usage{
-molecule_filter(icrData)
+molecule_filter(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
 Object of class 'moleculeFilt' that contains the molecule identifier and the number of samples for which the molecule was measured (not 0). This can be used in conjunction with \code{\link{applyFilt}} to remove peaks observed in fewer than \code{min_num} samples.

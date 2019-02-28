@@ -4,17 +4,17 @@
 \alias{divideByGroupComparisons}
 \title{Construct a ddo of group comparisons}
 \usage{
-divideByGroupComparisons(icrData, comparisons, control = NULL)
+divideByGroupComparisons(ftmsObj, comparisons, control = NULL)
 }
 \arguments{
-\item{icrData}{icrData object}
+\item{ftmsObj}{ftmsData object}
 
 \item{comparisons}{dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, 'one-factor' will create a matrix of pairwise comparisons to be made where only one 'main_effect' changes between the two groups, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.}
 
 \item{control}{if wanting to only compare against a control, must specify which group or sample is the control}
 }
 \value{
-a distributed data object where each division consists of a subset of \code{icrData} with
+a distributed data object where each division consists of a subset of \code{ftmsObj} with
 data from just two groups.
 }
 \description{

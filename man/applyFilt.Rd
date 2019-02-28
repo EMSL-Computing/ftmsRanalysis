@@ -6,33 +6,33 @@
 \alias{applyFilt.massFilt}
 \alias{applyFilt.formulaFilt}
 \alias{applyFilt.emetaFilt}
-\title{Apply a S3 filter  object to an icrData S3 object}
+\title{Apply a S3 filter  object to an ftmsData S3 object}
 \usage{
-applyFilt(filter_object, icrData, ...)
+applyFilt(filter_object, ftmsObj, ...)
 
-\method{applyFilt}{moleculeFilt}(filter_object, icrData, min_num = 2)
+\method{applyFilt}{moleculeFilt}(filter_object, ftmsObj, min_num = 2)
 
-\method{applyFilt}{massFilt}(filter_object, icrData, min_mass = 200,
+\method{applyFilt}{massFilt}(filter_object, ftmsObj, min_mass = 200,
   max_mass = 900)
 
-\method{applyFilt}{formulaFilt}(filter_object, icrData,
+\method{applyFilt}{formulaFilt}(filter_object, ftmsObj,
   remove = "NoFormula")
 
-\method{applyFilt}{emetaFilt}(filter_object, icrData, min_val = NULL,
+\method{applyFilt}{emetaFilt}(filter_object, ftmsObj, min_val = NULL,
   max_val = NULL, cats = NULL, na.rm = TRUE)
 }
 \arguments{
 \item{filter_object}{an object of the class 'moleculeFilt' created by  \code{\link{molecule_filter}}}
 
-\item{icrData}{an object of the class \code{icrData} usually created by \code{\link{as.icrData}}}
+\item{ftmsObj}{an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}}
 
 \item{...}{further arguments}
 }
 \value{
-An object of the class \code{icrData} with specified molecules filtered out of the appropriate datasets.
+An object of the class \code{ftmsData} with specified molecules filtered out of the appropriate datasets.
 }
 \description{
-This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{icrData}
+This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{ftmsData}
 }
 \details{
 Various further arguments can be specified depending on the class of the \code{filter_object} being applied.

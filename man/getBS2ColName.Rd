@@ -4,10 +4,10 @@
 \alias{getBS2ColName}
 \title{Get the name of the peak class column based on boundary set 2}
 \usage{
-getBS2ColName(icrData)
+getBS2ColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of peak class column

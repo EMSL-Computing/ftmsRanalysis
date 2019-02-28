@@ -4,12 +4,12 @@
 \alias{one_factor_change}
 \title{Create a list of which pairwise comparisons to make}
 \usage{
-one_factor_change(icrObj, groupDF)
+one_factor_change(ftmsObj, groupDF)
 }
 \arguments{
-\item{groupDF}{group data frame from icrData object}
+\item{ftmsObj}{ftmsData object}
 
-\item{icrDataObj}{icrData object}
+\item{groupDF}{group data frame from ftmsData object}
 }
 \value{
 a list of which pairwise comparisons to make

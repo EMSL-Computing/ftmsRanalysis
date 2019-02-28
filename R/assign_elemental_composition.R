@@ -2,31 +2,31 @@
 #' 
 #' Assigns an elemental composition class to each peak/mass, where possible, based which of: Carbon, Hydrogen, Oxygen, Nitrogen, Sulfur, and Phosporus are present in the peak/mass formula
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' 
-#' @return an object of the same class as \code{icrData} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
+#' @return an object of the same class as \code{ftmsObj} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
 #' 
 #' @author Lisa Bramer
 #' 
 #' @export
 
-assign_elemental_composition <- function(icrData){
+assign_elemental_composition <- function(ftmsObj){
   
-  # check icrData #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
+  # check ftmsObj #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
   # pull e_meta #
-  temp = icrData$e_meta
+  temp = ftmsObj$e_meta
   
   # substitute any digits with nothing #
-  temp$ElComposition = gsub(pattern = "[[:digit:]]", replacement = "", x = temp[,getMFColName(icrData)])
+  temp$ElComposition = gsub(pattern = "[[:digit:]]", replacement = "", x = temp[,getMFColName(ftmsObj)])
   
   # sub e_meta back into data object #
-  icrData$e_meta = temp
+  ftmsObj$e_meta = temp
   
   # assign elcomp cname #
-  icrData = setElCompColName(icrData, "ElComposition")
+  ftmsObj = setElCompColName(ftmsObj, "ElComposition")
   
-  return(icrData)
+  return(ftmsObj)
   
 }

@@ -4,12 +4,12 @@
 \alias{icr_filter_worker}
 \title{Remove items that need to be filtered out}
 \usage{
-icr_filter_worker(filter_object, icrData)
+icr_filter_worker(filter_object, ftmsObj)
 }
 \arguments{
 \item{filter_object}{a list created by the functions above}
 
-\item{icrData}{an object of the class \code{icrData} usually created by \code{\link{as.icrData}}}
+\item{ftmsObj}{an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}}
 }
 \value{
 list

@@ -4,13 +4,13 @@
 \alias{calc_nosc}
 \title{Calculate Nominal Oxidation State of Carbon (NOSC) Values}
 \usage{
-calc_nosc(icrData)
+calc_nosc(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
-an object of the same class as \code{icrData} with a column in \code{e\_meta} giving NOSC values
+an object of the same class as \code{ftmsData} with a column in \code{e\_meta} giving NOSC values
 }
 \description{
 Calculate NOSC values for peaks where empirical formula is available

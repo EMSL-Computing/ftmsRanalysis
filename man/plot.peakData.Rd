@@ -4,11 +4,11 @@
 \alias{plot.peakData}
 \title{Plot method for peakData objects}
 \usage{
-\method{plot}{peakData}(icrData, title = NA, xlabel = NA,
+\method{plot}{peakData}(ftmsObj, title = NA, xlabel = NA,
   ylabel = NA, colorBy = "groups")
 }
 \arguments{
-\item{icrData}{peakData object}
+\item{ftmsObj}{peakData object}
 
 \item{title}{optional title for the plot}
 
@@ -25,7 +25,7 @@ a \code{plotly} graph object
 Depending on the scale of the object provided, this function with either construct
 a barplot of the number of peaks observed for each sample (presence/absence data)
 or boxplot of values of observed peaks per sample (all others). Samples will be 
-colored by group, if grouping information is present in \code{icrData}.
+colored by group, if grouping information is present in \code{ftmsObj}.
 }
 \examples{
 plot(edata_transform(examplePeakData, "log2"))

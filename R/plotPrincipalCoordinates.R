@@ -1,11 +1,11 @@
-#' Plot principal coordinates of icrData samples
+#' Plot principal coordinates of ftmsData samples
 #'
-#' Constructs a scatter plot of any combination of principal coordinates calculated by the \code{\link{getPrincipalCoordinates}} function. If an associated \code{icrData} object is provided with groups defined, the resulting plot will be colored by group membership.
+#' Constructs a scatter plot of any combination of principal coordinates calculated by the \code{\link{getPrincipalCoordinates}} function. If an associated \code{ftmsData} object is provided with groups defined, the resulting plot will be colored by group membership.
 #' 
 #' @param pcoaMat numeric matrix, the output of \code{\link{getPrincipalCoordinates}}
 #' @param x numeric value, which column of \code{pcoaMat} should serve as the x-axis
 #' @param y numeric value, which column of \code{pcoaMat} should serve as the y-axis 
-#' @param icrData optional, if provided points will be colored according to the groups defined in \code{icrData}
+#' @param ftmsObj optional, if provided points will be colored according to the groups defined in \code{ftmsObj}
 #' @param title optional plot title
 #' @param xlabel x-axis label
 #' @param ylabel y-axis label
@@ -16,8 +16,8 @@
 #'
 #' @examples
 #' pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
-#' plotPrincipalCoordinates(pcoaMat, x=2, y=3, icrData=exampleProcessedPeakData)
-plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, icrData=NA, title=NA, 
+#' plotPrincipalCoordinates(pcoaMat, x=2, y=3, ftmsObj=exampleProcessedPeakData)
+plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, ftmsObj=NA, title=NA, 
                                      xlabel=sprintf("Principal Coordinate %d", x), 
                                      ylabel=sprintf("Principal Coordinate %d", y),
                                      includeR2OnAxes=TRUE) {
@@ -26,7 +26,7 @@ plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, icrData=NA, title=NA,
   if (!is.numeric(pcoaMat) | !inherits(pcoaMat, "matrix")) stop("pcoaMat must be a numeric matrix")
   if (!is.numeric(x) | x > ncol(pcoaMat)) stop("x must be a number and must be less than the number of columns in pcoaMat")
   if (!is.numeric(y) | y > ncol(pcoaMat)) stop("y must be a number and must be less than the number of columns in pcoaMat")
-  if (!identical(icrData, NA) & !inherits(icrData, "icrData")) stop("if icrData parameter is provided it must be an object of type icrData")
+  if (!identical(ftmsObj, NA) & !inherits(ftmsObj, "ftmsData")) stop("if ftmsObj parameter is provided it must be an object of type ftmsData")
   
   r2 <- attr(pcoaMat, "R^2")
   cnames <- colnames(pcoaMat)
@@ -35,10 +35,10 @@ plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, icrData=NA, title=NA,
   pcoaMat[, "Sample"] <- rownames(pcoaMat)
   
   parms <- list()
-  if (!identical(icrData, NA)) {
-    if (!is.null(getGroupDF(icrData))) {
-      by=c(Sample=getFDataColName(icrData))
-      suppressWarnings(pcoaMat <- dplyr::left_join(pcoaMat, getGroupDF(icrData), by=by))
+  if (!identical(ftmsObj, NA)) {
+    if (!is.null(getGroupDF(ftmsObj))) {
+      by=c(Sample=getFDataColName(ftmsObj))
+      suppressWarnings(pcoaMat <- dplyr::left_join(pcoaMat, getGroupDF(ftmsObj), by=by))
       parms <- list(color=~Group)
     }
   }

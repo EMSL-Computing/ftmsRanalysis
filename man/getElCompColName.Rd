@@ -4,10 +4,10 @@
 \alias{getElCompColName}
 \title{Get the name of the elemental composition column}
 \usage{
-getElCompColName(icrData)
+getElCompColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of elemental composition column

@@ -1,17 +1,17 @@
-#' Summary of icrData object
+#' Summary of an ftmsData object
 #'
-#' @param icrData object of type icrData
+#' @param ftmsObj object of type ftmsData
 #'
 #' @return list object containing summary statistics
 #' @export
-summary.icrData <- function(icrData) {
+summary.ftmsData <- function(ftmsObj) {
   
   res <- list()
-  samp_names <- as.character(unique(icrData$f_data[, getFDataColName(icrData)]))
+  samp_names <- as.character(unique(ftmsObj$f_data[, getFDataColName(ftmsObj)]))
   res$Samples <- length(samp_names)
-  res$Molecules <- nrow(icrData$e_data)
-  data_vals <- as.matrix(icrData$e_data[, samp_names])
-  if (getDataScale(icrData) == "abundance" | getDataScale(icrData) == "pres") {
+  res$Molecules <- nrow(ftmsObj$e_data)
+  data_vals <- as.matrix(ftmsObj$e_data[, samp_names])
+  if (getDataScale(ftmsObj) == "abundance" | getDataScale(ftmsObj) == "pres") {
     nmissing <- sum(data_vals == 0 | is.na(data_vals))
   } else {
     nmissing <- sum(is.na(data_vals))
@@ -19,8 +19,8 @@ summary.icrData <- function(icrData) {
   res$Percent_Missing <- nmissing/prod(dim(data_vals))*100
   
   #if group_DF attr is present 
-  if(!is.null(attr(icrData, "group_DF"))){
-    group_vec<- attr(icrData, "group_DF")$Group
+  if(!is.null(attr(ftmsObj, "group_DF"))){
+    group_vec<- attr(ftmsObj, "group_DF")$Group
     levels<- unique(group_vec)
     counts <- vector(mode="numeric", length=length(levels))
     
@@ -35,12 +35,12 @@ summary.icrData <- function(icrData) {
     names(newres2) = "N"
     res$Group_Sizes = newres2
   }
-  class(res) <- c("icrDataSummary", "list")
+  class(res) <- c("ftmsDataSummary", "list")
   return(res)
 }
 
 #' @export
-print.icrDataSummary <- function(obj) {
+print.ftmsDataSummary <- function(obj) {
   if(length(obj) == 3){
   cat(sprintf("Samples: %d\nMolecules: %d\nPercent Missing: %.3f%%\n", obj$Samples, obj$Molecules, obj$Percent_Missing))
   }

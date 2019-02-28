@@ -18,7 +18,7 @@ test_that("peakData objects are constructed correctly", {
   expect_true(!is.null(picr$e_meta))
   expect_true(!is.null(picr$f_data))
   expect_true(inherits(picr, "peakData"))
-  expect_true(inherits(picr, "icrData"))
+  expect_true(inherits(picr, "ftmsData"))
   
   expect_equal(getEDataColName(picr), "Mass")
   expect_equal(getFDataColName(picr), "SampleID")

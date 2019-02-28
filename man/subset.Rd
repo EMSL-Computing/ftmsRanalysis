@@ -5,22 +5,22 @@
 \alias{subset.compoundData}
 \alias{subset.reactionData}
 \alias{subset.moduleData}
-\title{Subset an icrData object according to sample or group}
+\title{Subset an ftmsData object according to sample or group}
 \usage{
-\method{subset}{peakData}(icrData, samples = NA, groups = NA,
+\method{subset}{peakData}(ftmsObj, samples = NA, groups = NA,
   check_rows = FALSE)
 
-\method{subset}{compoundData}(icrData, samples = NA, groups = NA,
+\method{subset}{compoundData}(ftmsObj, samples = NA, groups = NA,
   check_rows = FALSE)
 
-\method{subset}{reactionData}(icrData, samples = NA, groups = NA,
+\method{subset}{reactionData}(ftmsObj, samples = NA, groups = NA,
   check_rows = FALSE)
 
-\method{subset}{moduleData}(icrData, samples = NA, groups = NA,
+\method{subset}{moduleData}(ftmsObj, samples = NA, groups = NA,
   check_rows = FALSE)
 }
 \arguments{
-\item{icrData}{icrData object}
+\item{ftmsObj}{ftmsData object}
 
 \item{samples}{sample ID or vector of sample IDs}
 
@@ -29,11 +29,11 @@
 \item{check_rows}{logical indicating whether to remove peaks that have no observations after subsetting}
 }
 \value{
-icrData object that contains only the subset of the original
+ftmsData object that contains only the subset of the original
         data related to the samples or groups provided
 }
 \description{
-Constructs a new icrData object that is a subset of the original
+Constructs a new ftmsData object that is a subset of the original
 with only the specified samples or group. Exactly one of \code{samples}
 or \code{group} must be specified.
 }

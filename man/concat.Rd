@@ -2,7 +2,7 @@
 % Please edit documentation in R/concat.R
 \name{concat}
 \alias{concat}
-\title{Combine multiple distributed data objects of icrData}
+\title{Combine multiple distributed data objects of ftmsData}
 \usage{
 concat(...)
 }

@@ -2,12 +2,12 @@
 % Please edit documentation in R/attributes_methods.R
 \name{getInstrumentType}
 \alias{getInstrumentType}
-\title{Get instrument_type attribute from icrData object}
+\title{Get instrument_type attribute from ftmsData object}
 \usage{
-getInstrumentType(icrData)
+getInstrumentType(ftmsObj)
 }
 \arguments{
-\item{icrData}{icrData object}
+\item{ftmsObj}{ftmsData object}
 }
 \value{
 character string indicating the instrument type

@@ -4,10 +4,10 @@
 \alias{getOxygenColName}
 \title{Get the name of the oxygen column}
 \usage{
-getOxygenColName(icrData)
+getOxygenColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of oxygen column

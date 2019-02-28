@@ -2,7 +2,7 @@
 #' 
 #' Calculate a variety of typical values for FTICR data associated with each peak/compound where empirical formula is available
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param calc_fns a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.
 #' 
 #' @details The calculations are as follows for each of the `calc_fns`: 
@@ -32,17 +32,17 @@
 #' @references Errata: Koch, B. P., & Dittmar, T. (2016). From mass to structure: an aromaticity index for high-resolution mass data of natural organic matter. Rapid communications in mass spectrometery, 30(1), 250. DOI: 10.1002/rcm.7433
 #' @references LaRowe and Van Cappellen, 2011, "Degradation of natural organic matter: A thermodynamic analysis". Geochimica et Cosmochimica Acta. 75.
 #' 
-#' @return an object of the same class as \code{icrData} with columns in \code{e_meta} giving the newly calculated values
+#' @return an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving the newly calculated values
 #'  
 #' @author Kelly Stratton
 #' @export
 
-compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")){
+compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")){
   
   ## initial checks ##
   
-  # check icrData #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
+  # check ftmsObj #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
   # checks for calc_fns #
   valid_fns <- c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")
@@ -55,9 +55,9 @@ compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
   for(i in 1:length(calc_fns)){
     # set f to the function that is named in the ith element of compound_calcs # 
     f <- get(as.character(calc_fns[i]), envir=asNamespace("fticRanalysis"), mode="function")
-    icrData <- f(icrData)
+    ftmsObj <- f(ftmsObj)
   }
   
-  return(icrData)
+  return(ftmsObj)
   
 }
