@@ -11,16 +11,16 @@
 #' It is recommended to call the \code{combinePeaksWithSameFormula} function
 #' before using \code{mapPeaksToCompounds}.
 #'
-#' @param icrData data of type \code{peakIcrData}
+#' @param icrData data of type \code{peakData}
 #'
-#' @return \code{peakIcrData} object where now two rows of \code{e_data} map to the same mass formula
+#' @return \code{peakData} object where now two rows of \code{e_data} map to the same mass formula
 #' @export
 #'
 #' @examples
-#' new_data <- combinePeaksWithSameFormula(peakIcrProcessed)
+#' new_data <- combinePeaksWithSameFormula(exampleProcessedPeakData)
 combinePeaksWithSameFormula <- function(icrData) {
-  if (!inherits(icrData, "peakIcrData") ) {
-    stop("icrData must be an object of type peakIcrData")
+  if (!inherits(icrData, "peakData") ) {
+    stop("icrData must be an object of type 'peakData'")
   }
   if (is.null(getMFColName(icrData))) {
     stop("mass formula column name is not set")
@@ -35,7 +35,7 @@ combinePeaksWithSameFormula <- function(icrData) {
   }
   
   # determine which rows of e_data need to be combined
-  if (inherits(icrData, "peakIcrData")) {
+  if (inherits(icrData, "peakData")) {
     mf_col <- getMFColName(icrData)
     massMFComb <- dplyr::select_(icrData$e_meta, getEDataColName(icrData), getMassColName(icrData), getMFColName(icrData)) %>%
       dplyr::rename_(Mass=getMassColName(icrData), MF=getMFColName(icrData)) %>%

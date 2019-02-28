@@ -9,7 +9,7 @@
 #'
 #' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
 #' 
-#' @return a function that may be applied to objects of type \code{peakIcrData} and \code{groupSummary}
+#' @return a function that may be applied to objects of type \code{peakData} and \code{groupSummary}
 #' @export
 #'
 #' @examples

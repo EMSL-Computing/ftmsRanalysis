@@ -15,7 +15,7 @@ parse_mf <- function(icrData){
   
 
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
   
   # check that icrData doesn't already have cnames specified for elemental counts in e_meta #
   if(!is.null(getCarbonColName(icrData)) & !is.null(getHydrogenColName(icrData)) & !is.null(getOxygenColName(icrData)) & !is.null(getNitrogenColName(icrData)) & !is.null(getSulfurColName(icrData)) &!is.null(getPhosphorusColName(icrData))) stop("c_cname, h_cname, n_cname, o_cname, s_cname, and p_cname were already specified and will be overwritten")

@@ -15,7 +15,7 @@
 assign_mf <- function(icrData, metacyc=FALSE){
   
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
   
   # check that icrData doesn't already have cnames specified for mf in e_meta #
   if(!is.null(getMFColName(icrData))) message("mf_cname was already specified and will be overwritten")

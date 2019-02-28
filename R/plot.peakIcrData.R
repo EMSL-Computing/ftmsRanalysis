@@ -1,11 +1,11 @@
-#' Plot method for peakIcrData objects
+#' Plot method for peakData objects
 #' 
 #' Depending on the scale of the object provided, this function with either construct
 #' a barplot of the number of peaks observed for each sample (presence/absence data)
 #' or boxplot of values of observed peaks per sample (all others). Samples will be 
 #' colored by group, if grouping information is present in \code{icrData}.
 #'
-#' @param icrData peakIcrData object
+#' @param icrData peakData object
 #' @param title optional title for the plot
 #' @param xlabel optional label for X axis, if not provided "Sample" will be used
 #' @param ylabel optional label for Y axis, if not provided a label will be constructed based on data scale (e.g. "Abundance" or "Number Observed")
@@ -15,12 +15,12 @@
 #' @export
 #'
 #' @examples
-#' plot(edata_transform(peakIcrData, "log2"))
-#' plot(edata_transform(peakIcrProcessed, "pres"))
-plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="groups") {
+#' plot(edata_transform(examplePeakData, "log2"))
+#' plot(edata_transform(exampleProcessedPeakData, "pres"))
+plot.peakData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="groups") {
 
   # Tests
-  if (!inherits(icrData, "peakIcrData")) stop("icrData must be of type peakIcrData")
+  if (!inherits(icrData, "peakData")) stop("icrData must be of type 'peakData'")
   if (inherits(icrData, "groupSummary") | inherits(icrData, "comparisonSummary")) {
     stop("Cannot use this plotting function for 'groupSummary' and 'comparisonSummary' data")
   }

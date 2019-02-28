@@ -1,13 +1,13 @@
-# Print methods for peakIcrData, compoundIcrData, reactionIcrData and moduleIcrData
+# Print methods for peakData, compoundIcrData, reactionIcrData and moduleIcrData
 
 #' @export
-print.peakIcrData <- function(picr) {
-  if (!inherits(picr, "peakIcrData")) stop("Not a peakIcrData object")
+print.peakData <- function(picr) {
+  if (!inherits(picr, "peakData")) stop("Not a peakData object")
   if (is.null(picr) | all(is.na(picr))) {
     print(picr)
     invisible(picr)
   }
-  res <- c("peakIcrData object", 
+  res <- c("peakData object", 
            sprintf("# Peaks: %d", nrow(picr$e_data)),
            sprintf("# Samples: %d", nrow(picr$f_data)))
   

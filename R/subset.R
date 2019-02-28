@@ -12,9 +12,9 @@
 #'         data related to the samples or groups provided
 #' @rdname subset
 #' @export
-subset.peakIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "peakIcrData")) {
-    stop("icrData must be of type peakIcrData")
+subset.peakData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(icrData, "peakData")) {
+    stop("icrData must be of type peakData")
   }
   
   result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)

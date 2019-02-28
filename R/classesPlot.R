@@ -2,7 +2,7 @@
 #' 
 #' Constructs stacked bar plot to look at the percentage of each class in the data
 #' 
-#' @param icrData icrData object of class peakIcrData or compoundIcrData
+#' @param icrData icrData object of class peakData or compoundIcrData
 #' @param xaxis x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
 #'                colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).
 #' @param ylabel y axis label, default is "Density"
@@ -20,7 +20,7 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
   
   # Initial Checks #
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
   
   
   if(is.null(xaxis)){

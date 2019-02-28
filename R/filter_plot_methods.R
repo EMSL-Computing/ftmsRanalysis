@@ -107,7 +107,7 @@ plot.emetaFilt <- function(filter_obj, min_val = NA, max_val = NA, cats = NA, na
 #' @author Amanda White
 #'
 #' @examples
-#' filter_obj <- formula_filter(peakIcrData)
+#' filter_obj <- formula_filter(examplePeakData)
 #' plot(filter_obj, remove='NoFormula')
 plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabel="Count") {
   
@@ -168,7 +168,7 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
 #' @author Amanda White
 #'
 #' @examples
-#' filter_obj <- mass_filter(peakIcrData)
+#' filter_obj <- mass_filter(examplePeakData)
 #' plot(filter_obj, min_mass = 200, max_mass = 800)
 plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count") {
   fticRanalysis:::.filterNumericRangePlot(filter_obj, "Mass", min_mass, max_mass, title, xlabel, ylabel)
@@ -268,7 +268,7 @@ plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel
 #' @author Amanda White
 #'
 #' @examples
-#' filter_obj <- molecule_filter(peakIcrData)
+#' filter_obj <- molecule_filter(examplePeakData)
 #' plot(filter_obj, min_num=2)
 plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Minimum Number of Samples for which a Peak is Observed", ylabel="Number of Peaks") {
   

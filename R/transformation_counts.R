@@ -2,7 +2,7 @@
 #' 
 #' 
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param transformDF a data.frame of known transformations of interest, with a minimum of two columns (in any order): column 'transMass_cname' gives the transformation masses which should be counted and column 'transID_cname' gives a unique identifier (usually character string) for each transformation mass
 #' @param transformDigits the number of decimal places that should be retained for the purposes of matching observed transformations to transformations in \code{transformDF}. Defaults to 4
 #' @param transMass_cname a character string giving the name of the column in \code{transformDF} which gives the mass of the transformations of interest
@@ -17,7 +17,7 @@
 transformation_counts <- function(icrData, transformDF, transformDigits = 4, transMass_cname, transID_cname, transOther_cname = NULL){
   
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
   
   # checks to column names #
   if(class(transMass_cname) != "character" | length(transMass_cname) != 1) stop("'transMass_cname' must be a character string")

@@ -1,8 +1,8 @@
 #' Create e\_meta filter object
 #'
-#' This function returns an emetaFilt object for use with \code{\link{applyFilt}} to filter a 'peakIcrData' or 'compoundIcrData' object based on a column in e\_meta
+#' This function returns an emetaFilt object for use with \code{\link{applyFilt}} to filter a 'peakData' or 'compoundIcrData' object based on a column in e\_meta
 #' 
-#' @param icrData an object of the class 'peakIcrData' or 'compoundIcrData'
+#' @param icrData an object of the class 'peakData' or 'compoundIcrData'
 #' @param cname character string giving name of column in \code{e_meta} which filter should be based upon.
 #'  
 #' @return Object of class 'emetaFilt' that contains the molecule identifier and the e\_meta column of interest. This can be used in conjunction with \code{\link{applyFilt}} to filter peaks outside of a specified range of values.
@@ -30,7 +30,7 @@
 emeta_filter <- function(icrData, cname){
   
   # check that icrData is of appropriate class #
-  if(!inherits(icrData,"peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be of class 'peakIcrData' or 'compoundIcrData'")
+  if(!inherits(icrData,"peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be of class 'peakData' or 'compoundIcrData'")
   
   # check that cname is a valid column name in emeta #
   if(!(cname %in% names(icrData$e_meta))) stop(paste(cname, " is not a column in e_meta", sep = ""))

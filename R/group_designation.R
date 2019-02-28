@@ -2,7 +2,7 @@
 #'
 #' The method assigns each sample to a group, for future analyses, based on the variable(s) specified as main effects.
 #'
-#' @param icrData an object of the class 'icrData', usually created by \code{\link{as.peakIcrData}}.
+#' @param icrData an object of the class 'icrData', usually created by \code{\link{as.peakData}}.
 #' @param main_effects a character vector with no more than two variable names that should be used as main effects to determine group membership of samples. The variable name must match a column name from \code{f_data}.
 #' @param covariates a character vector of no more than two variable names that should be used as covariates in downstream analyses. Covariates are typically variables that a user wants to account for in the analysis but quantifying/examining the effect of the variable is not of interest.
 #' @param var.name logical, if there are more than one main effect, when making a group, include (TRUE) or exclude (FALSE) main effect names in group For example, if TRUE, "Location_M;Crop_S". If FALSE, "M_S". Default is FALSE.

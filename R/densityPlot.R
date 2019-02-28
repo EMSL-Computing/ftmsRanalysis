@@ -1,8 +1,8 @@
-#' Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object
+#' Density plot of quantitative characteristic of peaks for a peakData or compoundIcrData object
 #' 
 #' Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{icrData} object
 #' 
-#' @param icrData icrData object of class peakIcrData or compoundIcrData
+#' @param icrData icrData object of class peakData or compoundIcrData
 #' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
 #' @param samples vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.
 #' @param groups vector of group names to plot. Value of \code{NA} indicates all groups found in \code{icrData} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.
@@ -31,8 +31,8 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
                             xlabel=NA, ylabel=paste0(toupper(substring(yaxis, 1,1)), substring(yaxis,2), sep="")) {
   
   # Test inputs #
-  if (!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) {
-    stop("icrData must be of type peakIcrData or compoundIcrData")
+  if (!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) {
+    stop("icrData must be of type peakData or compoundIcrData")
   }
   
   if (inherits(icrData, "comparisonSummary")) {

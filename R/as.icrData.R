@@ -1,6 +1,6 @@
-#' Convert Data to peakIcrData Class
+#' Convert Data to peakData Class
 #' 
-#' Converts a list object or several data.frames of FTICR data to an object of the class 'peakIcrData'. Objects of the class 'peakIcrData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}. 
+#' Converts a list object or several data.frames of FTICR data to an object of the class 'peakData'. Objects of the class 'peakData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}. 
 #' 
 #' @param e_data a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed peaks and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.
 #' @param f_data a data.frame with \eqn{n} rows. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.
@@ -10,7 +10,7 @@
 #' @param mass_cname character string specifying the name of the column containing the peak/mass identifiers in \code{e_meta}. Note: this is often the same as \code{edata_cname} for cases where mass is used as a unique identifier.
 #' @param ... further arguments
 #'
-#' @details Objects of class 'peakIcrData' contain some attributes that are referenced by downstream functions. These attributes must be specified (or added using available functions) to reference downstream functions for: Kendrick plots, Van Krevelen plots, and functions involving databases.
+#' @details Objects of class 'peakData' contain some attributes that are referenced by downstream functions. These attributes must be specified (or added using available functions) to reference downstream functions for: Kendrick plots, Van Krevelen plots, and functions involving databases.
 #'
 #' If your data contains information about isotopic peaks (e.g. C13), you should specify the attribute \code{isotopic_cname} which gives the column in \code{e_meta} that contains an indicator of yes/no for each peak. Additionally, you must specify the attribute \code{isotopic_notation} which is a character string indicating the value in column \code{isotopic_cname} which indicates that a peak is isotopic. 
 #' Currently, any peaks that are isotopic are removed from the dataset, as available methods (e.g. Van Krevelen plot) are not applicable to these peaks.
@@ -80,11 +80,11 @@
 #'
 #'@export
 
-as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...){
-  .as.peakIcrData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
+as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...){
+  .as.peakData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
 }
 
-.as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
+.as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
                         extraction_cname = NULL, mf_cname = NULL, c_cname = NULL, h_cname = NULL,
                         o_cname = NULL, n_cname = NULL, s_cname = NULL, p_cname = NULL, 
                         isotopic_cname = NULL, isotopic_notation = NULL, o2c_cname = NULL, h2c_cname = NULL, kmass_cname = NULL,
@@ -99,8 +99,8 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   if(!inherits(e_meta, "data.frame")) stop("e_meta must be of the class 'data.frame'")
   
   # check that the peak column exists in e_data and e_meta (if applicable) #
-  if(!(edata_cname %in% names(e_data))) stop(paste("Peak/Mass column ", edata_cname," not found in e_data. See details of as.peakIcrData for specifying column names.", sep = ""))
-  if(!(edata_cname %in% names(e_meta))) stop(paste("Peak/Mass column ", edata_cname," not found in e_meta. Column names for peak/mass identifiers must match for e_data and e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+  if(!(edata_cname %in% names(e_data))) stop(paste("Peak/Mass column ", edata_cname," not found in e_data. See details of as.peakData for specifying column names.", sep = ""))
+  if(!(edata_cname %in% names(e_meta))) stop(paste("Peak/Mass column ", edata_cname," not found in e_meta. Column names for peak/mass identifiers must match for e_data and e_meta. See details of as.peakData for specifying column names.", sep = ""))
   
   # check that e_data has unique rows #
   if(nrow(e_data) != length(unique(dplyr::pull(e_data, edata_cname)))) stop("The 'edata_cname' identifier is non-unique.")
@@ -109,7 +109,7 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   if(nrow(f_data) != length(unique(dplyr::pull(f_data, fdata_cname)))) stop("The 'fdata_cname' identifier is non-unique.")
 
   # check that instrument_type is a valid string #
-  if(!(instrument_type %in% c("21T", "12T"))) stop("Instrument type is not valid. See details of as.peakIcrData for valid options.")
+  if(!(instrument_type %in% c("21T", "12T"))) stop("Instrument type is not valid. See details of as.peakData for valid options.")
 
   # check that mass_cname is not null #
   if(is.null(mass_cname)) stop("'mass_cname' must be specified")
@@ -118,72 +118,72 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   if(is.null(mf_cname) & any(c(is.null(c_cname), is.null(h_cname), is.null(o_cname), is.null(n_cname), is.null(s_cname), is.null(p_cname)))) stop("Either 'mf_cname' or all of 'c_cname', 'h_cname', 'o_cname', 'n_cname', 's_cname', and 'p_cname' must be specified")
 
     # check that cname arguments are found #
-    if(!(mass_cname %in% names(e_meta))) stop(paste("Mass column", mass_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+    if(!(mass_cname %in% names(e_meta))) stop(paste("Mass column", mass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     if(!is.null(c_cname)){
-      if(!(c_cname %in% names(e_meta))) stop(paste("Carbon column", c_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(c_cname %in% names(e_meta))) stop(paste("Carbon column", c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(h_cname)){
-      if(!(h_cname %in% names(e_meta))) stop(paste("Hydrogen column", h_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(h_cname %in% names(e_meta))) stop(paste("Hydrogen column", h_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(o_cname)){
-      if(!(o_cname %in% names(e_meta))) stop(paste("Oxygen column", o_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(o_cname %in% names(e_meta))) stop(paste("Oxygen column", o_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(n_cname)){
-      if(!(n_cname %in% names(e_meta))) stop(paste("Nitrogen column", n_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(n_cname %in% names(e_meta))) stop(paste("Nitrogen column", n_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(s_cname)){
-      if(!(s_cname %in% names(e_meta))) stop(paste("Sulfur column", s_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(s_cname %in% names(e_meta))) stop(paste("Sulfur column", s_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(p_cname)){
-      if(!(p_cname %in% names(e_meta))) stop(paste("Phosphorus column", p_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(p_cname %in% names(e_meta))) stop(paste("Phosphorus column", p_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(isotopic_cname)){
-      if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = ""))
+      if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
     }
     if(!is.null(o2c_cname)){
-      if(!(o2c_cname %in% names(e_meta))) stop(paste("Oxygen:Carbon Ratio column ", o2c_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(o2c_cname %in% names(e_meta))) stop(paste("Oxygen:Carbon Ratio column ", o2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(h2c_cname)){
-      if(!(h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", h2c_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", h2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(kmass_cname)){
-      if(!(kmass_cname %in% names(e_meta))) stop(paste("Kendrick Mass column ", kmass_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(kmass_cname %in% names(e_meta))) stop(paste("Kendrick Mass column ", kmass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(kdefect_cname)){
-      if(!(kdefect_cname %in% names(e_meta))) stop(paste("Kendrick Defect column ", kdefect_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(kdefect_cname %in% names(e_meta))) stop(paste("Kendrick Defect column ", kdefect_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(nosc_cname)){
-      if(!(nosc_cname %in% names(e_meta))) stop(paste("NOSC column ", nosc_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(nosc_cname %in% names(e_meta))) stop(paste("NOSC column ", nosc_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(gfe_cname)){
-      if(!(gfe_cname %in% names(e_meta))) stop(paste("Gibbs Free Energy column ", gfe_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(gfe_cname %in% names(e_meta))) stop(paste("Gibbs Free Energy column ", gfe_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(mfname_cname)){
-      if(!(mfname_cname %in% names(e_meta))) stop(paste("Molecular formula name/description column ", mfname_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(mfname_cname %in% names(e_meta))) stop(paste("Molecular formula name/description column ", mfname_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(aroma_cname)){
-      if(!(aroma_cname %in% names(e_meta))) stop(paste("Aromaticity column ", aroma_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(aroma_cname %in% names(e_meta))) stop(paste("Aromaticity column ", aroma_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(modaroma_cname)){
-      if(!(modaroma_cname %in% names(e_meta))) stop(paste("Modified aromaticity column ", modaroma_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(modaroma_cname %in% names(e_meta))) stop(paste("Modified aromaticity column ", modaroma_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(mf_cname)){
-      if(!(mf_cname %in% names(e_meta))) stop(paste("Molecular formula column ", mf_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(mf_cname %in% names(e_meta))) stop(paste("Molecular formula column ", mf_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(dbe_cname)){
-      if(!(dbe_cname %in% names(e_meta))) stop(paste("Double-bond equivalent column ", dbe_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(dbe_cname %in% names(e_meta))) stop(paste("Double-bond equivalent column ", dbe_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(dbeo_cname)){
-      if(!(dbeo_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (minus Oxygen) column ", dbeo_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(dbeo_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (minus Oxygen) column ", dbeo_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(dbeai_cname)){
-      if(!(dbeai_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (aromaticity index) column ", dbeai_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(dbeai_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (aromaticity index) column ", dbeai_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(elcomp_cname)){
-      if(!(elcomp_cname %in% names(e_meta))) stop(paste("Elemental composition column ", elcomp_cname, " not found in e_meta. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(elcomp_cname %in% names(e_meta))) stop(paste("Elemental composition column ", elcomp_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
     }
     if(!is.null(extraction_cname)){
-      if(!(extraction_cname %in% names(f_data))) stop(paste("Extraction Method column ", extraction_cname, " not found in f_data. See details of as.peakIcrData for specifying column names.", sep = "") )
+      if(!(extraction_cname %in% names(f_data))) stop(paste("Extraction Method column ", extraction_cname, " not found in f_data. See details of as.peakData for specifying column names.", sep = "") )
     }
   
   
@@ -257,7 +257,7 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
   attr(res, "group_DF") = NULL
 
   # set class of list #
-  class(res) = c("peakIcrData","icrData")
+  class(res) = c("peakData","icrData")
   
   # check for empty rows and remove them with molfilt 
   if(check_rows){
@@ -294,13 +294,13 @@ as.peakIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mas
 #' @param fdata_cname character string specifying the name of the column containing the sample identifiers in \code{f_data}.
 #' @param mass_cname character string specifying the name of the column containing the peak/mass identifiers in \code{e_meta}. Note: this is often the same as \code{edata_cname} for cases where mass is used as a unique identifier.
 #' @param compound_cname character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. Kegg, MetaCyc)
-#' @param ... further arguments (see as.\code{\link{peakIcrData}})
+#' @param ... further arguments (see as.\code{\link{peakData}})
 #'
 #' @details \code{as.compoundIcrData} constructs a compoundIcrData object which is an icrData object where the rows of \code{e_data} correspond to compounds.
 #' @rdname as.compoundIcrData
 
 as.compoundIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, compound_cname, ...){
-  res <- as.peakIcrData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
+  res <- as.peakData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
   class(res) <- c("compoundIcrData", "icrData")
   
   # if e_meta is provided, check that reaction_cname is in it

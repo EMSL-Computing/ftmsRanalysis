@@ -4,7 +4,7 @@
 #' function provided must take a data frame with one or more columns corresponding to 
 #' samples. It must return a data frame with the same number of rows and one column. 
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData' or a ddo of icrData objects 
+#' @param icrData an object of class 'peakData' or 'compoundIcrData' or a ddo of icrData objects 
 #' (e.g. the output of \code{\link{divideByGroup}})
 #' @param summary_functions vector of summary function names to apply to each row of \code{icrData$e_data} for each group. Valid
 #' summary function names are given by \code{\link{getGroupSummaryFunctionNames}}. 
@@ -25,8 +25,8 @@
 #' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
 summarizeGroups <- function(icrData, summary_functions) {
   require(datadr)
-  if (!(inherits(icrData, "peakIcrData") | !inherits(icrData, "compoundIcrData")) & !inherits(icrData, "ddo") )
-      stop("icrData must be of type peakIcrData, compoundIcrData, or a ddo containing those objects")
+  if (!(inherits(icrData, "peakData") | !inherits(icrData, "compoundIcrData")) & !inherits(icrData, "ddo") )
+      stop("icrData must be of type peakData, compoundIcrData, or a ddo containing those objects")
   if (inherits(icrData, "groupSummary") | inherits(icrData, "groupComparison") | inherits(icrData, "comparisonSummary")) 
     stop("icrData cannot be a groupSummary, groupComparison or comparisonSummary object")
   if (missing(summary_functions)) stop("summary_function must be provided")
@@ -101,8 +101,8 @@ summarizeGroups <- function(icrData, summary_functions) {
   # new_fdata <- data.frame(Group.Summary.Column=names(edata_cols), Num.Samples=length(samp_cols), 
   #                            Summary.Function.Name=NA, stringsAsFactors = FALSE)
   
-  if (inherits(icrData, "peakIcrData")) {
-    res <- as.peakIcrData(new_edata, new_fdata, icrData$e_meta, getEDataColName(icrData), "Group_Summary_Column", getMassColName(icrData), mf_cname=getMFColName(icrData) )
+  if (inherits(icrData, "peakData")) {
+    res <- as.peakData(new_edata, new_fdata, icrData$e_meta, getEDataColName(icrData), "Group_Summary_Column", getMassColName(icrData), mf_cname=getMFColName(icrData) )
   } else if (inherits(icrData, "compoundIcrData")) {
       res <- as.compoundIcrData(new_edata, new_fdata, icrData$e_meta, getEDataColName(icrData), "Group_Summary_Column", getMassColName(icrData), getCompoundColName(icrData) )
   }

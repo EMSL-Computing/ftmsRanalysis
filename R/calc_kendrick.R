@@ -2,7 +2,7 @@
 #' 
 #' Calculates the Kendrick mass and Kendrick defect needed for Kendrick plots
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.
+#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.
 #'
 #' @return an object of the same class as \code{icrData} with columns in \code{e_meta} giving Kendrick mass and defects
 #' 
@@ -13,7 +13,7 @@ calc_kendrick <- function(icrData){
   
 
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
   
   # check that icrData doesn't already have cnames specified for ratios in e_meta #
   if(!is.null(getKendrickDefectColName(icrData)) | !is.null(getKendrickMassColName(icrData))) message("mass_cname and/or defect_cname were already specified and will be overwritten")

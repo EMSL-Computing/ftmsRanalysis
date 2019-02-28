@@ -93,8 +93,8 @@ getGroupComparisonSummaryFunctionNames <- function() {
   new_edata <- data.frame(compIcrData$e_data[, getEDataColName(compIcrData)], do.call(cbind, edata_cols))
   colnames(new_edata)[1] <- getEDataColName(compIcrData)
   
-  if (inherits(compIcrData, "peakIcrData")) {
-    res <- as.peakIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
+  if (inherits(compIcrData, "peakData")) {
+    res <- as.peakData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
                           getMassColName(compIcrData), mf_cname=getMFColName(compIcrData), instrument_type=getInstrumentType(compIcrData) )
   } else if (inherits(compIcrData, "compoundIcrData")) {
     res <- as.compoundIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 

@@ -1,6 +1,6 @@
 #' Title
 #'
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param xCName column name for x-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
 #' @param yCName column name for y-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
 #' @param colorCName column name for point colors, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
