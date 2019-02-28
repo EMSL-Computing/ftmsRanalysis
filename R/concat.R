@@ -16,12 +16,12 @@
 #' @export
 #' 
 #' @examples 
-#' data("peakIcrProcessed")
-#' peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Location")
-#' grpDdo1 <- divideByGroup(peakIcrProcessed)
+#' data("exampleProcessedPeakData")
+#' exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
+#' grpDdo1 <- divideByGroup(exampleProcessedPeakData)
 #' 
-#' peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Crop.Flora")
-#' grpDdo2 <- divideByGroup(peakIcrProcessed)
+#' exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
+#' grpDdo2 <- divideByGroup(exampleProcessedPeakData)
 #' 
 #' allGrpDdo <-concat(grpDdo1, grpDdo2)
 #' grpSummaries <- summarizeGroups(allGrpDdo, c("n_present", "prop_present"))

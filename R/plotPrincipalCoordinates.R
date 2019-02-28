@@ -15,8 +15,8 @@
 #' @export
 #'
 #' @examples
-#' pcoaMat <- getPrincipalCoordinates(peakIcrProcessed)
-#' plotPrincipalCoordinates(pcoaMat, x=2, y=3, icrData=peakIcrProcessed)
+#' pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
+#' plotPrincipalCoordinates(pcoaMat, x=2, y=3, icrData=exampleProcessedPeakData)
 plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, icrData=NA, title=NA, 
                                      xlabel=sprintf("Principal Coordinate %d", x), 
                                      ylabel=sprintf("Principal Coordinate %d", y),

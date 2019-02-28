@@ -18,10 +18,10 @@
 #' @export
 #' 
 #' @examples
-#' data("peakIcrProcessed")
-#' summary1 <- summarizeGroups(peakIcrProcessed, summary_functions=c("n_present", "prop_present"))
+#' data("exampleProcessedPeakData")
+#' summary1 <- summarizeGroups(exampleProcessedPeakData, summary_functions=c("n_present", "prop_present"))
 #' 
-#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
 summarizeGroups <- function(icrData, summary_functions) {
   require(datadr)

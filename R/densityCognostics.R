@@ -18,10 +18,10 @@
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-#' data('peakIcrProcessed')
+#' data('exampleProcessedPeakData')
 #' 
 #' ## Plot density of NOSC variable for each sample
-#' sampleDdo <- divideBySample(peakIcrProcessed)
+#' sampleDdo <- divideBySample(exampleProcessedPeakData)
 #' panelFn1 <- panelFunctionGenerator("densityPlot", variable="NOSC")
 #' makeDisplay(sampleDdo, 
 #'             panelFn=panelFn1,
@@ -30,7 +30,7 @@
 #'             group = "Sample")
 #'
 #' ## Plot density of NOSC for each group
-#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' panelFn2 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
 #' 
 #' makeDisplay(groupDdo, 

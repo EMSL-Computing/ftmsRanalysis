@@ -18,8 +18,8 @@
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE) #temporary directory
 #' 
-#' data('peakIcrProcessed')
-#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' data('exampleProcessedPeakData')
+#' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 #' 
 #' # See expr here:

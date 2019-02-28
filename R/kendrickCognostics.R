@@ -24,10 +24,10 @@
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-#' data('peakIcrProcessed')
+#' data('exampleProcessedPeakData')
 #' 
 #' ## Kendrick plot for each sample
-#' sampleDdo <- divideBySample(peakIcrProcessed)
+#' sampleDdo <- divideBySample(exampleProcessedPeakData)
 #' panelFn1 <- panelFunctionGenerator("kendrickPlot", vkBoundarySet="bs2", title="Test")
 #' 
 #' # Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions
@@ -37,7 +37,7 @@
 #'          name = "Kendrick_plots_per_sample")
 #'
 #' ## Kendrick plots for group summaries
-#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 #' 
 #' panelFn2 <- panelFunctionGenerator("kendrickPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_n_present")), 

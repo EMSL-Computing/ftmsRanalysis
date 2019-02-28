@@ -16,7 +16,7 @@
 #'
 #' @examples
 #' # Emeta filter based on the "OtoC_ratio" column (numeric variable)
-#' filter_object1 = emeta_filter(peakIcrProcessed, cname = "OtoC_ratio")
+#' filter_object1 = emeta_filter(exampleProcessedPeakData, cname = "OtoC_ratio")
 #' 
 #' # Plots the distribution of OtoC_ratio
 #' plot(filter_object1)
@@ -25,7 +25,7 @@
 #' plot(filter_object1, min_val = 0.5, max_val = 1)
 #' 
 #' # Emeta filter based on the "MolForm" column (categorical variable)
-#' filter_object2 = emeta_filter(peakIcrProcessed, cname = "MolForm")
+#' filter_object2 = emeta_filter(exampleProcessedPeakData, cname = "MolForm")
 #' 
 #' # Only non-NAs retained
 #' plot(filter_object2)
