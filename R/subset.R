@@ -60,9 +60,9 @@ subset.compoundData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE
 
 #' @rdname subset
 #' @export
-subset.reactionIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "reactionIcrData")) {
-    stop("icrData must be of type reactionIcrData")
+subset.reactionData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(icrData, "reactionData")) {
+    stop("icrData must be of type reactionData")
   }
   
   result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)

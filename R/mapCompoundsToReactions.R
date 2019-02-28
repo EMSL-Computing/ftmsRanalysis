@@ -3,7 +3,7 @@
 #' Map compound data to KEGG or MetaCyc reactions. The database used
 #' is determined by the database previously used to map peaks to compounds.
 #' @param compoundObj an object of type compoundData
-#' @return reactionIcrData object
+#' @return reactionData object
 #' 
 #' @author Amanda White
 #' 
@@ -102,7 +102,7 @@ mapCompoundsToReactions <- function(compoundObj) {
     dplyr::summarise(`N_Observable_Compounds`=dplyr::n_distinct(Compound))
   e_meta <- dplyr::left_join(e_meta, obs_comp, by="Reaction")
   
-  result <- as.reactionIcrData(e_data, compoundObj$f_data, e_meta, edata_cname = "Reaction", 
+  result <- as.reactionData(e_data, compoundObj$f_data, e_meta, edata_cname = "Reaction", 
                                fdata_cname=getFDataColName(compoundObj), reaction_cname="Reaction", 
                                instrument_type=getInstrumentType(compoundObj), db=getDatabase(compoundObj))
   

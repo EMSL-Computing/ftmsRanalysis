@@ -311,9 +311,9 @@ as.compoundData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, ma
   return(res)
 }
 
-#' Convert Data to reactionIcrData Class
+#' Convert Data to reactionData Class
 #' 
-#' Converts a list object or several data.frames of FTICR data to an object of the class 'reactionIcrData'. Objects of the class 'reactionIcrData' are lists with two obligatory components \code{e_data} and \code{f_data} and one optional compounent, \code{e_meta}. 
+#' Converts a list object or several data.frames of FTICR data to an object of the class 'reactionData'. Objects of the class 'reactionData' are lists with two obligatory components \code{e_data} and \code{f_data} and one optional compounent, \code{e_meta}. 
 #' 
 #' @param e_data a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed reactions and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.
 #' @param f_data a data.frame with \eqn{n} rows. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.
@@ -323,10 +323,10 @@ as.compoundData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, ma
 #' @param reaction_cname character string specifying the name of the column containing the reaction identifiers in \code{e_meta}.
 #' @param ... further arguments
 #'
-#' @details \code{as.reactionIcrData} constructs a reactionIcrData object which is an icrData object where the rows of \code{e_data} correspond to reactions.
-#' @rdname as.reactionIcrData
+#' @details \code{as.reactionData} constructs a reactionData object which is an icrData object where the rows of \code{e_data} correspond to reactions.
+#' @rdname as.reactionData
 
-as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname, instrument_type = "12T", db=NA, ...){
+as.reactionData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, reaction_cname, instrument_type = "12T", db=NA, ...){
   
   # initial checks #
   
@@ -336,8 +336,8 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
   if(!inherits(e_meta, "data.frame")) stop("e_meta must be of the class 'data.frame'")
   
   # check that the peak column exists in e_data and e_meta (if applicable) #
-  if(!(edata_cname %in% names(e_data))) stop(paste("Column ", edata_cname," not found in e_data. See details of as.reactionIcrData for specifying column names.", sep = ""))
-  if(!(edata_cname %in% names(e_meta))) stop(paste("Column ", edata_cname," not found in e_meta. Column names for dentifiers must match for e_data and e_meta. See details of as.reactionIcrData for specifying column names.", sep = ""))
+  if(!(edata_cname %in% names(e_data))) stop(paste("Column ", edata_cname," not found in e_data. See details of as.reactionData for specifying column names.", sep = ""))
+  if(!(edata_cname %in% names(e_meta))) stop(paste("Column ", edata_cname," not found in e_meta. Column names for dentifiers must match for e_data and e_meta. See details of as.reactionData for specifying column names.", sep = ""))
   
   # check that e_data has unique rows #
   if(nrow(e_data) != length(unique(dplyr::pull(e_data, edata_cname)))) stop("The 'edata_cname' identifier is non-unique.")
@@ -400,7 +400,7 @@ as.reactionIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata
   
   attr(res, "DB") <- db
   
-  class(res) <- c("reactionIcrData", "icrData")
+  class(res) <- c("reactionData", "icrData")
   return(res)
 }
 
@@ -433,8 +433,8 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
   if(!inherits(e_meta, "data.frame")) stop("e_meta must be of the class 'data.frame'")
   
   # check that the peak column exists in e_data and e_meta (if applicable) #
-  if(!(edata_cname %in% names(e_data))) stop(paste("Column ", edata_cname," not found in e_data. See details of as.reactionIcrData for specifying column names.", sep = ""))
-  if(!(edata_cname %in% names(e_meta))) stop(paste("Column ", edata_cname," not found in e_meta. Column names for dentifiers must match for e_data and e_meta. See details of as.reactionIcrData for specifying column names.", sep = ""))
+  if(!(edata_cname %in% names(e_data))) stop(paste("Column ", edata_cname," not found in e_data. See details of as.moduleData for specifying column names.", sep = ""))
+  if(!(edata_cname %in% names(e_meta))) stop(paste("Column ", edata_cname," not found in e_meta. Column names for identifiers must match for e_data and e_meta. See details of as.moduleData for specifying column names.", sep = ""))
   
   # check that e_data has unique rows #
   if(nrow(e_data) != length(unique(dplyr::pull(e_data, edata_cname)))) stop("The 'edata_cname' identifier is non-unique.")
