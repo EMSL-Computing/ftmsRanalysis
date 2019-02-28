@@ -2,7 +2,7 @@
 #' 
 #' Assigns a compound class to each peak/mass, where possible, based Oxygen:Carbon ratio and Hydrogen:Carbon ratio and a chosen boundary set.
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param boundary_set character vector specifying which boundary set to use when determining class. Valid options are currently "bs1", "bs2" and "bs3". Defaults to "bs1". See Details for more information on boundary sets.
 #' @param calc_ratios logical argument, if elemental ratios needed for class assignment are not already calculated, should they be added to the data? Defaults to TRUE.
 #' 
@@ -21,7 +21,7 @@
 assign_class <- function(icrData, boundary_set = "bs1", calc_ratios = TRUE){
   
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
   
   # check that boundary_set is valid argument #
   if(!(boundary_set %in% c("bs1", "bs2", "bs3"))) stop("Invalid option provided for boundary_set argument.")

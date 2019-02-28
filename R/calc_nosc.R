@@ -2,7 +2,7 @@
 #' 
 #' Calculate NOSC values for peaks where empirical formula is available
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. 
+#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. 
 #' 
 #' @details NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4}
 #' 
@@ -16,7 +16,7 @@ calc_nosc <- function(icrData){
   
 
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
   
     # pull e_meta out of icrData #
     temp = icrData$e_meta

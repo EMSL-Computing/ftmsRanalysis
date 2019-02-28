@@ -2,7 +2,7 @@
 #'
 #' This function returns a formulaeFilt object for use with \code{\link{applyFilt}}
 #' 
-#' @param icrData an object of the class 'peakData' or 'compoundIcrData'
+#' @param icrData an object of the class 'peakData' or 'compoundData'
 #'
 #' @return Object of class 'formulaFilt' that contains the molecule identifier and whether a formula could be assigned or not. This can be used in conjunction with \code{\link{applyFilt}} to filter peaks without a formula assigned.
 #'
@@ -17,7 +17,7 @@
 formula_filter <- function(icrData){
   
   # check that icrData is of appropriate class #
-  if(!inherits(icrData,"peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData,"peakData") & !inherits(icrData, "compoundData")) stop("icrData must be of class 'peakData' or 'compoundData'")
   
   edata_id = getEDataColName(icrData)
   

@@ -2,7 +2,7 @@
 #' 
 #' Assigns an elemental composition class to each peak/mass, where possible, based which of: Carbon, Hydrogen, Oxygen, Nitrogen, Sulfur, and Phosporus are present in the peak/mass formula
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' 
 #' @return an object of the same class as \code{icrData} with a column added in \code{e_meta} giving the class information for each peak/compound, when possible
 #' 
@@ -13,7 +13,7 @@
 assign_elemental_composition <- function(icrData){
   
   # check icrData #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
   
   # pull e_meta #
   temp = icrData$e_meta

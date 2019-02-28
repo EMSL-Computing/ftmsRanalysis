@@ -2,7 +2,7 @@
 #' 
 #' Calculate aromaticity and modified aromaticity index values for peaks where empirical formula is available
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' 
 #' @details AI \eqn{= \frac{1 + C - O - S - 0.5(N + P + H)}{C - O - S - N - P}}{= (1 + C - O - S - 0.5*(N + P + H))/(C - O - S - N - P)} and AI_MOD \eqn{= \frac{1 + C - 0.5O - S - 0.5(N + P + H)}{C - 0.5*O - S - N - P}}{= (1 + C - 0.5*O - S - 0.5*(N + P + H))/(C - 0.5*O - S - N - P)}. When the numerator or denominator is <=0, AI and AI_MOD = 0.
 #' When AI > 0.5 a compound is considered not aromatic, 
@@ -20,7 +20,7 @@ calc_aroma <- function(icrData){
   
   
   # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
   
   # pull e_meta out of icrData #
   temp = icrData$e_meta

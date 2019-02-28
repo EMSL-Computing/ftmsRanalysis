@@ -3,21 +3,21 @@
 #' Map compound data to KEGG or MetaCyc modules The database used
 #' is determined by the database previously used to map peaks to compounds.
 #' For MetaCyc, modules are pathways that are not super-pathways
-#' @param compoundIcrData an object of type compoundIcrData
+#' @param compoundObj an object of type compoundData
 #' @return moduleIcrData object
 #' 
 #' @author Amanda White
 #' 
 #' @export
-mapCompoundsToModules <- function(compoundIcrData) {
-  if (!inherits(compoundIcrData, "compoundIcrData")) {
-    stop("compoundIcrData must be an object of type compoundIcrData")
+mapCompoundsToModules <- function(compoundObj) {
+  if (!inherits(compoundObj, "compoundData")) {
+    stop("compoundObj must be an object of type 'compoundData'")
   }
-  if (anyDuplicated(compoundIcrData$e_data[, getEDataColName(compoundIcrData)]) > 0) {
-    stop("compoundIcrData$e_data cannot have duplicates in the getEDataColName(compoundIcrData) column")
+  if (anyDuplicated(compoundObj$e_data[, getEDataColName(compoundObj)]) > 0) {
+    stop("compoundObj$e_data cannot have duplicates in the getEDataColName(compoundObj) column")
   }
 
-  db <- getDatabase(compoundIcrData)
+  db <- getDatabase(compoundObj)
   if (toupper(db) == "KEGG") {
     require(KeggData)
     data("kegg_compounds")
@@ -47,8 +47,8 @@ mapCompoundsToModules <- function(compoundIcrData) {
     
   }
 
-  if (getDataScale(compoundIcrData) != "pres") {
-    compoundIcrData <- edata_transform(compoundIcrData, data_scale="pres")
+  if (getDataScale(compoundObj) != "pres") {
+    compoundObj <- edata_transform(compoundObj, data_scale="pres")
   }
   
   comp_rxn <- comp_rxn_map
@@ -64,23 +64,23 @@ mapCompoundsToModules <- function(compoundIcrData) {
     dplyr::mutate(Module_Node_Comb=paste0(Module, ": ", Module_Node))
   
   # add compounds to e_data 
-  e_data <- dplyr::select_(compoundIcrData$e_meta, getCompoundColName(compoundIcrData), getEDataColName(compoundIcrData)) %>%
-    dplyr::left_join(compoundIcrData$e_data, by=getEDataColName(compoundIcrData)) %>%
-    dplyr::select(-dplyr::matches(getEDataColName(compoundIcrData)))
+  e_data <- dplyr::select_(compoundObj$e_meta, getCompoundColName(compoundObj), getEDataColName(compoundObj)) %>%
+    dplyr::left_join(compoundObj$e_data, by=getEDataColName(compoundObj)) %>%
+    dplyr::select(-dplyr::matches(getEDataColName(compoundObj)))
   
   # join e_data to compound/reaction/module mapping
   join_by <- c("Compound")
-  names(join_by) <- getCompoundColName(compoundIcrData)
+  names(join_by) <- getCompoundColName(compoundObj)
   e_data <- dplyr::inner_join(comp_rxn_mod, e_data, by=join_by) 
   
   # get compounds observed in this dataset for each reaction (for e_meta)
   observed_comp_per_rxn <- e_data %>% 
-    dplyr::mutate(n_samples_848234=rowSums(dplyr::select(., -dplyr::one_of(c(getCompoundColName(compoundIcrData)), "Reaction", "Module_Node", "Module", "Module_Node_Comb")))) %>%
-    dplyr::select_(getCompoundColName(compoundIcrData), "Module_Node_Comb", "n_samples_848234") %>%
+    dplyr::mutate(n_samples_848234=rowSums(dplyr::select(., -dplyr::one_of(c(getCompoundColName(compoundObj)), "Reaction", "Module_Node", "Module", "Module_Node_Comb")))) %>%
+    dplyr::select_(getCompoundColName(compoundObj), "Module_Node_Comb", "n_samples_848234") %>%
     dplyr::filter(n_samples_848234 > 0) %>%
     dplyr::select(-n_samples_848234) %>%
     dplyr::group_by(Module_Node_Comb) %>%
-    dplyr::rename_(Compound = getCompoundColName(compoundIcrData)) %>%
+    dplyr::rename_(Compound = getCompoundColName(compoundObj)) %>%
     dplyr::summarise(Compounds_in_Dataset=paste(Compound, collapse=";"))
   
   e_meta <- dplyr::select(e_data, Module_Node, Module, Module_Node_Comb) %>%
@@ -88,23 +88,23 @@ mapCompoundsToModules <- function(compoundIcrData) {
   
   ## Calculate number of UNIQUE compounds per node
   e_data <- e_data %>%
-    dplyr::group_by_("Module_Node_Comb", getCompoundColName(compoundIcrData)) %>%
+    dplyr::group_by_("Module_Node_Comb", getCompoundColName(compoundObj)) %>%
     dplyr::summarise_if(is.numeric, dplyr::funs(sum)) %>%
     dplyr::ungroup()
   
   e_data <- e_data %>%
     dplyr::mutate_if(is.numeric, dplyr::funs(ifelse(.>0, 1, 0))) %>%
-    dplyr::select(-dplyr::matches(getCompoundColName(compoundIcrData))) %>%
+    dplyr::select(-dplyr::matches(getCompoundColName(compoundObj))) %>%
     dplyr::group_by(Module_Node_Comb) %>%
     dplyr::summarise_all(dplyr::funs(sum)) %>% 
     dplyr::ungroup() %>%
     as.data.frame()
   
-  # get # OBSERVABLE compounds per reaction subject to mass filter applied to compoundIcrData
+  # get # OBSERVABLE compounds per reaction subject to mass filter applied to compoundObj
   obs_comp <- dplyr::inner_join(comp_rxn_mod, compounds, by=c('Compound'='COMPOUND'))
-  if (!is.null(attr(compoundIcrData, "filters")) && !is.null(attr(compoundIcrData, "filters")$massFilt)) {
-    thresh.min <- min(attr(compoundIcrData, "filters")$massFilt$threshold)
-    thresh.max <- max(attr(compoundIcrData, "filters")$massFilt$threshold)
+  if (!is.null(attr(compoundObj, "filters")) && !is.null(attr(compoundObj, "filters")$massFilt)) {
+    thresh.min <- min(attr(compoundObj, "filters")$massFilt$threshold)
+    thresh.max <- max(attr(compoundObj, "filters")$massFilt$threshold)
     if (toupper(db) == "KEGG") {
       obs_comp <- fticRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
     } else if (toupper(db) == "METACYC") {
@@ -119,21 +119,21 @@ mapCompoundsToModules <- function(compoundIcrData) {
   e_meta <- dplyr::left_join(e_meta, obs_comp, by="Module_Node_Comb") %>% as.data.frame()
   e_meta <- dplyr::arrange(e_meta, Module, Module_Node_Comb)
   
-  result <- as.moduleIcrData(e_data, compoundIcrData$f_data, e_meta, edata_cname = "Module_Node_Comb", 
-                             fdata_cname=getFDataColName(compoundIcrData), module_cname="Module", 
-                             module_node_cname = "Module_Node", instrument_type = getInstrumentType(compoundIcrData), 
-                             db=getDatabase(compoundIcrData))
+  result <- as.moduleIcrData(e_data, compoundObj$f_data, e_meta, edata_cname = "Module_Node_Comb", 
+                             fdata_cname=getFDataColName(compoundObj), module_cname="Module", 
+                             module_node_cname = "Module_Node", instrument_type = getInstrumentType(compoundObj), 
+                             db=getDatabase(compoundObj))
 
-  #attributes from compoundIcrData to carry forward:
+  #attributes from compoundData to carry forward:
 #   result <- fticRanalysis:::setDatabase(result, db)
-  result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundIcrData))
-#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundIcrData))
+  result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundObj))
+#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundData))
   result <- fticRanalysis:::setDataScale(result, "count")
-  attr(result, "filters") <- attr(compoundIcrData, "filters")
+  attr(result, "filters") <- attr(compoundObj, "filters")
   
   ## TODO: are there any other cnames that need to be carried through??
-  if (!is.null(attr(compoundIcrData, "cnames")$extraction_cname)) {
-    attr(result, "cnames")$extaction_cname <- attr(compoundIcrData, "cnames")$extraction_cname
+  if (!is.null(attr(compoundObj, "cnames")$extraction_cname)) {
+    attr(result, "cnames")$extaction_cname <- attr(compoundObj, "cnames")$extraction_cname
   }
 
   return(result)

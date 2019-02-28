@@ -2,7 +2,7 @@
 #'
 #' This function applies a transformation to the e_data element of icrData
 #'
-#' @param icrData an object of the class 'peakData' or 'compoundIcrData' , usually created by \code{\link{as.peakData}}
+#' @param icrData an object of the class 'peakData' or 'compoundData' , usually created by \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param data_scale a character string indicating the type of transformation to be applied to the data. Valid values are: 'log2', 'log', 'log10', 'pres', or 'abundance'. A value of 'abundance' indicates the data has previously undergone one of the log transformations and should be transformed back to raw values with no transformation applied. A value of 'pres' indicates the data should be transformed to presence/absence data.
 #' 
 #' @details This function is intended to be used before analysis of the data begins. Data are typically analyzed on a log or presence/absence scale.
@@ -17,7 +17,7 @@ edata_transform <- function(icrData, data_scale){
   ## some initial checks ##
   
   # check that icrData is of appropriate class #
-  if(!inherits(icrData, c("peakData","compoundIcrData"))) stop("icrData must be of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData, c("peakData","compoundData"))) stop("icrData must be of class 'peakData' or 'compoundData'")
   
   # check that data_scale is one of the acceptable options #
   if(!(data_scale %in% c('log2', 'log10', 'log', 'pres', 'abundance'))) stop(paste(data_scale, " is not a valid option for 'data_scale'.", sep=""))

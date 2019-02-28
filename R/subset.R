@@ -36,9 +36,9 @@ subset.peakData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
 
 #' @rdname subset
 #' @export
-subset.compoundIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "compoundIcrData")) {
-    stop("icrData must be of type compoundIcrData")
+subset.compoundData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(icrData, "compoundData")) {
+    stop("icrData must be of type compoundData")
   }
   
   result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)

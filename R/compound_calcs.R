@@ -2,7 +2,7 @@
 #' 
 #' Calculate a variety of typical values for FTICR data associated with each peak/compound where empirical formula is available
 #' 
-#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param calc_fns a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.
 #' 
 #' @details The calculations are as follows for each of the `calc_fns`: 
@@ -42,7 +42,7 @@ compound_calcs <- function(icrData, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
   ## initial checks ##
   
   # check icrData #
-  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData, "peakData") & !inherits(icrData, "compoundData")) stop("icrData must be an object of class 'peakData' or 'compoundData'")
   
   # checks for calc_fns #
   valid_fns <- c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")

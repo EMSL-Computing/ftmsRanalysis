@@ -2,7 +2,7 @@
 #'
 #' This function finds all values of x in the e_data element of icrData and replaces them with y
 #'
-#' @param icrData an object of the class 'peakData', or 'compoundIcrData' 
+#' @param icrData an object of the class 'peakData', or 'compoundData' 
 #' @param x value to be replaced, usually numeric or NA
 #' @param y replacment value, usually numeric or NA
 #'
@@ -17,7 +17,7 @@ edata_replace <- function(icrData, x, y){
   ## some initial checks ##
   
   # check that icrData is of appropriate class #
-  if(!(inherits(icrData, "peakData")) & !(inherits(icrData, "compoundIcrData")))  stop("icrData must be of class 'peakData' or 'compoundIcrData'")
+  if(!(inherits(icrData, "peakData")) & !(inherits(icrData, "compoundData")))  stop("icrData must be of class 'peakData' or 'compoundData'")
   
   edata_id = getEDataColName(icrData)
   

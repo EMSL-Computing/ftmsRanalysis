@@ -2,7 +2,7 @@
 #'
 #' This function returns a moleculeFilt object for use with \code{\link{applyFilt}}
 #'
-#' @param icrData an object of class 'peakData' or 'compoundIcrData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param icrData an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #'
 #' @return Object of class 'moleculeFilt' that contains the molecule identifier and the number of samples for which the molecule was measured (not 0). This can be used in conjunction with \code{\link{applyFilt}} to remove peaks observed in fewer than \code{min_num} samples.
 #'
@@ -20,7 +20,7 @@ molecule_filter <- function(icrData){
   ## some initial checks ##
   
   # check that icrData is of appropriate class #
-  if(!inherits(icrData,"peakData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be of class 'peakData' or 'compoundIcrData'")
+  if(!inherits(icrData,"peakData") & !inherits(icrData, "compoundData")) stop("icrData must be of class 'peakData' or 'compoundData'")
   
   edata_id = getEDataColName(icrData)
   sample_cols <- as.character(icrData$f_data[, getFDataColName(icrData)])

@@ -77,8 +77,8 @@ mapPeaksToCompounds <- function(peakObj, db="MetaCyc") {
   e_data <- dplyr::left_join(peaks.to.keep, peakObj$e_data, by=getEDataColName(peakObj)) %>%
     dplyr::select(-dplyr::matches(getEDataColName(peakObj)))
   
-  # construct resulting compoundIcrData object
-  res <- as.compoundIcrData(e_data, peakObj$f_data, e_meta, edata_cname=new_edata_colname, fdata_cname=getFDataColName(peakObj), 
+  # construct resulting compoundData object
+  res <- as.compoundData(e_data, peakObj$f_data, e_meta, edata_cname=new_edata_colname, fdata_cname=getFDataColName(peakObj), 
                             mass_cname=getMassColName(peakObj), mf_cname=getMFColName(peakObj), compound_cname="Compound",
                             data_scale=getDataScale(peakObj), instrument_type=getInstrumentType(peakObj))  
   

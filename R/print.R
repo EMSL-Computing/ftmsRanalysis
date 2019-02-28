@@ -1,4 +1,4 @@
-# Print methods for peakData, compoundIcrData, reactionIcrData and moduleIcrData
+# Print methods for peakData, compoundData, reactionIcrData and moduleIcrData
 
 #' @export
 print.peakData <- function(picr) {
@@ -43,13 +43,13 @@ print.peakData <- function(picr) {
 }
 
 #' @export
-print.compoundIcrData <- function(cicr) {
-  if (!inherits(cicr, "compoundIcrData")) stop("Not a compoundIcrData object")
+print.compoundData <- function(cicr) {
+  if (!inherits(cicr, "compoundData")) stop("Not a compoundData object")
   if (is.null(cicr) | all(is.na(cicr))) {
     print(cicr)
     invisible(cicr)
   }
-  res <- c("compoundIcrData object", 
+  res <- c("compoundData object", 
            sprintf("# Rows of data: %d", nrow(cicr$e_data)),
            sprintf("# Samples: %d", nrow(cicr$f_data)),
            sprintf("# Compounds: %d", length(unique(cicr$e_meta[, getCompoundColName(cicr)]))),

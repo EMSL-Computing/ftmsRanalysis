@@ -283,9 +283,9 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
 }
 
 
-#' Convert Data to compoundIcrData Class
+#' Convert Data to compoundData Class
 #' 
-#' Converts a list object or several data.frames of FTICR data to an object of the class 'compoundIcrData'. Objects of the class 'compoundIcrData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}. 
+#' Converts a list object or several data.frames of FTICR data to an object of the class 'compoundData'. Objects of the class 'compoundData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}. 
 #' 
 #' @param e_data a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed compounds and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.
 #' @param f_data a data.frame with \eqn{n} rows. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.
@@ -296,12 +296,12 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
 #' @param compound_cname character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. Kegg, MetaCyc)
 #' @param ... further arguments (see as.\code{\link{peakData}})
 #'
-#' @details \code{as.compoundIcrData} constructs a compoundIcrData object which is an icrData object where the rows of \code{e_data} correspond to compounds.
-#' @rdname as.compoundIcrData
+#' @details \code{as.compoundData} constructs a compoundData object which is an icrData object where the rows of \code{e_data} correspond to compounds.
+#' @rdname as.compoundData
 
-as.compoundIcrData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, compound_cname, ...){
+as.compoundData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, compound_cname, ...){
   res <- as.peakData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
-  class(res) <- c("compoundIcrData", "icrData")
+  class(res) <- c("compoundData", "icrData")
   
   # if e_meta is provided, check that reaction_cname is in it
   if (!is.null(e_meta)) {
