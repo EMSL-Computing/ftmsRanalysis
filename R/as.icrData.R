@@ -405,9 +405,9 @@ as.reactionData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cn
 }
 
 
-#' Convert Data to moduleIcrData Class
+#' Convert Data to moduleData Class
 #' 
-#' Converts a list object or several data.frames of FTICR data to an object of the class 'moduleIcrData'. Objects of the class 'moduleIcrData' are lists with two obligatory components \code{e_data} and \code{f_data} and one optional component, \code{e_meta}. 
+#' Converts a list object or several data.frames of FTICR data to an object of the class 'moduleData'. Objects of the class 'moduleData' are lists with two obligatory components \code{e_data} and \code{f_data} and one optional component, \code{e_meta}. 
 #' 
 #' @param e_data a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed module nodes and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.
 #' @param f_data a data.frame with \eqn{n} rows. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.
@@ -418,11 +418,11 @@ as.reactionData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cn
 #' @param module_node_cname character string specifying the name of the column containing the module node identifiers in \code{e_meta}
 #' @param ... further arguments
 #'
-#' @details \code{as.moduleIcrData} constructs a moduleIcrData object which is an icrData object where the rows of \code{e_data} correspond to unique module nodes.
-#' @rdname as.moduleIcrData
+#' @details \code{as.moduleData} constructs a moduleData object which is an icrData object where the rows of \code{e_data} correspond to unique module nodes.
+#' @rdname as.moduleData
 # @param node_label_cname character string specifying the name of the column containing the display name for each module node, in \code{e_meta}
 
-as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, module_cname, module_node_cname, 
+as.moduleData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname, module_cname, module_node_cname, 
                              instrument_type = "12T", db=NA, ...){
   
   # initial checks #
@@ -500,6 +500,6 @@ as.moduleIcrData <- function(e_data, f_data, e_meta = NULL, edata_cname, fdata_c
 
   attr(res, "DB") <- db
   
-  class(res) <- c("moduleIcrData", "icrData")
+  class(res) <- c("moduleData", "icrData")
   return(res)
 }

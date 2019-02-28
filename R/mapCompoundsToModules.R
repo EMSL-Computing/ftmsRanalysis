@@ -4,7 +4,7 @@
 #' is determined by the database previously used to map peaks to compounds.
 #' For MetaCyc, modules are pathways that are not super-pathways
 #' @param compoundObj an object of type compoundData
-#' @return moduleIcrData object
+#' @return moduleData object
 #' 
 #' @author Amanda White
 #' 
@@ -119,7 +119,7 @@ mapCompoundsToModules <- function(compoundObj) {
   e_meta <- dplyr::left_join(e_meta, obs_comp, by="Module_Node_Comb") %>% as.data.frame()
   e_meta <- dplyr::arrange(e_meta, Module, Module_Node_Comb)
   
-  result <- as.moduleIcrData(e_data, compoundObj$f_data, e_meta, edata_cname = "Module_Node_Comb", 
+  result <- as.moduleData(e_data, compoundObj$f_data, e_meta, edata_cname = "Module_Node_Comb", 
                              fdata_cname=getFDataColName(compoundObj), module_cname="Module", 
                              module_node_cname = "Module_Node", instrument_type = getInstrumentType(compoundObj), 
                              db=getDatabase(compoundObj))

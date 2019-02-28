@@ -84,9 +84,9 @@ subset.reactionData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE
 
 #' @rdname subset
 #' @export
-subset.moduleIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "moduleIcrData")) {
-    stop("icrData must be of type moduleIcrData")
+subset.moduleData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(icrData, "moduleData")) {
+    stop("icrData must be of type 'moduleData'")
   }
   
   result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)

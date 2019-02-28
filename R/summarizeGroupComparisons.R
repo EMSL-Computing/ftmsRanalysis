@@ -102,8 +102,8 @@ getGroupComparisonSummaryFunctionNames <- function() {
   } else if (inherits(compIcrData, "reactionData")) {
     res <- as.reactionData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
                               getReactionColName(compIcrData), instrument_type=getInstrumentType(compIcrData), db=getDatabase(compIcrData) )
-  } else if (inherits(compIcrData, "moduleIcrData")) {
-    res <- as.moduleIcrData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
+  } else if (inherits(compIcrData, "moduleData")) {
+    res <- as.moduleData(new_edata, new_fdata, compIcrData$e_meta, getEDataColName(compIcrData), "Comparison_Summary_Column", 
                             getModuleColName(compIcrData), getModuleNodeColName(compIcrData), 
                             instrument_type=getInstrumentType(compIcrData) )
   }
