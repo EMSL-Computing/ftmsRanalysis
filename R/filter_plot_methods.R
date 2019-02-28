@@ -35,7 +35,7 @@
 plot.emetaFilt <- function(filter_obj, min_val = NA, max_val = NA, cats = NA, na.rm = TRUE, 
                            title=NA, xlabel=attr(filter_obj, "cname"), ylabel="Count") {
   if (attr(filter_obj, "type") == "quantitative") {
-    fticRanalysis:::.filterNumericRangePlot(filter_obj, "emeta_value", min_val=min_val, max_val=max_val, title=title, 
+    ftmsRanalysis:::.filterNumericRangePlot(filter_obj, "emeta_value", min_val=min_val, max_val=max_val, title=title, 
                                             xlabel=xlabel, ylabel=ylabel)
   } else if (attr(filter_obj, "type") == "categorical") {
     .plotCategoricalEmetaFilt(filter_obj, cats = cats, na.rm = na.rm, title=title, 
@@ -171,7 +171,7 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
 #' filter_obj <- mass_filter(examplePeakData)
 #' plot(filter_obj, min_mass = 200, max_mass = 800)
 plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count") {
-  fticRanalysis:::.filterNumericRangePlot(filter_obj, "Mass", min_mass, max_mass, title, xlabel, ylabel)
+  ftmsRanalysis:::.filterNumericRangePlot(filter_obj, "Mass", min_mass, max_mass, title, xlabel, ylabel)
 }
 
 

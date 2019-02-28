@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(fticRanalysis)
+#' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
@@ -43,19 +43,19 @@
 #' }
 densityCognostics <- function(variable) {
   fn <- function(ftmsObj) {
-    divisionType <- fticRanalysis:::getDivisionType(ftmsObj)
+    divisionType <- ftmsRanalysis:::getDivisionType(ftmsObj)
     if (divisionType == "sample" | divisionType == "group") {
       sample_colnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
       sample_colnames <- sample_colnames[sample_colnames %in% colnames(ftmsObj$e_data)]
-      presInd <- fticRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
-                                           fticRanalysis:::getDataScale(ftmsObj)) > 0
+      presInd <- ftmsRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
+                                           ftmsRanalysis:::getDataScale(ftmsObj)) > 0
       
-      cogs <- fticRanalysis:::commonDensityCognostics(ftmsObj, variable, presInd)
+      cogs <- ftmsRanalysis:::commonDensityCognostics(ftmsObj, variable, presInd)
       
       if (divisionType == "sample") {
-        cogs <- c(cogs, fticRanalysis:::sampleCognostics(ftmsObj))
+        cogs <- c(cogs, ftmsRanalysis:::sampleCognostics(ftmsObj))
       } else {
-        cogs <- c(cogs, fticRanalysis:::groupCognostics(ftmsObj))
+        cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       }
       return(cogs)
       
@@ -67,13 +67,13 @@ densityCognostics <- function(variable) {
       if (length(cname) == 0) stop("Cannot find appropriate group summary column of e_data, looking for 'n_present' or 'prop_present'")
       
       presInd <- ftmsObj$e_data[, cname] > 0 
-      cogs <- fticRanalysis:::commonDensityCognostics(ftmsObj, variable, presInd)
+      cogs <- ftmsRanalysis:::commonDensityCognostics(ftmsObj, variable, presInd)
       
-      cogs <- c(cogs, fticRanalysis:::groupCognostics(ftmsObj))
+      cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       return(cogs)
       
     } else if (divisionType == "groupComparison") {
-      cogs <- fticRanalysis:::comparisonDensityCognostics(ftmsObj, variable)
+      cogs <- ftmsRanalysis:::comparisonDensityCognostics(ftmsObj, variable)
       return(cogs)
     } else {
       stop(sprintf("densityCognostics doesn't work with objects of this type (%s)", divisionType))
@@ -108,10 +108,10 @@ comparisonDensityCognostics <- function(ftmsObj, variable, uniquenessColName=NA)
     groupList <- lapply(groups, function(g) as.character(groupDF[groupDF[,"Group"] == g, sampColName]))
     names(groupList) <- groups  
     
-    presInd1 <- fticRanalysis:::n_present(ftmsObj$e_data[, groupList[[1]]], 
-                                         fticRanalysis:::getDataScale(ftmsObj)) > 0
-    presInd2 <- fticRanalysis:::n_present(ftmsObj$e_data[, groupList[[2]]], 
-                                          fticRanalysis:::getDataScale(ftmsObj)) > 0
+    presInd1 <- ftmsRanalysis:::n_present(ftmsObj$e_data[, groupList[[1]]], 
+                                         ftmsRanalysis:::getDataScale(ftmsObj)) > 0
+    presInd2 <- ftmsRanalysis:::n_present(ftmsObj$e_data[, groupList[[2]]], 
+                                          ftmsRanalysis:::getDataScale(ftmsObj)) > 0
     
   # } else if (inherits(ftmsObj, "comparisonSummary")) {
   #   if (identical(uniquenessColName, NA)) {

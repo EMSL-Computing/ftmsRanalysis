@@ -1,6 +1,6 @@
-## Tests of creating trelliscope displays with the convenience functions in fticRanalysis
+## Tests of creating trelliscope displays with the convenience functions in ftmsRanalysis
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)

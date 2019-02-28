@@ -39,7 +39,7 @@ kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
     }
   } 
   
-  return(fticRanalysis:::.kendrickPlotInternal(ftmsObj, title=title, colorPal=colorPal, colorCName=colorCName, 
+  return(ftmsRanalysis:::.kendrickPlotInternal(ftmsObj, title=title, colorPal=colorPal, colorCName=colorCName, 
                                vkBoundarySet=vkBoundarySet, xlabel=xlabel, ylabel=ylabel, 
                                legendTitle=legendTitle, logColorCol=logColorCol))
 } 

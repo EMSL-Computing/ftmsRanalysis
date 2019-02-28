@@ -90,14 +90,14 @@ densityPlot <- function(ftmsObj, variable, samples=NA, groups=FALSE, title=NA,
   breaks <- seq(min(df[, variable], na.rm=TRUE), max(df[, variable], na.rm=TRUE), length=26)
   
   hist_data <- lapply(names(trace_subsets), function(trace_name) {
-    res <- fticRanalysis:::get_hist_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(ftmsObj), breaks)
+    res <- ftmsRanalysis:::get_hist_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(ftmsObj), breaks)
     res$Category <- trace_name
     return(res)
   })
   hist_data <- do.call(rbind, hist_data)
   
   curve_data <- lapply(names(trace_subsets), function(trace_name) {
-    res <- fticRanalysis:::get_curve_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(ftmsObj), yaxis=yaxis, nbins=512)
+    res <- ftmsRanalysis:::get_curve_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(ftmsObj), yaxis=yaxis, nbins=512)
     res$count <- res$density*nrow(df)*(breaks[2]-breaks[1])
     res$Category <- trace_name
     return(res)
@@ -120,7 +120,7 @@ densityPlot <- function(ftmsObj, variable, samples=NA, groups=FALSE, title=NA,
   
   if (plot_curve) {
     if (identical(curve_colors, NA)) {
-      curve_colors <- fticRanalysis:::get_curve_colors(names(trace_subsets))
+      curve_colors <- ftmsRanalysis:::get_curve_colors(names(trace_subsets))
     }
     if (length(trace_subsets) > 1) {
       p <- p %>% plotly::add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
@@ -160,7 +160,7 @@ densityPlot <- function(ftmsObj, variable, samples=NA, groups=FALSE, title=NA,
 get_data_vector <- function(edata_cols, variable_vec, data_scale) {
   # get num present for each peak
   #browser()
-  counts <- fticRanalysis:::n_present(edata_cols, data_scale)
+  counts <- ftmsRanalysis:::n_present(edata_cols, data_scale)
   counts$index <- 1:nrow(counts)
   indices <- unlist(apply(counts, 1, function(x) rep(x["index"], times=x["n_present"])))
   

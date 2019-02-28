@@ -1,5 +1,5 @@
 ### process example data for package ###
-library(fticRanalysis)
+library(ftmsRanalysis)
 
 # read in .csv data #
 data = read.csv("data-raw/example12T_data.csv")

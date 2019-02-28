@@ -16,7 +16,7 @@ runtime: shiny
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This vignette shows how to link two Plotly plots produced by fticRanalysis functions in Shiny such that 
+This vignette shows how to link two Plotly plots produced by ftmsRanalysis functions in Shiny such that 
 selections in one plot can be highlighted in the other. See http://plotly-book.cpsievert.me/linking-views-with-shiny.html 
 for additional information.
 
@@ -42,8 +42,8 @@ p <- plot_ly(data=plot_data, x=~x, y=~y) %>%
 
 The keys corresponding to the selected items will be part of the event data structure that is available after a
 mouse event occurs. Keys appear to always be translated to character by Plotly, regardless of their original data type.
-In the `fticRanalysis` package, the two scatter plot functions `vanKrevelenPlot` and `kendrickPlot` 
-use the EDataColname field as the key for each point. (See the `fticRanalysis::getEDataColname` function.) The `densityPlot`
+In the `ftmsRanalysis` package, the two scatter plot functions `vanKrevelenPlot` and `kendrickPlot` 
+use the EDataColname field as the key for each point. (See the `ftmsRanalysis::getEDataColname` function.) The `densityPlot`
 function produces a histogram, where the key for each bar is a 2-element vector of the min and max x-axis values for the bar.
 
 ## Plotly mouse events
@@ -75,13 +75,13 @@ event type. This function pulls the data from the relevant slot of `input`.
 The first example demonstrates the linkage of two scatter plots: a Van Krevelen plot and a Kendrick plot. 
 Points selected in either plot will be highlighted in the other. 
 
-First, we generate the two plots from our fticRanalysis example data.
+First, we generate the two plots from our ftmsRanalysis example data.
 
 ```{r example1a, message=FALSE, warning=FALSE}
 library(magrittr)
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(plotly)
-devtools::load_all("/Users/d3l348/Files/MinT/github/fticRanalysis/")
+devtools::load_all("/Users/d3l348/Files/MinT/github/ftmsRanalysis/")
 
 data(peakIcrProcessed)
 .data <- subset(peakIcrProcessed, samples="EM0011_sample")

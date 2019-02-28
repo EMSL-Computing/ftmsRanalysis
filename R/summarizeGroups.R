@@ -35,7 +35,7 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
   
   if (inherits(ftmsObj, "ddo")) {
     res <- drPersist(addTransform(ftmsObj, function(v) {
-      fticRanalysis:::.summarizeGroupsInternal(v, summary_functions)
+      ftmsRanalysis:::.summarizeGroupsInternal(v, summary_functions)
     }))
   } else {
     res <- .summarizeGroupsInternal(ftmsObj, summary_functions)
@@ -52,7 +52,7 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
   summary_functions <- lapply(summary_functions, function(nn) {
     nn <- as.character(nn)
     if (!(nn %in% validNames)) stop(sprintf("'%s' is not a valid function name, see getGroupSummaryFunctionNames() for valid options", nn))
-    return(get(nn, envir=asNamespace("fticRanalysis"), mode="function"))
+    return(get(nn, envir=asNamespace("ftmsRanalysis"), mode="function"))
   })
   
   # if summary_functions has any missing names, fill them in so they can be used to name output columns
@@ -126,16 +126,16 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
     dplyr::left_join(dplyr::select(groupDF, -dplyr::one_of(getFDataColName(ftmsObj))), by="Group") %>%
     unique()
   attr(new_group_df, "main_effects") <- attr(groupDF, "main_effects")
-  res <- fticRanalysis:::setGroupDF(res, new_group_df)
+  res <- ftmsRanalysis:::setGroupDF(res, new_group_df)
   
   # set class to include 'groupSummary'
   class(res) <- c("groupSummary", class(res))
   
   # set data scale
-  res <- fticRanalysis:::setDataScale(res, "summary")
+  res <- ftmsRanalysis:::setDataScale(res, "summary")
   
-  res <- fticRanalysis:::setInstrumentType(res, getInstrumentType(ftmsObj))
-  if (!is.null(getDatabase(ftmsObj))) res <- fticRanalysis:::setDatabase(res, getDatabase(ftmsObj))
+  res <- ftmsRanalysis:::setInstrumentType(res, getInstrumentType(ftmsObj))
+  if (!is.null(getDatabase(ftmsObj))) res <- ftmsRanalysis:::setDatabase(res, getDatabase(ftmsObj))
   
   
   return(res)

@@ -1,6 +1,6 @@
 ## Basic functionality tests for peakData objects
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("filtering on peakData objects")
 
 test_that("mass filters work correctly on peakData", {

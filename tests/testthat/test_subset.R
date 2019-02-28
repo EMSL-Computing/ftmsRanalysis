@@ -1,6 +1,6 @@
 ## Tests on subset
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("subset function")
 
 # test edata and emeta sizes and attribute equality

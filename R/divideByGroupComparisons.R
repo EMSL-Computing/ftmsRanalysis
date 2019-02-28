@@ -21,15 +21,15 @@ divideByGroupComparisons <- function(ftmsObj, comparisons, control=NULL) {
   
   fdata.colname <- getFDataColName(ftmsObj)
   
-  groupDF <- fticRanalysis:::getGroupDF(ftmsObj)
+  groupDF <- ftmsRanalysis:::getGroupDF(ftmsObj)
   if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF 
     samp.names <- unique(ftmsObj$f_data[, getFDataColName(ftmsObj)])
     groupDF <- data.frame(Sample=samp.names, Group=samp.names)
     colnames(groupDF)[1] <- getFDataColName(ftmsObj)
-    ftmsObj <- fticRanalysis:::setGroupDF(ftmsObj, groupDF)
+    ftmsObj <- ftmsRanalysis:::setGroupDF(ftmsObj, groupDF)
   }
   
-  compMatrix <- fticRanalysis:::comparisonMatrix(ftmsObj, comparisons, control=control)
+  compMatrix <- ftmsRanalysis:::comparisonMatrix(ftmsObj, comparisons, control=control)
   
   groups <- as.character(groupDF$Group)
   samples <- unique(as.character(ftmsObj$f_data[, fdata.colname]))

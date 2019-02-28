@@ -1,6 +1,6 @@
 ## Tests on combinePeaksWithSameFormula function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("combinePeaksWithSameFormula function")
 
 test_that("test of combinePeaksWithSameFormula function with abundance data", {

@@ -36,7 +36,7 @@ summarizeGroupComparisons <- function(compIcrData, summary_functions, summary_fu
   
   if (inherits(compIcrData, "ddo")) {
     res <- drPersist(addTransform(compIcrData, function(v) {
-      fticRanalysis:::.summarizeGroupComparisonsInternal(v, summary_functions, summary_function_params)
+      ftmsRanalysis:::.summarizeGroupComparisonsInternal(v, summary_functions, summary_function_params)
     }))
   } else {
     res <- .summarizeGroupComparisonsInternal(compIcrData, summary_functions, summary_function_params)
@@ -57,7 +57,7 @@ getGroupComparisonSummaryFunctionNames <- function() {
   summary_functions <- lapply(summary_functions, function(nn) {
     nn <- as.character(nn)
     if (!(nn %in% validNames)) stop(sprintf("'%s' is not a valid function name, see getGroupSummaryFunctionNames() for valid options", nn))
-    return(get(nn, envir=asNamespace("fticRanalysis"), mode="function"))
+    return(get(nn, envir=asNamespace("ftmsRanalysis"), mode="function"))
   })
   names(summary_functions) <- summary_func_names
   
@@ -126,9 +126,9 @@ getGroupComparisonSummaryFunctionNames <- function() {
     attr(res, attr_name) <- attr(compIcrData, attr_name)
   }
   
-  res <- fticRanalysis:::setDataScale(res, "summary")
+  res <- ftmsRanalysis:::setDataScale(res, "summary")
   if (!is.null(getDatabase(compIcrData))) {
-    res <- fticRanalysis:::setDatabase(res, getDatabase(compIcrData))
+    res <- ftmsRanalysis:::setDatabase(res, getDatabase(compIcrData))
   }
   
   return(res)

@@ -1,6 +1,6 @@
 ## Tests on summarizeGroups function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("summarizeGroups function")
 
 test_that("basic tests of summarizeGroups function on one group", {
@@ -31,7 +31,7 @@ test_that("basic tests of summarizeGroups function on one group", {
   
 test_that("basic tests of summarizeGroups function on object with multiple groups", {
   data("exampleProcessedPeakData")
-  grp_names <- unique(fticRanalysis:::getGroupDF(exampleProcessedPeakData)$Group)
+  grp_names <- unique(ftmsRanalysis:::getGroupDF(exampleProcessedPeakData)$Group)
 
   grp_summary <- summarizeGroups(exampleProcessedPeakData, summary_functions=c("n_present", "prop_present"))
   

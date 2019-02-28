@@ -16,7 +16,7 @@ compound_calcs(ftmsObj, calc_fns = c("calc_aroma", "calc_dbe",
 an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving the newly calculated values
 }
 \description{
-Calculate a variety of typical values for FTICR data associated with each peak/compound where empirical formula is available
+Calculate a variety of typical values for FT-MS data associated with each peak/compound where empirical formula is available
 }
 \details{
 The calculations are as follows for each of the `calc_fns`: 

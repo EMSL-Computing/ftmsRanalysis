@@ -55,9 +55,9 @@ plot.peakData <- function(ftmsObj, title=NA, xlabel=NA, ylabel=NA, colorBy="grou
   p <- plotly::plot_ly()
   grouped <- FALSE
   if (identical(colorBy, "groups")) {
-    if (!is.null(fticRanalysis:::getGroupDF(ftmsObj))) {
+    if (!is.null(ftmsRanalysis:::getGroupDF(ftmsObj))) {
       grouped <- TRUE
-      groupDF <- fticRanalysis:::getGroupDF(ftmsObj)
+      groupDF <- ftmsRanalysis:::getGroupDF(ftmsObj)
       df <- df %>% dplyr::left_join(groupDF, by=c(Sample=getFDataColName(ftmsObj)))
     }
   }

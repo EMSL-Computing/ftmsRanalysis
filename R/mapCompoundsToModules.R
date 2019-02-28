@@ -106,9 +106,9 @@ mapCompoundsToModules <- function(compoundObj) {
     thresh.min <- min(attr(compoundObj, "filters")$massFilt$threshold)
     thresh.max <- max(attr(compoundObj, "filters")$massFilt$threshold)
     if (toupper(db) == "KEGG") {
-      obs_comp <- fticRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
+      obs_comp <- ftmsRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
     } else if (toupper(db) == "METACYC") {
-      obs_comp <- fticRanalysis:::metacyc_mass_filter(obs_comp, thresh.min, thresh.max)
+      obs_comp <- ftmsRanalysis:::metacyc_mass_filter(obs_comp, thresh.min, thresh.max)
     } else {
       stop(paste("Unknown database:", db))
     }
@@ -125,10 +125,10 @@ mapCompoundsToModules <- function(compoundObj) {
                              db=getDatabase(compoundObj))
 
   #attributes from compoundData to carry forward:
-#   result <- fticRanalysis:::setDatabase(result, db)
-  result <- fticRanalysis:::setGroupDF(result, getGroupDF(compoundObj))
-#   result <- fticRanalysis:::setInstrumentType(result, getInstrumentType(compoundData))
-  result <- fticRanalysis:::setDataScale(result, "count")
+#   result <- ftmsRanalysis:::setDatabase(result, db)
+  result <- ftmsRanalysis:::setGroupDF(result, getGroupDF(compoundObj))
+#   result <- ftmsRanalysis:::setInstrumentType(result, getInstrumentType(compoundData))
+  result <- ftmsRanalysis:::setDataScale(result, "count")
   attr(result, "filters") <- attr(compoundObj, "filters")
   
   ## TODO: are there any other cnames that need to be carried through??

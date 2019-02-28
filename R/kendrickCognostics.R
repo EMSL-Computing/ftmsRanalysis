@@ -20,7 +20,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(fticRanalysis)
+#' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
@@ -55,17 +55,17 @@ kendrickCognostics <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
     
     cogs <- vanKrevelenCognostics(vkBoundarySet, uniquenessColName)(ftmsObj)
     
-    divisionType <- fticRanalysis:::getDivisionType(ftmsObj)
+    divisionType <- ftmsRanalysis:::getDivisionType(ftmsObj)
     if (divisionType == "sample") {
       # add mean observed mass and defect
       
       sample_colnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
       sample_colnames <- sample_colnames[sample_colnames %in% colnames(ftmsObj$e_data)]
-      presInd <- fticRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
-                                           fticRanalysis:::getDataScale(ftmsObj)) > 0
+      presInd <- ftmsRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
+                                           ftmsRanalysis:::getDataScale(ftmsObj)) > 0
       
-      massColname <- fticRanalysis:::getKendrickMassColName(ftmsObj)
-      defectColname <- fticRanalysis:::getKendrickDefectColName(ftmsObj)
+      massColname <- ftmsRanalysis:::getKendrickMassColName(ftmsObj)
+      defectColname <- ftmsRanalysis:::getKendrickDefectColName(ftmsObj)
       
       cogs <- c(cogs, list(
         mean_kendrick_mass = trelliscope::cog(val=mean(ftmsObj$e_meta[presInd, massColname], na.rm=TRUE),

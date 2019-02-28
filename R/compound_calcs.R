@@ -1,6 +1,6 @@
 #' Wrapper function to calculate values associated with individual peaks/compounds
 #' 
-#' Calculate a variety of typical values for FTICR data associated with each peak/compound where empirical formula is available
+#' Calculate a variety of typical values for FT-MS data associated with each peak/compound where empirical formula is available
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param calc_fns a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.
@@ -54,7 +54,7 @@ compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
 
   for(i in 1:length(calc_fns)){
     # set f to the function that is named in the ith element of compound_calcs # 
-    f <- get(as.character(calc_fns[i]), envir=asNamespace("fticRanalysis"), mode="function")
+    f <- get(as.character(calc_fns[i]), envir=asNamespace("ftmsRanalysis"), mode="function")
     ftmsObj <- f(ftmsObj)
   }
   

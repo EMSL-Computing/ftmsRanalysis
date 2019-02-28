@@ -1,6 +1,6 @@
 ## edata_transform tests
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("edata_transform function")
 
 # valid data_scales 'log2', 'log10', 'log', 'pres', 'abundance'

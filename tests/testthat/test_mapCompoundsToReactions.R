@@ -1,4 +1,4 @@
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("mapCompoundsToReactions function")
 
 test_that("mapCompoundsToReactions works correctly mapping to MetaCyc", {

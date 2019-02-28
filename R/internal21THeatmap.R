@@ -30,7 +30,7 @@
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
   samp_cnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
-  ind <- fticRanalysis:::n_present(ftmsObj$e_data[,samp_cnames], getDataScale(ftmsObj))[,1] > 0
+  ind <- ftmsRanalysis:::n_present(ftmsObj$e_data[,samp_cnames], getDataScale(ftmsObj))[,1] > 0
   
   obs_peaks <- as.character(ftmsObj$e_data[ind, getEDataColName(ftmsObj)])
   plot_data <- plot_data[which(plot_data[,getEDataColName(ftmsObj)] %in% obs_peaks), ]

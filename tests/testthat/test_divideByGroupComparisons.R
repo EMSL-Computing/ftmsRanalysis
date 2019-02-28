@@ -1,12 +1,12 @@
 ## Tests on divideByGroupComparisons
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("divideByGroupComparisons function")
 
 test_that("basic tests on divideByGroupComparisons with all comparisons", {
   data("exampleProcessedPeakData")
   
-  comparisons <- fticRanalysis:::comparisonMatrix(exampleProcessedPeakData, "all")
+  comparisons <- ftmsRanalysis:::comparisonMatrix(exampleProcessedPeakData, "all")
   
   grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons="all")  
   
@@ -31,7 +31,7 @@ test_that("basic tests on divideByGroupComparisons with all comparisons", {
 test_that("divideByGroupComparisons works without a groupDF", {
   data("examplePeakData")
   
-  comparisons <- fticRanalysis:::comparisonMatrix(examplePeakData, comparisons="control", control="EM0061_sample")
+  comparisons <- ftmsRanalysis:::comparisonMatrix(examplePeakData, comparisons="control", control="EM0061_sample")
   
   grpComp <- divideByGroupComparisons(examplePeakData, comparisons="control", control="EM0061_sample")  
   
@@ -60,7 +60,7 @@ test_that("divideByGroupComparisons works without a groupDF", {
 test_that("divideByGroupComparisons with one-factor comparisons", {
   data("exampleProcessedPeakData")
   
-  comparisons <- fticRanalysis:::comparisonMatrix(exampleProcessedPeakData, "one-factor")
+  comparisons <- ftmsRanalysis:::comparisonMatrix(exampleProcessedPeakData, "one-factor")
   
   grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons="one-factor")  
   

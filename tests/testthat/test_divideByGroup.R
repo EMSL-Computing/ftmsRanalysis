@@ -1,6 +1,6 @@
 ## Tests on divideByGroup
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("divideByGroup function")
 
 testCompareAttributes <- function(newObj, originalObj, excludeAttr=NA) {

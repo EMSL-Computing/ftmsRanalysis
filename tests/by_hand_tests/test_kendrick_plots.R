@@ -1,6 +1,6 @@
 ## Test Kendrick plots
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
 data(exampleProcessedPeakData)
 picr <- exampleProcessedPeakData

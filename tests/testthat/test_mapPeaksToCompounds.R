@@ -1,6 +1,6 @@
 ## Test mapping peaks to compounds
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(MetaCycData)
 library(KeggData)
 context("mapPeaksToCompounds function")

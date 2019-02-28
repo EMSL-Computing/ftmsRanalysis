@@ -1,6 +1,6 @@
 # Tests of densityPlot function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
 data("examplePeakData")
 data("exampleProcessedPeakData")

@@ -1,6 +1,6 @@
 # Tests of plotPrincipalCoordinates function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 data("exampleProcessedPeakData")
 
 pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)

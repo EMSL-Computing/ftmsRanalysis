@@ -1,6 +1,6 @@
 ## Tests on summarizeGroupComparisons
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("summarizeGroupComparisons function")
 
 test_that("test of summarizeGroupComparisons on a groupComparison object", {

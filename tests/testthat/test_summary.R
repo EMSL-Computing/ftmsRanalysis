@@ -1,6 +1,6 @@
 ## Basic summary methods
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("summary method")
 
 test_that("summary.ftmsData method", {

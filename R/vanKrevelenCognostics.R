@@ -21,7 +21,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' library(fticRanalysis)
+#' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
@@ -56,19 +56,19 @@
 #' }
 vanKrevelenCognostics <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
   fn <- function(ftmsObj) {
-    divisionType <- fticRanalysis:::getDivisionType(ftmsObj)
+    divisionType <- ftmsRanalysis:::getDivisionType(ftmsObj)
     if (divisionType == "sample" | divisionType == "group") {
       sample_colnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
       sample_colnames <- sample_colnames[sample_colnames %in% colnames(ftmsObj$e_data)]
-      presInd <- fticRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
-                                           fticRanalysis:::getDataScale(ftmsObj)) > 0
+      presInd <- ftmsRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
+                                           ftmsRanalysis:::getDataScale(ftmsObj)) > 0
       
-      cogs <- fticRanalysis:::commonVanKrevelenCognostics(ftmsObj, presInd, vkBoundarySet=vkBoundarySet)
+      cogs <- ftmsRanalysis:::commonVanKrevelenCognostics(ftmsObj, presInd, vkBoundarySet=vkBoundarySet)
       
       if (divisionType == "sample") {
-        cogs <- c(cogs, fticRanalysis:::sampleCognostics(ftmsObj))
+        cogs <- c(cogs, ftmsRanalysis:::sampleCognostics(ftmsObj))
       } else {
-        cogs <- c(cogs, fticRanalysis:::groupCognostics(ftmsObj))
+        cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       }
       return(cogs)
       
@@ -80,13 +80,13 @@ vanKrevelenCognostics <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
       if (length(cname) == 0) stop("Cannot find appropriate group summary column of e_data, looking for 'n_present' or 'prop_present'")
       
       presInd <- ftmsObj$e_data[, cname] > 0 
-      cogs <- fticRanalysis:::commonVanKrevelenCognostics(ftmsObj, presInd, vkBoundarySet=vkBoundarySet)
+      cogs <- ftmsRanalysis:::commonVanKrevelenCognostics(ftmsObj, presInd, vkBoundarySet=vkBoundarySet)
       
-      cogs <- c(cogs, fticRanalysis:::groupCognostics(ftmsObj))
+      cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       return(cogs)
     
     } else if (divisionType == "comparisonSummary") {
-      cogs <- fticRanalysis:::comparisonSummaryVanKrevelenCognostics(ftmsObj, vkBoundarySet=vkBoundarySet, uniquenessColName=uniquenessColName)
+      cogs <- ftmsRanalysis:::comparisonSummaryVanKrevelenCognostics(ftmsObj, vkBoundarySet=vkBoundarySet, uniquenessColName=uniquenessColName)
       return(cogs)
     } else {
       stop(sprintf("vanKrevelenCognostics doesn't work with objects of this type (%s)", divisionType))
@@ -134,7 +134,7 @@ sampleCognostics <- function(ftmsObj) {
 
 # Cogs for groups: group defining columns of f_data
 groupCognostics <- function(ftmsObj) {
-  groupDF <- fticRanalysis:::getGroupDF(ftmsObj)
+  groupDF <- ftmsRanalysis:::getGroupDF(ftmsObj)
   if (is.null(groupDF)) stop("Invalid ftmsObj object, no group definition found")
   cols <- c(attr(groupDF, "main_effects"), attr(groupDF, "covariates"))
   more_cogs <- lapply(cols, function(cc) {

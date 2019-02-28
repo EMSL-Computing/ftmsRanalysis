@@ -2,7 +2,7 @@ template:
   path: "pkgdown-template"
   params:
     bootswatch: cosmo
-#title: FTICR Data Analysis in R
+#title: FT-MS Data Analysis in R
 home:
 #  strip_header: true
   links:
@@ -13,15 +13,15 @@ navbar:
     left:  [home, intro, reference, articles, news]
     right: github
 reference:
-- title: icrData object construction
-  desc: Functions to construct an icrData object
+- title: ftmsData object construction
+  desc: Functions to construct an ftmsData object
   contents:
-  - '`as.compoundIcrData`'
-  - '`as.moduleIcrData`'
-  - '`as.peakIcrData`'
-  - '`as.reactionIcrData`'
-  - '`subset.peakIcrData`'
-  - '`summary.icrData`'
+  - '`as.compoundData`'
+  - '`as.moduleData`'
+  - '`as.peakData`'
+  - '`as.reactionData`'
+  - '`subset.peakData`'
+  - '`summary.ftmsData`'
 - title: Meta data calculation
   desc: Functions to calculate meta-data fields
   contents:
@@ -41,7 +41,7 @@ reference:
   - '`plot.massFilt`'
   - '`plot.moleculeFilt`'
   - '`plot.emetaFilt`'
-  - '`plot.peakIcrData`'
+  - '`plot.peakData`'
   - '`summary.formulaFilt`'
   - '`summary.massFilt`'
   - '`summary.moleculeFilt`'
@@ -138,11 +138,11 @@ reference:
 - title: Example data objects
   desc: Example data included in the `fticRanalysis` package
   contents:
-  - '`peakIcrData`'
-  - '`peakIcrProcessed`'
-  - '`fticr12T_edata`'
-  - '`fticr12T_emeta`'
-  - '`fticr12T_fdata`'
+  - '`examplePeakData`'
+  - '`exampleProcessedPeakData`'
+  - '`ftms12T_edata`'
+  - '`ftms12T_emeta`'
+  - '`ftms12T_fdata`'
 
 github:
   - icon: fa-github

@@ -1,6 +1,6 @@
 ## Test plot.peakData
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 data(examplePeakData)
 data(exampleProcessedPeakData)
 

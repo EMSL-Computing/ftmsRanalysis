@@ -1,6 +1,6 @@
 ## Test plotting functions for filter objects
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
 data(examplePeakData)
 

@@ -144,7 +144,7 @@ scatterPlot <- function(ftmsObj, xCName, yCName, colorCName=NA, colorPal=NA, xla
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
   samp_cnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
-  ind <- fticRanalysis:::n_present(ftmsObj$e_data[,samp_cnames], getDataScale(ftmsObj))[,1] > 0
+  ind <- ftmsRanalysis:::n_present(ftmsObj$e_data[,samp_cnames], getDataScale(ftmsObj))[,1] > 0
   
   obs.peaks <- as.character(ftmsObj$e_data[ind, getEDataColName(ftmsObj)])
   plot_data <- plot_data[which(plot_data[,getEDataColName(ftmsObj)] %in% obs.peaks), ]
@@ -154,10 +154,10 @@ scatterPlot <- function(ftmsObj, xCName, yCName, colorCName=NA, colorPal=NA, xla
   plot_data <- plot_data[!ind.na, ]
   
   if (identical(xrange, NA)) {
-    xrange <- fticRanalysis:::nice_axis_limits(plot_data[, xCName])
+    xrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, xCName])
   }
   if (identical(yrange, NA)) {
-    yrange <- fticRanalysis:::nice_axis_limits(plot_data[, yCName])
+    yrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, yCName])
   }
 
   p <- plotly::plot_ly(plot_data, x=plot_data[,xCName], y=plot_data[,yCName]) 

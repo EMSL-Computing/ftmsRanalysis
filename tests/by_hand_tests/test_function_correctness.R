@@ -1,5 +1,5 @@
 ## This script attemps to identify functions using global variables in
-## the fticRanalysis namespace using the codetools library. However,
+## the ftmsRanalysis namespace using the codetools library. However,
 ## this cannot correctly identify variable names used in non-standard
 ## evaluation (e.g. column name usage in dplyr), so the printed 
 ## messages are only an indication of potential problems.
@@ -8,20 +8,20 @@
 
 library(codetools)
 
-# load all libraries used in fticRanalysis
-imports <- packageDescription("fticRanalysis")$Imports
+# load all libraries used in ftmsRanalysis
+imports <- packageDescription("ftmsRanalysis")$Imports
 imports <- gsub(" \\(.*\\)", "", unlist(strsplit(imports, ",?\n")))
 
-suggests <- packageDescription("fticRanalysis")$Suggests
+suggests <- packageDescription("ftmsRanalysis")$Suggests
 suggests <- gsub(" \\(.*\\)", "", unlist(strsplit(suggests, ",?\n")))
 
 for (ll in c(imports, suggests)) do.call(library, list(ll))
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
-ns_exports <- getNamespaceExports(asNamespace("fticRanalysis"))
+ns_exports <- getNamespaceExports(asNamespace("ftmsRanalysis"))
 for (ns_name in ns_exports) {
-  obj <- getFromNamespace(ns_name, ns="fticRanalysis")
+  obj <- getFromNamespace(ns_name, ns="ftmsRanalysis")
   if (mode(obj) != "function") next
   
   res <- codetools::findGlobals(obj, merge = FALSE)

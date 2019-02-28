@@ -1,6 +1,6 @@
 ## Basic functionality tests for peakData objects
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("peakData construction")
 
 test_that("peakData objects are constructed correctly", {
@@ -39,17 +39,17 @@ test_that("group designation works correctly on peakData", {
   data("examplePeakData")
   
   peakObj2 <- group_designation(examplePeakData, c("Location", "Block"))
-  expect_true(!is.null(fticRanalysis:::getGroupDF(peakObj2)))
+  expect_true(!is.null(ftmsRanalysis:::getGroupDF(peakObj2)))
   
-  groupDF <- fticRanalysis:::getGroupDF(peakObj2)
+  groupDF <- ftmsRanalysis:::getGroupDF(peakObj2)
   expect_true(all(c(getFDataColName(peakObj2), "Group", "Location", "Block") %in% colnames(groupDF)))
   expect_true(all(groupDF[, getFDataColName(peakObj2)] %in% colnames(peakObj2$e_data)))
 
   
   peakObj3 <- group_designation(examplePeakData, c("Location"))
-  expect_true(!is.null(fticRanalysis:::getGroupDF(peakObj3)))
+  expect_true(!is.null(ftmsRanalysis:::getGroupDF(peakObj3)))
   
-  groupDF3 <- fticRanalysis:::getGroupDF(peakObj3)
+  groupDF3 <- ftmsRanalysis:::getGroupDF(peakObj3)
   expect_true(all(c(getFDataColName(peakObj3), "Group") %in% colnames(groupDF3)))
   expect_true(all(groupDF[, getFDataColName(peakObj3)] %in% colnames(peakObj3$e_data)))
   

@@ -1,8 +1,8 @@
 ## Test Van Krevelen plots
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
-# setwd("~/Files/MinT/github/fticRanalysis")
+# setwd("~/Files/MinT/github/ftmsRanalysis")
 # load_all()
 
 data(exampleProcessedPeakData)

@@ -1,6 +1,6 @@
 ## Tests of concat function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("concat function")
 
 test_that("tests of concat function on group DDOs", {

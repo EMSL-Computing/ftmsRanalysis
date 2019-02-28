@@ -45,7 +45,7 @@ mapPeaksToCompounds <- function(peakObj, db="MetaCyc") {
     db_name <- "MetaCyc"
     
     # reassign molecular formulas using metacyc format
-    suppressMessages(peakObj <- fticRanalysis:::assign_mf(peakObj, metacyc=TRUE))
+    suppressMessages(peakObj <- ftmsRanalysis:::assign_mf(peakObj, metacyc=TRUE))
   }
   
   # get only peaks that have mass formulas
@@ -92,11 +92,11 @@ mapPeaksToCompounds <- function(peakObj, db="MetaCyc") {
   attr(res, "cnames") <- cnames.new
   attr(res, "filters") <- attr(peakObj, "filters")
   if (!is.null(getGroupDF(peakObj))) {
-    res <- fticRanalysis:::setGroupDF(res, getGroupDF(peakObj))
+    res <- ftmsRanalysis:::setGroupDF(res, getGroupDF(peakObj))
   }
   # attr(res, "instrument_type") <- attr(peakObj, "instrument_type")
   # attr(res, "data_info") <- attr(peakObj, "data_info")
-  res <- fticRanalysis:::setDatabase(res, db)
+  res <- ftmsRanalysis:::setDatabase(res, db)
   
   return(res)
 }

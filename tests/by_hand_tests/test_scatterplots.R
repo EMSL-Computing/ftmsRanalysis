@@ -1,6 +1,6 @@
 ## Test scatter plot function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
 data(exampleProcessedPeakData)
 

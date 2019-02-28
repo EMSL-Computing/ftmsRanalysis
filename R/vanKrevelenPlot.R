@@ -41,7 +41,7 @@ vanKrevelenPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBou
     }
   } 
   
-  return(fticRanalysis:::.vanKrevelenPlotInternal(ftmsObj, title=title, colorPal=colorPal, colorCName=colorCName, 
+  return(ftmsRanalysis:::.vanKrevelenPlotInternal(ftmsObj, title=title, colorPal=colorPal, colorCName=colorCName, 
                                   vkBoundarySet=vkBoundarySet, showVKBounds=showVKBounds,
                                   xlabel=xlabel, ylabel=ylabel, legendTitle=legendTitle, logColorCol=logColorCol))
 }

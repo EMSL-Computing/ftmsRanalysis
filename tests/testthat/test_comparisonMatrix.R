@@ -1,6 +1,6 @@
 ## comparisonMatrix tests
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("comparisonMatrix function")
 
 

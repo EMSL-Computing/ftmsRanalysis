@@ -22,7 +22,7 @@ Examples section for use.
 }
 \examples{
 \dontrun{
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)

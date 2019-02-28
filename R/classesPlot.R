@@ -24,7 +24,7 @@ classesPlot <- function(ftmsObj, xaxis=NULL, ylabel="Percentage of Chemical Clas
   
   
   if(is.null(xaxis)){
-    xaxis <- fticRanalysis:::getFDataColName(ftmsObj)
+    xaxis <- ftmsRanalysis:::getFDataColName(ftmsObj)
   }
   
   if(!(xaxis %in% c(colnames(ftmsObj$f_data), colnames(attr(ftmsObj, "group_DF"))))){
@@ -38,31 +38,31 @@ classesPlot <- function(ftmsObj, xaxis=NULL, ylabel="Percentage of Chemical Clas
   
   if(is.null(classColName) & !is.null(vkBoundarySet)){
     if(!(vkBoundarySet) %in% c("bs1","bs2")){ stop("vkBoundarySet must be one of 'bs1' or 'bs2'.") }
-    classes$VKClassesForPlot <- fticRanalysis:::assign_class(ftmsObj, vkBoundarySet)$e_meta[,paste(vkBoundarySet,"class",sep="_")]
+    classes$VKClassesForPlot <- ftmsRanalysis:::assign_class(ftmsObj, vkBoundarySet)$e_meta[,paste(vkBoundarySet,"class",sep="_")]
     classes$VKClassesForPlot <- gsub(";.*", "",classes$VKClassesForPlot)
-    classes$VKClassesForPlot <- factor(classes$VKClassesForPlot, levels=rownames(fticRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds))
+    classes$VKClassesForPlot <- factor(classes$VKClassesForPlot, levels=rownames(ftmsRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds))
   }else if(!is.null(classColName)){
     if(!(classColName) %in% colnames(ftmsObj$e_meta)){ stop("classColName not found in ftmsObj$e_meta.") }
-    classes$VKClassesForPlot <- ftmsObj$e_meta[match(ftmsObj$e_meta[,fticRanalysis:::getMassColName(ftmsObj)], classes[,fticRanalysis:::getMassColName(ftmsObj)]), classColName]
+    classes$VKClassesForPlot <- ftmsObj$e_meta[match(ftmsObj$e_meta[,ftmsRanalysis:::getMassColName(ftmsObj)], classes[,ftmsRanalysis:::getMassColName(ftmsObj)]), classColName]
   }else{
     stop("Unsure what to use to color by, please specify either 'vkBoundarySet' or 'classColName'")
   }
   
   classes <- reshape2::melt(classes)
-  colnames(classes)[which(colnames(classes) == "variable")] <- fticRanalysis:::getFDataColName(ftmsObj)
+  colnames(classes)[which(colnames(classes) == "variable")] <- ftmsRanalysis:::getFDataColName(ftmsObj)
   classes <- merge(classes, ftmsObj$e_meta, by=getMassColName(ftmsObj))
   
   # remove unassigned 
-  if(any(is.na(classes[,fticRanalysis:::getMFColName(ftmsObj)]))){
-    classes <- classes[-which(is.na(classes[,fticRanalysis:::getMFColName(ftmsObj)])),]
+  if(any(is.na(classes[,ftmsRanalysis:::getMFColName(ftmsObj)]))){
+    classes <- classes[-which(is.na(classes[,ftmsRanalysis:::getMFColName(ftmsObj)])),]
     classes <- droplevels(classes)
   }
   
   # merge peaks with metadata or group_DF
   if(xaxis %in% colnames(attr(ftmsObj, "group_DF"))){
-    classes <- merge(classes, attr(ftmsObj, "group_DF"), by=fticRanalysis:::getFDataColName(ftmsObj))
+    classes <- merge(classes, attr(ftmsObj, "group_DF"), by=ftmsRanalysis:::getFDataColName(ftmsObj))
   }else{
-    classes <- merge(classes, ftmsObj$f_data, by=fticRanalysis:::getFDataColName(ftmsObj)) 
+    classes <- merge(classes, ftmsObj$f_data, by=ftmsRanalysis:::getFDataColName(ftmsObj)) 
   }
   
   if(xaxis == getFDataColName(ftmsObj)){
@@ -100,7 +100,7 @@ classesPlot <- function(ftmsObj, xaxis=NULL, ylabel="Percentage of Chemical Clas
     cc <- factor(cc, levels=cc)
   }
   
-  colorPal <- fticRanalysis:::getFactorColorPalette(cc)  
+  colorPal <- ftmsRanalysis:::getFactorColorPalette(cc)  
   col_vec <- colorPal(cc)
   names(col_vec) <- cc
   
