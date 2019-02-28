@@ -5,9 +5,9 @@ library(fticRanalysis)
 # setwd("~/Files/MinT/github/fticRanalysis")
 # load_all()
 
-data(peakIcrProcessed)
-picr <- peakIcrProcessed
-rm(peakIcrProcessed)
+data(exampleProcessedPeakData)
+picr <- exampleProcessedPeakData
+rm(exampleProcessedPeakData)
 
 vanKrevelenPlot(picr, title="Test1", colorPal=NA, colorCName=NA, vkBoundarySet="bs1",
                 showVKBounds=TRUE, legendTitle="Van Krevelen Category")

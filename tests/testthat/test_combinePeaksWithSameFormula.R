@@ -4,9 +4,9 @@ library(fticRanalysis)
 context("combinePeaksWithSameFormula function")
 
 test_that("test of combinePeaksWithSameFormula function with abundance data", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  icrData <- peakIcrProcessed
+  icrData <- exampleProcessedPeakData
   icr2 <- combinePeaksWithSameFormula(icrData)
   
   expect_true(nrow(icr2$e_data) <= nrow(icrData$e_data))
@@ -25,9 +25,9 @@ test_that("test of combinePeaksWithSameFormula function with abundance data", {
 })
 
 test_that("test of combinePeaksWithSameFormula function with log2 data", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  icrData <- peakIcrProcessed
+  icrData <- exampleProcessedPeakData
   icrData <- edata_transform(icrData, "log2")
   icr2 <- combinePeaksWithSameFormula(icrData)
   
@@ -50,9 +50,9 @@ test_that("test of combinePeaksWithSameFormula function with log2 data", {
 
 
 test_that("test of combinePeaksWithSameFormula function with presence/absence data", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  icrData <- peakIcrProcessed
+  icrData <- exampleProcessedPeakData
   icrData <- edata_transform(icrData, "pres")
   icr2 <- combinePeaksWithSameFormula(icrData)
   

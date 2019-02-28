@@ -5,8 +5,8 @@ context("summary method")
 
 test_that("summary.icrData method", {
 
-  data("peakIcrData")  
-  icrSumm <- summary(peakIcrData)  
+  data("examplePeakData")  
+  icrSumm <- summary(examplePeakData)  
   expect_true(inherits(icrSumm, "icrDataSummary"))
   expect_true(inherits(icrSumm, "list"))
   expect_equal(object = length(icrSumm), expected = 3)  

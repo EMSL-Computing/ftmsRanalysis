@@ -18,17 +18,17 @@ testSubsetSizesAttributes <- function(subsetObj, originalObj) {
   
 }
 
-test_that("test of subset.peakIcrData with one group", {
-  data("peakIcrProcessed")
+test_that("test of subset.peakData with one group", {
+  data("exampleProcessedPeakData")
   
   grps <- "M_S"
-  groupDF <- getGroupDF(peakIcrProcessed)
+  groupDF <- getGroupDF(exampleProcessedPeakData)
   groupDF <- dplyr::filter(groupDF, Group %in% grps)
   samples <- groupDF$SampleID
   
-  msSubset <- subset(peakIcrProcessed, groups=grps)
+  msSubset <- subset(exampleProcessedPeakData, groups=grps)
   
-  testSubsetSizesAttributes(msSubset, peakIcrProcessed)
+  testSubsetSizesAttributes(msSubset, exampleProcessedPeakData)
   expect_true(all(samples %in% colnames(msSubset$e_data)))  
   expect_true(nrow(msSubset$f_data) == length(samples))
   expect_true(all(samples %in% msSubset$f_data$SampleID))
@@ -36,56 +36,56 @@ test_that("test of subset.peakIcrData with one group", {
 })
 
 
-test_that("test of subset.peakIcrData with two groups", {
-  data("peakIcrProcessed")
+test_that("test of subset.peakData with two groups", {
+  data("exampleProcessedPeakData")
   
   grps <- c("M_S", "W_S")
-  groupDF <- getGroupDF(peakIcrProcessed)
+  groupDF <- getGroupDF(exampleProcessedPeakData)
   groupDF <- dplyr::filter(groupDF, Group %in% grps)
   samples <- groupDF$SampleID
   
-  msSubset <- subset(peakIcrProcessed, groups=grps)
+  msSubset <- subset(exampleProcessedPeakData, groups=grps)
   
-  testSubsetSizesAttributes(msSubset, peakIcrProcessed)
+  testSubsetSizesAttributes(msSubset, exampleProcessedPeakData)
   expect_true(all(samples %in% colnames(msSubset$e_data)))  
   expect_true(nrow(msSubset$f_data) == length(samples))
   expect_true(all(samples %in% msSubset$f_data$SampleID))
   
 })
 
-test_that("test of subset.peakIcrData with one sample", {
-  data("peakIcrProcessed")
+test_that("test of subset.peakData with one sample", {
+  data("exampleProcessedPeakData")
   
-  groupDF <- getGroupDF(peakIcrProcessed)
+  groupDF <- getGroupDF(exampleProcessedPeakData)
   samples <- groupDF$SampleID[3]
   
-  msSubset <- subset(peakIcrProcessed, samples=samples)
+  msSubset <- subset(exampleProcessedPeakData, samples=samples)
   
-  testSubsetSizesAttributes(msSubset, peakIcrProcessed)
+  testSubsetSizesAttributes(msSubset, exampleProcessedPeakData)
   expect_true(all(samples %in% colnames(msSubset$e_data)))  
   expect_true(nrow(msSubset$f_data) == length(samples))
   expect_true(all(samples %in% msSubset$f_data$SampleID))
   
 })
 
-test_that("test of subset.peakIcrData with two samples", {
-  data("peakIcrProcessed")
+test_that("test of subset.peakData with two samples", {
+  data("exampleProcessedPeakData")
   
-  groupDF <- getGroupDF(peakIcrProcessed)
+  groupDF <- getGroupDF(exampleProcessedPeakData)
   samples <- groupDF$SampleID[3:4]
   
-  msSubset <- subset(peakIcrProcessed, samples=samples)
+  msSubset <- subset(exampleProcessedPeakData, samples=samples)
   
-  testSubsetSizesAttributes(msSubset, peakIcrProcessed)
+  testSubsetSizesAttributes(msSubset, exampleProcessedPeakData)
   expect_true(all(samples %in% colnames(msSubset$e_data)))  
   expect_true(nrow(msSubset$f_data) == length(samples))
   expect_true(all(samples %in% msSubset$f_data$SampleID))
   
 })
 
-test_that("test of subset.compoundIcrData with one group and then two samples", {
-  data("peakIcrProcessed")
-  suppressWarnings(compIcr<- mapPeaksToCompounds(peakIcrProcessed, db="MetaCyc"))
+test_that("test of subset.compoundData with one group and then two samples", {
+  data("exampleProcessedPeakData")
+  suppressWarnings(compIcr<- mapPeaksToCompounds(exampleProcessedPeakData, db="MetaCyc"))
   
   grps <- "M_S"
   groupDF <- getGroupDF(compIcr)
@@ -110,9 +110,9 @@ test_that("test of subset.compoundIcrData with one group and then two samples", 
   
 })
 
-test_that("test of subset.reactionIcrData with one group and then two samples", {
-  data("peakIcrProcessed")
-  suppressWarnings(compIcr<- mapPeaksToCompounds(peakIcrProcessed, db="MetaCyc"))
+test_that("test of subset.reactionData with one group and then two samples", {
+  data("exampleProcessedPeakData")
+  suppressWarnings(compIcr<- mapPeaksToCompounds(exampleProcessedPeakData, db="MetaCyc"))
   suppressWarnings(rxnIcr <- mapCompoundsToReactions(compIcr))
   
   grps <- "M_C"
@@ -138,9 +138,9 @@ test_that("test of subset.reactionIcrData with one group and then two samples", 
   
 })
 
-test_that("test of subset.moduleIcrData with one group and then two samples", {
-  data("peakIcrProcessed")
-  suppressWarnings(compIcr<- mapPeaksToCompounds(peakIcrProcessed, db="MetaCyc"))
+test_that("test of subset.moduleData with one group and then two samples", {
+  data("exampleProcessedPeakData")
+  suppressWarnings(compIcr<- mapPeaksToCompounds(exampleProcessedPeakData, db="MetaCyc"))
   suppressWarnings(moduleIcr <- mapCompoundsToReactions(compIcr))
   
   grps <- "W_C"

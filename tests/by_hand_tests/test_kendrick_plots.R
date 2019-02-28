@@ -2,9 +2,9 @@
 
 library(fticRanalysis)
 
-data(peakIcrProcessed)
-picr <- peakIcrProcessed
-rm(peakIcrProcessed)
+data(exampleProcessedPeakData)
+picr <- exampleProcessedPeakData
+rm(exampleProcessedPeakData)
 
 
 kendrickPlot(picr, title="Test1", colorPal=NA, colorCName=NA, vkBoundarySet="bs1")

@@ -1,14 +1,14 @@
-## Test plot.peakIcrData
+## Test plot.peakData
 
 library(fticRanalysis)
-data(peakIcrData)
-data(peakIcrProcessed)
+data(examplePeakData)
+data(exampleProcessedPeakData)
 
-data1 <- peakIcrData
+data1 <- exampleProcessedPeakData
 data2 <- edata_transform(data1, "log2")
 data3 <- edata_transform(data1, "pres")
 
-data4 <- peakIcrProcessed
+data4 <- exampleProcessedPeakData
 data5 <- edata_transform(data4, "log")
 data6 <- edata_transform(data4, "pres")
 

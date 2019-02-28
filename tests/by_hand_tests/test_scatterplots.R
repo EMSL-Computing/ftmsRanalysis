@@ -2,9 +2,9 @@
 
 library(fticRanalysis)
 
-data(peakIcrProcessed)
+data(exampleProcessedPeakData)
 
-icrData <- peakIcrProcessed
+icrData <- exampleProcessedPeakData
 xCName <- "NOSC"
 yCName <- "DBE"
 colorCName <- "HtoC_ratio"

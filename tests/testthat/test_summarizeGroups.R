@@ -4,13 +4,13 @@ library(fticRanalysis)
 context("summarizeGroups function")
 
 test_that("basic tests of summarizeGroups function on one group", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   grp_name <- "M_S"
-  grp_subset <- subset(peakIcrProcessed, groups="M_S")
+  grp_subset <- subset(exampleProcessedPeakData, groups="M_S")
   
   grp_summary <- summarizeGroups(grp_subset, summary_functions=c("n_present", "prop_present"))
   
-  expect_true(inherits(grp_summary, "peakIcrData"))
+  expect_true(inherits(grp_summary, "peakData"))
   expect_true(inherits(grp_summary, "groupSummary"))
   
   new_cnames <- paste0(grp_name, "_", c("n_present", "prop_present"))
@@ -30,12 +30,12 @@ test_that("basic tests of summarizeGroups function on one group", {
 })
   
 test_that("basic tests of summarizeGroups function on object with multiple groups", {
-  data("peakIcrProcessed")
-  grp_names <- unique(fticRanalysis:::getGroupDF(peakIcrProcessed)$Group)
+  data("exampleProcessedPeakData")
+  grp_names <- unique(fticRanalysis:::getGroupDF(exampleProcessedPeakData)$Group)
 
-  grp_summary <- summarizeGroups(peakIcrProcessed, summary_functions=c("n_present", "prop_present"))
+  grp_summary <- summarizeGroups(exampleProcessedPeakData, summary_functions=c("n_present", "prop_present"))
   
-  expect_true(inherits(grp_summary, "peakIcrData"))
+  expect_true(inherits(grp_summary, "peakData"))
   expect_true(inherits(grp_summary, "groupSummary"))
   
   new_cnames <- c(paste0(grp_names, "_", "n_present"), paste0(grp_names, "_", "prop_present"))
@@ -43,22 +43,22 @@ test_that("basic tests of summarizeGroups function on object with multiple group
   
   expect_true(is.numeric(grp_summary$e_data$M_C_n_present))
   expect_true(is.numeric(grp_summary$e_data$M_C_prop_present))
-  expect_true(nrow(grp_summary$e_data) == nrow(peakIcrProcessed$e_data))
-  expect_true(all(dim(grp_summary$e_meta) == dim(peakIcrProcessed$e_meta)))
-  expect_true(all(colnames(grp_summary$e_meta) %in% colnames(peakIcrProcessed$e_meta)))  
+  expect_true(nrow(grp_summary$e_data) == nrow(exampleProcessedPeakData$e_data))
+  expect_true(all(dim(grp_summary$e_meta) == dim(exampleProcessedPeakData$e_meta)))
+  expect_true(all(colnames(grp_summary$e_meta) %in% colnames(exampleProcessedPeakData$e_meta)))  
   
   expect_true(ncol(grp_summary$f_data) == 4)
   expect_true(all(new_cnames %in% grp_summary$f_data$Group_Summary_Column))
   
-  expect_true(sum(grp_summary$f_data$Num_Samples) == nrow(getGroupDF(peakIcrProcessed))*2)
+  expect_true(sum(grp_summary$f_data$Num_Samples) == nrow(getGroupDF(exampleProcessedPeakData))*2)
   
 })
 
 
 test_that("test summarizeGroups function on a ddo", {
-  data("peakIcrProcessed")
-  peakByGroup <- divideByGroup(peakIcrProcessed)
-  grpNames <- as.character(unique(getGroupDF(peakIcrProcessed)$Group))
+  data("exampleProcessedPeakData")
+  peakByGroup <- divideByGroup(exampleProcessedPeakData)
+  grpNames <- as.character(unique(getGroupDF(exampleProcessedPeakData)$Group))
   
   grpSummaryDdo <- summarizeGroups(peakByGroup, summary_functions=c("n_present", "prop_present"))
   
@@ -67,7 +67,7 @@ test_that("test summarizeGroups function on a ddo", {
   expect_true(all(paste0("Group=", grpNames) %in% unlist(getKeys(grpSummaryDdo))))
   
   grp2 <- grpSummaryDdo[[2]]$value
-  expect_true(inherits(grp2, "peakIcrData"))
+  expect_true(inherits(grp2, "peakData"))
   expect_true(inherits(grp2, "groupSummary"))
   
   expect_true(all(paste0(getSplitVar(grp2, "Group"), "_", c("n_present", "prop_present")) %in% colnames(grp2$e_data)))

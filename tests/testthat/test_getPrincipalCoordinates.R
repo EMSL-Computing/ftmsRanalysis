@@ -1,9 +1,9 @@
 context("getPrincipalCoordinates function")
 
 test_that("basic tests on getPrincipalCoordinates", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  picr <- edata_transform(peakIcrProcessed, "pres")
+  picr <- edata_transform(exampleProcessedPeakData, "pres")
   res1 <- getPrincipalCoordinates(picr)
   
   expect_true(is.numeric(res1))
@@ -18,7 +18,7 @@ test_that("basic tests on getPrincipalCoordinates", {
   expect_equal(dim(res3), c(20, 10))
   
   res4 <- getPrincipalCoordinates(picr, dist_metric="jaccard")
-  res5 <- getPrincipalCoordinates(peakIcrProcessed, dist_metric="jaccard")
+  res5 <- getPrincipalCoordinates(exampleProcessedPeakData, dist_metric="jaccard")
   
   expect_identical(res4, res5)
 

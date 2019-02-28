@@ -4,11 +4,11 @@ library(fticRanalysis)
 context("divideByGroupComparisons function")
 
 test_that("basic tests on divideByGroupComparisons with all comparisons", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  comparisons <- fticRanalysis:::comparisonMatrix(peakIcrProcessed, "all")
+  comparisons <- fticRanalysis:::comparisonMatrix(exampleProcessedPeakData, "all")
   
-  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons="all")  
+  grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons="all")  
   
   expect_true(inherits(grpComp, "ddo"))
   expect_true(length(grpComp) == ncol(comparisons))
@@ -18,7 +18,7 @@ test_that("basic tests on divideByGroupComparisons with all comparisons", {
   expect_true(inherits(testSubset, "groupComparison"))
   
   grps <- comparisons[,i]
-  samples <- as.character(dplyr::filter(getGroupDF(peakIcrProcessed), Group %in% grps)$SampleID)
+  samples <- as.character(dplyr::filter(getGroupDF(exampleProcessedPeakData), Group %in% grps)$SampleID)
   expect_true(all(samples %in% colnames(testSubset$e_data)))
   
   expect_true(all(samples %in% getGroupDF(testSubset)$SampleID))
@@ -29,16 +29,16 @@ test_that("basic tests on divideByGroupComparisons with all comparisons", {
 })
 
 test_that("divideByGroupComparisons works without a groupDF", {
-  data("peakIcrData")
+  data("examplePeakData")
   
-  comparisons <- fticRanalysis:::comparisonMatrix(peakIcrData, comparisons="control", control="EM0061_sample")
+  comparisons <- fticRanalysis:::comparisonMatrix(examplePeakData, comparisons="control", control="EM0061_sample")
   
-  grpComp <- divideByGroupComparisons(peakIcrData, comparisons="control", control="EM0061_sample")  
+  grpComp <- divideByGroupComparisons(examplePeakData, comparisons="control", control="EM0061_sample")  
   
   expect_true(inherits(grpComp, "ddo"))
   expect_true(length(grpComp) == ncol(comparisons))
   
-  n_samples <- length(unique(peakIcrData$f_data[, getFDataColName(peakIcrData)]))
+  n_samples <- length(unique(examplePeakData$f_data[, getFDataColName(examplePeakData)]))
   expect_true(length(grpComp) == n_samples-1)
   
   i <- 5
@@ -58,11 +58,11 @@ test_that("divideByGroupComparisons works without a groupDF", {
 
 
 test_that("divideByGroupComparisons with one-factor comparisons", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  comparisons <- fticRanalysis:::comparisonMatrix(peakIcrProcessed, "one-factor")
+  comparisons <- fticRanalysis:::comparisonMatrix(exampleProcessedPeakData, "one-factor")
   
-  grpComp <- divideByGroupComparisons(peakIcrProcessed, comparisons="one-factor")  
+  grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons="one-factor")  
   
   expect_true(inherits(grpComp, "ddo"))
   expect_true(length(grpComp) == ncol(comparisons))
@@ -72,7 +72,7 @@ test_that("divideByGroupComparisons with one-factor comparisons", {
   expect_true(inherits(testSubset, "groupComparison"))
   
   grps <- comparisons[,i]
-  samples <- as.character(dplyr::filter(getGroupDF(peakIcrProcessed), Group %in% grps)$SampleID)
+  samples <- as.character(dplyr::filter(getGroupDF(exampleProcessedPeakData), Group %in% grps)$SampleID)
   expect_true(all(samples %in% colnames(testSubset$e_data)))
   
   expect_true(all(samples %in% getGroupDF(testSubset)$SampleID))

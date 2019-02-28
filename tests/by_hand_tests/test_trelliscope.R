@@ -5,12 +5,12 @@ library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
 
-data('peakIcrProcessed')
+data('exampleProcessedPeakData')
 
 ##########################################################
 ## SAMPLE PLOTS
 
-sampleDdo <- divideBySample(peakIcrProcessed)
+sampleDdo <- divideBySample(exampleProcessedPeakData)
 
 ## TEST S-1: VK plot, color by VK category
 panelFnS1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
@@ -53,7 +53,7 @@ makeDisplay(sampleDdo,
 ##########################################################
 ## GROUP PLOTS
 
-groupDdo <- divideByGroup(peakIcrProcessed)
+groupDdo <- divideByGroup(exampleProcessedPeakData)
 groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 
 ## TEST G-1: VK group plot, color by proportion present
@@ -103,8 +103,8 @@ view()
 ##########################################################
 ## GROUP COMPARISON PLOTS
 
-peakIcrProcessed <- assign_class(peakIcrProcessed, "bs1")
-grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
+exampleProcessedPeakData <- assign_class(exampleProcessedPeakData, "bs1")
+grpCompDdo <- divideByGroupComparisons(exampleProcessedPeakData, "all")
 grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
                                                summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
 
