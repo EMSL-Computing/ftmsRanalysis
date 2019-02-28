@@ -9,7 +9,7 @@ vanKrevelenPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
   ylabel = "H:C Ratio", legendTitle = colorCName)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', (output of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}),
+\item{icrData}{an object of class 'peakData' or 'compoundData', (output of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}),
 or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'comparisonSummary' object (output of \code{\link{summarizeGroupComparisons}}).}
 
 \item{title}{plot title}

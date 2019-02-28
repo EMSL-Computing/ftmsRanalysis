@@ -2,7 +2,7 @@
 % Please edit documentation in R/densityPlot.R
 \name{densityPlot}
 \alias{densityPlot}
-\title{Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object}
+\title{Density plot of quantitative characteristic of peaks for a peakData or compoundData object}
 \usage{
 densityPlot(icrData, variable, samples = NA, groups = FALSE,
   title = NA, yaxis = "density", plot_hist = FALSE,
@@ -11,7 +11,7 @@ densityPlot(icrData, variable, samples = NA, groups = FALSE,
   substring(yaxis, 2), sep = ""))
 }
 \arguments{
-\item{icrData}{icrData object of class peakIcrData or compoundIcrData}
+\item{icrData}{icrData object of class peakData or compoundData}
 
 \item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.}
 

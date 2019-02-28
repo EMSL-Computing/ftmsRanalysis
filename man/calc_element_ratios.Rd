@@ -7,7 +7,7 @@
 calc_element_ratios(icrData)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
 }
 \value{
 an object of the same class as \code{icrData} with columns in \code{e_meta} giving elemental ratios

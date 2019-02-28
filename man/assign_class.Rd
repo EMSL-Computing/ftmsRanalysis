@@ -7,7 +7,7 @@
 assign_class(icrData, boundary_set = "bs1", calc_ratios = TRUE)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{boundary_set}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1", "bs2" and "bs3". Defaults to "bs1". See Details for more information on boundary sets.}
 

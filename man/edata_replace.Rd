@@ -7,7 +7,7 @@
 edata_replace(icrData, x, y)
 }
 \arguments{
-\item{icrData}{an object of the class 'peakIcrData', or 'compoundIcrData'}
+\item{icrData}{an object of the class 'peakData', or 'compoundData'}
 
 \item{x}{value to be replaced, usually numeric or NA}
 

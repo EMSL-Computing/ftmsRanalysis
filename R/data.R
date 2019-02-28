@@ -3,8 +3,8 @@
 #' A dataset containing expression data from a 12T FTICR instrument. 
 #'
 #' @format A data.frame with 2,442 rows (peaks/masses) and 21 columns (mass identifier and samples):
-#' @rdname fticr12T_edata
-#' @name fticr12T_edata
+#' @rdname ftms12T_edata
+#' @name ftms12T_edata
 NULL
 
 #' FTICR Sample Feature Data
@@ -18,8 +18,8 @@ NULL
 #'   \item{Block}{Field block from which a sample was taken - 5 levels (1, 2, 3, 4, 5)}
 #'   \item{Crop.Flora}{Crop/flora type of given sample - 2 levels (C, S)}
 #' }
-#' @rdname fticr12T_fdata
-#' @name fticr12T_fdata
+#' @rdname ftms12T_fdata
+#' @name ftms12T_fdata
 NULL
 
 #' FTICR Peak Meta Information
@@ -39,8 +39,8 @@ NULL
 #'   \item{Error}{Difference between the experimental mass and the accurate mass }
 #'   \item{NeutralMass}{Experimental mass + mass of hydrogen - mass of electron}
 #' }
-#' @rdname fticr12T_emeta
-#' @name fticr12T_emeta
+#' @rdname ftms12T_emeta
+#' @name ftms12T_emeta
 NULL
 
 #' FTICR Data Object of Class peakData
@@ -56,8 +56,8 @@ NULL
 #' 
 #' @details Created by running the following code 
 #' \preformatted{
-#' as.peakData(e_data = fticr12T_edata, f_data = fticr12T_fdata, 
-#'                e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", 
+#' as.peakData(e_data = ftms12T_edata, f_data = ftms12T_fdata, 
+#'                e_meta = ftms12T_emeta, edata_cname = "Mass", mass_cname = "Mass", 
 #'                fdata_cname = "SampleID",isotopic_cname = "C13", 
 #'                isotopic_notation = "1",c_cname = "C", h_cname = "H", 
 #'                o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P", 

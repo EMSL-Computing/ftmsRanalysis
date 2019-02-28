@@ -10,7 +10,7 @@ densityCognostics(variable)
 \item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.}
 }
 \value{
-a function that may be applied to objects of type \code{peakIcrData} and \code{groupSummary}
+a function that may be applied to objects of type \code{peakData} and \code{groupSummary}
 }
 \description{
 The \code{densityCognostics} function provides a set of default cognostics
@@ -26,10 +26,10 @@ library(fticRanalysis)
 library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-data('peakIcrProcessed')
+data('exampleProcessedPeakData')
 
 ## Plot density of NOSC variable for each sample
-sampleDdo <- divideBySample(peakIcrProcessed)
+sampleDdo <- divideBySample(exampleProcessedPeakData)
 panelFn1 <- panelFunctionGenerator("densityPlot", variable="NOSC")
 makeDisplay(sampleDdo, 
             panelFn=panelFn1,
@@ -38,7 +38,7 @@ makeDisplay(sampleDdo,
             group = "Sample")
 
 ## Plot density of NOSC for each group
-groupDdo <- divideByGroup(peakIcrProcessed)
+groupDdo <- divideByGroup(exampleProcessedPeakData)
 panelFn2 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
 
 makeDisplay(groupDdo, 

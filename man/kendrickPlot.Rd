@@ -9,7 +9,7 @@ kendrickPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
   ylabel = "Kendrick Defect", legendTitle = colorCName)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{title}{plot title}
 

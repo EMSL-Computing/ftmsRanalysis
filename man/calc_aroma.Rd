@@ -7,7 +7,7 @@
 calc_aroma(icrData)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
 an object of the same class as \code{icrData} with a column in \code{e\_meta} giving aromaticity and modified aromaticity values

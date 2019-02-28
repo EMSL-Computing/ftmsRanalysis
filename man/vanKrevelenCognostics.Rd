@@ -14,7 +14,7 @@ name of the column that specifies uniqueness to a group? If only one uniqueness 
 been applied this is unnecessary. (See \code{\link{summarizeComparisons}}.)}
 }
 \value{
-a function that may be applied to objects of type \code{peakIcrData}, \code{groupSummary},
+a function that may be applied to objects of type \code{peakData}, \code{groupSummary},
 and \code{comparisonSummary}
 }
 \description{
@@ -33,10 +33,10 @@ library(fticRanalysis)
 library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-data('peakIcrProcessed')
+data('exampleProcessedPeakData')
 
 ## Van Krevelen plot for each sample
-sampleDdo <- divideBySample(peakIcrProcessed)
+sampleDdo <- divideBySample(exampleProcessedPeakData)
 panelFn1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
 
 # Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions
@@ -46,7 +46,7 @@ makeDisplay(sampleDdo,
          name = "Van_Krevelen_plots_per_sample")
 
 ## Van Krevelen plots for group comparison summaries
-grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
+grpCompDdo <- divideByGroupComparisons(exampleProcessedPeakData, "all")
 grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
                                             summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
 

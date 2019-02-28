@@ -8,7 +8,7 @@ numPeaksPlot(icrData, xaxis = NULL, ylabel = "Number of Peaks",
   title = NULL)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{xaxis}{x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
 colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).}

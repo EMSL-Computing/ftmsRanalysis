@@ -7,10 +7,10 @@
 combinePeaksWithSameFormula(icrData)
 }
 \arguments{
-\item{icrData}{data of type \code{peakIcrData}}
+\item{icrData}{data of type \code{peakData}}
 }
 \value{
-\code{peakIcrData} object where now two rows of \code{e_data} map to the same mass formula
+\code{peakData} object where now two rows of \code{e_data} map to the same mass formula
 }
 \description{
 If multiple peaks are mapped to the same mass formula it can cause problems 
@@ -26,5 +26,5 @@ It is recommended to call the \code{combinePeaksWithSameFormula} function
 before using \code{mapPeaksToCompounds}.
 }
 \examples{
-new_data <- combinePeaksWithSameFormula(peakIcrProcessed)
+new_data <- combinePeaksWithSameFormula(exampleProcessedPeakData)
 }

@@ -10,7 +10,7 @@ scatterPlot(icrData, xCName, yCName, colorCName = NA, colorPal = NA,
   hoverTextCName = NA)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{xCName}{column name for x-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}}
 
@@ -43,5 +43,5 @@ plotly object
 Title
 }
 \examples{
-scatterPlot(peakIcrProcessed, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for peakIcrProcessed")
+scatterPlot(exampleProcessedPeakData, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for exampleProcessedPeakData")
 }

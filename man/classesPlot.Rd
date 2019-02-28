@@ -9,7 +9,7 @@ classesPlot(icrData, xaxis = NULL,
   vkBoundarySet = "bs1", classColName = NULL)
 }
 \arguments{
-\item{icrData}{icrData object of class peakIcrData or compoundIcrData}
+\item{icrData}{icrData object of class peakData or compoundData}
 
 \item{xaxis}{x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
 colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).}

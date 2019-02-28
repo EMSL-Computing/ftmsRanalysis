@@ -8,7 +8,7 @@ compound_calcs(icrData, calc_fns = c("calc_aroma", "calc_dbe",
   "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios"))
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{calc_fns}{a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.}
 }

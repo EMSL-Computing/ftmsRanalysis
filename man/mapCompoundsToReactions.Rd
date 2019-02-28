@@ -4,13 +4,13 @@
 \alias{mapCompoundsToReactions}
 \title{Map compound level data to reactions in either KEGG or MetaCyc}
 \usage{
-mapCompoundsToReactions(compoundIcrData)
+mapCompoundsToReactions(compoundObj)
 }
 \arguments{
-\item{compoundIcrData}{an object of type compoundIcrData}
+\item{compoundObj}{an object of type compoundData}
 }
 \value{
-reactionIcrData object
+reactionData object
 }
 \description{
 Map compound data to KEGG or MetaCyc reactions. The database used

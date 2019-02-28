@@ -8,7 +8,7 @@ transformation_counts(icrData, transformDF, transformDigits = 4,
   transMass_cname, transID_cname, transOther_cname = NULL)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{icrData}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{transformDF}{a data.frame of known transformations of interest, with a minimum of two columns (in any order): column 'transMass_cname' gives the transformation masses which should be counted and column 'transID_cname' gives a unique identifier (usually character string) for each transformation mass}
 

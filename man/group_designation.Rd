@@ -8,7 +8,7 @@ group_designation(icrData, main_effects, covariates = NULL,
   var.name = FALSE)
 }
 \arguments{
-\item{icrData}{an object of the class 'icrData', usually created by \code{\link{as.peakIcrData}}.}
+\item{icrData}{an object of the class 'icrData', usually created by \code{\link{as.peakData}}.}
 
 \item{main_effects}{a character vector with no more than two variable names that should be used as main effects to determine group membership of samples. The variable name must match a column name from \code{f_data}.}
 

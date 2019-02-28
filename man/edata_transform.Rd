@@ -7,7 +7,7 @@
 edata_transform(icrData, data_scale)
 }
 \arguments{
-\item{icrData}{an object of the class 'peakIcrData' or 'compoundIcrData' , usually created by \code{\link{as.icrData}}}
+\item{icrData}{an object of the class 'peakData' or 'compoundData' , usually created by \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{data_scale}{a character string indicating the type of transformation to be applied to the data. Valid values are: 'log2', 'log', 'log10', 'pres', or 'abundance'. A value of 'abundance' indicates the data has previously undergone one of the log transformations and should be transformed back to raw values with no transformation applied. A value of 'pres' indicates the data should be transformed to presence/absence data.}
 }
