@@ -50,7 +50,7 @@ applyFilt <- function(filter_object, ftmsObj, ...){
   # check that filter_object is of an appropriate class #
   # if(!inherits(filter_object, "moleculeFilt") & !inherits(filter_object, "massFilt"))) stop("filter_object must be of class 'moleculeFilt' or 'massFilt' ")
   
-  # pull column names from omicR_data attributes #
+  # pull column names from ftmsData attributes #
   samp_cname = getFDataColName(ftmsObj)
   edata_cname = getEDataColName(ftmsObj)
   
@@ -104,7 +104,7 @@ applyFilt.moleculeFilt <- function(filter_object, ftmsObj, min_num=2){
     filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- icr_filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
+    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
     
     # return filtered data object #
     results <- ftmsObj
@@ -227,7 +227,7 @@ applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula'){
     filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- icr_filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
+    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
     
     # return filtered data object #
     results <- ftmsObj
@@ -314,7 +314,7 @@ applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val 
     filter_object_new = list(edata_filt = rmv_masses, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- icr_filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
+    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
     
     # return filtered data object #
     results <- ftmsObj
@@ -356,7 +356,7 @@ applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val 
 #' @return list
 #' @author Lisa Bramer
 #'
-icr_filter_worker <- function(filter_object, ftmsObj){
+filter_worker <- function(filter_object, ftmsObj){
 
   # pull column names from ftmsObj attributes #
   samp_cname = getFDataColName(ftmsObj)

@@ -1,20 +1,20 @@
 # Print methods for peakData, compoundData, reactionData and moduleData
 
 #' @export
-print.peakData <- function(picr) {
-  if (!inherits(picr, "peakData")) stop("Not a peakData object")
-  if (is.null(picr) | all(is.na(picr))) {
-    print(picr)
-    invisible(picr)
+print.peakData <- function(peakObj) {
+  if (!inherits(peakObj, "peakData")) stop("Not a peakData object")
+  if (is.null(peakObj) | all(is.na(peakObj))) {
+    print(peakObj)
+    invisible(peakObj)
   }
   res <- c("peakData object", 
-           sprintf("# Peaks: %d", nrow(picr$e_data)),
-           sprintf("# Samples: %d", nrow(picr$f_data)))
+           sprintf("# Peaks: %d", nrow(peakObj$e_data)),
+           sprintf("# Samples: %d", nrow(peakObj$f_data)))
   
-  res <- c(res, .common_print_data(picr))
+  res <- c(res, .common_print_data(peakObj))
     
   cat(res, sep="\n")
-  invisible(picr)
+  invisible(peakObj)
 }
 
 # internal only method for constructing print info for common parts of ftmsData objects
@@ -43,57 +43,57 @@ print.peakData <- function(picr) {
 }
 
 #' @export
-print.compoundData <- function(cicr) {
-  if (!inherits(cicr, "compoundData")) stop("Not a compoundData object")
-  if (is.null(cicr) | all(is.na(cicr))) {
-    print(cicr)
-    invisible(cicr)
+print.compoundData <- function(compObj) {
+  if (!inherits(compObj, "compoundData")) stop("Not a compoundData object")
+  if (is.null(compObj) | all(is.na(compObj))) {
+    print(compObj)
+    invisible(compObj)
   }
   res <- c("compoundData object", 
-           sprintf("# Rows of data: %d", nrow(cicr$e_data)),
-           sprintf("# Samples: %d", nrow(cicr$f_data)),
-           sprintf("# Compounds: %d", length(unique(cicr$e_meta[, getCompoundColName(cicr)]))),
-           sprintf("Database: %s", attr(cicr, "DB")))
+           sprintf("# Rows of data: %d", nrow(compObj$e_data)),
+           sprintf("# Samples: %d", nrow(compObj$f_data)),
+           sprintf("# Compounds: %d", length(unique(compObj$e_meta[, getCompoundColName(compObj)]))),
+           sprintf("Database: %s", attr(compObj, "DB")))
   
-  res <- c(res, .common_print_data(cicr))
+  res <- c(res, .common_print_data(compObj))
   
   cat(res, sep="\n")
-  invisible(cicr)
+  invisible(compObj)
 }
 
-print.reactionData <- function(ricr) {
-  if (!inherits(ricr, "reactionData")) stop("Not a 'reactionData' object")
-  if (is.null(ricr) | all(is.na(ricr))) {
-    print(ricr)
-    invisible(ricr)
+print.reactionData <- function(rxnObj) {
+  if (!inherits(rxnObj, "reactionData")) stop("Not a 'reactionData' object")
+  if (is.null(rxnObj) | all(is.na(rxnObj))) {
+    print(rxnObj)
+    invisible(rxnObj)
   }
   res <- c("reactionData object", 
-           sprintf("# Reactions: %d", nrow(ricr$e_data)),
-           sprintf("# Samples: %d", nrow(ricr$f_data)),
-           sprintf("Database: %s", attr(ricr, "DB")))
+           sprintf("# Reactions: %d", nrow(rxnObj$e_data)),
+           sprintf("# Samples: %d", nrow(rxnObj$f_data)),
+           sprintf("Database: %s", attr(rxnObj, "DB")))
 
-  res <- c(res, .common_print_data(ricr))
+  res <- c(res, .common_print_data(rxnObj))
   
   cat(res, sep="\n")
-  invisible(ricr)
+  invisible(rxnObj)
 }
 
 #' @export
-print.moduleData <- function(micr) {
-  if (!inherits(micr, "moduleData")) stop("Not a 'moduleData' object")
-  if (is.null(micr) | all(is.na(micr))) {
-    print(micr)
-    invisible(micr)
+print.moduleData <- function(moduleObj) {
+  if (!inherits(moduleObj, "moduleData")) stop("Not a 'moduleData' object")
+  if (is.null(moduleObj) | all(is.na(moduleObj))) {
+    print(moduleObj)
+    invisible(moduleObj)
   }
   res <- c("moduleData object", 
-           sprintf("# Reactions: %d", nrow(micr$e_data)),
-           sprintf("# Samples: %d", nrow(micr$f_data)),
-           sprintf("Database: %s", attr(micr, "DB")))
+           sprintf("# Reactions: %d", nrow(moduleObj$e_data)),
+           sprintf("# Samples: %d", nrow(moduleObj$f_data)),
+           sprintf("Database: %s", attr(moduleObj, "DB")))
   
-  res <- c(res, .common_print_data(micr))
+  res <- c(res, .common_print_data(moduleObj))
   
   cat(res, sep="\n")
-  invisible(micr)
+  invisible(moduleObj)
 }
 
 #' @export

@@ -83,8 +83,8 @@ library(ftmsRanalysis)
 library(plotly)
 devtools::load_all("/Users/d3l348/Files/MinT/github/ftmsRanalysis/")
 
-data(peakIcrProcessed)
-.data <- subset(peakIcrProcessed, samples="EM0011_sample")
+data("exampleProcessedPeakData")
+.data <- subset(exampleProcessedPeakData, samples="EM0011_sample")
 
 p1 <- vanKrevelenPlot(.data, title = "Van Krevelen Plot of EM0011", vkBoundarySet = "bs1") %>%
   layout(dragmode="select", showlegend=FALSE)

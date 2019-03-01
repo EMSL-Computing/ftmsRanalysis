@@ -6,10 +6,10 @@ context("summary method")
 test_that("summary.ftmsData method", {
 
   data("examplePeakData")  
-  icrSumm <- summary(examplePeakData)  
-  expect_true(inherits(icrSumm, "ftmsDataSummary"))
-  expect_true(inherits(icrSumm, "list"))
-  expect_equal(object = length(icrSumm), expected = 3)  
-  expect_true(all(c("Samples", "Molecules", "Percent_Missing") %in% names(icrSumm)))
+  summObj <- summary(examplePeakData)  
+  expect_true(inherits(summObj, "ftmsDataSummary"))
+  expect_true(inherits(summObj, "list"))
+  expect_equal(object = length(summObj), expected = 3)  
+  expect_true(all(c("Samples", "Molecules", "Percent_Missing") %in% names(summObj)))
 
 })

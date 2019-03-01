@@ -1265,34 +1265,34 @@ setModuleNodeColName <- function(ftmsObj, cname) {
 
 ############# TESTS ################
 
-# data(exIcrData)
+# data(exData)
 # 
-# getEDataColName(exIcrData) == "peak"
-# getFDataColName(exIcrData) == "Sample"
-# getEMetaColName(exIcrData) == "mf"
-# getOCRatioColName(exIcrData) == "O/C"
-# getHCRatioColName(exIcrData) == "H/C"
-# getKendrickMassColName(exIcrData) == "kendrick_m"
-# getKendrickDefectColName(exIcrData) == "kendrick_defect"
-# getExtractionColName(exIcrData) == "Extraction"
+# getEDataColName(exData) == "peak"
+# getFDataColName(exData) == "Sample"
+# getEMetaColName(exData) == "mf"
+# getOCRatioColName(exData) == "O/C"
+# getHCRatioColName(exData) == "H/C"
+# getKendrickMassColName(exData) == "kendrick_m"
+# getKendrickDefectColName(exData) == "kendrick_defect"
+# getExtractionColName(exData) == "Extraction"
 # 
-# getEDataColName(setEDataColName(exIcrData, "test")) == "test"
-# getFDataColName(setFDataColName(exIcrData, "test")) == "test"
-# getEMetaColName(setEMetaColName(exIcrData, "test")) == "test"
-# getOCRatioColName(setOCRatioColName(exIcrData, "test")) == "test"
-# getHCRatioColName(setHCRatioColName(exIcrData, "test")) == "test"
-# getKendrickMassColName(setKendrickMassColName(exIcrData, "test")) == "test"
-# getKendrickDefectColName(setKendrickDefectColName(exIcrData, "test")) == "test"
-# getExtractionColName(setExtractionColName(exIcrData, "test")) == "test"
+# getEDataColName(setEDataColName(exData, "test")) == "test"
+# getFDataColName(setFDataColName(exData, "test")) == "test"
+# getEMetaColName(setEMetaColName(exData, "test")) == "test"
+# getOCRatioColName(setOCRatioColName(exData, "test")) == "test"
+# getHCRatioColName(setHCRatioColName(exData, "test")) == "test"
+# getKendrickMassColName(setKendrickMassColName(exData, "test")) == "test"
+# getKendrickDefectColName(setKendrickDefectColName(exData, "test")) == "test"
+# getExtractionColName(setExtractionColName(exData, "test")) == "test"
 # 
-# attr(exIcrData, "cnames")<- NULL
-# getEDataColName(setEDataColName(exIcrData, "test")) == "test"
-# getFDataColName(setFDataColName(exIcrData, "test")) == "test"
-# getEMetaColName(setEMetaColName(exIcrData, "test")) == "test"
-# getOCRatioColName(setOCRatioColName(exIcrData, "test")) == "test"
-# getHCRatioColName(setHCRatioColName(exIcrData, "test")) == "test"
-# getKendrickMassColName(setKendrickMassColName(exIcrData, "test")) == "test"
-# getKendrickDefectColName(setKendrickDefectColName(exIcrData, "test")) == "test"
-# getExtractionColName(setExtractionColName(exIcrData, "test")) == "test"
+# attr(exData, "cnames")<- NULL
+# getEDataColName(setEDataColName(exData, "test")) == "test"
+# getFDataColName(setFDataColName(exData, "test")) == "test"
+# getEMetaColName(setEMetaColName(exData, "test")) == "test"
+# getOCRatioColName(setOCRatioColName(exData, "test")) == "test"
+# getHCRatioColName(setHCRatioColName(exData, "test")) == "test"
+# getKendrickMassColName(setKendrickMassColName(exData, "test")) == "test"
+# getKendrickDefectColName(setKendrickDefectColName(exData, "test")) == "test"
+# getExtractionColName(setExtractionColName(exData, "test")) == "test"
 
 

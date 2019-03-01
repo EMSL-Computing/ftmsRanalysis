@@ -151,7 +151,7 @@ test_that("emeta filters work correctly on peakData", {
   expect_true(all(sapply(1:4, function(i){
                         class(filterlist[[i]]$emeta_value) == class(examplePeakData$e_meta[,cols[i]])
                         })),
-              info = "type mismatch between icrdata column and filter column")
+              info = "type mismatch between peakData column and filter column")
   
   ### test numeric ###
   

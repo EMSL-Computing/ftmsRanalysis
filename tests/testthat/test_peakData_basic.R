@@ -9,30 +9,30 @@ test_that("peakData objects are constructed correctly", {
   data("ftms12T_emeta")
   
   #trace(assign_mf, browser)
-  picr <- as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+  peakObj <- as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
                          c_cname="C", h_cname="H", o_cname="O",
                          n_cname="N", s_cname="S", p_cname="P",
                          isotopic_cname = "C13", isotopic_notation = "1")
   
-  expect_true(!is.null(picr$e_data))
-  expect_true(!is.null(picr$e_meta))
-  expect_true(!is.null(picr$f_data))
-  expect_true(inherits(picr, "peakData"))
-  expect_true(inherits(picr, "ftmsData"))
+  expect_true(!is.null(peakObj$e_data))
+  expect_true(!is.null(peakObj$e_meta))
+  expect_true(!is.null(peakObj$f_data))
+  expect_true(inherits(peakObj, "peakData"))
+  expect_true(inherits(peakObj, "ftmsData"))
   
-  expect_equal(getEDataColName(picr), "Mass")
-  expect_equal(getFDataColName(picr), "SampleID")
-  expect_equal(getMassColName(picr), "Mass")
-  expect_equal(getCarbonColName(picr), "C")
-  expect_equal(getHydrogenColName(picr), "H")
+  expect_equal(getEDataColName(peakObj), "Mass")
+  expect_equal(getFDataColName(peakObj), "SampleID")
+  expect_equal(getMassColName(peakObj), "Mass")
+  expect_equal(getCarbonColName(peakObj), "C")
+  expect_equal(getHydrogenColName(peakObj), "H")
 
-  expect_equal(getOxygenColName(picr), "O")
-  expect_equal(getNitrogenColName(picr), "N")
-  expect_equal(getSulfurColName(picr), "S")
-  expect_equal(getPhosphorusColName(picr), "P")
-  expect_equal(getIsotopicColName(picr), "C13")
+  expect_equal(getOxygenColName(peakObj), "O")
+  expect_equal(getNitrogenColName(peakObj), "N")
+  expect_equal(getSulfurColName(peakObj), "S")
+  expect_equal(getPhosphorusColName(peakObj), "P")
+  expect_equal(getIsotopicColName(peakObj), "C13")
 
-  expect_true(!is.null(getMFColName(picr)))
+  expect_true(!is.null(getMFColName(peakObj)))
 })
 
 test_that("group designation works correctly on peakData", {

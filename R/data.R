@@ -62,8 +62,8 @@ NULL
 #'                isotopic_notation = "1",c_cname = "C", h_cname = "H", 
 #'                o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P", 
 #'                instrument_type = "12T")}
-#' @rdname examplePeakObj
-#' @name examplePeakObj
+#' @rdname examplePeakData
+#' @name examplePeakData
 NULL
 
 #' Processed FTICR Data Object of Class peakData

@@ -1,11 +1,11 @@
-#' Map peak ICR data to compounds 
+#' Map peak FT-MS data to compounds 
 #' 
-#' Map peak leve ICR data to compounds from either KEGG or MetaCyc. 
+#' Map peak level FT-MS data to compounds from either KEGG or MetaCyc. 
 #'
 #' @param peakObj object of type peakData
 #' @param db database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
 #' the KeggData package or the MetaCycData package respectively.
-#' @return compoundIcrObject
+#' @return compoundData object
 #' 
 #' @author Amanda White
 #' 

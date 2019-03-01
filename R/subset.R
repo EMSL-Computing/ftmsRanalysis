@@ -146,21 +146,3 @@ subset.moduleData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) 
   return(result)
 }
 
-
-
-### TESTS ###
-
-# library(icRanalysis)
-# data(exIcrData)
-# 
-# subset1 <- subset(exIcrData, samples="10c_m")
-# str(subset1)
-# 
-# subset2 <- subset(exIcrData, samples=c("10c_m", "10c_w"))
-# str(subset2)
-# 
-# subset3 <- subset(exIcrData, groups="LL")
-# str(subset3)
-# 
-# subset4 <- subset(exIcrData, groups=c("LL", "LN", "LU"))
-# str(subset4)

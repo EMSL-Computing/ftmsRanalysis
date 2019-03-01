@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapPeaksToCompounds.R
 \name{mapPeaksToCompounds}
 \alias{mapPeaksToCompounds}
-\title{Map peak ICR data to compounds}
+\title{Map peak FT-MS data to compounds}
 \usage{
 mapPeaksToCompounds(peakObj, db = "MetaCyc")
 }
@@ -13,10 +13,10 @@ mapPeaksToCompounds(peakObj, db = "MetaCyc")
 the KeggData package or the MetaCycData package respectively.}
 }
 \value{
-compoundIcrObject
+compoundData object
 }
 \description{
-Map peak leve ICR data to compounds from either KEGG or MetaCyc.
+Map peak level FT-MS data to compounds from either KEGG or MetaCyc.
 }
 \author{
 Amanda White
