@@ -31,10 +31,10 @@ Density plots display the distribution of molecular properties corresponding to 
 To construct a density plot for a single sample, first construct a subset containing only the sample of interest. By default, `densityPlot` plots the distribution (without a histogram) of the chosen variable.
 
 ```{r message=FALSE}
-library(fticRanalysis)
-data("peakIcrProcessed")
+library(ftmsRanalysis)
+data("exampleProcessedPeakData")
 
-one_sample <- subset(peakIcrProcessed, samples="EM0011_sample")
+one_sample <- subset(exampleProcessedPeakData, samples="EM0011_sample")
 densityPlot(one_sample, variable="NOSC")
 ```
 
@@ -53,21 +53,21 @@ densityPlot(one_sample, variable="NOSC", plot_hist=TRUE, plot_curve=FALSE, yaxis
 The `densityPlot` function can also choose a single sample from a larger dataset, using the `samples` parameter:
 
 ```{r}
-densityPlot(peakIcrProcessed, variable="NOSC", samples="EM0069_sample")
+densityPlot(exampleProcessedPeakData, variable="NOSC", samples="EM0069_sample")
 ```
 
 The `samples` parameter may also be used to specify more than one sample, although only curves may be plotted, not  histograms.
 
 ```{r}
-densityPlot(peakIcrProcessed, variable="NOSC", samples=c("EM0011_sample", "EM0013_sample", "EM0015_sample"),
+densityPlot(exampleProcessedPeakData, variable="NOSC", samples=c("EM0011_sample", "EM0013_sample", "EM0015_sample"),
             curve_colors=c("blue", "red", "green"))
 ```
 
-Since the `peakIcrProcessed` object has a group definition (see `group_designation` for how to construct this), the `groups` parameter can be used to select multiple groups to plot (these curves are the distribution combining all peaks observed by samples in the group).
+Since the `exampleProcessedPeakData` object has a group definition (see `group_designation` for how to construct this), the `groups` parameter can be used to select multiple groups to plot (these curves are the distribution combining all peaks observed by samples in the group).
 
 ```{r}
-#getGroupDF(peakIcrProcessed)
-densityPlot(peakIcrProcessed, variable="NOSC", samples=FALSE, groups=c("M_C", "M_S"))
+getGroupDF(exampleProcessedPeakData)
+densityPlot(exampleProcessedPeakData, variable="NOSC", samples=FALSE, groups=c("M_C", "M_S"))
 ```
 
 The `samples` and `groups` parameters work in similar ways to select multiple distributions to plot. An `NA` value indicates that all samples or groups in the data object should be plotted, a `FALSE` value suppresses curves, and a character vector may be used to select specific samples and/or groups. The `samples` parameter is `NA` by default (so it will plot all samples found) and `groups` is `FALSE` by default (do not plot groups). 
@@ -75,6 +75,6 @@ The `samples` and `groups` parameters work in similar ways to select multiple di
 The easiest way to plot all samples in a group, and the group aggregate is to subset down by group, then call `densityPlot`. (Recall that all samples are plotted by default so only the `groups` parameter must be specified.)
 
 ```{r}
-MSgroup <- subset(peakIcrProcessed, groups="M_S")
+MSgroup <- subset(exampleProcessedPeakData, groups="M_S")
 densityPlot(MSgroup, variable="NOSC", groups=NA)
 ```

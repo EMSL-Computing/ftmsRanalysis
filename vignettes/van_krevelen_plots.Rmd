@@ -28,7 +28,7 @@ knitr::opts_chunk$set(
 
 A Van Krevelen (VK) plot displays the H:C versus O:C ratios for each peak observed. VK plots were designed to give a researcher a straightforward method for visualizing complicated mass spectra allowing for quick comparison of spectra (samples) in terms of possible reaction pathways and major classes of compounds of which the spectra is comprised.
 
-The `fticRanalysis` package 
+The `ftmsRanalysis` package 
 provides a method to construct these plots, with a variety of options. Van Krevelen typically display peaks 
 colored by functional class. There are 3 options for calculating those classes in this package, which are drawn
 from the following publications:
@@ -44,10 +44,10 @@ Please note that the Rivas-Ubach (`bs3`) boundaries should only be used for plan
 To construct a VK plot for a single sample, first construct a subset containing only the sample of interest. By default the `vanKrevelenPlot` function will color points according to their class using the `bs1` definition.
 
 ```{r message=FALSE}
-library(fticRanalysis)
-data("peakIcrProcessed")
+library(ftmsRanalysis)
+data("exampleProcessedPeakData")
 
-one_sample <- subset(peakIcrProcessed, samples="EM0011_sample")
+one_sample <- subset(exampleProcessedPeakData, samples="EM0011_sample")
 vanKrevelenPlot(one_sample)
 ```
 
@@ -97,7 +97,7 @@ vanKrevelenPlot(one_sample, colorCName="EM0011_sample", legendTitle="log(Abundan
 Another use of the `vanKrevelenPlot` function is to plot treatment groups. For example, one can construct a group subset, calculate the number or proporation of samples in which each peak was observed (using `summarizeGroups`) and color the points by that summary.
 
 ```{r, message=FALSE}
-ms_group <- subset(peakIcrProcessed, groups="M_S")
+ms_group <- subset(exampleProcessedPeakData, groups="M_S")
 ms_summary <- summarizeGroups(ms_group, summary_functions=c("n_present", "prop_present"))
 ms_summary$f_data
 ```
@@ -115,7 +115,7 @@ It can be useful to compare peaks that are unique to one treatment group versus 
 Clicking the "Observed in Both" label on the right hides those points to focus on the points that are unique to M_S or M_C.
 
 ```{r}
-m_groups <- divideByGroupComparisons(peakIcrProcessed, comparisons=list(c("M_S", "M_C")))[[1]]$value
+m_groups <- divideByGroupComparisons(exampleProcessedPeakData, comparisons=list(c("M_S", "M_C")))[[1]]$value
 comp_summary <- summarizeGroupComparisons(m_groups, summary_functions="uniqueness_gtest", 
                                             summary_function_params=list(
                                               uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2,
