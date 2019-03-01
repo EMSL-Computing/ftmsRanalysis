@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Map peak ICR data to compounds — mapPeaksToCompounds • fticRanalysis</title>
+<title>Map peak FT-MS data to compounds — mapPeaksToCompounds • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Map peak ICR data to compounds — mapPeaksToCompounds" />
+<meta property="og:title" content="Map peak FT-MS data to compounds — mapPeaksToCompounds" />
 
-<meta property="og:description" content="Map peak leve ICR data to compounds from either KEGG or MetaCyc." />
+<meta property="og:description" content="Map peak level FT-MS data to compounds from either KEGG or MetaCyc." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -76,7 +76,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -92,7 +92,7 @@
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -123,25 +123,25 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Map peak ICR data to compounds</h1>
+    <h1>Map peak FT-MS data to compounds</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/mapPeaksToCompounds.R'><code>R/mapPeaksToCompounds.R</code></a></small>
     <div class="hidden name"><code>mapPeaksToCompounds.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Map peak leve ICR data to compounds from either KEGG or MetaCyc.</p>
+    <p>Map peak level FT-MS data to compounds from either KEGG or MetaCyc.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mapPeaksToCompounds</span>(<span class='no'>peakIcrData</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"MetaCyc"</span>)</pre>
+    <pre class="usage"><span class='fu'>mapPeaksToCompounds</span>(<span class='no'>peakObj</span>, <span class='kw'>db</span> <span class='kw'>=</span> <span class='st'>"MetaCyc"</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>peakIcrData</th>
-      <td><p>object of type peakIcrData</p></td>
+      <th>peakObj</th>
+      <td><p>object of type peakData</p></td>
     </tr>
     <tr>
       <th>db</th>
@@ -152,7 +152,7 @@ the KeggData package or the MetaCycData package respectively.</p></td>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>compoundIcrObject</p>
+    <p>compoundData object</p>
     
 
   </div>

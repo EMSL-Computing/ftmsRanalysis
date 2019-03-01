@@ -41,10 +41,10 @@ reference:
   - '`plot.massFilt`'
   - '`plot.moleculeFilt`'
   - '`plot.emetaFilt`'
-  - '`plot.peakData`'
   - '`summary.formulaFilt`'
   - '`summary.massFilt`'
   - '`summary.moleculeFilt`'
+  - '`summary.emetaFilt`'
 - title: Data transformation
   desc: Functions to transform data (e.g. scale)
   contents:
@@ -67,11 +67,13 @@ reference:
 - title: Visualization
   desc: Visualization methods
   contents:
+  - '`plot.peakData`'
   - '`classesPlot`'
   - '`densityPlot`'
   - '`kendrickPlot`'
   - '`vanKrevelenPlot`'
   - '`scatterPlot`'
+  - '`plotPrincipalCoordinates`'
   - '`vignette_interactivity_between_plots`'
   - '`panelFunctionGenerator`'
   - '`densityCognostics`'
@@ -136,7 +138,7 @@ reference:
   - '`getReactionColName`'
   - '`getSulfurColName`'
 - title: Example data objects
-  desc: Example data included in the `fticRanalysis` package
+  desc: Example data included in the `ftmsRanalysis` package
   contents:
   - '`examplePeakData`'
   - '`exampleProcessedPeakData`'

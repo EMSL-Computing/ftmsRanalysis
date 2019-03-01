@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Default cognostics for density plots in Trelliscope — densityCognostics • fticRanalysis</title>
+<title>Default cognostics for density plots in Trelliscope — densityCognostics • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -35,7 +35,7 @@
 <meta property="og:description" content="The densityCognostics function provides a set of default cognostics
 to be used with density plots in Trelliscope. The densityCognostics
 function accepts the name of the variable used for the density plot and
-returns a function that may be applied to each icrData object, as is
+returns a function that may be applied to each ftmsData object, as is
 appropriate for use with the makeDisplay function. See 
 Examples section for use." />
 <meta name="twitter:card" content="summary" />
@@ -67,7 +67,7 @@ Examples section for use." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -81,7 +81,7 @@ Examples section for use." />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -97,7 +97,7 @@ Examples section for use." />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -138,7 +138,7 @@ Examples section for use." />
     <p>The <code>densityCognostics</code> function provides a set of default cognostics
 to be used with density plots in Trelliscope. The <code>densityCognostics</code>
 function accepts the name of the variable used for the density plot and
-returns a function that may be applied to each <code>icrData</code> object, as is
+returns a function that may be applied to each <code>ftmsData</code> object, as is
 appropriate for use with the <code>makeDisplay</code> function. See 
 Examples section for use.</p>
     
@@ -151,25 +151,25 @@ Examples section for use.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>variable</th>
-      <td><p>column name of column in <code>e_meta</code> which should be plotted. Must be one of the column names in <code>icrData$e_meta</code> that contains numeric values.</p></td>
+      <td><p>column name of column in <code>e_meta</code> which should be plotted. Must be one of the column names in <code>ftmsObj$e_meta</code> that contains numeric values.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a function that may be applied to objects of type <code>peakIcrData</code> and <code>groupSummary</code></p>
+    <p>a function that may be applied to objects of type <code>peakData</code> and <code>groupSummary</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>fticRanalysis</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ftmsRanalysis</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>trelliscope</span>)
 
 <span class='no'>vdbDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/vdbConn'>vdbConn</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"trell_test"</span>), <span class='kw'>autoYes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'peakIcrProcessed'</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'exampleProcessedPeakData'</span>)
 
 <span class='co'>## Plot density of NOSC variable for each sample</span>
-<span class='no'>sampleDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideBySample.html'>divideBySample</a></span>(<span class='no'>peakIcrProcessed</span>)
+<span class='no'>sampleDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideBySample.html'>divideBySample</a></span>(<span class='no'>exampleProcessedPeakData</span>)
 <span class='no'>panelFn1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='panelFunctionGenerator.html'>panelFunctionGenerator</a></span>(<span class='st'>"densityPlot"</span>, <span class='kw'>variable</span><span class='kw'>=</span><span class='st'>"NOSC"</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/makeDisplay'>makeDisplay</a></span>(<span class='no'>sampleDdo</span>,
             <span class='kw'>panelFn</span><span class='kw'>=</span><span class='no'>panelFn1</span>,
@@ -178,7 +178,7 @@ Examples section for use.</p>
             <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Sample"</span>)
 
 <span class='co'>## Plot density of NOSC for each group</span>
-<span class='no'>groupDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroup.html'>divideByGroup</a></span>(<span class='no'>peakIcrProcessed</span>)
+<span class='no'>groupDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroup.html'>divideByGroup</a></span>(<span class='no'>exampleProcessedPeakData</span>)
 <span class='no'>panelFn2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='panelFunctionGenerator.html'>panelFunctionGenerator</a></span>(<span class='st'>"densityPlot"</span>, <span class='kw'>variable</span><span class='kw'>=</span><span class='st'>"NOSC"</span>, <span class='kw'>groups</span><span class='kw'>=</span><span class='fl'>NA</span>)
 
 <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/makeDisplay'>makeDisplay</a></span>(<span class='no'>groupDdo</span>,

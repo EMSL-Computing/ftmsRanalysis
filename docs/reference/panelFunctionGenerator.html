@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convenience function to wrap fticRanalysis plotting functions for Trelliscope — panelFunctionGenerator • fticRanalysis</title>
+<title>Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope — panelFunctionGenerator • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Convenience function to wrap fticRanalysis plotting functions for Trelliscope — panelFunctionGenerator" />
+<meta property="og:title" content="Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope — panelFunctionGenerator" />
 
-<meta property="og:description" content="Convenience function to wrap fticRanalysis plotting functions for Trelliscope" />
+<meta property="og:description" content="Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -76,7 +76,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -92,7 +92,7 @@
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -123,14 +123,14 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convenience function to wrap fticRanalysis plotting functions for Trelliscope</h1>
+    <h1>Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/panelFunctionGenerator.R'><code>R/panelFunctionGenerator.R</code></a></small>
     <div class="hidden name"><code>panelFunctionGenerator.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Convenience function to wrap fticRanalysis plotting functions for Trelliscope</p>
+    <p>Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope</p>
     
     </div>
 
@@ -158,12 +158,12 @@ to construct an <code>expr</code> statement to obtain the necessary information.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>fticRanalysis</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ftmsRanalysis</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>trelliscope</span>)
 
 <span class='no'>vdbDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/vdbConn'>vdbConn</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"trell_test"</span>), <span class='kw'>autoYes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>) <span class='co'>#temporary directory</span></div><div class='output co'>#&gt; <span class='message'>*** Copying latest viewer to vdb directory...</span></div><div class='input'>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'peakIcrProcessed'</span>)
-<span class='no'>groupDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroup.html'>divideByGroup</a></span>(<span class='no'>peakIcrProcessed</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'exampleProcessedPeakData'</span>)
+<span class='no'>groupDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroup.html'>divideByGroup</a></span>(<span class='no'>exampleProcessedPeakData</span>)
 <span class='no'>groupSummaryDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='summarizeGroups.html'>summarizeGroups</a></span>(<span class='no'>groupDdo</span>, <span class='kw'>summary_functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"prop_present"</span>, <span class='st'>"n_present"</span>))</div><div class='output co'>#&gt; <span class='message'>*** finding global variables used in 'fn'...</span></div><div class='output co'>#&gt; <span class='message'></span>
 #&gt; <span class='message'>  found: summary_functions</span></div><div class='output co'>#&gt; <span class='message'>*** testing 'fn' on a subset...</span></div><div class='output co'>#&gt; <span class='message'> ok</span></div><div class='output co'>#&gt; <span class='message'>* Applying recombination...</span></div><div class='input'>
 <span class='co'># See expr here:</span>
@@ -172,7 +172,7 @@ to construct an <code>expr</code> statement to obtain the necessary information.
 <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/makeDisplay'>makeDisplay</a></span>(<span class='no'>groupSummaryDdo</span>,
             <span class='kw'>panelFn</span><span class='kw'>=</span><span class='no'>panelFnG1</span>,
             <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Trelliscope test G_1 with VK plot per group"</span>,
-            <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Group"</span>)</div><div class='output co'>#&gt; <span class='message'>* Validating 'panelFn'...</span></div><div class='output co'>#&gt; <span class='error'>Error in formals(fn): object 'panelFnG1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/view'>view</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error: Visualization database does not have any displays: /private/var/folders/5p/fg3v33qx4ks7wr2rhchln2jhpsswgc/T/RtmplAFAcb/trell_test</span></div></pre>
+            <span class='kw'>group</span> <span class='kw'>=</span> <span class='st'>"Group"</span>)</div><div class='output co'>#&gt; <span class='message'>* Validating 'panelFn'...</span></div><div class='output co'>#&gt; <span class='error'>Error in formals(fn): object 'panelFnG1' not found</span></div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/view'>view</a></span>()</div><div class='output co'>#&gt; <span class='error'>Error: Visualization database does not have any displays: /private/var/folders/5p/fg3v33qx4ks7wr2rhchln2jhpsswgc/T/RtmpZmw3rr/trell_test</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

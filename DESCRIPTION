@@ -11,8 +11,8 @@ Depends:
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/EMSL-Computing/fticRanalysis
-BugReports: https://github.com/EMSL-Computing/fticRanalysis/issues
+URL: https://github.com/EMSL-Computing/ftmsRanalysis
+BugReports: https://github.com/EMSL-Computing/ftmsRanalysis/issues
 Imports:
     igraph,
     scales,

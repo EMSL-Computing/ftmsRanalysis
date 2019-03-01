@@ -4,8 +4,8 @@ pkgdown_sha: ~
 articles:
   _mapping_to_metacyc: _mapping_to_metacyc.html
   density_plots: density_plots.html
-  fticRanalysis: fticRanalysis.html
   fticRanalysis_and_Trelliscope: fticRanalysis_and_Trelliscope.html
+  ftmsRanalysis: ftmsRanalysis.html
   kendrick_plots: kendrick_plots.html
   van_krevelen_plots: van_krevelen_plots.html
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Divide icrData by group to form a ddo — divideByGroup • fticRanalysis</title>
+<title>Divide an ftmsData object by group to form a ddo — divideByGroup • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Divide icrData by group to form a ddo — divideByGroup" />
+<meta property="og:title" content="Divide an ftmsData object by group to form a ddo — divideByGroup" />
 
-<meta property="og:description" content="Construct a ddo from an icrData object by dividing
+<meta property="og:description" content="Construct a ddo from an ftmsData object by dividing
 by group. The resulting object may be used with Trelliscope to make
 plots for each group. The input data must have a group_DF attribute
 defining the groups." />
@@ -65,7 +65,7 @@ defining the groups." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -79,7 +79,7 @@ defining the groups." />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -95,7 +95,7 @@ defining the groups." />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -126,34 +126,34 @@ defining the groups." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Divide icrData by group to form a ddo</h1>
+    <h1>Divide an ftmsData object by group to form a ddo</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/divideByGroup.R'><code>R/divideByGroup.R</code></a></small>
     <div class="hidden name"><code>divideByGroup.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Construct a <code>ddo</code> from an <code>icrData</code> object by dividing
+    <p>Construct a <code>ddo</code> from an <code>ftmsData</code> object by dividing
 by group. The resulting object may be used with Trelliscope to make
 plots for each group. The input data must have a <code>group_DF</code> attribute
 defining the groups.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>divideByGroup</span>(<span class='no'>icrData</span>)</pre>
+    <pre class="usage"><span class='fu'>divideByGroup</span>(<span class='no'>ftmsObj</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>icrData object</p></td>
+      <th>ftmsObj</th>
+      <td><p>ftmsData object</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a ddo where each division is a subset of <code>icrData</code> corresponding
+    <p>a ddo where each division is a subset of <code>ftmsObj</code> corresponding
         to a single group</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

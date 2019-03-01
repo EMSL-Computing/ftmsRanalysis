@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Map compound level data to modules in either KEGG or MetaCyc — mapCompoundsToModules • fticRanalysis</title>
+<title>Map compound level data to modules in either KEGG or MetaCyc — mapCompoundsToModules • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -64,7 +64,7 @@ For MetaCyc, modules are pathways that are not super-pathways" />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -78,7 +78,7 @@ For MetaCyc, modules are pathways that are not super-pathways" />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -94,7 +94,7 @@ For MetaCyc, modules are pathways that are not super-pathways" />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -138,20 +138,20 @@ For MetaCyc, modules are pathways that are not super-pathways</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mapCompoundsToModules</span>(<span class='no'>compoundIcrData</span>)</pre>
+    <pre class="usage"><span class='fu'>mapCompoundsToModules</span>(<span class='no'>compoundObj</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>compoundIcrData</th>
-      <td><p>an object of type compoundIcrData</p></td>
+      <th>compoundObj</th>
+      <td><p>an object of type compoundData</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>moduleIcrData object</p>
+    <p>moduleData object</p>
     
 
   </div>

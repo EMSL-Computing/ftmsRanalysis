@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create e\_meta filter object — emeta_filter • fticRanalysis</title>
+<title>Create e\_meta filter object — emeta_filter • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Create e\_meta filter object — emeta_filter" />
 
-<meta property="og:description" content="This function returns an emetaFilt object for use with applyFilt to filter a 'peakIcrData' or 'compoundIcrData' object based on a column in e\_meta" />
+<meta property="og:description" content="This function returns an emetaFilt object for use with applyFilt to filter a 'peakData' or 'compoundData' object based on a column in e\_meta" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -76,7 +76,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -92,7 +92,7 @@
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -130,18 +130,18 @@
 
     <div class="ref-description">
     
-    <p>This function returns an emetaFilt object for use with <code><a href='applyFilt.html'>applyFilt</a></code> to filter a 'peakIcrData' or 'compoundIcrData' object based on a column in e\_meta</p>
+    <p>This function returns an emetaFilt object for use with <code><a href='applyFilt.html'>applyFilt</a></code> to filter a 'peakData' or 'compoundData' object based on a column in e\_meta</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>emeta_filter</span>(<span class='no'>icrData</span>, <span class='no'>cname</span>)</pre>
+    <pre class="usage"><span class='fu'>emeta_filter</span>(<span class='no'>ftmsObj</span>, <span class='no'>cname</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>an object of the class 'peakIcrData' or 'compoundIcrData'</p></td>
+      <th>ftmsObj</th>
+      <td><p>an object of the class 'peakData' or 'compoundData'</p></td>
     </tr>
     <tr>
       <th>cname</th>
@@ -155,20 +155,20 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"peakIcrProcessed"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>"exampleProcessedPeakData"</span>)
 <span class='co'># filter peaks based on Oxygen to Carbon ratio #</span>
-<span class='no'>filter_object1</span> <span class='kw'>=</span> <span class='fu'>emeta_filter</span>(<span class='no'>peakIcrProcessed</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"OtoC_ratio"</span>)
+<span class='no'>filter_object1</span> <span class='kw'>=</span> <span class='fu'>emeta_filter</span>(<span class='no'>exampleProcessedPeakData</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"OtoC_ratio"</span>)
 <span class='co'># filter to keep peaks with O:C ratio greater than or equal to 0.5 #</span>
-<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object1</span>, <span class='no'>peakIcrProcessed</span>, <span class='kw'>min_val</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
+<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object1</span>, <span class='no'>exampleProcessedPeakData</span>, <span class='kw'>min_val</span> <span class='kw'>=</span> <span class='fl'>0.5</span>)
 <span class='co'># filter to keep peaks with O:C ratio greater than or equal to 0.5  and less than or equal to 1 #</span>
-<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object1</span>, <span class='no'>peakIcrProcessed</span>, <span class='kw'>min_val</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>max_val</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object1</span>, <span class='no'>exampleProcessedPeakData</span>, <span class='kw'>min_val</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>max_val</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='co'># filter peaks based on molecular formula #</span>
-<span class='no'>filter_object2</span> <span class='kw'>=</span> <span class='fu'>emeta_filter</span>(<span class='no'>peakIcrProcessed</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"MolForm"</span>)
+<span class='no'>filter_object2</span> <span class='kw'>=</span> <span class='fu'>emeta_filter</span>(<span class='no'>exampleProcessedPeakData</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"MolForm"</span>)
 <span class='co'># filter to keep peaks with molecular formula of C12H14O12</span>
-<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object2</span>, <span class='no'>peakIcrProcessed</span>, <span class='kw'>cats</span> <span class='kw'>=</span> <span class='st'>"C12H14O12"</span>)
+<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object2</span>, <span class='no'>exampleProcessedPeakData</span>, <span class='kw'>cats</span> <span class='kw'>=</span> <span class='st'>"C12H14O12"</span>)
 <span class='co'># filter to keep peaks with molecular formula of C12H14O12 and keep NA MolForm peaks</span>
-<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object2</span>, <span class='no'>peakIcrProcessed</span>, <span class='kw'>cats</span> <span class='kw'>=</span> <span class='st'>"C12H14O12"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>F</span>)</div></pre>
+<span class='no'>filtered_data</span> <span class='kw'>=</span> <span class='fu'><a href='applyFilt.html'>applyFilt</a></span>(<span class='no'>filter_object2</span>, <span class='no'>exampleProcessedPeakData</span>, <span class='kw'>cats</span> <span class='kw'>=</span> <span class='st'>"C12H14O12"</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>F</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

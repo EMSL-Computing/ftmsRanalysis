@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Combine rows of icrData with the same mass formula — combinePeaksWithSameFormula • fticRanalysis</title>
+<title>Combine rows of an ftmsData object with the same mass formula — combinePeaksWithSameFormula • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,11 +30,11 @@
 
 
 
-<meta property="og:title" content="Combine rows of icrData with the same mass formula — combinePeaksWithSameFormula" />
+<meta property="og:title" content="Combine rows of an ftmsData object with the same mass formula — combinePeaksWithSameFormula" />
 
 <meta property="og:description" content="If multiple peaks are mapped to the same mass formula it can cause problems 
 or inconsistencies when mapping data to a biological database. The
-combinePeaksWithSameFormula combines rows of icrData$e_data
+combinePeaksWithSameFormula combines rows of ftmsObj$e_data
 that map to the same mass formula:
 * If data is abundance: values are summed for each column
 * If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
@@ -68,7 +68,7 @@ that map to the same mass formula:
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -82,7 +82,7 @@ that map to the same mass formula:
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -98,7 +98,7 @@ that map to the same mass formula:
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -129,7 +129,7 @@ that map to the same mass formula:
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Combine rows of icrData with the same mass formula</h1>
+    <h1>Combine rows of an ftmsData object with the same mass formula</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/combinePeaksWithSameFormula.R'><code>R/combinePeaksWithSameFormula.R</code></a></small>
     <div class="hidden name"><code>combinePeaksWithSameFormula.Rd</code></div>
     </div>
@@ -138,7 +138,7 @@ that map to the same mass formula:
     
     <p>If multiple peaks are mapped to the same mass formula it can cause problems 
 or inconsistencies when mapping data to a biological database. The
-<code>combinePeaksWithSameFormula</code> combines rows of <code>icrData$e_data</code>
+<code>combinePeaksWithSameFormula</code> combines rows of <code>ftmsObj$e_data</code>
 that map to the same mass formula:
 * If data is abundance: values are summed for each column
 * If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
@@ -146,20 +146,20 @@ that map to the same mass formula:
     
     </div>
 
-    <pre class="usage"><span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>icrData</span>)</pre>
+    <pre class="usage"><span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>ftmsObj</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>data of type <code>peakIcrData</code></p></td>
+      <th>ftmsObj</th>
+      <td><p>data of type <code>peakData</code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>peakIcrData</code> object where now two rows of <code>e_data</code> map to the same mass formula</p>
+    <p><code>peakData</code> object where now two rows of <code>e_data</code> map to the same mass formula</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
@@ -168,7 +168,7 @@ before using <code>mapPeaksToCompounds</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>peakIcrProcessed</span>)</div><div class='output co'>#&gt; <span class='message'>313 mass formulas with duplicate values found</span></div></pre>
+    <pre class="examples"><div class='input'><span class='no'>new_data</span> <span class='kw'>&lt;-</span> <span class='fu'>combinePeaksWithSameFormula</span>(<span class='no'>exampleProcessedPeakData</span>)</div><div class='output co'>#&gt; <span class='message'>313 mass formulas with duplicate values found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

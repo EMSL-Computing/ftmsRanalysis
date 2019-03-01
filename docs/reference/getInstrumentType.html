@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get instrument_type attribute from icrData object — getInstrumentType • fticRanalysis</title>
+<title>Get instrument_type attribute from ftmsData object — getInstrumentType • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,7 +30,7 @@
 
 
 
-<meta property="og:title" content="Get instrument_type attribute from icrData object — getInstrumentType" />
+<meta property="og:title" content="Get instrument_type attribute from ftmsData object — getInstrumentType" />
 
 <meta property="og:description" content="Returns the instrument type which generated the data. Usually used for determining the
 types of Van Krevelen, Kendrick, etc. plots that should be used" />
@@ -63,7 +63,7 @@ types of Van Krevelen, Kendrick, etc. plots that should be used" />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -77,7 +77,7 @@ types of Van Krevelen, Kendrick, etc. plots that should be used" />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -93,7 +93,7 @@ types of Van Krevelen, Kendrick, etc. plots that should be used" />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -124,7 +124,7 @@ types of Van Krevelen, Kendrick, etc. plots that should be used" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get instrument_type attribute from icrData object</h1>
+    <h1>Get instrument_type attribute from ftmsData object</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/attributes_methods.R'><code>R/attributes_methods.R</code></a></small>
     <div class="hidden name"><code>getInstrumentType.Rd</code></div>
     </div>
@@ -136,14 +136,14 @@ types of Van Krevelen, Kendrick, etc. plots that should be used</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>getInstrumentType</span>(<span class='no'>icrData</span>)</pre>
+    <pre class="usage"><span class='fu'>getInstrumentType</span>(<span class='no'>ftmsObj</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>icrData object</p></td>
+      <th>ftmsObj</th>
+      <td><p>ftmsData object</p></td>
     </tr>
     </table>
     
