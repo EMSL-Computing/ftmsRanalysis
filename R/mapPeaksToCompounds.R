@@ -1,10 +1,10 @@
 #' Map peak FT-MS data to compounds 
 #' 
-#' Map peak level FT-MS data to compounds from either KEGG or MetaCyc. 
+#' Map peak level FT-MS data to compounds from MetaCyc. 
 #'
 #' @param peakObj object of type peakData
-#' @param db database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-#' the KeggData package or the MetaCycData package respectively.
+#' @param db database to map to, currently 'MetaCyc' (case insensitive) is the only valid option. This requires
+#' the MetaCycData package.
 #' @return compoundData object
 #' 
 #' @author Amanda White
@@ -14,23 +14,11 @@ mapPeaksToCompounds <- function(peakObj, db="MetaCyc") {
   if (!inherits(peakObj, "peakData")) {
     stop("peakData must be an object of type peakData")
   }
-  if (!(toupper(db) %in% c("KEGG", "METACYC"))) {
-    stop("db must be one of 'KEGG' or 'MetaCyc'")
+  if (!(toupper(db) %in% c("METACYC"))) {
+    stop("db must be one of 'MetaCyc'")
   }
 
-  if (toupper(db) == "KEGG") {
-    require(KeggData)
-    data("kegg_compounds")
-    compounds <- kegg_compounds
-    # rm(kegg_compounds)
-    
-    data("kegg_compounds_per_formula")
-    compounds_per_formula <- kegg_compounds_per_formula
-    colnames(compounds_per_formula) <- c(getMFColName(peakObj), "Num_Compounds_Per_Formula")
-    # rm(kegg_compounds_per_formula)
-    
-    db_name <- "KEGG"
-  } else if (toupper(db) == "METACYC") {
+  if (toupper(db) == "METACYC") {
     require(MetaCycData)
     data("mc_compounds")
     compounds <- mc_compounds %>%

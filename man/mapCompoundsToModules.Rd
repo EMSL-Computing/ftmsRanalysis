@@ -13,9 +13,9 @@ mapCompoundsToModules(compoundObj)
 moduleData object
 }
 \description{
-Map compound data to MetaCyc modules. Additional database options may be added in the future.
-For MetaCyc, modules are pathways that are not super-pathways. 
-This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
+Map compound data to MetaCyc modules The database used
+is determined by the database previously used to map peaks to compounds.
+For MetaCyc, modules are pathways that are not super-pathways
 }
 \author{
 Amanda White

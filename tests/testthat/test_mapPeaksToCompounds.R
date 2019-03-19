@@ -2,7 +2,6 @@
 
 library(ftmsRanalysis)
 library(MetaCycData)
-library(KeggData)
 context("mapPeaksToCompounds function")
 
 # convenience function to compare attributes between a peakData and compoundData
@@ -53,38 +52,6 @@ test_that("mapPeaksToCompounds works correctly mapping to MetaCyc", {
   
   peakObj2 <- edata_transform(exampleProcessedPeakData, "log2")
   expect_warning(compObj2 <- mapPeaksToCompounds(peakObj2, db="MetaCyc"))
-  expect_equal(getDataScale(compObj2), getDataScale(peakObj2))
-  
-})
-
-test_that("mapPeaksToCompounds works correctly mapping to Kegg", {
-  data("exampleProcessedPeakData")
-  
-  expect_warning(compObj <- mapPeaksToCompounds(exampleProcessedPeakData, db="KEGG"))
-  
-  expect_true(inherits(compObj, "compoundData"))
-  expect_true(all(c("e_data", "e_meta", "f_data") %in% names(compObj)))
-  
-  testCompareAttributes(compObj, exampleProcessedPeakData, excludeAttr=c("class", "DB", "cnames"))
-  peakCNames <- attr(exampleProcessedPeakData, "cnames")
-  compCNames <- attr(exampleProcessedPeakData, "cnames")
-  expect_true(identical(peakCNames, compCNames[names(peakCNames)]))
-
-  expect_true(nrow(compObj$e_data) < nrow(exampleProcessedPeakData$e_data))
-  expect_true(identical(compObj$f_data, exampleProcessedPeakData$f_data))
-  
-  edata_cname <- getEDataColName(compObj)
-  expect_true(all(compObj$e_meta[, edata_cname] %in% compObj$e_data[, edata_cname]))
-  expect_true(all(compObj$e_data[, edata_cname] %in% compObj$e_meta[, edata_cname]))
-  expect_true(edata_cname != getEDataColName(exampleProcessedPeakData))
-  expect_true(sum(is.na(compObj$e_meta[, getCompoundColName(compObj)])) == 0)
-  
-  expect_equal(getDataScale(compObj), getDataScale(exampleProcessedPeakData))
-  
-  # test using transformed data as input
-  
-  peakObj2 <- edata_transform(exampleProcessedPeakData, "log2")
-  expect_warning(compObj2 <- mapPeaksToCompounds(peakObj2, db="KEGG"))
   expect_equal(getDataScale(compObj2), getDataScale(peakObj2))
   
 })

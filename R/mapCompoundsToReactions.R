@@ -1,7 +1,6 @@
-#' Map compound level data to reactions in either KEGG or MetaCyc
+#' Map compound level data to reactions in MetaCyc
 #' 
-#' Map compound data to KEGG or MetaCyc reactions. The database used
-#' is determined by the database previously used to map peaks to compounds.
+#' Map compound data to MetaCyc reactions. 
 #' @param compoundObj an object of type compoundData
 #' @return reactionData object
 #' 
@@ -17,17 +16,7 @@ mapCompoundsToReactions <- function(compoundObj) {
   }
   
   db <- getDatabase(compoundObj)
-  if (toupper(db) == "KEGG") {
-    require(KeggData)
-    data("kegg_reactions")
-    reactions <- kegg_reactions
-    data("kegg_compounds")
-    compounds <- kegg_compounds
-    
-    data("kegg_compound_reaction_map")
-    comp_rxn_map <- kegg_compound_reaction_map
-    
-  } else if (toupper(db) == "METACYC") {
+  if (toupper(db) == "METACYC") {
     require(MetaCycData)
     data("mc_reactions")
     reactions <- mc_reactions %>%
@@ -89,9 +78,7 @@ mapCompoundsToReactions <- function(compoundObj) {
     thresh.min <- min(attr(compoundObj, "filters")$massFilt$threshold)
     thresh.max <- max(attr(compoundObj, "filters")$massFilt$threshold)
     
-    if (toupper(db) == "KEGG") {
-      obs_comp <- ftmsRanalysis:::kegg_mass_filter(obs_comp, thresh.min, thresh.max)
-    } else if (toupper(db) == "METACYC") {
+    if (toupper(db) == "METACYC") {
       obs_comp <- ftmsRanalysis:::metacyc_mass_filter(obs_comp, thresh.min, thresh.max)
     } else {
       stop(paste("Unknown database:", db))

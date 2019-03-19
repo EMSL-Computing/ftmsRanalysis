@@ -38,7 +38,7 @@ mass_filter <- function(ftmsObj){
 }
 
 #######################################################################################
-# Internal only functions for applying mass filters to KEGG and MetaCyc compounds
+# Internal only functions for applying mass filters to MetaCyc compounds
 # Need to transform mass slightly (- 1.007276) before filtering to be comparable with ftmsData peaks
 
 metacyc_mass_filter <- function(compounds=MetaCycData::mc_compounds, min_mass, max_mass) {
@@ -56,20 +56,3 @@ metacyc_mass_filter <- function(compounds=MetaCycData::mc_compounds, min_mass, m
   res <- compounds[!ind.na & ind, ]
   return(res)
 }
-
-kegg_mass_filter <- function(compounds=KeggData::kegg_compounds, min_mass, max_mass) {
-  # check that compounds is not NULL 
-  if(is.null(compounds)) stop("compounds is NULL and must be present to use this function")
-  
-  # check that all the cnames are character strings #
-  if(class(min_mass) != "numeric") stop("min_mass must be numeric")
-  if(class(max_mass) != "numeric") stop("max_mass must be numeric")
-  
-  cname <- "EXACT_MASS"
-  
-  ind.na <- is.na(compounds[, cname])
-  ind <- compounds[, cname] - 1.007276 >= min_mass & compounds[, cname] - 1.007276 <= max_mass
-  res <- compounds[!ind.na & ind, ]
-  return(res)
-}
-

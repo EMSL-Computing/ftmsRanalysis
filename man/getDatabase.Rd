@@ -10,7 +10,7 @@ getDatabase(ftmsObj)
 \item{ftmsObj}{an object of type ftmsData}
 }
 \value{
-database (e.g. MetaCyc)
+database name
 }
 \description{
 Get the database associated with an object that has been mapped to
