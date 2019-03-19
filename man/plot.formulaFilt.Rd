@@ -25,7 +25,7 @@ plotly object
 Plot formula filter
 }
 \examples{
-filter_obj <- formula_filter(peakIcrData)
+filter_obj <- formula_filter(examplePeakData)
 plot(filter_obj, remove='NoFormula')
 }
 \author{

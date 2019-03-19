@@ -1,5 +1,5 @@
-Package: fticRanalysis
-Title: Analysis and visualization tools for ICR data
+Package: ftmsRanalysis
+Title: Analysis and visualization tools for FT-MS data
 Version: 1.0.0
 Authors@R: c(person("Lisa", "Bramer", email = "lisa.bramer@pnnl.gov", role = c("aut", "cre")), 
     person("Amanda", "White", email = "amanda.white@pnnl.gov", role = c("aut")), 
@@ -11,8 +11,8 @@ Depends:
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/EMSL-Computing/fticRanalysis
-BugReports: https://github.com/EMSL-Computing/fticRanalysis/issues
+URL: https://github.com/EMSL-Computing/ftmsRanalysis
+BugReports: https://github.com/EMSL-Computing/ftmsRanalysis/issues
 Imports:
     igraph,
     scales,

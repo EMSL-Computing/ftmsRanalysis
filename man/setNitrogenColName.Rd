@@ -4,15 +4,15 @@
 \alias{setNitrogenColName}
 \title{Set the name of the nitrogen column}
 \usage{
-setNitrogenColName(icrData, cname)
+setNitrogenColName(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrData
+updated ftmsObj
 }
 \description{
 Sets the name of the column in the e_meta element that 

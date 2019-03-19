@@ -4,41 +4,41 @@
 #' a pair of groups. This is used to facilitate analysis and visualizations
 #' of group comparisons.
 #' 
-#' @param icrData icrData object
+#' @param ftmsObj ftmsData object
 #' @param comparisons dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, 'one-factor' will create a matrix of pairwise comparisons to be made where only one 'main_effect' changes between the two groups, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.
 #' @param control if wanting to only compare against a control, must specify which group or sample is the control
-#' @return a distributed data object where each division consists of a subset of \code{icrData} with
+#' @return a distributed data object where each division consists of a subset of \code{ftmsObj} with
 #' data from just two groups.
 #' @export
-divideByGroupComparisons <- function(icrData, comparisons, control=NULL) {
-  if (missing(icrData)) stop("icrData is missing")
+divideByGroupComparisons <- function(ftmsObj, comparisons, control=NULL) {
+  if (missing(ftmsObj)) stop("ftmsObj is missing")
   if (missing(comparisons)) stop("comparisons is missing")
-  if (!inherits(icrData, "icrData")) stop("icrData must be of type icrData")
+  if (!inherits(ftmsObj, "ftmsData")) stop("ftmsObj must be of type ftmsData")
 #  if (!is.matrix(comparisons) & !is.data.frame(comparisons)) stop("comparisons must be either a matrix or a data frame")
   if (missing(comparisons)) stop("comparisons is missing")
   
   require(datadr)  
   
-  fdata.colname <- getFDataColName(icrData)
+  fdata.colname <- getFDataColName(ftmsObj)
   
-  groupDF <- fticRanalysis:::getGroupDF(icrData)
+  groupDF <- ftmsRanalysis:::getGroupDF(ftmsObj)
   if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF 
-    samp.names <- unique(icrData$f_data[, getFDataColName(icrData)])
+    samp.names <- unique(ftmsObj$f_data[, getFDataColName(ftmsObj)])
     groupDF <- data.frame(Sample=samp.names, Group=samp.names)
-    colnames(groupDF)[1] <- getFDataColName(icrData)
-    icrData <- fticRanalysis:::setGroupDF(icrData, groupDF)
+    colnames(groupDF)[1] <- getFDataColName(ftmsObj)
+    ftmsObj <- ftmsRanalysis:::setGroupDF(ftmsObj, groupDF)
   }
   
-  compMatrix <- fticRanalysis:::comparisonMatrix(icrData, comparisons, control=control)
+  compMatrix <- ftmsRanalysis:::comparisonMatrix(ftmsObj, comparisons, control=control)
   
   groups <- as.character(groupDF$Group)
-  samples <- unique(as.character(icrData$f_data[, fdata.colname]))
-  edata_nonsample_cols <- setdiff(colnames(icrData$e_data), groups)
+  samples <- unique(as.character(ftmsObj$f_data[, fdata.colname]))
+  edata_nonsample_cols <- setdiff(colnames(ftmsObj$e_data), groups)
   
   result <- lapply(1:ncol(compMatrix), function(i) {
     grp.names <- compMatrix[,i]
 
-    val <- subset(icrData, groups = grp.names)  
+    val <- subset(ftmsObj, groups = grp.names)  
     class(val) <- c("groupComparison", class(val))
 
     comp_name <- paste(grp.names, collapse=" vs ")
@@ -49,6 +49,6 @@ divideByGroupComparisons <- function(icrData, comparisons, control=NULL) {
     return(kvPair(key, val))
   })
   result <- ddo(result)
-  attr(result, "e_meta") <- icrData$e_meta
+  attr(result, "e_meta") <- ftmsObj$e_meta
   return(result)
 }

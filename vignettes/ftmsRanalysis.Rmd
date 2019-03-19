@@ -1,0 +1,313 @@
+---
+title: "Introduction to ftmsRanalysis"
+author: Lisa Bramer, Amanda White, Allison Thompson, Lee Ann McCue
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 1
+    number_sections: true
+  pkgdown:
+    toc: true
+    toc_depth: 1
+##    toc_float:
+##      collapsed: false
+    number_sections: true
+vignette: >
+  %\VignetteIndexEntry{Introduction to ftmsRanalysis}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 8, 
+  fig.height = 6
+)
+```
+
+# Introduction
+
+## FT-MS Analysis
+[TODO: Lisa this needs an edit] Fourier-transform mass spectrometry (FT-MS) is a type of mass spectrometery for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.  Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. FT-MS instrument data can be interpreted as peak intensities for each observed peak. FT-MS analysis has been used to examine a wide range of complex mixtures, including soils, plants, aquatic samples, petroleum and various beverages.
+
+The `ftmsRanalysis` package was designed to help with various steps of processing FT-MS data, including:
+
+* data formatting and manipulation  
+* reproducible analysis pipeline  
+* filtering data based on various properties  
+* calculating meta information for each peak (e.g. nominal oxidation state of Carbon)  
+* data visualization and summary  
+    * one sample  
+    * multiple samples   
+    * group comparisons  
+
+## Example data
+
+An example dataset has been included with the `ftmsRanalysis` package. This dataset is a subset of an experiment to assess differences in soil organic matter between multiple locations and crop types. The data were collected from two locations (M and W) for two crop flora (S and C). The data were analyzed with a 12T FTICR (Fourier-transform ion cyclotron resonance) mass spectrometer. 
+
+# Data loading
+
+## Experimental data
+
+Data required for the `ftmsRanalysis` package is comprised of three data tables:
+
+* **Expression Data** - observed data for each peak (rows) and sample (columns)  
+    * values of each cell represent the peak intensity observed 
+* **Sample Data** - data capturing relevant experimental factors (columns) for each sample (rows)    * e.g. samples and their sampling locations, treatment applied, etc.  
+* **Molecular Identification Data** - other characteristics or quantified values (columns) for each peak (rows)  
+    * e.g. molecular formulae
+
+
+## e_data (Expression Data)
+The edata object is a data frame with one row per peak and one column per sample. It must have one column that is a unique ID (e.g. Mass).
+
+```{r }
+library(ftmsRanalysis)
+data("ftms12T_edata")
+str(ftms12T_edata)
+```
+
+## f_data (Sample Data)
+The fdata object is a data frame with one row per sample with information about experimental conditions. It must have a column that matches the sample column names in edata.
+
+```{r}
+data("ftms12T_fdata")
+str(ftms12T_fdata)
+```
+
+## e_meta (Molecular Identification Data)
+The emeta object is a data frame with one row per peak and columns containing other meta data. Either a column giving the molecular formula or elemental count columns (currently the elements C, H, O, S, N, and P are supported) are required. It must have an ID column corresponding to the ID column in edata. If information about isotopic peaks is available and specified, these peaks are currently filtered from the data upon peakData object creation.
+
+```{r }
+data("ftms12T_emeta")
+str(ftms12T_emeta)
+```
+
+## Constructing a peakData object
+
+```{r}
+peakObj <- as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, 
+                       edata_cname="Mass", fdata_cname="SampleID", 
+                       mass_cname="Mass", c_cname="C", h_cname="H", 
+                       o_cname="O", n_cname="N", s_cname="S", 
+                       p_cname="P", isotopic_cname = "C13", 
+                       isotopic_notation = "1")
+peakObj
+```
+
+The `as.peakData` function also allows for the following (optional) parameters:
+
+* data_scale - assumed to be 'abundance' or peak intensity. Other options include: log2, log10, log, presence/absence (0/1)  
+* instrument_type - assumed to be 12T/15T. The option is 21T for which data is displayed differently in visualizations due to the high resolution of the data 
+* extraction_cname - name of column in f_data specifying extraction (e.g. water)
+* isotopic_cname - name of column in e_meta which indicates if a peak is isotopic
+* isotopic_notation - character string in isotopic_cname which indicates a peak is isotopic. Isotopes are currently filtered out of the data
+
+
+The resulting `peakData` object contains three elements, named e_data, f_data, and e_meta:
+```{r}
+names(peakObj)
+```
+
+During object construction, the molecular formula is calculated from the elemental columns (and elemental columns would be created in the case that molecular formulae were provided):
+```{r}
+tail(peakObj$e_meta)
+```
+
+There is a summary method:
+
+```{r}
+summary(peakObj)
+```
+
+... and a default plot method:
+
+```{r message=FALSE}
+plot(peakObj)
+```
+
+# Preprocessing
+
+## Transforming abundance values
+
+When dealing with 'omics data quantitatively, we often log-transform to stabilize variances and reduce skew for downstream data processing. Alternatively, it's common to treat FT-MS data as presence/absence data. We can use the `edata_transform` function to transform the data scale for either of these options.
+
+```{r}
+peakObj <- edata_transform(peakObj, data_scale="log2")
+
+# for presence/absence transformation:
+edata_transform(peakObj, data_scale="pres")
+```
+
+When we plot the transformed data, the difference in scale is apparent.
+
+```{r}
+plot(peakObj)
+```
+
+## Calculating meta-data
+It is frequently useful for biological analysis and interpretation to calculate values related to chemical properties of each peak, such as the nominal oxidation state of Carbon (NOSC), aromaticity, and elemental ratios. This can be done via the `compound_calcs` function. By default, this function calculates all available meta-data fields, specific fields can be chosen with the `calc_fns` parameter.
+
+```{r}
+peakObj <- compound_calcs(peakObj)
+peakObj
+```
+
+Classification of compounds based on their elemental composition is often desirable. The `assign_elemental_composition` function accomplishes this task.
+
+```{r}
+peakObj <- assign_elemental_composition(peakObj)
+table(peakObj$e_meta[,getElCompColName(peakObj)])
+```
+
+Further, each compound formula can also be assigned to biochemical compound classes (e.g. lipids, lignins, etc.) based on their chemical properities (e.g. O:C, H:C ratios), and the `assign_class` function performs this assignment. 
+
+```{r}
+peakObj <- assign_class(peakObj, boundary_set = "bs1")
+table(peakObj$e_meta[, getBS1ColName(peakObj)])
+```
+
+There are three sets of class boundary definitions that may be used (for the `boundary_set` parameter) corresponding to the following publications:
+
+* `bs1` - [Kim, S., et al (2003). Analytical Chemistry.](https://dx.doi.org/10.1021/ac034415p){target="_blank"}
+* `bs2` - [Bailey, V. et al (2017). Soil Biology and Biochemistry.](https://dx.doi.org/10.1016/j.soilbio.2016.11.025){target="_blank"}
+* `bs3` - [Rivas-Ubach, A., et al (2018). Analytical chemistry.](https://dx.doi.org/10.1021/acs.analchem.8b00529){target="_blank"}
+
+## Filtering
+
+There are multiple types of filtering algorithms provided in `ftmsRanalysis`: 
+
+* __Molecule filter__: filter rows of e_data to exclude rows observed in too few samples
+* __Mass filter__: filter rows based on mass, e.g. to reflect observational sensitivity of the instrument
+* __Formula filter__: filter rows based on whether they have a molecular formula
+* __Emeta filter__: filter rows of e_data based on a quantity/column in e_meta
+
+For example, to filter peaks to include only masses between 200 and 900: 
+
+```{r}
+filter_obj <- mass_filter(peakObj)
+plot(filter_obj, min_mass=200, max_mass=900)
+```
+
+```{r}
+summary(peakObj)
+peakObj <- applyFilt(filter_obj, peakObj, min_mass = 200, 
+                  max_mass = 900)
+summary(peakObj)
+```
+
+Other filtering options include number of molecule observations, formula presence or absence, or emeta columns.
+
+```{r}
+peakObj <- applyFilt(molecule_filter(peakObj), peakObj, min_num=2)
+peakObj <- applyFilt(formula_filter(peakObj), peakObj)
+peakObj <- applyFilt(emeta_filter(peakObj, "NOSC"), peakObj, min_val = 0.5)
+summary(peakObj)
+```
+
+# Visualizations of one sample
+
+To construct plots of a single sample, first we must subset the data to contain only one sample, via the `subset` method.
+
+```{r}
+one_sample <- subset(peakObj, samples="EM0011_sample")
+summary(one_sample)
+head(one_sample$e_data)
+```
+
+## Van Krevelen plot
+A Van Krevelen plot shows H:C ratio vs O:C ratio for each peak observed in a sample
+that has a molecular formula (thus H:C and O:C are known). By default, the points are 
+colored according to molecular composition class determined by `bs1`.
+
+```{r message=FALSE, warning=FALSE}
+vanKrevelenPlot(one_sample, title="EM0011_sample")
+```
+
+By default, this function colors by Van Krevelen class. However, we can also color the points according to other meta data columns in the `e_meta` object.
+
+```{r}
+vanKrevelenPlot(one_sample, colorCName="PtoC_ratio", 
+                title="Color by P:C Ratio", legendTitle = "P:C Ratio")
+```
+
+## Kendrick plot
+
+A Kendrick plot shows Kendrick Defect vs Kendrick mass for each observed peak.
+
+Ions of the same family have the same Kendrick mass defect and are positioned along a horizontal line on the plot. A Kendrick plot is often used in conjunction with a Van Krevelen plot for evaluating elemental composition.
+
+```{r}
+kendrickPlot(one_sample, title="Kendrick Plot for EM0011_sample")
+```
+
+## Histogram
+
+We can also plot the distributions of any (numeric) column of meta-data (i.e. column of `e_meta`). 
+```{r}
+densityPlot(one_sample, variable = "NOSC", plot_curve=TRUE, plot_hist=TRUE,
+            title="NOSC Distribution for EM0011_sample")
+```
+
+It's also possible to plot just the histogram or just the density curve with this function with the `plot_hist` and `plot_curve` parameters.
+
+```{r}
+densityPlot(one_sample, variable = "kmass", 
+            title="Kendrick Mass for EM0011_sample", plot_hist=TRUE, 
+            plot_curve = FALSE, yaxis="count")
+```
+
+# Comparison of experimental groups
+
+The goal of this experiment was to identify differences in soil organic matter between
+sample locations and crop types. In order to do that we need to compare experimental treatments (groups). 
+
+The `group_designation` method defines treatment groups based on the variable(s)
+specified as main effects. Here we define groups based on the crop/flora type. 
+
+```{r}
+peakObj <- group_designation(peakObj, main_effects=c("Crop.Flora"))
+getGroupDF(peakObj)
+```
+
+The `summarizeGroups` function calculates group-level summaries per peak, such as the number or proportion of samples in which peak is observed. The resulting object's `e_data` element contains one column per group, per summary function.
+
+```{r message=FALSE}
+group_summary <- summarizeGroups(peakObj, summary_functions = 
+                                   c("n_present", "prop_present"))
+head(group_summary$e_data)
+```
+
+We can use the `densityPlot` function to compare distributions of a molecular property (e.g. NOSC) between groups.
+
+```{r}
+densityPlot(peakObj, samples=FALSE, groups=c("S","C"), variable="NOSC", 
+            title="Comparison of NOSC Between Crop Types") 
+```
+
+We might also want to look at which peaks occur only in one group or another, versus those that appear in both groups. The number or proportion of samples for which a peak must be observed can be specified to determine if a peak was present for a group. Similarly, a threshold based on the number or proportion of samples can be specified to determine when a peak is absent from a group. Alternatively, a statistical test called the [G-Test](https://en.wikipedia.org/wiki/G-test) can be used. This is a likelihood ratio test which tests the hypothesis that the presence/absence of a peak across samples is independent of group membership.  
+
+The first step is to create peakData objects that each contain two groups to facilitate group comparisons
+
+```{r}
+byGroup <- divideByGroupComparisons(peakObj, 
+                                comparisons = "all")[[1]]$value
+
+crop_unique <- summarizeGroupComparisons(byGroup, 
+            summary_functions="uniqueness_gtest", 
+            summary_function_params=list(
+                  uniqueness_gtest=list(pres_fn="nsamps", 
+                          pres_thresh=2, pvalue_thresh=0.05)))
+
+tail(crop_unique$e_data)
+```
+
+Then we can construct a Van Krevelen plot colored by group membership.
+
+```{r}
+vanKrevelenPlot(crop_unique, colorCName = "uniqueness_gtest")
+```
+
+The same could be done with a Kendrick plot. 

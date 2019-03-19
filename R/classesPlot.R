@@ -2,9 +2,9 @@
 #' 
 #' Constructs stacked bar plot to look at the percentage of each class in the data
 #' 
-#' @param icrData icrData object of class peakIcrData or compoundIcrData
-#' @param xaxis x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
-#'                colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).
+#' @param ftmsObj ftmsData object of class peakData or compoundData
+#' @param xaxis x axis variable. If NULL, will use attr(ftmsObj, "cnames")$fdata_cname. Must be one of
+#'                colnames(ftmsObj$f_data) or colnames(attr(ftmsObj, "group_DF")).
 #' @param ylabel y axis label, default is "Density"
 #' @param title plot title, default is NULL
 #' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
@@ -16,58 +16,58 @@
 #' @author Allison Thompson
 #' 
 #'
-classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Classes", title=NULL, vkBoundarySet="bs1", classColName=NULL) {
+classesPlot <- function(ftmsObj, xaxis=NULL, ylabel="Percentage of Chemical Classes", title=NULL, vkBoundarySet="bs1", classColName=NULL) {
   
   # Initial Checks #
-  # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  # check that ftmsObj is of the correct class #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
   
   if(is.null(xaxis)){
-    xaxis <- fticRanalysis:::getFDataColName(icrData)
+    xaxis <- ftmsRanalysis:::getFDataColName(ftmsObj)
   }
   
-  if(!(xaxis %in% c(colnames(icrData$f_data), colnames(attr(icrData, "group_DF"))))){
-    stop("xaxis must be one of the column names of icrData$f_data or attr(icrData, 'group_DF').")
+  if(!(xaxis %in% c(colnames(ftmsObj$f_data), colnames(attr(ftmsObj, "group_DF"))))){
+    stop("xaxis must be one of the column names of ftmsObj$f_data or attr(ftmsObj, 'group_DF').")
   }
   
   # End Initial Checks #
   
   # calculate the number of peaks per sample
-  classes <- icrData$e_data
+  classes <- ftmsObj$e_data
   
   if(is.null(classColName) & !is.null(vkBoundarySet)){
     if(!(vkBoundarySet) %in% c("bs1","bs2")){ stop("vkBoundarySet must be one of 'bs1' or 'bs2'.") }
-    classes$VKClassesForPlot <- fticRanalysis:::assign_class(icrData, vkBoundarySet)$e_meta[,paste(vkBoundarySet,"class",sep="_")]
+    classes$VKClassesForPlot <- ftmsRanalysis:::assign_class(ftmsObj, vkBoundarySet)$e_meta[,paste(vkBoundarySet,"class",sep="_")]
     classes$VKClassesForPlot <- gsub(";.*", "",classes$VKClassesForPlot)
-    classes$VKClassesForPlot <- factor(classes$VKClassesForPlot, levels=rownames(fticRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds))
+    classes$VKClassesForPlot <- factor(classes$VKClassesForPlot, levels=rownames(ftmsRanalysis:::getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds))
   }else if(!is.null(classColName)){
-    if(!(classColName) %in% colnames(icrData$e_meta)){ stop("classColName not found in icrData$e_meta.") }
-    classes$VKClassesForPlot <- icrData$e_meta[match(icrData$e_meta[,fticRanalysis:::getMassColName(icrData)], classes[,fticRanalysis:::getMassColName(icrData)]), classColName]
+    if(!(classColName) %in% colnames(ftmsObj$e_meta)){ stop("classColName not found in ftmsObj$e_meta.") }
+    classes$VKClassesForPlot <- ftmsObj$e_meta[match(ftmsObj$e_meta[,ftmsRanalysis:::getMassColName(ftmsObj)], classes[,ftmsRanalysis:::getMassColName(ftmsObj)]), classColName]
   }else{
     stop("Unsure what to use to color by, please specify either 'vkBoundarySet' or 'classColName'")
   }
   
   classes <- reshape2::melt(classes)
-  colnames(classes)[which(colnames(classes) == "variable")] <- fticRanalysis:::getFDataColName(icrData)
-  classes <- merge(classes, icrData$e_meta, by=getMassColName(icrData))
+  colnames(classes)[which(colnames(classes) == "variable")] <- ftmsRanalysis:::getFDataColName(ftmsObj)
+  classes <- merge(classes, ftmsObj$e_meta, by=getMassColName(ftmsObj))
   
   # remove unassigned 
-  if(any(is.na(classes[,fticRanalysis:::getMFColName(icrData)]))){
-    classes <- classes[-which(is.na(classes[,fticRanalysis:::getMFColName(icrData)])),]
+  if(any(is.na(classes[,ftmsRanalysis:::getMFColName(ftmsObj)]))){
+    classes <- classes[-which(is.na(classes[,ftmsRanalysis:::getMFColName(ftmsObj)])),]
     classes <- droplevels(classes)
   }
   
   # merge peaks with metadata or group_DF
-  if(xaxis %in% colnames(attr(icrData, "group_DF"))){
-    classes <- merge(classes, attr(icrData, "group_DF"), by=fticRanalysis:::getFDataColName(icrData))
+  if(xaxis %in% colnames(attr(ftmsObj, "group_DF"))){
+    classes <- merge(classes, attr(ftmsObj, "group_DF"), by=ftmsRanalysis:::getFDataColName(ftmsObj))
   }else{
-    classes <- merge(classes, icrData$f_data, by=fticRanalysis:::getFDataColName(icrData)) 
+    classes <- merge(classes, ftmsObj$f_data, by=ftmsRanalysis:::getFDataColName(ftmsObj)) 
   }
   
-  if(xaxis == getFDataColName(icrData)){
+  if(xaxis == getFDataColName(ftmsObj)){
     # summarise to percentage in each class
-    vars1 <- c(getFDataColName(icrData), "VKClassesForPlot")
+    vars1 <- c(getFDataColName(ftmsObj), "VKClassesForPlot")
     vars1 <- lapply(vars1, as.symbol)
   
     class_grp <- classes %>% dplyr::group_by_(.dots=vars1) %>%
@@ -76,7 +76,7 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
 
   }else{
     # if grouping, take median per group
-    vars1 <- c(getFDataColName(icrData), xaxis, "VKClassesForPlot")
+    vars1 <- c(getFDataColName(ftmsObj), xaxis, "VKClassesForPlot")
     vars1 <- lapply(vars1, as.symbol)
     
     vars2 <- c(xaxis, "VKClassesForPlot")
@@ -100,7 +100,7 @@ classesPlot <- function(icrData, xaxis=NULL, ylabel="Percentage of Chemical Clas
     cc <- factor(cc, levels=cc)
   }
   
-  colorPal <- fticRanalysis:::getFactorColorPalette(cc)  
+  colorPal <- ftmsRanalysis:::getFactorColorPalette(cc)  
   col_vec <- colorPal(cc)
   names(col_vec) <- cc
   

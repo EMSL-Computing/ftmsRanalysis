@@ -1,11 +1,11 @@
-#' Plot method for peakIcrData objects
+#' Plot method for peakData objects
 #' 
 #' Depending on the scale of the object provided, this function with either construct
 #' a barplot of the number of peaks observed for each sample (presence/absence data)
 #' or boxplot of values of observed peaks per sample (all others). Samples will be 
-#' colored by group, if grouping information is present in \code{icrData}.
+#' colored by group, if grouping information is present in \code{ftmsObj}.
 #'
-#' @param icrData peakIcrData object
+#' @param ftmsObj peakData object
 #' @param title optional title for the plot
 #' @param xlabel optional label for X axis, if not provided "Sample" will be used
 #' @param ylabel optional label for Y axis, if not provided a label will be constructed based on data scale (e.g. "Abundance" or "Number Observed")
@@ -15,16 +15,16 @@
 #' @export
 #'
 #' @examples
-#' plot(edata_transform(peakIcrData, "log2"))
-#' plot(edata_transform(peakIcrProcessed, "pres"))
-plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="groups") {
+#' plot(edata_transform(examplePeakData, "log2"))
+#' plot(edata_transform(exampleProcessedPeakData, "pres"))
+plot.peakData <- function(ftmsObj, title=NA, xlabel=NA, ylabel=NA, colorBy="groups") {
 
   # Tests
-  if (!inherits(icrData, "peakIcrData")) stop("icrData must be of type peakIcrData")
-  if (inherits(icrData, "groupSummary") | inherits(icrData, "comparisonSummary")) {
+  if (!inherits(ftmsObj, "peakData")) stop("ftmsObj must be of type 'peakData'")
+  if (inherits(ftmsObj, "groupSummary") | inherits(ftmsObj, "comparisonSummary")) {
     stop("Cannot use this plotting function for 'groupSummary' and 'comparisonSummary' data")
   }
-  data_scale <- getDataScale(icrData)
+  data_scale <- getDataScale(ftmsObj)
   if (data_scale == "" | identical(data_scale, NULL) | identical(data_scale, NA)) {
     stop(sprintf("Unknown data scale '%s': this data is not appropriate for plotting with this function", data_scale))
   }
@@ -43,7 +43,7 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="g
     else ylabel <- sprintf("%s(Abundance)", data_scale)
   }
   
-  df <- icrData$e_data %>% tidyr::gather("Sample", "Value", -dplyr::matches(getEDataColName(icrData)))
+  df <- ftmsObj$e_data %>% tidyr::gather("Sample", "Value", -dplyr::matches(getEDataColName(ftmsObj)))
   
   if (data_scale == "abundance" | data_scale == "pres") {
     df <- df %>% dplyr::filter(Value != 0 & !is.na(Value))
@@ -55,10 +55,10 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="g
   p <- plotly::plot_ly()
   grouped <- FALSE
   if (identical(colorBy, "groups")) {
-    if (!is.null(fticRanalysis:::getGroupDF(icrData))) {
+    if (!is.null(ftmsRanalysis:::getGroupDF(ftmsObj))) {
       grouped <- TRUE
-      groupDF <- fticRanalysis:::getGroupDF(icrData)
-      df <- df %>% dplyr::left_join(groupDF, by=c(Sample=getFDataColName(icrData)))
+      groupDF <- ftmsRanalysis:::getGroupDF(ftmsObj)
+      df <- df %>% dplyr::left_join(groupDF, by=c(Sample=getFDataColName(ftmsObj)))
     }
   }
 
@@ -70,7 +70,7 @@ plot.peakIcrData <- function(icrData, title=NA, xlabel=NA, ylabel=NA, colorBy="g
     
     } else if (identical(colorBy, "molform")) { # stacked barplots showing counts of molecular form vs not for each sample
       df2 <- df %>% 
-        dplyr::left_join(dplyr::select(icrData$e_meta, "Mass", "MolForm")) %>% 
+        dplyr::left_join(dplyr::select(ftmsObj$e_meta, "Mass", "MolForm")) %>% 
         dplyr::mutate(HasMolForm=!is.na(MolForm))
       
       counts <- df2 %>% 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Default plot method for emetaFilt — plot.emetaFilt • fticRanalysis</title>
+<title>Default plot method for emetaFilt — plot.emetaFilt • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -76,7 +76,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -92,7 +92,7 @@
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -183,7 +183,7 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Emeta filter based on the "OtoC_ratio" column (numeric variable)</span>
-<span class='no'>filter_object1</span> <span class='kw'>=</span> <span class='fu'><a href='emeta_filter.html'>emeta_filter</a></span>(<span class='no'>peakIcrProcessed</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"OtoC_ratio"</span>)
+<span class='no'>filter_object1</span> <span class='kw'>=</span> <span class='fu'><a href='emeta_filter.html'>emeta_filter</a></span>(<span class='no'>exampleProcessedPeakData</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"OtoC_ratio"</span>)
 
 <span class='co'># Plots the distribution of OtoC_ratio</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>filter_object1</span>)
@@ -192,7 +192,7 @@
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>filter_object1</span>, <span class='kw'>min_val</span> <span class='kw'>=</span> <span class='fl'>0.5</span>, <span class='kw'>max_val</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 
 <span class='co'># Emeta filter based on the "MolForm" column (categorical variable)</span>
-<span class='no'>filter_object2</span> <span class='kw'>=</span> <span class='fu'><a href='emeta_filter.html'>emeta_filter</a></span>(<span class='no'>peakIcrProcessed</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"MolForm"</span>)
+<span class='no'>filter_object2</span> <span class='kw'>=</span> <span class='fu'><a href='emeta_filter.html'>emeta_filter</a></span>(<span class='no'>exampleProcessedPeakData</span>, <span class='kw'>cname</span> <span class='kw'>=</span> <span class='st'>"MolForm"</span>)
 
 <span class='co'># Only non-NAs retained</span>
 <span class='fu'><a href='https://www.rdocumentation.org/packages/graphics/topics/plot'>plot</a></span>(<span class='no'>filter_object2</span>)

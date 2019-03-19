@@ -4,10 +4,10 @@
 \alias{getDBEAIColName}
 \title{Get the name of the double-bond equivalent AI column}
 \usage{
-getDBEAIColName(icrData)
+getDBEAIColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of double-bond equivalent AI column

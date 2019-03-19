@@ -2,7 +2,7 @@
 #' 
 #' 
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param transformDF a data.frame of known transformations of interest, with a minimum of two columns (in any order): column 'transMass_cname' gives the transformation masses which should be counted and column 'transID_cname' gives a unique identifier (usually character string) for each transformation mass
 #' @param transformDigits the number of decimal places that should be retained for the purposes of matching observed transformations to transformations in \code{transformDF}. Defaults to 4
 #' @param transMass_cname a character string giving the name of the column in \code{transformDF} which gives the mass of the transformations of interest
@@ -14,10 +14,10 @@
 #' @author Lisa Bramer
 #' @export
 
-transformation_counts <- function(icrData, transformDF, transformDigits = 4, transMass_cname, transID_cname, transOther_cname = NULL){
+transformation_counts <- function(ftmsObj, transformDF, transformDigits = 4, transMass_cname, transID_cname, transOther_cname = NULL){
   
-  # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  # check that ftmsObj is of the correct class #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
   # checks to column names #
   if(class(transMass_cname) != "character" | length(transMass_cname) != 1) stop("'transMass_cname' must be a character string")
@@ -39,15 +39,15 @@ transformation_counts <- function(icrData, transformDF, transformDigits = 4, tra
   if(transformDigits < 1) stop("'transformDigits' must be an integer greater than 1")
   
   # if the data is not p/a, then convert to p/a #
-  if(getDataScale(icrData) != "pres"){
-    temp = edata_transform(icrData, "pres")
+  if(getDataScale(ftmsObj) != "pres"){
+    temp = edata_transform(ftmsObj, "pres")
   }else{
-    temp = icrData
+    temp = ftmsObj
   }
 
   # pull edata and mass cnames #
-  edata_id = getEDataColName(icrData)
-  mass_id = getMassColName(icrData)
+  edata_id = getEDataColName(ftmsObj)
+  mass_id = getMassColName(ftmsObj)
   
   # if mass information is in edata then we can just use edata #
   if(edata_id == mass_id){

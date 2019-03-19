@@ -1,4 +1,4 @@
-#' Convenience function to wrap fticRanalysis plotting functions for Trelliscope
+#' Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope
 #'
 #' @param plot_fn_name plot function name, e.g. "vanKrevelenPlot" or "kendrickPlot"
 #' @param ... other parameters to pass to the plotting function other than the data object
@@ -13,13 +13,13 @@
 #' @export
 #' 
 #' @examples
-#' library(fticRanalysis)
+#' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE) #temporary directory
 #' 
-#' data('peakIcrProcessed')
-#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' data('exampleProcessedPeakData')
+#' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 #' 
 #' # See expr here:
@@ -40,8 +40,8 @@ panelFunctionGenerator <- function(plot_fn_name, ...) {
   parms <- list(...)
 #  parms2 <- pryr::dots(...)
   
-  plot_fn <- getFromNamespace(plot_fn_name, "fticRanalysis")
-  if (is.null(plot_fn)) stop(sprintf("Unknown function '%s', cannot load this function from fticRanalysis", plot_fn_name))
+  plot_fn <- getFromNamespace(plot_fn_name, "ftmsRanalysis")
+  if (is.null(plot_fn)) stop(sprintf("Unknown function '%s', cannot load this function from ftmsRanalysis", plot_fn_name))
   
   fn <- function(v) {
     tmp <- list(a=v)

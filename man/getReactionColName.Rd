@@ -4,10 +4,10 @@
 \alias{getReactionColName}
 \title{Get the name of the reaction column}
 \usage{
-getReactionColName(icrData)
+getReactionColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of mass column

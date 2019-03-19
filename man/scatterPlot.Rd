@@ -4,19 +4,19 @@
 \alias{scatterPlot}
 \title{Title}
 \usage{
-scatterPlot(icrData, xCName, yCName, colorCName = NA, colorPal = NA,
+scatterPlot(ftmsObj, xCName, yCName, colorCName = NA, colorPal = NA,
   xlabel = xCName, ylabel = yCName, legendTitle = colorCName,
   title = NA, xrange = NA, yrange = NA, logColorCol = FALSE,
   hoverTextCName = NA)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
-\item{xCName}{column name for x-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}}
+\item{xCName}{column name for x-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
 
-\item{yCName}{column name for y-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}}
+\item{yCName}{column name for y-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
 
-\item{colorCName}{column name for point colors, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}}
+\item{colorCName}{column name for point colors, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
 
 \item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
 
@@ -34,7 +34,7 @@ scatterPlot(icrData, xCName, yCName, colorCName = NA, colorPal = NA,
 
 \item{logColorCol}{TRUE/FALSE, should the color column be log-transformed? Default is FALSE.}
 
-\item{hoverTextCName}{column name for hover (mouseover) text, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}}
+\item{hoverTextCName}{column name for hover (mouseover) text, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
 }
 \value{
 plotly object
@@ -43,5 +43,5 @@ plotly object
 Title
 }
 \examples{
-scatterPlot(peakIcrProcessed, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for peakIcrProcessed")
+scatterPlot(exampleProcessedPeakData, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for exampleProcessedPeakData")
 }

@@ -2,19 +2,19 @@
 % Please edit documentation in R/divideByGroup.R
 \name{divideByGroup}
 \alias{divideByGroup}
-\title{Divide icrData by group to form a ddo}
+\title{Divide an ftmsData object by group to form a ddo}
 \usage{
-divideByGroup(icrData)
+divideByGroup(ftmsObj)
 }
 \arguments{
-\item{icrData}{icrData object}
+\item{ftmsObj}{ftmsData object}
 }
 \value{
-a ddo where each division is a subset of \code{icrData} corresponding
+a ddo where each division is a subset of \code{ftmsObj} corresponding
         to a single group
 }
 \description{
-Construct a \code{\link{ddo}} from an \code{icrData} object by dividing
+Construct a \code{\link{ddo}} from an \code{ftmsData} object by dividing
 by group. The resulting object may be used with Trelliscope to make
 plots for each group. The input data must have a \code{group_DF} attribute
 defining the groups.

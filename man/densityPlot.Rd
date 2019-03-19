@@ -2,22 +2,22 @@
 % Please edit documentation in R/densityPlot.R
 \name{densityPlot}
 \alias{densityPlot}
-\title{Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object}
+\title{Density plot of quantitative characteristic of peaks for a peakData or compoundData object}
 \usage{
-densityPlot(icrData, variable, samples = NA, groups = FALSE,
+densityPlot(ftmsObj, variable, samples = NA, groups = FALSE,
   title = NA, yaxis = "density", plot_hist = FALSE,
   plot_curve = TRUE, curve_colors = NA, hist_color = "gray",
   xlabel = NA, ylabel = paste0(toupper(substring(yaxis, 1, 1)),
   substring(yaxis, 2), sep = ""))
 }
 \arguments{
-\item{icrData}{icrData object of class peakIcrData or compoundIcrData}
+\item{ftmsObj}{ftmsData object of class peakData or compoundData}
 
-\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.}
+\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{ftmsObj$e_meta} that contains numeric values.}
 
-\item{samples}{vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.}
+\item{samples}{vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{ftmsObj} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.}
 
-\item{groups}{vector of group names to plot. Value of \code{NA} indicates all groups found in \code{icrData} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.}
+\item{groups}{vector of group names to plot. Value of \code{NA} indicates all groups found in \code{ftmsObj} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.}
 
 \item{title}{plot title, default is NA (no title)}
 
@@ -39,7 +39,7 @@ densityPlot(icrData, variable, samples = NA, groups = FALSE,
 a plotly object
 }
 \description{
-Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{icrData} object
+Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{ftmsData} object
 }
 \details{
 If a histogram is produced, the histogram bar data as a data frame is attached to the output as the attribute \code{hist_data}.

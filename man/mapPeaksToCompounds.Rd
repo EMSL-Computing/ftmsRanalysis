@@ -2,21 +2,21 @@
 % Please edit documentation in R/mapPeaksToCompounds.R
 \name{mapPeaksToCompounds}
 \alias{mapPeaksToCompounds}
-\title{Map peak ICR data to compounds}
+\title{Map peak FT-MS data to compounds}
 \usage{
-mapPeaksToCompounds(peakIcrData, db = "MetaCyc")
+mapPeaksToCompounds(peakObj, db = "MetaCyc")
 }
 \arguments{
-\item{peakIcrData}{object of type peakIcrData}
+\item{peakObj}{object of type peakData}
 
-\item{db}{database to map to, currently 'MetaCyc' (case insensitive) is the 
-only option. This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).}
+\item{db}{database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
+the KeggData package or the MetaCycData package respectively.}
 }
 \value{
-compoundIcrObject
+compoundData object
 }
 \description{
-Map peak leve ICR data to compounds from MetaCyc. Additional database options may be added in the future.
+Map peak level FT-MS data to compounds from either KEGG or MetaCyc.
 }
 \author{
 Amanda White

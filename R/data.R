@@ -3,8 +3,8 @@
 #' A dataset containing expression data from a 12T FTICR instrument. 
 #'
 #' @format A data.frame with 2,442 rows (peaks/masses) and 21 columns (mass identifier and samples):
-#' @rdname fticr12T_edata
-#' @name fticr12T_edata
+#' @rdname ftms12T_edata
+#' @name ftms12T_edata
 NULL
 
 #' FTICR Sample Feature Data
@@ -18,8 +18,8 @@ NULL
 #'   \item{Block}{Field block from which a sample was taken - 5 levels (1, 2, 3, 4, 5)}
 #'   \item{Crop.Flora}{Crop/flora type of given sample - 2 levels (C, S)}
 #' }
-#' @rdname fticr12T_fdata
-#' @name fticr12T_fdata
+#' @rdname ftms12T_fdata
+#' @name ftms12T_fdata
 NULL
 
 #' FTICR Peak Meta Information
@@ -39,15 +39,15 @@ NULL
 #'   \item{Error}{Difference between the experimental mass and the accurate mass }
 #'   \item{NeutralMass}{Experimental mass + mass of hydrogen - mass of electron}
 #' }
-#' @rdname fticr12T_emeta
-#' @name fticr12T_emeta
+#' @rdname ftms12T_emeta
+#' @name ftms12T_emeta
 NULL
 
-#' FTICR Data Object of Class peakIcrData
+#' FTICR Data Object of Class peakData
 #'
-#' An S3 object of class peakIcrData
+#' An S3 object of class peakData
 #'
-#' @format A peakIcrData object (see \code{\link{as.peakIcrData}} for details)
+#' @format A peakData object (see \code{\link{as.peakData}} for details)
 #' \describe{
 #'   \item{e_data}{a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of peaks observed and \eqn{n} is the number of samples. Each row corresponds to data for each peak/mass}
 #'   \item{f_data}{a data.frame with \eqn{n} rows. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.}
@@ -56,21 +56,21 @@ NULL
 #' 
 #' @details Created by running the following code 
 #' \preformatted{
-#' as.peakIcrData(e_data = fticr12T_edata, f_data = fticr12T_fdata, 
-#'                e_meta = fticr12T_emeta, edata_cname = "Mass", mass_cname = "Mass", 
+#' as.peakData(e_data = ftms12T_edata, f_data = ftms12T_fdata, 
+#'                e_meta = ftms12T_emeta, edata_cname = "Mass", mass_cname = "Mass", 
 #'                fdata_cname = "SampleID",isotopic_cname = "C13", 
 #'                isotopic_notation = "1",c_cname = "C", h_cname = "H", 
 #'                o_cname = "O", n_cname = "N", s_cname = "S", p_cname = "P", 
 #'                instrument_type = "12T")}
-#' @rdname peakIcrData
-#' @name peakIcrData
+#' @rdname examplePeakData
+#' @name examplePeakData
 NULL
 
-#' Processed FTICR Data Object of Class peakIcrData
+#' Processed FTICR Data Object of Class peakData
 #'
-#' An S3 object of class peakIcrData
+#' An S3 object of class peakData
 #'
-#' @format A peakIcrData object (see \code{\link{as.peakIcrData}} for details)
+#' @format A peakData object (see \code{\link{as.peakData}} for details)
 #' \describe{
 #'   \item{e_data}{a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of peaks observed and \eqn{n} is the number of samples. Each row corresponds to data for each peak/mass}
 #'   \item{f_data}{a data.frame with \eqn{n} s. Each row corresponds to a sample with one column giving the unique sample identifiers found in e_data column names and other columns providing qualitative and/or quantitative traits of each sample.}
@@ -79,11 +79,11 @@ NULL
 #' 
 #' @details Created by running the following commands:
 #' \preformatted{
-#' peakIcrProcessed <- group_designation(peakIcrData, main_effects=c("Location", "Crop.Flora"))
-#' peakIcrProcessed <- compound_calcs(peakIcrProcessed)
-#' peakIcrProcessed <- applyFilt(mass_filter(peakIcrProcessed), peakIcrProcessed, min_mass=200, max_mass=900)
-#' peakIcrProcessed <- applyFilt(molecule_filter(peakIcrProcessed), peakIcrProcessed, min=2)
+#' exampleProcessedPeakData <- group_designation(examplePeakData, main_effects=c("Location", "Crop.Flora"))
+#' exampleProcessedPeakData <- compound_calcs(exampleProcessedPeakData)
+#' exampleProcessedPeakData <- applyFilt(mass_filter(exampleProcessedPeakData), exampleProcessedPeakData, min_mass=200, max_mass=900)
+#' exampleProcessedPeakData <- applyFilt(molecule_filter(exampleProcessedPeakData), exampleProcessedPeakData, min=2)
 #' }
-#' @rdname peakIcrProcessed
-#' @name peakIcrProcessed
+#' @rdname exampleProcessedPeakData
+#' @name exampleProcessedPeakData
 NULL

@@ -2,30 +2,30 @@
 #' 
 #' Construct elemental count columns based on provided molecular formulae
 #' 
-#' @param icrData an object of class 'icrData', typically a result of \code{\link{as.icrData}}. 
+#' @param ftmsObj an object of class 'ftmsData', typically a result of \code{\link{as.pealData}}. 
 #' 
 #' @details Parses molecular formulae for number of observed C, H, O, N, S, and P.
 #' 
-#' @return an object of class 'icrData' with a column in \code{e\_meta} giving the molecular formula.
+#' @return an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecular formula.
 #' 
 #' @author Lisa Bramer
 #'
 
-parse_mf <- function(icrData){
+parse_mf <- function(ftmsObj){
   
 
-  # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  # check that ftmsObj is of the correct class #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
-  # check that icrData doesn't already have cnames specified for elemental counts in e_meta #
-  if(!is.null(getCarbonColName(icrData)) & !is.null(getHydrogenColName(icrData)) & !is.null(getOxygenColName(icrData)) & !is.null(getNitrogenColName(icrData)) & !is.null(getSulfurColName(icrData)) &!is.null(getPhosphorusColName(icrData))) stop("c_cname, h_cname, n_cname, o_cname, s_cname, and p_cname were already specified and will be overwritten")
+  # check that ftmsObj doesn't already have cnames specified for elemental counts in e_meta #
+  if(!is.null(getCarbonColName(ftmsObj)) & !is.null(getHydrogenColName(ftmsObj)) & !is.null(getOxygenColName(ftmsObj)) & !is.null(getNitrogenColName(ftmsObj)) & !is.null(getSulfurColName(ftmsObj)) &!is.null(getPhosphorusColName(ftmsObj))) stop("c_cname, h_cname, n_cname, o_cname, s_cname, and p_cname were already specified and will be overwritten")
   
   # check that mf_cname is non-null #
-  if(is.null(getMFColName(icrData))) stop("mf_cname is NULL and must be specified")
+  if(is.null(getMFColName(ftmsObj))) stop("mf_cname is NULL and must be specified")
   
-  mf_cname = getMFColName(icrData)
+  mf_cname = getMFColName(ftmsObj)
 
-  mf_vals = as.vector(icrData$e_meta[,mf_cname])
+  mf_vals = as.vector(ftmsObj$e_meta[,mf_cname])
   
   # pull out carbon portion of string #
   c_num = gsub(".*(C[0-9]{0,3}).*", "\\1", mf_vals)
@@ -69,7 +69,7 @@ parse_mf <- function(icrData){
   p_num[setdiff(1:length(p_num), grep("P", mf_vals))] = "0"
   p_num = as.numeric(p_num)
   
-  temp = icrData$e_meta
+  temp = ftmsObj$e_meta
   
   temp$C = c_num
   temp$H = h_num
@@ -78,15 +78,15 @@ parse_mf <- function(icrData){
   temp$S = s_num
   temp$P = p_num
   
-  icrData$e_meta = temp 
+  ftmsObj$e_meta = temp 
   
-  icrData = setCarbonColName(icrData, "C")
-  icrData =setHydrogenColName(icrData, "H")
-  icrData = setOxygenColName(icrData, "O")
-  icrData = setNitrogenColName(icrData, "N")
-  icrData = setSulfurColName(icrData, "S")
-  icrData = setPhosphorusColName(icrData, "P")
+  ftmsObj = setCarbonColName(ftmsObj, "C")
+  ftmsObj =setHydrogenColName(ftmsObj, "H")
+  ftmsObj = setOxygenColName(ftmsObj, "O")
+  ftmsObj = setNitrogenColName(ftmsObj, "N")
+  ftmsObj = setSulfurColName(ftmsObj, "S")
+  ftmsObj = setPhosphorusColName(ftmsObj, "P")
 
-  return(icrData)
+  return(ftmsObj)
   
 }

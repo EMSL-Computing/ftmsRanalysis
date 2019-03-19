@@ -2,33 +2,33 @@
 #' 
 #' Calculates the Oxygen:Carbon, Hydrogen:Carbon, Nitrogen:Carbon, Phosphorus:Carbon, and Nitrogen:Phosphorus ratios
 #' 
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.
 #'
-#' @return an object of the same class as \code{icrData} with columns in \code{e_meta} giving elemental ratios
+#' @return an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving elemental ratios
 #' @author Lisa Bramer
 #' 
 
 
-calc_element_ratios <- function(icrData){
+calc_element_ratios <- function(ftmsObj){
   
   # check that e_meta is not NULL #
-  if(is.null(icrData$e_meta)) stop("e_meta in icrData is NULL and must be present to use this function")
+  if(is.null(ftmsObj$e_meta)) stop("e_meta in ftmsData is NULL and must be present to use this function")
   
-  # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  # check that ftmsObj is of the correct class #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
-  # check that icrData doesn't already have cnames specified for ratios in e_meta #
-  if(!is.null(getOCRatioColName(icrData)) | !is.null(getHCRatioColName(icrData))) message("o2c_cname and/or h2c_cname were already specified and will be overwritten")
+  # check that ftmsObj doesn't already have cnames specified for ratios in e_meta #
+  if(!is.null(getOCRatioColName(ftmsObj)) | !is.null(getHCRatioColName(ftmsObj))) message("o2c_cname and/or h2c_cname were already specified and will be overwritten")
   
-  c_cname = getCarbonColName(icrData)
-  h_cname = getHydrogenColName(icrData)
-  o_cname = getOxygenColName(icrData)
-  n_cname = getNitrogenColName(icrData)
-  s_cname = getSulfurColName(icrData)
-  p_cname = getPhosphorusColName(icrData)
+  c_cname = getCarbonColName(ftmsObj)
+  h_cname = getHydrogenColName(ftmsObj)
+  o_cname = getOxygenColName(ftmsObj)
+  n_cname = getNitrogenColName(ftmsObj)
+  s_cname = getSulfurColName(ftmsObj)
+  p_cname = getPhosphorusColName(ftmsObj)
   
-  # pull e_meta out of icrData #
-  temp = icrData$e_meta
+  # pull e_meta out of ftmsObj #
+  temp = ftmsObj$e_meta
 
   # calculate o:c ratio #
   temp$OtoC_ratio = temp[,o_cname]/temp[,c_cname]
@@ -47,19 +47,19 @@ calc_element_ratios <- function(icrData){
   
   temp$NtoP_ratio[which(temp[,p_cname] == 0)] = NA
   
-  if(length(which(is.na(temp[,getMFColName(icrData)]))) > 0){
-    temp$OtoC_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA
-    temp$HtoC_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA
-    temp$NtoC_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA
-    temp$PtoC_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA
-    temp$NtoP_ratio[which(is.na(temp[,getMFColName(icrData)]))] = NA
+  if(length(which(is.na(temp[,getMFColName(ftmsObj)]))) > 0){
+    temp$OtoC_ratio[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
+    temp$HtoC_ratio[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
+    temp$NtoC_ratio[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
+    temp$PtoC_ratio[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
+    temp$NtoP_ratio[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
   }
   
-  # reinsert temp into icrData #
-  icrData$e_meta = temp
+  # reinsert temp into ftmsObj #
+  ftmsObj$e_meta = temp
   
   # assign column names #
-  res1 = setOCRatioColName(icrData, "OtoC_ratio")
+  res1 = setOCRatioColName(ftmsObj, "OtoC_ratio")
   res2 = setHCRatioColName(res1, "HtoC_ratio")
   res3 = setNCRatioColName(res2, "NtoC_ratio")
   res4 = setPCRatioColName(res3, "PtoC_ratio")

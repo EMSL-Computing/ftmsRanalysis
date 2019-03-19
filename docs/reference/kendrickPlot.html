@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Kendrick plot of icrData object — kendrickPlot • fticRanalysis</title>
+<title>Kendrick plot of an ftmsData object — kendrickPlot • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,10 +30,10 @@
 
 
 
-<meta property="og:title" content="Kendrick plot of icrData object — kendrickPlot" />
+<meta property="og:title" content="Kendrick plot of an ftmsData object — kendrickPlot" />
 
 <meta property="og:description" content="Constructs a Kendrick plot (Kendrick defect vs Kendrick mass) for an
-object of type icrData." />
+object of type ftmsData." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -63,7 +63,7 @@ object of type icrData." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -77,7 +77,7 @@ object of type icrData." />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -93,7 +93,7 @@ object of type icrData." />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -124,7 +124,7 @@ object of type icrData." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Kendrick plot of icrData object</h1>
+    <h1>Kendrick plot of an ftmsData object</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/kendrickPlot.R'><code>R/kendrickPlot.R</code></a></small>
     <div class="hidden name"><code>kendrickPlot.Rd</code></div>
     </div>
@@ -132,11 +132,11 @@ object of type icrData." />
     <div class="ref-description">
     
     <p>Constructs a Kendrick plot (Kendrick defect vs Kendrick mass) for an
-object of type icrData.</p>
+object of type ftmsData.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>kendrickPlot</span>(<span class='no'>icrData</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorPal</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorCName</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+    <pre class="usage"><span class='fu'>kendrickPlot</span>(<span class='no'>ftmsObj</span>, <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorPal</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorCName</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>vkBoundarySet</span> <span class='kw'>=</span> <span class='st'>"bs1"</span>, <span class='kw'>xlabel</span> <span class='kw'>=</span> <span class='st'>"Kendrick Mass"</span>,
   <span class='kw'>ylabel</span> <span class='kw'>=</span> <span class='st'>"Kendrick Defect"</span>, <span class='kw'>legendTitle</span> <span class='kw'>=</span> <span class='no'>colorCName</span>)</pre>
     
@@ -144,8 +144,8 @@ object of type icrData.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>an object of class 'peakIcrData' or 'compoundIcrData', typically a result of <code><a href='as.peakIcrData.html'>as.peakIcrData</a></code> or <code><a href='mapPeaksToCompounds.html'>mapPeaksToCompounds</a></code>.</p></td>
+      <th>ftmsObj</th>
+      <td><p>an object of class 'peakData' or 'compoundData', typically a result of <code><a href='as.peakData.html'>as.peakData</a></code> or <code><a href='mapPeaksToCompounds.html'>mapPeaksToCompounds</a></code>.</p></td>
     </tr>
     <tr>
       <th>title</th>
@@ -157,7 +157,7 @@ object of type icrData.</p>
     </tr>
     <tr>
       <th>colorCName</th>
-      <td><p>column name of <code>icrData$e_meta</code> to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.</p></td>
+      <td><p>column name of <code>ftmsObj$e_meta</code> to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.</p></td>
     </tr>
     <tr>
       <th>vkBoundarySet</th>

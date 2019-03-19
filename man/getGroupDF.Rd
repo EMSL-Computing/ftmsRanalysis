@@ -2,12 +2,12 @@
 % Please edit documentation in R/attributes_methods.R
 \name{getGroupDF}
 \alias{getGroupDF}
-\title{Get group_DF attribute from icrData object}
+\title{Get group_DF attribute from ftmsData object}
 \usage{
-getGroupDF(icrData)
+getGroupDF(ftmsObj)
 }
 \arguments{
-\item{icrData}{icrData object}
+\item{ftmsObj}{ftmsData object}
 }
 \value{
 character string indicating the instrument type

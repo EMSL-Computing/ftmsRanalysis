@@ -3,25 +3,25 @@
 #' The \code{densityCognostics} function provides a set of default cognostics
 #' to be used with density plots in Trelliscope. The \code{densityCognostics}
 #' function accepts the name of the variable used for the density plot and
-#' returns a function that may be applied to each \code{icrData} object, as is
+#' returns a function that may be applied to each \code{ftmsData} object, as is
 #' appropriate for use with the \code{\link{makeDisplay}} function. See 
 #' Examples section for use.
 #'
-#' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
+#' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{ftmsObj$e_meta} that contains numeric values.
 #' 
-#' @return a function that may be applied to objects of type \code{peakIcrData} and \code{groupSummary}
+#' @return a function that may be applied to objects of type \code{peakData} and \code{groupSummary}
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' library(fticRanalysis)
+#' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-#' data('peakIcrProcessed')
+#' data('exampleProcessedPeakData')
 #' 
 #' ## Plot density of NOSC variable for each sample
-#' sampleDdo <- divideBySample(peakIcrProcessed)
+#' sampleDdo <- divideBySample(exampleProcessedPeakData)
 #' panelFn1 <- panelFunctionGenerator("densityPlot", variable="NOSC")
 #' makeDisplay(sampleDdo, 
 #'             panelFn=panelFn1,
@@ -30,7 +30,7 @@
 #'             group = "Sample")
 #'
 #' ## Plot density of NOSC for each group
-#' groupDdo <- divideByGroup(peakIcrProcessed)
+#' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' panelFn2 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
 #' 
 #' makeDisplay(groupDdo, 
@@ -42,38 +42,38 @@
 #' view()
 #' }
 densityCognostics <- function(variable) {
-  fn <- function(icrData) {
-    divisionType <- fticRanalysis:::getDivisionType(icrData)
+  fn <- function(ftmsObj) {
+    divisionType <- ftmsRanalysis:::getDivisionType(ftmsObj)
     if (divisionType == "sample" | divisionType == "group") {
-      sample_colnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-      sample_colnames <- sample_colnames[sample_colnames %in% colnames(icrData$e_data)]
-      presInd <- fticRanalysis:::n_present(icrData$e_data[, sample_colnames], 
-                                           fticRanalysis:::getDataScale(icrData)) > 0
+      sample_colnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
+      sample_colnames <- sample_colnames[sample_colnames %in% colnames(ftmsObj$e_data)]
+      presInd <- ftmsRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
+                                           ftmsRanalysis:::getDataScale(ftmsObj)) > 0
       
-      cogs <- fticRanalysis:::commonDensityCognostics(icrData, variable, presInd)
+      cogs <- ftmsRanalysis:::commonDensityCognostics(ftmsObj, variable, presInd)
       
       if (divisionType == "sample") {
-        cogs <- c(cogs, fticRanalysis:::sampleCognostics(icrData))
+        cogs <- c(cogs, ftmsRanalysis:::sampleCognostics(ftmsObj))
       } else {
-        cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
+        cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       }
       return(cogs)
       
     } else if (divisionType == "groupSummary") {
-      cname <- grep(pattern = ".*_n_present", x = colnames(icrData$e_data), value=TRUE)
+      cname <- grep(pattern = ".*_n_present", x = colnames(ftmsObj$e_data), value=TRUE)
       if (length(cname) == 0) {
-        cname <- grep(pattern = ".*_prop_present", x = colnames(icrData$e_data), value=TRUE)
+        cname <- grep(pattern = ".*_prop_present", x = colnames(ftmsObj$e_data), value=TRUE)
       }
       if (length(cname) == 0) stop("Cannot find appropriate group summary column of e_data, looking for 'n_present' or 'prop_present'")
       
-      presInd <- icrData$e_data[, cname] > 0 
-      cogs <- fticRanalysis:::commonDensityCognostics(icrData, variable, presInd)
+      presInd <- ftmsObj$e_data[, cname] > 0 
+      cogs <- ftmsRanalysis:::commonDensityCognostics(ftmsObj, variable, presInd)
       
-      cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
+      cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       return(cogs)
       
     } else if (divisionType == "groupComparison") {
-      cogs <- fticRanalysis:::comparisonDensityCognostics(icrData, variable)
+      cogs <- ftmsRanalysis:::comparisonDensityCognostics(ftmsObj, variable)
       return(cogs)
     } else {
       stop(sprintf("densityCognostics doesn't work with objects of this type (%s)", divisionType))
@@ -84,9 +84,9 @@ densityCognostics <- function(variable) {
 }
 
 # Internal function: VK cogs common to both sample and group
-commonDensityCognostics <- function(icrData, variable, presenceIndicator) {
+commonDensityCognostics <- function(ftmsObj, variable, presenceIndicator) {
 
-  .data <- dplyr::pull(icrData$e_meta, variable)[presenceIndicator]
+  .data <- dplyr::pull(ftmsObj$e_meta, variable)[presenceIndicator]
   cogs <- list(
     num_peaks=trelliscope::cog(val = sum(presenceIndicator, na.rm=TRUE), desc="Number of peaks observed"),
     mean=trelliscope::cog(val=mean(.data, na.rm=TRUE), desc=sprintf("Mean of %s", variable)),
@@ -97,38 +97,38 @@ commonDensityCognostics <- function(icrData, variable, presenceIndicator) {
   return(cogs)
 }
 
-# Cognostics for group comparison and comparison summary icrData objects
-comparisonDensityCognostics <- function(icrData, variable, uniquenessColName=NA) {
-  groupDF <- getGroupDF(icrData)
-  if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
+# Cognostics for group comparison and comparison summary ftmsData objects
+comparisonDensityCognostics <- function(ftmsObj, variable, uniquenessColName=NA) {
+  groupDF <- getGroupDF(ftmsObj)
+  if (is.null(groupDF)) stop("Invalid ftmsObj object, no group definition found")
   groups <- as.character(unique(groupDF$Group))
 
-  if (inherits(icrData, "groupComparison")) {
-    sampColName <- getFDataColName(icrData)
+  if (inherits(ftmsObj, "groupComparison")) {
+    sampColName <- getFDataColName(ftmsObj)
     groupList <- lapply(groups, function(g) as.character(groupDF[groupDF[,"Group"] == g, sampColName]))
     names(groupList) <- groups  
     
-    presInd1 <- fticRanalysis:::n_present(icrData$e_data[, groupList[[1]]], 
-                                         fticRanalysis:::getDataScale(icrData)) > 0
-    presInd2 <- fticRanalysis:::n_present(icrData$e_data[, groupList[[2]]], 
-                                          fticRanalysis:::getDataScale(icrData)) > 0
+    presInd1 <- ftmsRanalysis:::n_present(ftmsObj$e_data[, groupList[[1]]], 
+                                         ftmsRanalysis:::getDataScale(ftmsObj)) > 0
+    presInd2 <- ftmsRanalysis:::n_present(ftmsObj$e_data[, groupList[[2]]], 
+                                          ftmsRanalysis:::getDataScale(ftmsObj)) > 0
     
-  # } else if (inherits(icrData, "comparisonSummary")) {
+  # } else if (inherits(ftmsObj, "comparisonSummary")) {
   #   if (identical(uniquenessColName, NA)) {
-  #     uniquenessColName <- setdiff(colnames(icrData$e_data), getEDataColName(icrData))
+  #     uniquenessColName <- setdiff(colnames(ftmsObj$e_data), getEDataColName(ftmsObj))
   #     if (length(uniquenessColName) != 1) stop("Cannot determine with column to use for uniqueness, please specify 'uniquenessColName' parameter")
   #   }
-  #   indNa <- is.na(icrData$e_data[, uniquenessColName])
-  #   uniqueCol <- as.character(icrData$e_data[, uniquenessColName])
+  #   indNa <- is.na(ftmsObj$e_data[, uniquenessColName])
+  #   uniqueCol <- as.character(ftmsObj$e_data[, uniquenessColName])
   #   presInd1 <- !indNa & (uniqueCol == sprintf("Unique to %s", groups[1]) | uniqueCol == "Observed in Both")
   #   presInd2 <- !indNa & (uniqueCol == sprintf("Unique to %s", groups[2]) | uniqueCol == "Observed in Both")
   #   
   } else {
-    stop("icrData must be of class 'groupComparison'")
+    stop("ftmsObj must be of class 'groupComparison'")
   }  
   
-  .data.g1 <- dplyr::pull(icrData$e_meta, variable)[presInd1]
-  .data.g2 <- dplyr::pull(icrData$e_meta, variable)[presInd2]
+  .data.g1 <- dplyr::pull(ftmsObj$e_meta, variable)[presInd1]
+  .data.g2 <- dplyr::pull(ftmsObj$e_meta, variable)[presInd2]
 
   ks.val <- suppressWarnings(ks.test(.data.g1, .data.g2, alternative = "two.sided"))
   cogs <- list(

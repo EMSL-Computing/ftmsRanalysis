@@ -4,10 +4,10 @@
 \alias{molecule_filter}
 \title{Molecule filter object}
 \usage{
-molecule_filter(icrData)
+molecule_filter(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
 Object of class 'moleculeFilt' that contains the molecule identifier and the number of samples for which the molecule was measured (not 0). This can be used in conjunction with \code{\link{applyFilt}} to remove peaks observed in fewer than \code{min_num} samples.
@@ -16,9 +16,9 @@ Object of class 'moleculeFilt' that contains the molecule identifier and the num
 This function returns a moleculeFilt object for use with \code{\link{applyFilt}}
 }
 \examples{
-data("peakIcrData")
-filter_obj <- molecule_filter(peakIcrData)
-peakIcrDataFiltered <- applyFilt(filter_obj, peakIcrData, min_num=2)
+data("examplePeakData")
+filter_obj <- molecule_filter(examplePeakData)
+peakDataFiltered <- applyFilt(filter_obj, examplePeakData, min_num=2)
 }
 \author{
 Lisa Bramer

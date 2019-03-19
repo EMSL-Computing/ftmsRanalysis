@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Summarize group comparisons — summarizeGroupComparisons • fticRanalysis</title>
+<title>Summarize group comparisons — summarizeGroupComparisons • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -33,7 +33,7 @@
 <meta property="og:title" content="Summarize group comparisons — summarizeGroupComparisons" />
 
 <meta property="og:description" content="Summarize a group comparisons object or a ddo of group comparisons objects. This function
-applies a summary function to the columns of compIcrData$e_data corresponding to each
+applies a summary function to the columns of compData$e_data corresponding to each
 column to calculate a summary column for each group." />
 <meta name="twitter:card" content="summary" />
 
@@ -64,7 +64,7 @@ column to calculate a summary column for each group." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -78,7 +78,7 @@ column to calculate a summary column for each group." />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -94,7 +94,7 @@ column to calculate a summary column for each group." />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -133,25 +133,25 @@ column to calculate a summary column for each group." />
     <div class="ref-description">
     
     <p>Summarize a group comparisons object or a ddo of group comparisons objects. This function
-applies a summary function to the columns of <code>compIcrData$e_data</code> corresponding to each
+applies a summary function to the columns of <code>compData$e_data</code> corresponding to each
 column to calculate a summary column for each group.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>summarizeGroupComparisons</span>(<span class='no'>compIcrData</span>, <span class='no'>summary_functions</span>,
+    <pre class="usage"><span class='fu'>summarizeGroupComparisons</span>(<span class='no'>compData</span>, <span class='no'>summary_functions</span>,
   <span class='kw'>summary_function_params</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>compIcrData</th>
+      <th>compData</th>
       <td><p>a groupComparison object or a ddo of groupComparison objects, i.e. the output 
 of <code><a href='divideByGroupComparisons.html'>divideByGroupComparisons</a></code>.</p></td>
     </tr>
     <tr>
       <th>summary_functions</th>
-      <td><p>vector of summary function names to apply to each row of <code>icrData$e_data</code> for each group. Valid
+      <td><p>vector of summary function names to apply to each row of <code>ftmsObj$e_data</code> for each group. Valid
 summary function names are given by <code>getGroupComparisonSummaryFunctionNames</code>.</p></td>
     </tr>
     <tr>

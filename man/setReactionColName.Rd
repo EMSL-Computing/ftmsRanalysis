@@ -4,15 +4,15 @@
 \alias{setReactionColName}
 \title{Set the name of the reaction column}
 \usage{
-setReactionColName(icrData, cname)
+setReactionColName(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrData
+updated ftmsObj
 }
 \description{
 Sets the name of the column in the e_meta element that 

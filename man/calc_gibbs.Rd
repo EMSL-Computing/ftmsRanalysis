@@ -4,13 +4,13 @@
 \alias{calc_gibbs}
 \title{Calculate Cox Gibbs Free Energy}
 \usage{
-calc_gibbs(icrData)
+calc_gibbs(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}}
 }
 \value{
-an object of the same class as \code{icrData} with a column in \code{e_meta} giving Cox Gibbs Free Energy values
+an object of the same class as \code{ftmsObj} with a column in \code{e_meta} giving Cox Gibbs Free Energy values
 }
 \description{
 Calculate Cox Gibbs Free Energy for peaks where empirical formula is available

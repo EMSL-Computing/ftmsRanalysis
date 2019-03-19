@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Default cognostics for Kendrick plots in Trelliscope — kendrickCognostics • fticRanalysis</title>
+<title>Default cognostics for Kendrick plots in Trelliscope — kendrickCognostics • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -37,7 +37,7 @@ to be used with Kendrick plots in Trelliscope. The kendrickCognostics
 function accepts the boundary set used for Van Krevelen class calculations
 and (for comparisonSummary objects only) the name of the column to use
 for identifying which peaks are observed in which group. It 
-returns a function that may be applied to each icrData object, as is
+returns a function that may be applied to each ftmsData object, as is
 appropriate for use with the makeDisplay function. See 
 Examples section for use." />
 <meta name="twitter:card" content="summary" />
@@ -69,7 +69,7 @@ Examples section for use." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -83,7 +83,7 @@ Examples section for use." />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -99,7 +99,7 @@ Examples section for use." />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -142,7 +142,7 @@ to be used with Kendrick plots in Trelliscope. The <code>kendrickCognostics</cod
 function accepts the boundary set used for Van Krevelen class calculations
 and (for <code>comparisonSummary</code> objects only) the name of the column to use
 for identifying which peaks are observed in which group. It 
-returns a function that may be applied to each <code>icrData</code> object, as is
+returns a function that may be applied to each <code>ftmsData</code> object, as is
 appropriate for use with the <code>makeDisplay</code> function. See 
 Examples section for use.</p>
     
@@ -159,7 +159,7 @@ Examples section for use.</p>
     </tr>
     <tr>
       <th>uniquenessColName</th>
-      <td><p>if <code>icrData</code> is a group comparison summary object, what is the 
+      <td><p>if <code>ftmsObj</code> is a group comparison summary object, what is the 
 name of the column that specifies uniqueness to a group? If only one uniqueness function has
 been applied this is unnecessary. (See <code>summarizeComparisons</code>.)</p></td>
     </tr>
@@ -167,20 +167,20 @@ been applied this is unnecessary. (See <code>summarizeComparisons</code>.)</p></
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a function that may be applied to objects of type <code>peakIcrData</code>, <code>groupSummary</code>,
+    <p>a function that may be applied to objects of type <code>peakData</code>, <code>groupSummary</code>,
 and <code>comparisonSummary</code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>fticRanalysis</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ftmsRanalysis</span>)
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>trelliscope</span>)
 
 <span class='no'>vdbDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/vdbConn'>vdbConn</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"trell_test"</span>), <span class='kw'>autoYes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'peakIcrProcessed'</span>)
+<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'exampleProcessedPeakData'</span>)
 
 <span class='co'>## Kendrick plot for each sample</span>
-<span class='no'>sampleDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideBySample.html'>divideBySample</a></span>(<span class='no'>peakIcrProcessed</span>)
+<span class='no'>sampleDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideBySample.html'>divideBySample</a></span>(<span class='no'>exampleProcessedPeakData</span>)
 <span class='no'>panelFn1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='panelFunctionGenerator.html'>panelFunctionGenerator</a></span>(<span class='st'>"kendrickPlot"</span>, <span class='kw'>vkBoundarySet</span><span class='kw'>=</span><span class='st'>"bs2"</span>, <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"Test"</span>)
 
 <span class='co'># Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions</span>
@@ -190,7 +190,7 @@ and <code>comparisonSummary</code></p>
          <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Kendrick_plots_per_sample"</span>)
 
 <span class='co'>## Kendrick plots for group summaries</span>
-<span class='no'>groupDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroup.html'>divideByGroup</a></span>(<span class='no'>peakIcrProcessed</span>)
+<span class='no'>groupDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroup.html'>divideByGroup</a></span>(<span class='no'>exampleProcessedPeakData</span>)
 <span class='no'>groupSummaryDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='summarizeGroups.html'>summarizeGroups</a></span>(<span class='no'>groupDdo</span>, <span class='kw'>summary_functions</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"prop_present"</span>, <span class='st'>"n_present"</span>))
 
 <span class='no'>panelFn2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='panelFunctionGenerator.html'>panelFunctionGenerator</a></span>(<span class='st'>"kendrickPlot"</span>, <span class='kw'>colorCName</span><span class='kw'>=</span><span class='fu'>expr</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='fu'>getSplitVar</span>(<span class='no'>v</span>, <span class='st'>"Group"</span>), <span class='st'>"_n_present"</span>)),

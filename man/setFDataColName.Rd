@@ -4,15 +4,15 @@
 \alias{setFDataColName}
 \title{Set the name of the f_data unique identifier column}
 \usage{
-setFDataColName(icrData, cname)
+setFDataColName(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrData
+updated ftmsObj
 }
 \description{
 Sets the name of the column in the f_data element that 

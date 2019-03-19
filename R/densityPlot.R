@@ -1,11 +1,11 @@
-#' Density plot of quantitative characteristic of peaks for a peakIcrData or compoundIcrData object
+#' Density plot of quantitative characteristic of peaks for a peakData or compoundData object
 #' 
-#' Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{icrData} object
+#' Constructs a density plot for a calculated variable in \code{e_meta} portion of \code{ftmsData} object
 #' 
-#' @param icrData icrData object of class peakIcrData or compoundIcrData
-#' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.
-#' @param samples vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{icrData} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.
-#' @param groups vector of group names to plot. Value of \code{NA} indicates all groups found in \code{icrData} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.
+#' @param ftmsObj ftmsData object of class peakData or compoundData
+#' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{ftmsObj$e_meta} that contains numeric values.
+#' @param samples vector of sample names to plot. Default of \code{NA} indicates all samples found in \code{ftmsObj} should be plotted. Specify \code{samples=FALSE} to plot no samples, only groups.
+#' @param groups vector of group names to plot. Value of \code{NA} indicates all groups found in \code{ftmsObj} should be plotted. Default value of \code{groups=FALSE} to plot no groups, only samples.
 #' @param title plot title, default is NA (no title)
 #' @param yaxis what should the y-axis represent, "density" or "count"? 
 #' @param plot_hist TRUE/FALSE should a histogram be added to the plot? A histogram may only be added if a single sample or groups is plotted.
@@ -25,22 +25,22 @@
 #' @author Allison Thompson, Lisa Bramer, Amanda White
 #' @importFrom dplyr %>%
 #' @export
-densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA, 
+densityPlot <- function(ftmsObj, variable, samples=NA, groups=FALSE, title=NA, 
                             yaxis="density", plot_hist=FALSE, plot_curve=TRUE, 
                             curve_colors=NA, hist_color="gray", 
                             xlabel=NA, ylabel=paste0(toupper(substring(yaxis, 1,1)), substring(yaxis,2), sep="")) {
   
   # Test inputs #
-  if (!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) {
-    stop("icrData must be of type peakIcrData or compoundIcrData")
+  if (!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) {
+    stop("ftmsObj must be of type 'peakData' or 'compoundData'")
   }
   
-  if (inherits(icrData, "comparisonSummary")) {
-    stop("icrData must not be a comparisonSummary object")
+  if (inherits(ftmsObj, "comparisonSummary")) {
+    stop("ftmsObj must not be a comparisonSummary object")
   }
   
-  if (is.null(variable) | length(which(colnames(icrData$e_meta) == variable)) != 1) {
-    stop("variable must be a single column name found in icrData$e_meta")
+  if (is.null(variable) | length(which(colnames(ftmsObj$e_meta) == variable)) != 1) {
+    stop("variable must be a single column name found in ftmsObj$e_meta")
   }
   
   if (is.null(yaxis) | !(yaxis %in% c("count", "density"))) {
@@ -52,27 +52,27 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
   }
   
   # merge e_data and e_meta #  
-  df <- merge(icrData$e_data, icrData$e_meta, by=getMassColName(icrData))
+  df <- merge(ftmsObj$e_data, ftmsObj$e_meta, by=getMassColName(ftmsObj))
   
   # construct a list with the samples for each plot trace
   trace_subsets <- list()
   if (identical(groups, NA)) {
-    if (is.null(getGroupDF(icrData)$Group))
+    if (is.null(getGroupDF(ftmsObj)$Group))
       groups <- FALSE
     else
-      groups <- unique(getGroupDF(icrData)$Group)
+      groups <- unique(getGroupDF(ftmsObj)$Group)
   }
   if (!identical(groups, FALSE)) {
-    tmp <- getGroupDF(icrData) %>% 
+    tmp <- getGroupDF(ftmsObj) %>% 
       dplyr::group_by(Group) %>% 
       dplyr::filter(Group %in% groups) %>%
-      dplyr::rename(Sample=!!getFDataColName(icrData)) %>%
+      dplyr::rename(Sample=!!getFDataColName(ftmsObj)) %>%
       dplyr::summarize(samples=list(as.character(unique(Sample))))
     trace_subsets <- tmp$samples
     names(trace_subsets) <- tmp$Group
   }
   if (identical(samples, NA)) {
-    samples <- intersect(colnames(icrData$e_data), icrData$f_data[, getFDataColName(icrData)])
+    samples <- intersect(colnames(ftmsObj$e_data), ftmsObj$f_data[, getFDataColName(ftmsObj)])
   }
   if (!identical(samples, FALSE)) {
     tmp <- as.list(samples)
@@ -90,14 +90,14 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
   breaks <- seq(min(df[, variable], na.rm=TRUE), max(df[, variable], na.rm=TRUE), length=26)
   
   hist_data <- lapply(names(trace_subsets), function(trace_name) {
-    res <- fticRanalysis:::get_hist_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(icrData), breaks)
+    res <- ftmsRanalysis:::get_hist_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(ftmsObj), breaks)
     res$Category <- trace_name
     return(res)
   })
   hist_data <- do.call(rbind, hist_data)
   
   curve_data <- lapply(names(trace_subsets), function(trace_name) {
-    res <- fticRanalysis:::get_curve_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(icrData), yaxis=yaxis, nbins=512)
+    res <- ftmsRanalysis:::get_curve_data(df[, trace_subsets[[trace_name]]], df[, variable], getDataScale(ftmsObj), yaxis=yaxis, nbins=512)
     res$count <- res$density*nrow(df)*(breaks[2]-breaks[1])
     res$Category <- trace_name
     return(res)
@@ -120,7 +120,7 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
   
   if (plot_curve) {
     if (identical(curve_colors, NA)) {
-      curve_colors <- fticRanalysis:::get_curve_colors(names(trace_subsets))
+      curve_colors <- ftmsRanalysis:::get_curve_colors(names(trace_subsets))
     }
     if (length(trace_subsets) > 1) {
       p <- p %>% plotly::add_lines(x=~x, y=~y, color=~Category, data=curve_data, #alpha=0.5, 
@@ -160,7 +160,7 @@ densityPlot <- function(icrData, variable, samples=NA, groups=FALSE, title=NA,
 get_data_vector <- function(edata_cols, variable_vec, data_scale) {
   # get num present for each peak
   #browser()
-  counts <- fticRanalysis:::n_present(edata_cols, data_scale)
+  counts <- ftmsRanalysis:::n_present(edata_cols, data_scale)
   counts$index <- 1:nrow(counts)
   indices <- unlist(apply(counts, 1, function(x) rep(x["index"], times=x["n_present"])))
   

@@ -2,33 +2,33 @@
 #' 
 #' Construct molecular formulae based on element counts 
 #' 
-#' @param icrData an object of class 'icrData', typically a result of \code{\link{as.icrData}}. e_meta must be present.
+#' @param ftmsObj an object of class 'ftmsData', typically a result of \code{\link{as.peakData}}. e_meta must be present.
 #' @param metacyc TRUE/FALSE, use MetaCyc style formulae? (FALSE by default)
 #' 
 #' @details Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. MetaCyc). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
 #' 
-#' @return an object of class 'icrData' with a column in \code{e\_meta} giving the molecular formula.
+#' @return an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecular formula.
 #' 
 #' @author Lisa Bramer
 #'
 
-assign_mf <- function(icrData, metacyc=FALSE){
+assign_mf <- function(ftmsObj, metacyc=FALSE){
   
-  # check that icrData is of the correct class #
-  if(!inherits(icrData, "peakIcrData") & !inherits(icrData, "compoundIcrData")) stop("icrData must be an object of class 'peakIcrData' or 'compoundIcrData'")
+  # check that ftmsObj is of the correct class #
+  if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
-  # check that icrData doesn't already have cnames specified for mf in e_meta #
-  if(!is.null(getMFColName(icrData))) message("mf_cname was already specified and will be overwritten")
+  # check that ftmsObj doesn't already have cnames specified for mf in e_meta #
+  if(!is.null(getMFColName(ftmsObj))) message("mf_cname was already specified and will be overwritten")
   
   # pull column name attributes and set them #
-  c_cname = getCarbonColName(icrData)
-  o_cname = getOxygenColName(icrData)
-  h_cname = getHydrogenColName(icrData)
-  n_cname = getNitrogenColName(icrData)
-  s_cname = getSulfurColName(icrData)
-  p_cname = getPhosphorusColName(icrData)
+  c_cname = getCarbonColName(ftmsObj)
+  o_cname = getOxygenColName(ftmsObj)
+  h_cname = getHydrogenColName(ftmsObj)
+  n_cname = getNitrogenColName(ftmsObj)
+  s_cname = getSulfurColName(ftmsObj)
+  p_cname = getPhosphorusColName(ftmsObj)
   
-  x = icrData$e_meta  
+  x = ftmsObj$e_meta  
   
   temp = paste("C", x[,c_cname], "H", x[,h_cname], "N", x[,n_cname], "O", x[,o_cname], "S", x[,s_cname], "P", x[,p_cname], sep = "")
       
@@ -46,10 +46,10 @@ assign_mf <- function(icrData, metacyc=FALSE){
     
       temp[which(temp == "")] = NA
       
-      icrData$e_meta$MolForm = temp
+      ftmsObj$e_meta$MolForm = temp
   
   # assign mf_cname #
-  res = setMFColName(icrData, cname = "MolForm")
+  res = setMFColName(ftmsObj, cname = "MolForm")
 
   return(res)
 }

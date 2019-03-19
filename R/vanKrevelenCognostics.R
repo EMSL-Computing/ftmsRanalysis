@@ -6,29 +6,29 @@
 #' function accepts the boundary set used for Van Krevelen class calculations
 #' and (for \code{comparisonSummary} objects only) the name of the column to use
 #' for identifying which peaks are observed in which group. It 
-#' returns a function that may be applied to each \code{icrData} object, as is
+#' returns a function that may be applied to each \code{ftmsData} object, as is
 #' appropriate for use with the \code{\link{makeDisplay}} function. See 
 #' Examples section for use.
 #'
 #' @param vkBoundarySet Van Krevelen boundary set to use for calculating class proportions
-#' @param uniquenessColName if \code{icrData} is a group comparison summary object, what is the 
+#' @param uniquenessColName if \code{ftmsObj} is a group comparison summary object, what is the 
 #' name of the column that specifies uniqueness to a group? If only one uniqueness function has
 #' been applied this is unnecessary. (See \code{\link{summarizeComparisons}}.)
 #'
-#' @return a function that may be applied to objects of type \code{peakIcrData}, \code{groupSummary},
+#' @return a function that may be applied to objects of type \code{peakData}, \code{groupSummary},
 #' and \code{comparisonSummary}
 #' @export
 #'
 #' @examples
 #' \dontrun{
-#' library(fticRanalysis)
+#' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
 #' vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-#' data('peakIcrProcessed')
+#' data('exampleProcessedPeakData')
 #' 
 #' ## Van Krevelen plot for each sample
-#' sampleDdo <- divideBySample(peakIcrProcessed)
+#' sampleDdo <- divideBySample(exampleProcessedPeakData)
 #' panelFn1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
 #' 
 #' # Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions
@@ -38,7 +38,7 @@
 #'          name = "Van_Krevelen_plots_per_sample")
 #'
 #' ## Van Krevelen plots for group comparison summaries
-#' grpCompDdo <- divideByGroupComparisons(peakIcrProcessed, "all")
+#' grpCompDdo <- divideByGroupComparisons(exampleProcessedPeakData, "all")
 #' grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
 #'                                             summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
 #' 
@@ -55,38 +55,38 @@
 #' view()
 #' }
 vanKrevelenCognostics <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
-  fn <- function(icrData) {
-    divisionType <- fticRanalysis:::getDivisionType(icrData)
+  fn <- function(ftmsObj) {
+    divisionType <- ftmsRanalysis:::getDivisionType(ftmsObj)
     if (divisionType == "sample" | divisionType == "group") {
-      sample_colnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-      sample_colnames <- sample_colnames[sample_colnames %in% colnames(icrData$e_data)]
-      presInd <- fticRanalysis:::n_present(icrData$e_data[, sample_colnames], 
-                                           fticRanalysis:::getDataScale(icrData)) > 0
+      sample_colnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
+      sample_colnames <- sample_colnames[sample_colnames %in% colnames(ftmsObj$e_data)]
+      presInd <- ftmsRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
+                                           ftmsRanalysis:::getDataScale(ftmsObj)) > 0
       
-      cogs <- fticRanalysis:::commonVanKrevelenCognostics(icrData, presInd, vkBoundarySet=vkBoundarySet)
+      cogs <- ftmsRanalysis:::commonVanKrevelenCognostics(ftmsObj, presInd, vkBoundarySet=vkBoundarySet)
       
       if (divisionType == "sample") {
-        cogs <- c(cogs, fticRanalysis:::sampleCognostics(icrData))
+        cogs <- c(cogs, ftmsRanalysis:::sampleCognostics(ftmsObj))
       } else {
-        cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
+        cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       }
       return(cogs)
       
     } else if (divisionType == "groupSummary") {
-      cname <- grep(pattern = ".*_n_present", x = colnames(icrData$e_data), value=TRUE)
+      cname <- grep(pattern = ".*_n_present", x = colnames(ftmsObj$e_data), value=TRUE)
       if (length(cname) == 0) {
-        cname <- grep(pattern = ".*_prop_present", x = colnames(icrData$e_data), value=TRUE)
+        cname <- grep(pattern = ".*_prop_present", x = colnames(ftmsObj$e_data), value=TRUE)
       }
       if (length(cname) == 0) stop("Cannot find appropriate group summary column of e_data, looking for 'n_present' or 'prop_present'")
       
-      presInd <- icrData$e_data[, cname] > 0 
-      cogs <- fticRanalysis:::commonVanKrevelenCognostics(icrData, presInd, vkBoundarySet=vkBoundarySet)
+      presInd <- ftmsObj$e_data[, cname] > 0 
+      cogs <- ftmsRanalysis:::commonVanKrevelenCognostics(ftmsObj, presInd, vkBoundarySet=vkBoundarySet)
       
-      cogs <- c(cogs, fticRanalysis:::groupCognostics(icrData))
+      cogs <- c(cogs, ftmsRanalysis:::groupCognostics(ftmsObj))
       return(cogs)
     
     } else if (divisionType == "comparisonSummary") {
-      cogs <- fticRanalysis:::comparisonSummaryVanKrevelenCognostics(icrData, vkBoundarySet=vkBoundarySet, uniquenessColName=uniquenessColName)
+      cogs <- ftmsRanalysis:::comparisonSummaryVanKrevelenCognostics(ftmsObj, vkBoundarySet=vkBoundarySet, uniquenessColName=uniquenessColName)
       return(cogs)
     } else {
       stop(sprintf("vanKrevelenCognostics doesn't work with objects of this type (%s)", divisionType))
@@ -97,14 +97,14 @@ vanKrevelenCognostics <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
 }
 
 # Internal function: VK cogs common to both sample and group
-commonVanKrevelenCognostics <- function(icrData, presenceIndicator, vkBoundarySet="bs1") {
-  vkColname <- getVKColName(icrData, vkBoundarySet)
+commonVanKrevelenCognostics <- function(ftmsObj, presenceIndicator, vkBoundarySet="bs1") {
+  vkColname <- getVKColName(ftmsObj, vkBoundarySet)
   if (is.null(vkColname)) {
-    icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
-    vkColname <- getVKColName(icrData, vkBoundarySet)
+    ftmsObj <- assign_class(ftmsObj, boundary_set = vkBoundarySet)
+    vkColname <- getVKColName(ftmsObj, vkBoundarySet)
   }
   
-  vkClasses = icrData$e_meta[, vkColname]
+  vkClasses = ftmsObj$e_meta[, vkColname]
   vkClasses <- strsplit(vkClasses, ";")
 
   denom <- sum(presenceIndicator)
@@ -122,20 +122,20 @@ commonVanKrevelenCognostics <- function(icrData, presenceIndicator, vkBoundarySe
 }
 
 # Cogs for samples: f_data columns
-sampleCognostics <- function(icrData) {
+sampleCognostics <- function(ftmsObj) {
   # add f_data columns
-  fdata_cols <- setdiff(colnames(icrData$f_data), getFDataColName(icrData))
+  fdata_cols <- setdiff(colnames(ftmsObj$f_data), getFDataColName(ftmsObj))
   more_cogs <- lapply(fdata_cols, function(cc) {
-    cog(val=icrData$f_data[1, cc], desc=cc)
+    cog(val=ftmsObj$f_data[1, cc], desc=cc)
   })
   names(more_cogs) <- fdata_cols
   return(more_cogs)
 }
 
 # Cogs for groups: group defining columns of f_data
-groupCognostics <- function(icrData) {
-  groupDF <- fticRanalysis:::getGroupDF(icrData)
-  if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
+groupCognostics <- function(ftmsObj) {
+  groupDF <- ftmsRanalysis:::getGroupDF(ftmsObj)
+  if (is.null(groupDF)) stop("Invalid ftmsObj object, no group definition found")
   cols <- c(attr(groupDF, "main_effects"), attr(groupDF, "covariates"))
   more_cogs <- lapply(cols, function(cc) {
     cog(val=groupDF[1, cc], desc=cc)
@@ -144,36 +144,36 @@ groupCognostics <- function(icrData) {
   return(more_cogs)
 }
 
-# Cognostics for comparison summary icrData objects
-comparisonSummaryVanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1", uniquenessColName=NA) {
-  if (!inherits(icrData, "comparisonSummary")) stop("icrData must be of class 'comparisonSummary'")
-  groupDF <- getGroupDF(icrData)
-  if (is.null(groupDF)) stop("Invalid icrData object, no group definition found")
+# Cognostics for comparison summary ftmsData objects
+comparisonSummaryVanKrevelenCognostics <- function(ftmsObj, vkBoundarySet="bs1", uniquenessColName=NA) {
+  if (!inherits(ftmsObj, "comparisonSummary")) stop("ftmsObj must be of class 'comparisonSummary'")
+  groupDF <- getGroupDF(ftmsObj)
+  if (is.null(groupDF)) stop("Invalid ftmsObj object, no group definition found")
   
   groups <- as.character(unique(groupDF$Group))
-  sampColName <- getFDataColName(icrData)
+  sampColName <- getFDataColName(ftmsObj)
   groupList <- lapply(groups, function(g) as.character(groupDF[groupDF[,"Group"] == g, sampColName]))
   names(groupList) <- groups  
   
   if (identical(uniquenessColName, NA)) {
-    uniquenessColName <- setdiff(colnames(icrData$e_data), getEDataColName(icrData))
+    uniquenessColName <- setdiff(colnames(ftmsObj$e_data), getEDataColName(ftmsObj))
     if (length(uniquenessColName) != 1) stop("Cannot determine with column to use for uniqueness, please specify 'uniquenessColName' parameter")
   }
   presInd <- lapply(groups, function(g) {
-    !is.na(icrData$e_data[, uniquenessColName]) & as.character(icrData$e_data[, uniquenessColName]) == sprintf("Unique to %s", g)
+    !is.na(ftmsObj$e_data[, uniquenessColName]) & as.character(ftmsObj$e_data[, uniquenessColName]) == sprintf("Unique to %s", g)
   })
   names(presInd) <- groups
   
-  vkColname <- getVKColName(icrData, vkBoundarySet)
+  vkColname <- getVKColName(ftmsObj, vkBoundarySet)
   if (is.null(vkColname)) {
-    icrData <- assign_class(icrData, boundary_set = vkBoundarySet)
-    vkColname <- getVKColName(icrData, vkBoundarySet)
+    ftmsObj <- assign_class(ftmsObj, boundary_set = vkBoundarySet)
+    vkColname <- getVKColName(ftmsObj, vkBoundarySet)
   }
   
-  vkClasses <- icrData$e_meta[, vkColname]
+  vkClasses <- ftmsObj$e_meta[, vkColname]
   vkClasses <- strsplit(vkClasses, ";")
   #vkClasses <- vkClasses[!is.na(vkClasses)]
-  denom <- sum(!is.na(icrData$e_data[, uniquenessColName])) #count how many peaks observed in any group
+  denom <- sum(!is.na(ftmsObj$e_data[, uniquenessColName])) #count how many peaks observed in any group
   allClasses <- rownames(getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds)
   classProportions <- lapply(1:2, function(g) {
     x <- lapply(allClasses, function(cc) {
@@ -188,7 +188,7 @@ comparisonSummaryVanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1",
   cogs <- list(
     group1=trelliscope::cog(val=groups[1], desc="Group 1"),
     group2=trelliscope::cog(val=groups[2], desc="Group 2"),
-    num_peaks_common=trelliscope::cog(val = sum(icrData$e_data[, uniquenessColName] == "Observed in Both", na.rm=TRUE), desc="Number of peaks observed in both groups"),
+    num_peaks_common=trelliscope::cog(val = sum(ftmsObj$e_data[, uniquenessColName] == "Observed in Both", na.rm=TRUE), desc="Number of peaks observed in both groups"),
     num_peaks_g1=trelliscope::cog(val=sum(presInd[[1]]), desc="Number of peaks unique to group 1"),
     num_peaks_g2=trelliscope::cog(val=sum(presInd[[2]]), desc="Number of peaks unique to group 2")
   )
@@ -197,31 +197,31 @@ comparisonSummaryVanKrevelenCognostics <- function(icrData, vkBoundarySet="bs1",
   return(cogs)
 }
 
-# Internal only function to determine if an icrData object is divided by "sample", "group", "groupSummary", "groupComparison"
-getDivisionType <- function(icrData) {
-  svars <- getSplitVars(icrData) 
-  if (getFDataColName(icrData) %in% names(svars)) {
+# Internal only function to determine if an ftmsData object is divided by "sample", "group", "groupSummary", "groupComparison"
+getDivisionType <- function(ftmsObj) {
+  svars <- getSplitVars(ftmsObj) 
+  if (getFDataColName(ftmsObj) %in% names(svars)) {
     return("sample")
   } else if ("Group" %in% names(svars)) {
-    if (inherits(icrData, "groupSummary")) {
+    if (inherits(ftmsObj, "groupSummary")) {
       return("groupSummary")
     } else {
       return("group")
     }
-  } else if (inherits(icrData, "groupComparison")) {
+  } else if (inherits(ftmsObj, "groupComparison")) {
     return("groupComparison")
-  } else if (inherits(icrData, "comparisonSummary")) {
+  } else if (inherits(ftmsObj, "comparisonSummary")) {
     return("comparisonSummary")
   } else {
     stop("Unknown division type")
   }
 }
 
-getVKColName <- function(icrData, vkBoundarySet) {
+getVKColName <- function(ftmsObj, vkBoundarySet) {
   vkColname = switch(vkBoundarySet,
-                     bs1=getBS1ColName(icrData),
-                     bs2=getBS2ColName(icrData),
-                     bs3=getBS3ColName(icrData)
+                     bs1=getBS1ColName(ftmsObj),
+                     bs2=getBS2ColName(ftmsObj),
+                     bs3=getBS3ColName(ftmsObj)
   )
   return(vkColname)
 }

@@ -1,9 +1,9 @@
 #' Title
 #'
-#' @param icrData an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.
-#' @param xCName column name for x-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
-#' @param yCName column name for y-axis, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
-#' @param colorCName column name for point colors, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param xCName column name for x-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param yCName column name for y-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param colorCName column name for point colors, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
 #' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
 #' @param xlabel x axis label, default is \code{xCName}
 #' @param ylabel y axis label, default is \code{yCName}
@@ -12,43 +12,43 @@
 #' @param xrange x-axis bounds
 #' @param yrange y-axis bounds
 #' @param logColorCol TRUE/FALSE, should the color column be log-transformed? Default is FALSE.
-#' @param hoverTextCName column name for hover (mouseover) text, must be a column of \code{icrData$e_data} or \code{icrData$e_meta}
+#' @param hoverTextCName column name for hover (mouseover) text, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
 #'
 #' @return plotly object
 #' @export
 #'
 #' @examples
-#' scatterPlot(peakIcrProcessed, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for peakIcrProcessed")
-scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xlabel=xCName, ylabel=yCName, 
+#' scatterPlot(exampleProcessedPeakData, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for exampleProcessedPeakData")
+scatterPlot <- function(ftmsObj, xCName, yCName, colorCName=NA, colorPal=NA, xlabel=xCName, ylabel=yCName, 
                         legendTitle=colorCName, title=NA, xrange=NA, yrange=NA, logColorCol=FALSE, hoverTextCName=NA) {
 
-  if (missing(icrData)) stop("icrData must be provided")
+  if (missing(ftmsObj)) stop("ftmsObj must be provided")
   if (missing(xCName)) stop("xCName must be provided")
   if (missing(yCName)) stop("yCName must be provided")
   
-  if (xCName %in% colnames(icrData$e_data)) {
-    plot_data <- icrData$e_data[, c(getEDataColName(icrData), xCName)]
-  } else if (xCName %in% colnames(icrData$e_meta)) {
-    plot_data <- icrData$e_meta[, c(getEDataColName(icrData), xCName)]
+  if (xCName %in% colnames(ftmsObj$e_data)) {
+    plot_data <- ftmsObj$e_data[, c(getEDataColName(ftmsObj), xCName)]
+  } else if (xCName %in% colnames(ftmsObj$e_meta)) {
+    plot_data <- ftmsObj$e_meta[, c(getEDataColName(ftmsObj), xCName)]
   } else {
     stop("xCName must be a column name in e_data or e_meta")
   }
   if (!is.numeric(plot_data[, xCName])) stop("xCName must be a numeric column")
   
-  if (yCName %in% colnames(icrData$e_data)) {
-    plot_data <- dplyr::full_join(plot_data, icrData$e_data[, c(getEDataColName(icrData), yCName)], by=getEDataColName(icrData))
-  } else if (yCName %in% colnames(icrData$e_meta)) {
-    plot_data <- dplyr::full_join(plot_data, icrData$e_meta[, c(getEDataColName(icrData), yCName)], by=getEDataColName(icrData))
+  if (yCName %in% colnames(ftmsObj$e_data)) {
+    plot_data <- dplyr::full_join(plot_data, ftmsObj$e_data[, c(getEDataColName(ftmsObj), yCName)], by=getEDataColName(ftmsObj))
+  } else if (yCName %in% colnames(ftmsObj$e_meta)) {
+    plot_data <- dplyr::full_join(plot_data, ftmsObj$e_meta[, c(getEDataColName(ftmsObj), yCName)], by=getEDataColName(ftmsObj))
   } else {
     stop("yCName must be a column name in e_data or e_meta")
   }
   if (!is.numeric(plot_data[, yCName])) stop("yCName must be a numeric column")
   
   if (!is.na(hoverTextCName) & !(hoverTextCName %in% colnames(plot_data))) {
-    if (hoverTextCName %in% colnames(icrData$e_data)) {
-      plot_data <- dplyr::full_join(plot_data, icrData$e_data[, c(getEDataColName(icrData), hoverTextCName)], by=getEDataColName(icrData))
-    } else if (hoverTextCName %in% colnames(icrData$e_meta)) {
-      plot_data <- dplyr::full_join(plot_data, icrData$e_meta[, c(getEDataColName(icrData), hoverTextCName)], by=getEDataColName(icrData))
+    if (hoverTextCName %in% colnames(ftmsObj$e_data)) {
+      plot_data <- dplyr::full_join(plot_data, ftmsObj$e_data[, c(getEDataColName(ftmsObj), hoverTextCName)], by=getEDataColName(ftmsObj))
+    } else if (hoverTextCName %in% colnames(ftmsObj$e_meta)) {
+      plot_data <- dplyr::full_join(plot_data, ftmsObj$e_meta[, c(getEDataColName(ftmsObj), hoverTextCName)], by=getEDataColName(ftmsObj))
     } else {
       stop("hoverTextCName must be a column name in e_data or e_meta")
     }
@@ -57,10 +57,10 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   if (!is.na(colorCName)) {
     if (colorCName %in% colnames(plot_data)) {
       # do nothing
-    } else if (colorCName %in% colnames(icrData$e_data)) {
-      plot_data <- dplyr::full_join(plot_data, icrData$e_data[, c(getEDataColName(icrData), colorCName)], by=getEDataColName(icrData))
-    } else if (colorCName %in% colnames(icrData$e_meta)) {
-      plot_data <- dplyr::full_join(plot_data, icrData$e_meta[, c(getEDataColName(icrData), colorCName)], by=getEDataColName(icrData))
+    } else if (colorCName %in% colnames(ftmsObj$e_data)) {
+      plot_data <- dplyr::full_join(plot_data, ftmsObj$e_data[, c(getEDataColName(ftmsObj), colorCName)], by=getEDataColName(ftmsObj))
+    } else if (colorCName %in% colnames(ftmsObj$e_meta)) {
+      plot_data <- dplyr::full_join(plot_data, ftmsObj$e_meta[, c(getEDataColName(ftmsObj), colorCName)], by=getEDataColName(ftmsObj))
     } else {
       stop("colorCName must be a column name in e_data or e_meta")
     }
@@ -143,25 +143,25 @@ scatterPlot <- function(icrData, xCName, yCName, colorCName=NA, colorPal=NA, xla
   }
   
   # Include only rows (peaks) where that are observed in at least one column of e_data
-  samp_cnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-  ind <- fticRanalysis:::n_present(icrData$e_data[,samp_cnames], getDataScale(icrData))[,1] > 0
+  samp_cnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
+  ind <- ftmsRanalysis:::n_present(ftmsObj$e_data[,samp_cnames], getDataScale(ftmsObj))[,1] > 0
   
-  obs.peaks <- as.character(icrData$e_data[ind, getEDataColName(icrData)])
-  plot_data <- plot_data[which(plot_data[,getEDataColName(icrData)] %in% obs.peaks), ]
+  obs.peaks <- as.character(ftmsObj$e_data[ind, getEDataColName(ftmsObj)])
+  plot_data <- plot_data[which(plot_data[,getEDataColName(ftmsObj)] %in% obs.peaks), ]
   
   # remove rows where x or y value is NA
   ind.na <- is.na(plot_data[,xCName]) | is.na(plot_data[,yCName])
   plot_data <- plot_data[!ind.na, ]
   
   if (identical(xrange, NA)) {
-    xrange <- fticRanalysis:::nice_axis_limits(plot_data[, xCName])
+    xrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, xCName])
   }
   if (identical(yrange, NA)) {
-    yrange <- fticRanalysis:::nice_axis_limits(plot_data[, yCName])
+    yrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, yCName])
   }
 
   p <- plotly::plot_ly(plot_data, x=plot_data[,xCName], y=plot_data[,yCName]) 
-  marker_parms <- list(a=p, key=plot_data[, getEDataColName(icrData)])
+  marker_parms <- list(a=p, key=plot_data[, getEDataColName(ftmsObj)])
   names(marker_parms)[1] <- ""
   
   if (!is.na(colorCName)) {

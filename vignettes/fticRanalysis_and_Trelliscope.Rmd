@@ -1,5 +1,5 @@
 ---
-title: "Visualizing fticRanalysis results with Trelliscope"
+title: "Visualizing ftmsRanalysis results with Trelliscope"
 author: "Amanda M. White"
 date: "`r Sys.Date()`"
 output: 
@@ -7,7 +7,7 @@ output:
     toc: true
     number_sections: true
 vignette: >
-  %\VignetteIndexEntry{Visualizing fticRanalysis results with Trelliscope}
+  %\VignetteIndexEntry{Visualizing ftmsRanalysis results with Trelliscope}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -25,7 +25,7 @@ knitr::opts_chunk$set(
 
 # Introduction 
 
-This vignette will show examples of how to develop interactive visualizations of FTICR data with the fticRanalysis and Trelliscope packages.
+This vignette will show examples of how to develop interactive visualizations of FT-MS data with the ftmsRanalysis and Trelliscope packages.
 
 Trelliscope is a Shiny-based visualization package that allows a developer to generate multiple plots of subsets of a dataset (e.g. a plot for each sample or for each molecule) and for a user to sort and filter plots to find items of interest. More information about Trelliscope may be found here: http://deltarho.org/. 
 
@@ -44,12 +44,12 @@ install_github("delta-rho/trelliscope")
 For the first example. we'll construct VanKrevelen and Kendrick plots for each sample. The first step is to construct an object (a `ddo` or distributed data object) where each subset contains the data for one sample.
 
 ```{r}
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(trelliscope)
 
-data("peakIcrProcessed")
+data("exampleProcessedPeakData")
 
-bySample <- divideBySample(peakIcrProcessed)
+bySample <- divideBySample(exampleProcessedPeakData)
 bySample
 ```
 
@@ -64,13 +64,13 @@ bySample[["SampleID=EM0011_sample"]]
 ```
 
 
-Trelliscope relies on the user defining a *panel function* and a *cognostics function* that are applied to each subset of data. A panel function is simply a function that takes a data subset and constructs a plot (or panel) from it. Panel functions may construct plots in any plotting package used in R, including base R graphics, `ggplot2`, and plots that extend `htmlwidgets` such as `plotly`. Most of the plotting methods in `fticRanalysis` produce `plotly` plots.
+Trelliscope relies on the user defining a *panel function* and a *cognostics function* that are applied to each subset of data. A panel function is simply a function that takes a data subset and constructs a plot (or panel) from it. Panel functions may construct plots in any plotting package used in R, including base R graphics, `ggplot2`, and plots that extend `htmlwidgets` such as `plotly`. Most of the plotting methods in `ftmsRanalysis` produce `plotly` plots.
 
-The `fticRanalysis` package provides a wrapper function (`panelFunctionGenerator`) which can be used with the packages plotting methods to make panel functions for Trelliscope.
+The `ftmsRanalysis` package provides a wrapper function (`panelFunctionGenerator`) which can be used with the packages plotting methods to make panel functions for Trelliscope.
 
 A cognostics function is a function that calculates summary statistics on each subset of data. These statistics are then provided in the user interface for sorting and filtering. Example cognostics could include data quantiles, related meta-data or even links to external web resources if desired. 
 
-There are a few cognostics functions in `fticRanalysis` designed to provide default cognostics relevant to Van Krevelen plots, Kendrick plots and density plots. These are called, respectively, `vanKrevelenCognostics`, `kendrickCognostics` and `densityCognostics`. Each of these functions is designed to accept parameters similar to their respective plotting functions (e.g. Van Krevelen boundary set, or which variable is used for density plots), and they each return a *function* which may be passed to Trelliscope. This function will be applied to each data subset individually. Cognostics function examples are shown below.
+There are a few cognostics functions in `ftmsRanalysis` designed to provide default cognostics relevant to Van Krevelen plots, Kendrick plots and density plots. These are called, respectively, `vanKrevelenCognostics`, `kendrickCognostics` and `densityCognostics`. Each of these functions is designed to accept parameters similar to their respective plotting functions (e.g. Van Krevelen boundary set, or which variable is used for density plots), and they each return a *function* which may be passed to Trelliscope. This function will be applied to each data subset individually. Cognostics function examples are shown below.
 
 In order to create a Trelliscope display, we need to define an output directory to store it. (The output will be a Shiny app, and may be then transferred to a Shiny server if desired.) For this vignette we'll just create a directory under R's temporary directory
 
@@ -97,7 +97,7 @@ makeDisplay(bySample,
 
 Use the `view()` command to open the Trelliscope app in a browser and browse through the plots. Important: when returning to the R console after viewing a Trelliscope app, press Ctrl+C or Esc to return focus to the console.
 
-You may have noticed in the call to `panelFunctionGenerator` we provided a parameter (`vkBoundarySet`) that is a parameter to the `vanKrevelenPlot` function. This is how additional parameters beyond the `icrData` object may be provided. For example, we could choose to color the points by a column giving a molecular property such as NOSC. Trelliscope is designed to allow multiple displays (or sets of plots) in one session.
+You may have noticed in the call to `panelFunctionGenerator` we provided a parameter (`vkBoundarySet`) that is a parameter to the `vanKrevelenPlot` function. This is how additional parameters beyond the `ftmsData` object may be provided. For example, we could choose to color the points by a column giving a molecular property such as NOSC. Trelliscope is designed to allow multiple displays (or sets of plots) in one session.
 
 In the `makeDisplay` call above, also note the use of `vanKrevelenCognostics` with the same `vkBoundarySet` parameter used above to define `panelFn1`.
 
@@ -119,21 +119,21 @@ panelFn3 <- panelFunctionGenerator("kendrickPlot")
 
 customCogFn <- function(vkBoundarySet="bs1", uniquenessColName=NA) {
   defKendrick <- kendrickCognostics(vkBoundarySet, uniquenessColName)
-  fn <- function(icrData) {
-    cogs <- defKendrick(icrData)
+  fn <- function(ftmsObj) {
+    cogs <- defKendrick(ftmsObj)
     
-    sample_colnames <- as.character(icrData$f_data[, getFDataColName(icrData)])
-    sample_colnames <- sample_colnames[sample_colnames %in% colnames(icrData$e_data)]
-    presInd <- fticRanalysis:::n_present(icrData$e_data[, sample_colnames], 
-                                         fticRanalysis:::getDataScale(icrData)) > 0
+    sample_colnames <- as.character(ftmsObj$f_data[, getFDataColName(ftmsObj)])
+    sample_colnames <- sample_colnames[sample_colnames %in% colnames(ftmsObj$e_data)]
+    presInd <- ftmsRanalysis:::n_present(ftmsObj$e_data[, sample_colnames], 
+                                         ftmsRanalysis:::getDataScale(ftmsObj)) > 0
     
-    massColname <- fticRanalysis:::getKendrickMassColName(icrData)
-    defectColname <- fticRanalysis:::getKendrickDefectColName(icrData)
+    massColname <- ftmsRanalysis:::getKendrickMassColName(ftmsObj)
+    defectColname <- ftmsRanalysis:::getKendrickDefectColName(ftmsObj)
     
     cogs <- c(cogs, list(
-      median_kendrick_mass = trelliscope::cog(val=median(icrData$e_meta[presInd, massColname], na.rm=TRUE),
+      median_kendrick_mass = trelliscope::cog(val=median(ftmsObj$e_meta[presInd, massColname], na.rm=TRUE),
                                             desc="Median observed Kendrick mass"),
-      median_kendrick_defect = trelliscope::cog(val=median(icrData$e_meta[presInd, defectColname], na.rm=TRUE),
+      median_kendrick_defect = trelliscope::cog(val=median(ftmsObj$e_meta[presInd, defectColname], na.rm=TRUE),
                                             desc="Median observed Kendrick defect")
     ))
     return(cogs)
@@ -150,16 +150,16 @@ view()
 
 # Groups
 
-We can also divide by and construct plots for treatment groups. The example dataset `peakIcrProcessed` has 4 groups, which are defined according to the `Location` and `Crop.Flora` columns of `f_data`. 
+We can also divide by and construct plots for treatment groups. The example dataset `exampleProcessedPeakData` has 4 groups, which are defined according to the `Location` and `Crop.Flora` columns of `f_data`. 
 
 ```{r}
-getGroupDF(peakIcrProcessed)
+getGroupDF(exampleProcessedPeakData)
 ```
 
 We will divide by group and construct a density plot for NOSC, comparing each sample distribution to the group distribution. (Note that `group=NA` tells `densityPlot` to use all groups found its input data object.)
 
 ```{r eval=FALSE}
-byGroup <- divideByGroup(peakIcrProcessed)
+byGroup <- divideByGroup(exampleProcessedPeakData)
 
 panelFn4 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
 
@@ -171,7 +171,7 @@ makeDisplay(byGroup,
 view()
 ```
 
-We could also generate a custom panel function for each group. Let's say we want to see a barplot of how many peaks were observed for each sample in a group. With Trelliscope, the input to the panel function is the *value* of each key-value pair, so in this case an `icrData` object containing samples from one group. The panel function must return the plot object.
+We could also generate a custom panel function for each group. Let's say we want to see a barplot of how many peaks were observed for each sample in a group. With Trelliscope, the input to the panel function is the *value* of each key-value pair, so in this case an `ftmsData` object containing samples from one group. The panel function must return the plot object.
 
 ```{r eval=FALSE}
 customPanelFn <- function(v) {
@@ -197,11 +197,11 @@ view()
 For group conparisons, we're going to redefine our groups so we can directly compare the two locations regardless of crop type, and the two crop types regardless of location. To do this we need to redefine the group designation and then use `divideByGroupComparisons` to construct two `ddo`s with the comparison information. The `concat` function will let us join together these two comparison objects so the resulting plots are one Trelliscope display.
 
 ```{r}
-peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Location")
-grpComp1 <- divideByGroupComparisons(peakIcrProcessed, comparisons = "all")
+exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
+grpComp1 <- divideByGroupComparisons(exampleProcessedPeakData, comparisons = "all")
 
-peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Crop.Flora")
-grpComp2 <- divideByGroupComparisons(peakIcrProcessed, comparisons = "all")
+exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
+grpComp2 <- divideByGroupComparisons(exampleProcessedPeakData, comparisons = "all")
 
 allGroupComp <- concat(grpComp1, grpComp2)
 ```

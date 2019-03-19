@@ -1,33 +1,33 @@
 #' Replace Values Equal to x with y
 #'
-#' This function finds all values of x in the e_data element of icrData and replaces them with y
+#' This function finds all values of x in the e_data element of ftmsObj and replaces them with y
 #'
-#' @param icrData an object of the class 'peakIcrData', or 'compoundIcrData' 
+#' @param ftmsObj an object of the class 'peakData', or 'compoundData' 
 #' @param x value to be replaced, usually numeric or NA
 #' @param y replacment value, usually numeric or NA
 #'
 #' @details This function is often used to replace any 0 values in \code{e_data} with NA's.
 #'
-#' @return data object of the same class as icrData
+#' @return data object of the same class as ftmsObj
 #'
 #' @author Lisa Bramer
 #'
 #' @export
-edata_replace <- function(icrData, x, y){
+edata_replace <- function(ftmsObj, x, y){
   ## some initial checks ##
   
-  # check that icrData is of appropriate class #
-  if(!(inherits(icrData, "peakIcrData")) & !(inherits(icrData, "compoundIcrData")))  stop("icrData must be of class 'peakIcrData' or 'compoundIcrData'")
+  # check that ftmsObj is of appropriate class #
+  if(!(inherits(ftmsObj, "peakData")) & !(inherits(ftmsObj, "compoundData")))  stop("ftmsObj must be of class 'peakData' or 'compoundData'")
   
-  edata_id = getEDataColName(icrData)
+  edata_id = getEDataColName(ftmsObj)
   
-  edata <- icrData$e_data
+  edata <- ftmsObj$e_data
   feature_names <- edata[,edata_id]
   
   # pull off the identifier column #
   edata <- edata[, -which(colnames(edata)==edata_id)]
   
-  e_meta <- icrData$e_meta
+  e_meta <- ftmsObj$e_meta
   
   # get count of the number of values replaced #
   if(is.na(x)){
@@ -44,10 +44,10 @@ edata_replace <- function(icrData, x, y){
   edata_new <- data.frame(edata_id=feature_names, edata_new)
   colnames(edata_new)[which(colnames(edata_new) == "edata_id")] <- edata_id
   
-  icrData$e_data = edata_new
+  ftmsObj$e_data = edata_new
   
   message(paste(num_replaced, "instances of", x, "have been replaced with", y, sep=" "))
-  return(icrData)
+  return(ftmsObj)
   
 }
 

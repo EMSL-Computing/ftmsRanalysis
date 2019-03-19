@@ -26,7 +26,7 @@ plotly object
 Plot molecule filter data
 }
 \examples{
-filter_obj <- molecule_filter(peakIcrData)
+filter_obj <- molecule_filter(examplePeakData)
 plot(filter_obj, min_num=2)
 }
 \author{

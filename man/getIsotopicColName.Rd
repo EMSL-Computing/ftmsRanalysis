@@ -4,10 +4,10 @@
 \alias{getIsotopicColName}
 \title{Get the name of the isotopic column}
 \usage{
-getIsotopicColName(icrData)
+getIsotopicColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of isotopic column

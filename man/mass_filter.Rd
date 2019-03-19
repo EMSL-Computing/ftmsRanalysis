@@ -4,10 +4,10 @@
 \alias{mass_filter}
 \title{Filter Data Based on Mass Range}
 \usage{
-mass_filter(icrData)
+mass_filter(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', typically a result of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 }
 \value{
 an object of class 'massFilt'
@@ -19,9 +19,9 @@ Subset data based on specified range of mass values
 Use this in conjunction with \code{\link{applyFilt}} to retain peaks which have a mass between \code{min_mass} and \code{max_mass} (inclusive) and filter all other peaks from the data.
 }
 \examples{
-data("peakIcrData")
-filter_obj <- mass_filter(peakIcrData)
-peakIcrDataFiltered <- applyFilt(filter_obj, peakIcrData, min_mass=200, max_mass=900)
+data("examplePeakData")
+filter_obj <- mass_filter(examplePeakData)
+peakDataFiltered <- applyFilt(filter_obj, examplePeakData, min_mass=200, max_mass=900)
 }
 \author{
 Lisa Bramer

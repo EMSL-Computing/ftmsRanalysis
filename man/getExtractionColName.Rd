@@ -4,10 +4,10 @@
 \alias{getExtractionColName}
 \title{Get the name of the extraction column}
 \usage{
-getExtractionColName(icrData)
+getExtractionColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of extraction column

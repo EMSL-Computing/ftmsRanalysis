@@ -26,9 +26,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-A Kendrick plot displays the Kendrick defect versus Kendrick mass for each peak observed. Kendrick plots provide a visualization which allows one to sort peaks in a spectra (sample) by their homologous relatives. Compounds that differ from one another by a known structural unit (e.g. $CH_2$) can be identified in the visualization by peaks plotted on horizontal or diagonal straight line.
+A Kendrick plot displays the Kendrick defect versus Kendrick mass for each peak observed. Kendrick plots provide a visualization which allows one to sort peaks in a spectra (sample) by their homologous relatives. Compounds that differ from one another by a known structural unit (e.g. CH<sub>2</sub>) can be identified in the visualization by peaks plotted on horizontal or diagonal straight line.
 
-The `fticRanalysis` package 
+The `ftmsRanalysis` package 
 provides a method to construct these plots, with a variety of options which are described below. 
 
 # Single Sample Kendrick Plots
@@ -36,10 +36,10 @@ provides a method to construct these plots, with a variety of options which are 
 To construct a Kendrick plot for a single sample, first construct a subset containing only the sample of interest. By default the `kendrickPlot` function will color points according to their class using the `bs1` definition. (Please see the vignette on [Van Krevelen plots]("van_krevelen_plots.html") for a description of the class calculation options and differences.)
 
 ```{r message=FALSE}
-library(fticRanalysis)
-data("peakIcrProcessed")
+library(ftmsRanalysis)
+data("exampleProcessedPeakData")
 
-one_sample <- subset(peakIcrProcessed, samples="EM0011_sample")
+one_sample <- subset(exampleProcessedPeakData, samples="EM0011_sample")
 kendrickPlot(one_sample)
 ```
 
@@ -77,7 +77,7 @@ kendrickPlot(one_sample, colorCName="EM0011_sample", legendTitle="log(Abundance)
 Another use of the `kendrickPlot` function is to plot treatment groups. For example, one can construct a group subset, calculate the number or proporation of samples in which each peak was observed (using `summarizeGroups`) and color the points by that summary.
 
 ```{r, message=FALSE}
-ms_group <- subset(peakIcrProcessed, groups="M_S")
+ms_group <- subset(exampleProcessedPeakData, groups="M_S")
 ms_summary <- summarizeGroups(ms_group, summary_functions=c("n_present", "prop_present"))
 ms_summary$f_data
 ```
@@ -96,7 +96,7 @@ It can be useful to compare peaks that are unique to one treatment group versus 
 Clicking the "Observed in Both" label on the right hides those points to focus on the points that are unique to M_S or M_C.
 
 ```{r}
-m_groups <- divideByGroupComparisons(peakIcrProcessed, comparisons=list(c("M_S", "M_C")))[[1]]$value
+m_groups <- divideByGroupComparisons(exampleProcessedPeakData, comparisons=list(c("M_S", "M_C")))[[1]]$value
 comp_summary <- summarizeGroupComparisons(m_groups, summary_functions="uniqueness_gtest", 
                                             summary_function_params=list(
                                               uniqueness_gtest=list(pres_fn="prop", pres_thresh=0.3,

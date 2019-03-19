@@ -4,10 +4,10 @@
 \alias{getHydrogenColName}
 \title{Get the name of the hydrogen column}
 \usage{
-getHydrogenColName(icrData)
+getHydrogenColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of hydrogen column

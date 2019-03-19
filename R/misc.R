@@ -8,11 +8,11 @@
 #' data indicating which peaks were observed (i.e. had nonzero values) for 
 #' any column of data.
 #' 
-#' @param data.obj icrData object
+#' @param ftmsObj ftmsData object
 #' @return vector of TRUE/FALSE values the same length as nrow(data.obj$e_data)
 #' 
-peaksObserved <- function(data.obj) {
-    obs.peaks <- rowSums(data.obj$e_data)-data.obj$e_data[,getEDataColName(data.obj)] > 0
+peaksObserved <- function(ftmsObj) {
+    obs.peaks <- rowSums(ftmsObj$e_data)-ftmsObj$e_data[,getEDataColName(ftmsObj)] > 0
     return(obs.peaks)
 }
 

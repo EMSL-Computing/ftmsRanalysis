@@ -1,4 +1,4 @@
 library(testthat)
-library(fticRanalysis)
+library(ftmsRanalysis)
 
-test_check("fticRanalysis")
+test_check("ftmsRanalysis")

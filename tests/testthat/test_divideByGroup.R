@@ -1,6 +1,6 @@
 ## Tests on divideByGroup
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("divideByGroup function")
 
 testCompareAttributes <- function(newObj, originalObj, excludeAttr=NA) {
@@ -10,21 +10,21 @@ testCompareAttributes <- function(newObj, originalObj, excludeAttr=NA) {
 }
 
 test_that("basic tests on divideByGroup", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  groups <- unique(getGroupDF(peakIcrProcessed)$Group)
+  groups <- unique(getGroupDF(exampleProcessedPeakData)$Group)
   
-  groupDdo <- divideByGroup(icrData = peakIcrProcessed)
+  groupDdo <- divideByGroup(ftmsObj = exampleProcessedPeakData)
 
   expect_equal(length(groupDdo), length(groups))
   expect_true(inherits(groupDdo, "ddo"))
   
   ## test one subset
   i <- 2
-  grp_samples <- dplyr::filter(getGroupDF(peakIcrProcessed), Group==groups[i])[, getFDataColName(peakIcrProcessed)]
+  grp_samples <- dplyr::filter(getGroupDF(exampleProcessedPeakData), Group==groups[i])[, getFDataColName(exampleProcessedPeakData)]
   val <- groupDdo[[paste0("Group=", groups[i])]]$value
   
-  testCompareAttributes(val, peakIcrProcessed, c("group_DF", "split"))
+  testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split"))
  
   expect_equal(nrow(getGroupDF(val)), length(grp_samples))
   expect_true(all(grp_samples %in% colnames(val$e_data)))

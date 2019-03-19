@@ -4,10 +4,10 @@
 \alias{getNPRatioColName}
 \title{Get the name of the N:P ratio column}
 \usage{
-getNPRatioColName(icrData)
+getNPRatioColName(ftmsObj)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 }
 \value{
 name of N:P ratio column

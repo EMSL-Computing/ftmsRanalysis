@@ -1,12 +1,12 @@
 ## Test plotting functions for filter objects
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 
-data(peakIcrData)
+data(examplePeakData)
 
 ## Molecule filter
 
-filter_obj <- molecule_filter(peakIcrData)
+filter_obj <- molecule_filter(examplePeakData)
 
 # Second bar should be blue:
 plot(filter_obj, min_num=2)
@@ -16,7 +16,7 @@ plot(filter_obj)
 
 
 ## Mass Filter
-filter_obj <- mass_filter(peakIcrData)
+filter_obj <- mass_filter(examplePeakData)
 
 # Bars between 200 and 800 should be blue:
 plot(filter_obj, min_mass = 200, max_mass = 800)
@@ -26,7 +26,7 @@ plot(filter_obj)
 
 
 ## Formula filter
-filter_obj <- formula_filter(peakIcrData)
+filter_obj <- formula_filter(examplePeakData)
 
 # Formula bar should be blue
 plot(filter_obj, remove='NoFormula')
@@ -42,7 +42,8 @@ plot(filter_obj)
 
 ## TESTS
 # filter peaks based on Oxygen to Carbon ratio #
-filter_object1 = emeta_filter(peakIcrProcessed, cname = "OtoC_ratio")
+data("exampleProcessedPeakData")
+filter_object1 = emeta_filter(exampleProcessedPeakData, cname = "OtoC_ratio")
 
 # Blue bars greater than 0.5
 plot(filter_object1, min_val = 0.5)
@@ -54,7 +55,7 @@ plot(filter_object1, min_val = 0.5, max_val = 1)
 plot(filter_object1)
 
 # filter peaks based on molecular formula #
-filter_object2 = emeta_filter(peakIcrProcessed, cname = "MolForm")
+filter_object2 = emeta_filter(exampleProcessedPeakData, cname = "MolForm")
 
 #  Only non-NAs retained:
 plot(filter_object2)

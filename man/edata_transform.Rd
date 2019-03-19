@@ -4,18 +4,18 @@
 \alias{edata_transform}
 \title{Apply a Transformation to the Data}
 \usage{
-edata_transform(icrData, data_scale)
+edata_transform(ftmsObj, data_scale)
 }
 \arguments{
-\item{icrData}{an object of the class 'peakIcrData' or 'compoundIcrData' , usually created by \code{\link{as.icrData}}}
+\item{ftmsObj}{an object of the class 'peakData' or 'compoundData' , usually created by \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
 \item{data_scale}{a character string indicating the type of transformation to be applied to the data. Valid values are: 'log2', 'log', 'log10', 'pres', or 'abundance'. A value of 'abundance' indicates the data has previously undergone one of the log transformations and should be transformed back to raw values with no transformation applied. A value of 'pres' indicates the data should be transformed to presence/absence data.}
 }
 \value{
-data object of the same class as icrData
+data object of the same class as ftmsObj
 }
 \description{
-This function applies a transformation to the e_data element of icrData
+This function applies a transformation to the e_data element of ftmsData
 }
 \details{
 This function is intended to be used before analysis of the data begins. Data are typically analyzed on a log or presence/absence scale.

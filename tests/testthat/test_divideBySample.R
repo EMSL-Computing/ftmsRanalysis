@@ -7,10 +7,10 @@ testCompareAttributes <- function(newObj, originalObj, excludeAttr=NA) {
 }
 
 test_that("basic tests on divideBySample", {
-  data("peakIcrProcessed")
+  data("exampleProcessedPeakData")
   
-  samples <- unique(peakIcrProcessed$f_data[, getFDataColName(peakIcrProcessed)])
-  sampleDdo <- divideBySample(icrData = peakIcrProcessed)
+  samples <- unique(exampleProcessedPeakData$f_data[, getFDataColName(exampleProcessedPeakData)])
+  sampleDdo <- divideBySample(ftmsObj = exampleProcessedPeakData)
   
   expect_equal(length(sampleDdo), length(samples))
   expect_true(inherits(sampleDdo, "ddo"))
@@ -19,7 +19,7 @@ test_that("basic tests on divideBySample", {
   i <- 2
   val <- sampleDdo[[paste0("SampleID=", samples[i])]]$value
   
-  testCompareAttributes(val, peakIcrProcessed, c("group_DF", "split"))
+  testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split"))
   
   expect_equal(nrow(getGroupDF(val)), 1)
   expect_true(samples[i] %in% colnames(val$e_data))

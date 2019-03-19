@@ -1,15 +1,15 @@
 ## Basic summary methods
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("summary method")
 
-test_that("summary.icrData method", {
+test_that("summary.ftmsData method", {
 
-  data("peakIcrData")  
-  icrSumm <- summary(peakIcrData)  
-  expect_true(inherits(icrSumm, "icrDataSummary"))
-  expect_true(inherits(icrSumm, "list"))
-  expect_equal(object = length(icrSumm), expected = 3)  
-  expect_true(all(c("Samples", "Molecules", "Percent_Missing") %in% names(icrSumm)))
+  data("examplePeakData")  
+  summObj <- summary(examplePeakData)  
+  expect_true(inherits(summObj, "ftmsDataSummary"))
+  expect_true(inherits(summObj, "list"))
+  expect_equal(object = length(summObj), expected = 3)  
+  expect_true(all(c("Samples", "Molecules", "Percent_Missing") %in% names(summObj)))
 
 })

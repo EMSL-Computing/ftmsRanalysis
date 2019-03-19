@@ -2,21 +2,21 @@
 % Please edit documentation in R/vanKrevelenPlot.R
 \name{vanKrevelenPlot}
 \alias{vanKrevelenPlot}
-\title{Van Krevelen plot of icrData object}
+\title{Van Krevelen plot of an ftmsData object}
 \usage{
-vanKrevelenPlot(icrData, title = NA, colorPal = NA, colorCName = NA,
+vanKrevelenPlot(ftmsObj, title = NA, colorPal = NA, colorCName = NA,
   vkBoundarySet = "bs1", showVKBounds = TRUE, xlabel = "O:C Ratio",
   ylabel = "H:C Ratio", legendTitle = colorCName)
 }
 \arguments{
-\item{icrData}{an object of class 'peakIcrData' or 'compoundIcrData', (output of \code{\link{as.peakIcrData}} or \code{\link{mapPeaksToCompounds}}),
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', (output of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}),
 or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'comparisonSummary' object (output of \code{\link{summarizeGroupComparisons}}).}
 
 \item{title}{plot title}
 
 \item{colorPal}{color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function}
 
-\item{colorCName}{column name of \code{icrData$e_data} or \code{icrData$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
+\item{colorCName}{column name of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta} to use for coloring the points. If NA and vkBoundarySet is provided, the points will be colored according to the Van Krevelen category.}
 
 \item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
 
@@ -32,7 +32,7 @@ or a 'groupSummary' object (output of \code{\link{summarizeGroups}}) or a 'compa
 a plotly object
 }
 \description{
-Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an icrData object using Plotly.
+Create a Van Krevelen plot (H:C ratio vs O:C ratio) for an ftmsData object using Plotly.
 }
 \seealso{
 \code{\link{plot_ly}}

@@ -4,15 +4,15 @@
 \alias{classesPlot}
 \title{Plot to look at the percentage of each class in the data}
 \usage{
-classesPlot(icrData, xaxis = NULL,
+classesPlot(ftmsObj, xaxis = NULL,
   ylabel = "Percentage of Chemical Classes", title = NULL,
   vkBoundarySet = "bs1", classColName = NULL)
 }
 \arguments{
-\item{icrData}{icrData object of class peakIcrData or compoundIcrData}
+\item{ftmsObj}{ftmsData object of class peakData or compoundData}
 
-\item{xaxis}{x axis variable. If NULL, will use attr(icrData, "cnames")$fdata_cname. Must be one of
-colnames(icrData$f_data) or colnames(attr(icrData, "group_DF")).}
+\item{xaxis}{x axis variable. If NULL, will use attr(ftmsObj, "cnames")$fdata_cname. Must be one of
+colnames(ftmsObj$f_data) or colnames(attr(ftmsObj, "group_DF")).}
 
 \item{ylabel}{y axis label, default is "Density"}
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Title — scatterPlot • fticRanalysis</title>
+<title>Title — scatterPlot • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -62,7 +62,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -76,7 +76,7 @@
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -92,7 +92,7 @@
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -134,7 +134,7 @@
     
     </div>
 
-    <pre class="usage"><span class='fu'>scatterPlot</span>(<span class='no'>icrData</span>, <span class='no'>xCName</span>, <span class='no'>yCName</span>, <span class='kw'>colorCName</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorPal</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+    <pre class="usage"><span class='fu'>scatterPlot</span>(<span class='no'>ftmsObj</span>, <span class='no'>xCName</span>, <span class='no'>yCName</span>, <span class='kw'>colorCName</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>colorPal</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>xlabel</span> <span class='kw'>=</span> <span class='no'>xCName</span>, <span class='kw'>ylabel</span> <span class='kw'>=</span> <span class='no'>yCName</span>, <span class='kw'>legendTitle</span> <span class='kw'>=</span> <span class='no'>colorCName</span>,
   <span class='kw'>title</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>xrange</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>yrange</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>logColorCol</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>hoverTextCName</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
@@ -143,20 +143,20 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>an object of class 'peakIcrData' or 'compoundIcrData', typically a result of <code><a href='as.peakIcrData.html'>as.peakIcrData</a></code> or <code><a href='mapPeaksToCompounds.html'>mapPeaksToCompounds</a></code>.</p></td>
+      <th>ftmsObj</th>
+      <td><p>an object of class 'peakData' or 'compoundData', typically a result of <code><a href='as.peakData.html'>as.peakData</a></code> or <code><a href='mapPeaksToCompounds.html'>mapPeaksToCompounds</a></code>.</p></td>
     </tr>
     <tr>
       <th>xCName</th>
-      <td><p>column name for x-axis, must be a column of <code>icrData$e_data</code> or <code>icrData$e_meta</code></p></td>
+      <td><p>column name for x-axis, must be a column of <code>ftmsObj$e_data</code> or <code>ftmsObj$e_meta</code></p></td>
     </tr>
     <tr>
       <th>yCName</th>
-      <td><p>column name for y-axis, must be a column of <code>icrData$e_data</code> or <code>icrData$e_meta</code></p></td>
+      <td><p>column name for y-axis, must be a column of <code>ftmsObj$e_data</code> or <code>ftmsObj$e_meta</code></p></td>
     </tr>
     <tr>
       <th>colorCName</th>
-      <td><p>column name for point colors, must be a column of <code>icrData$e_data</code> or <code>icrData$e_meta</code></p></td>
+      <td><p>column name for point colors, must be a column of <code>ftmsObj$e_data</code> or <code>ftmsObj$e_meta</code></p></td>
     </tr>
     <tr>
       <th>colorPal</th>
@@ -192,7 +192,7 @@
     </tr>
     <tr>
       <th>hoverTextCName</th>
-      <td><p>column name for hover (mouseover) text, must be a column of <code>icrData$e_data</code> or <code>icrData$e_meta</code></p></td>
+      <td><p>column name for hover (mouseover) text, must be a column of <code>ftmsObj$e_data</code> or <code>ftmsObj$e_meta</code></p></td>
     </tr>
     </table>
     
@@ -202,7 +202,7 @@
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>scatterPlot</span>(<span class='no'>peakIcrProcessed</span>, <span class='st'>"NOSC"</span>, <span class='st'>"DBE"</span>, <span class='kw'>colorCName</span><span class='kw'>=</span><span class='st'>"HtoC_ratio"</span>, <span class='kw'>legendTitle</span><span class='kw'>=</span><span class='st'>"H:C Ratio"</span>, <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"DBE vs NOSC for peakIcrProcessed"</span>)</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>scatterPlot</span>(<span class='no'>exampleProcessedPeakData</span>, <span class='st'>"NOSC"</span>, <span class='st'>"DBE"</span>, <span class='kw'>colorCName</span><span class='kw'>=</span><span class='st'>"HtoC_ratio"</span>, <span class='kw'>legendTitle</span><span class='kw'>=</span><span class='st'>"H:C Ratio"</span>, <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"DBE vs NOSC for exampleProcessedPeakData"</span>)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

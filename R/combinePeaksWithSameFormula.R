@@ -1,8 +1,8 @@
-#' Combine rows of icrData with the same mass formula
+#' Combine rows of an ftmsData object with the same mass formula
 #' 
 #' If multiple peaks are mapped to the same mass formula it can cause problems 
 #' or inconsistencies when mapping data to a biological database. The
-#' \code{combinePeaksWithSameFormula} combines rows of \code{icrData$e_data}
+#' \code{combinePeaksWithSameFormula} combines rows of \code{ftmsObj$e_data}
 #' that map to the same mass formula:
 #' * If data is abundance: values are summed for each column
 #' * If data is log scale: data are converted to abundance, then values are summed for each columns and re-transformed to the original scale
@@ -11,34 +11,34 @@
 #' It is recommended to call the \code{combinePeaksWithSameFormula} function
 #' before using \code{mapPeaksToCompounds}.
 #'
-#' @param icrData data of type \code{peakIcrData}
+#' @param ftmsObj data of type \code{peakData}
 #'
-#' @return \code{peakIcrData} object where now two rows of \code{e_data} map to the same mass formula
+#' @return \code{peakData} object where now two rows of \code{e_data} map to the same mass formula
 #' @export
 #'
 #' @examples
-#' new_data <- combinePeaksWithSameFormula(peakIcrProcessed)
-combinePeaksWithSameFormula <- function(icrData) {
-  if (!inherits(icrData, "peakIcrData") ) {
-    stop("icrData must be an object of type peakIcrData")
+#' new_data <- combinePeaksWithSameFormula(exampleProcessedPeakData)
+combinePeaksWithSameFormula <- function(ftmsObj) {
+  if (!inherits(ftmsObj, "peakData") ) {
+    stop("ftmsObj must be an object of type 'peakData'")
   }
-  if (is.null(getMFColName(icrData))) {
+  if (is.null(getMFColName(ftmsObj))) {
     stop("mass formula column name is not set")
   }
-  if (is.null(getMassColName(icrData))) {
+  if (is.null(getMassColName(ftmsObj))) {
     stop("mass column name is not set")
   }
   validScales <- c('log2', 'log10', 'log', 'pres', 'abundance')
-  dataScale <- getDataScale(icrData)
+  dataScale <- getDataScale(ftmsObj)
   if (!(dataScale %in% validScales)) {
-    stop(sprintf("the data scale of icrData must one of: (%s)", paste(validScales, collapse=", ")))
+    stop(sprintf("the data scale of ftmsObj must one of: (%s)", paste(validScales, collapse=", ")))
   }
   
   # determine which rows of e_data need to be combined
-  if (inherits(icrData, "peakIcrData")) {
-    mf_col <- getMFColName(icrData)
-    massMFComb <- dplyr::select_(icrData$e_meta, getEDataColName(icrData), getMassColName(icrData), getMFColName(icrData)) %>%
-      dplyr::rename_(Mass=getMassColName(icrData), MF=getMFColName(icrData)) %>%
+  if (inherits(ftmsObj, "peakData")) {
+    mf_col <- getMFColName(ftmsObj)
+    massMFComb <- dplyr::select_(ftmsObj$e_meta, getEDataColName(ftmsObj), getMassColName(ftmsObj), getMFColName(ftmsObj)) %>%
+      dplyr::rename_(Mass=getMassColName(ftmsObj), MF=getMFColName(ftmsObj)) %>%
       dplyr::filter(!is.na(MF))
     if (anyDuplicated(massMFComb$MF) > 0) { # identify dups
       tmp <- table(massMFComb$MF)
@@ -48,9 +48,9 @@ combinePeaksWithSameFormula <- function(icrData) {
       message(sprintf("%d mass formulas with duplicate values found", length(dupMF)))
     } else {
       message("No duplicates found")
-      return(icrData)
+      return(ftmsObj)
     }
-    if (getMassColName(icrData) != getEDataColName(icrData)) {
+    if (getMassColName(ftmsObj) != getEDataColName(ftmsObj)) {
       massMFComb <- dplyr::select(massMFComb, -Mass)
     }
     
@@ -58,26 +58,26 @@ combinePeaksWithSameFormula <- function(icrData) {
   
   # transform data scale back to abundance for summing rows
   if (dataScale != "pres" & dataScale != "abundance") {
-    icrData <- edata_transform(icrData, "abundance")
+    ftmsObj <- edata_transform(ftmsObj, "abundance")
   }
   
-  sample_cols <- as.character(dplyr::pull(icrData$f_data, getFDataColName(icrData)))
+  sample_cols <- as.character(dplyr::pull(ftmsObj$f_data, getFDataColName(ftmsObj)))
   
   edata <- suppressWarnings(
-    icrData$e_data %>%
-    dplyr::mutate(index=1:nrow(icrData$e_data)) %>%
-    dplyr::right_join(massMFComb, by=getEDataColName(icrData)) %>%
+    ftmsObj$e_data %>%
+    dplyr::mutate(index=1:nrow(ftmsObj$e_data)) %>%
+    dplyr::right_join(massMFComb, by=getEDataColName(ftmsObj)) %>%
     dplyr::group_by(MF) 
   )
   
   # get first ID and index for each MF
   massMFFinal <- edata %>%
-    dplyr::rename_(ID=getEDataColName(icrData)) %>%
+    dplyr::rename_(ID=getEDataColName(ftmsObj)) %>%
     dplyr::summarize(ID=dplyr::first(ID), index=min(index))
-  colnames(massMFFinal)[2] <- getEDataColName(icrData)
+  colnames(massMFFinal)[2] <- getEDataColName(ftmsObj)
   
   # get IDs to remove
-  idsToRemove <- setdiff(dplyr::pull(massMFComb, getEDataColName(icrData)), 
+  idsToRemove <- setdiff(dplyr::pull(massMFComb, getEDataColName(ftmsObj)), 
                          dplyr::pull(massMFFinal, 2))
   
   # sum rows for each set of MF  
@@ -90,36 +90,36 @@ combinePeaksWithSameFormula <- function(icrData) {
   edata <- dplyr::select(edata, -c(index, MF))
 
   # order columns same as original
-  edata <- as.data.frame(edata[, c(getEDataColName(icrData), sample_cols)])
+  edata <- as.data.frame(edata[, c(getEDataColName(ftmsObj), sample_cols)])
   
-  new_edata <- icrData$e_data
+  new_edata <- ftmsObj$e_data
   new_edata[row_ids, ] <- edata
   
   # remove IDs with duplicate mass formulas
-  ind <- dplyr::pull(new_edata, getEDataColName(icrData)) %in% idsToRemove
+  ind <- dplyr::pull(new_edata, getEDataColName(ftmsObj)) %in% idsToRemove
   new_edata <- new_edata[!ind, ]  
   
-  icrData$e_data <- new_edata
+  ftmsObj$e_data <- new_edata
 
   # rescale data if necessary
   if (dataScale != "pres" & dataScale != "abundance") {
-    icrData <- edata_transform(icrData, dataScale)
+    ftmsObj <- edata_transform(ftmsObj, dataScale)
   } else if (dataScale == "pres") {
     # row sums may be > 1 so transform back to 0/1
     if(length(sample_cols) > 1){
-      new_edata <- apply(icrData$e_data[, sample_cols], 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
+      new_edata <- apply(ftmsObj$e_data[, sample_cols], 1:2, function(x) ifelse(!is.na(x) & x > 0, 1, 0))
     }else{
       new_edata <- sapply(edata[, sample_cols], function(x) ifelse(!is.na(x) & x > 0, 1, 0))
     }
-    new_edata <- data.frame(dplyr::pull(icrData$e_data, getEDataColName(icrData)), new_edata)
-    colnames(new_edata)[1] <- getEDataColName(icrData)
-    icrData$e_data <- new_edata
+    new_edata <- data.frame(dplyr::pull(ftmsObj$e_data, getEDataColName(ftmsObj)), new_edata)
+    colnames(new_edata)[1] <- getEDataColName(ftmsObj)
+    ftmsObj$e_data <- new_edata
   }
   
   # find rows to remove in e_meta
-  ind <- dplyr::pull(icrData$e_meta, getEDataColName(icrData)) %in% idsToRemove
-  icrData$e_meta <- icrData$e_meta[!ind, ]  
+  ind <- dplyr::pull(ftmsObj$e_meta, getEDataColName(ftmsObj)) %in% idsToRemove
+  ftmsObj$e_meta <- ftmsObj$e_meta[!ind, ]  
   
-  return(icrData)
+  return(ftmsObj)
 }
 

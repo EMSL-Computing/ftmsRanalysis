@@ -2,7 +2,7 @@
 % Please edit documentation in R/panelFunctionGenerator.R
 \name{panelFunctionGenerator}
 \alias{panelFunctionGenerator}
-\title{Convenience function to wrap fticRanalysis plotting functions for Trelliscope}
+\title{Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope}
 \usage{
 panelFunctionGenerator(plot_fn_name, ...)
 }
@@ -12,7 +12,7 @@ panelFunctionGenerator(plot_fn_name, ...)
 \item{...}{other parameters to pass to the plotting function other than the data object}
 }
 \description{
-Convenience function to wrap fticRanalysis plotting functions for Trelliscope
+Convenience function to wrap ftmsRanalysis plotting functions for Trelliscope
 }
 \details{
 Sometimes the additional parameters to pass to the plotting function will depend
@@ -21,13 +21,13 @@ the group name). In that case, see example below for how
 to construct an \code{expr} statement to obtain the necessary information.
 }
 \examples{
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE) #temporary directory
 
-data('peakIcrProcessed')
-groupDdo <- divideByGroup(peakIcrProcessed)
+data('exampleProcessedPeakData')
+groupDdo <- divideByGroup(exampleProcessedPeakData)
 groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 
 # See expr here:

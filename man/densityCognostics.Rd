@@ -7,29 +7,29 @@
 densityCognostics(variable)
 }
 \arguments{
-\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{icrData$e_meta} that contains numeric values.}
+\item{variable}{column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{ftmsObj$e_meta} that contains numeric values.}
 }
 \value{
-a function that may be applied to objects of type \code{peakIcrData} and \code{groupSummary}
+a function that may be applied to objects of type \code{peakData} and \code{groupSummary}
 }
 \description{
 The \code{densityCognostics} function provides a set of default cognostics
 to be used with density plots in Trelliscope. The \code{densityCognostics}
 function accepts the name of the variable used for the density plot and
-returns a function that may be applied to each \code{icrData} object, as is
+returns a function that may be applied to each \code{ftmsData} object, as is
 appropriate for use with the \code{\link{makeDisplay}} function. See 
 Examples section for use.
 }
 \examples{
 \dontrun{
-library(fticRanalysis)
+library(ftmsRanalysis)
 library(trelliscope)
 
 vdbDir <- vdbConn(file.path(tempdir(), "trell_test"), autoYes = TRUE)
-data('peakIcrProcessed')
+data('exampleProcessedPeakData')
 
 ## Plot density of NOSC variable for each sample
-sampleDdo <- divideBySample(peakIcrProcessed)
+sampleDdo <- divideBySample(exampleProcessedPeakData)
 panelFn1 <- panelFunctionGenerator("densityPlot", variable="NOSC")
 makeDisplay(sampleDdo, 
             panelFn=panelFn1,
@@ -38,7 +38,7 @@ makeDisplay(sampleDdo,
             group = "Sample")
 
 ## Plot density of NOSC for each group
-groupDdo <- divideByGroup(peakIcrProcessed)
+groupDdo <- divideByGroup(exampleProcessedPeakData)
 panelFn2 <- panelFunctionGenerator("densityPlot", variable="NOSC", groups=NA)
 
 makeDisplay(groupDdo, 

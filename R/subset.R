@@ -1,130 +1,130 @@
-#' Subset an icrData object according to sample or group
+#' Subset an ftmsData object according to sample or group
 #' 
-#' Constructs a new icrData object that is a subset of the original
+#' Constructs a new ftmsData object that is a subset of the original
 #' with only the specified samples or group. Exactly one of \code{samples}
 #' or \code{group} must be specified.
 #'
-#' @param icrData icrData object
+#' @param ftmsObj ftmsData object
 #' @param samples sample ID or vector of sample IDs
 #' @param groups group name or vector of group names
 #' @param check_rows logical indicating whether to remove peaks that have no observations after subsetting
-#' @return icrData object that contains only the subset of the original
+#' @return ftmsData object that contains only the subset of the original
 #'         data related to the samples or groups provided
 #' @rdname subset
 #' @export
-subset.peakIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "peakIcrData")) {
-    stop("icrData must be of type peakIcrData")
+subset.peakData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(ftmsObj, "peakData")) {
+    stop("ftmsObj must be of type peakData")
   }
   
-  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
-  attr(result, "class") <- class(icrData)
-  attr(result, "cnames") <- attr(icrData, "cnames")
-  attr(result, "DB") <- attr(icrData, "DB")
+  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
+  attr(result, "class") <- class(ftmsObj)
+  attr(result, "cnames") <- attr(ftmsObj, "cnames")
+  attr(result, "DB") <- attr(ftmsObj, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
   
-  attr(result, "filters") <- attr(icrData, "filters")
-  attr(result, "data_info") <- attr(icrData, "data_info")
-  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  attr(result, "filters") <- attr(ftmsObj, "filters")
+  attr(result, "data_info") <- attr(ftmsObj, "data_info")
+  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
   
   return(result)
 }
 
 #' @rdname subset
 #' @export
-subset.compoundIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "compoundIcrData")) {
-    stop("icrData must be of type compoundIcrData")
+subset.compoundData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(ftmsObj, "compoundData")) {
+    stop("ftmsObj must be of type compoundData")
   }
   
-  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
-  attr(result, "class") <- class(icrData)
-  attr(result, "cnames") <- attr(icrData, "cnames")
-  attr(result, "DB") <- attr(icrData, "DB")
+  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
+  attr(result, "class") <- class(ftmsObj)
+  attr(result, "cnames") <- attr(ftmsObj, "cnames")
+  attr(result, "DB") <- attr(ftmsObj, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
-  attr(result, "filters") <- attr(icrData, "filters")
+  attr(result, "filters") <- attr(ftmsObj, "filters")
   
-  attr(result, "data_info") <- attr(icrData, "data_info")
-  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  attr(result, "data_info") <- attr(ftmsObj, "data_info")
+  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
   
   return(result)
 }
 
 #' @rdname subset
 #' @export
-subset.reactionIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "reactionIcrData")) {
-    stop("icrData must be of type reactionIcrData")
+subset.reactionData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(ftmsObj, "reactionData")) {
+    stop("ftmsObj must be of type reactionData")
   }
   
-  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
-  attr(result, "class") <- class(icrData)
-  attr(result, "cnames") <- attr(icrData, "cnames")
-  attr(result, "DB") <- attr(icrData, "DB")
+  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
+  attr(result, "class") <- class(ftmsObj)
+  attr(result, "cnames") <- attr(ftmsObj, "cnames")
+  attr(result, "DB") <- attr(ftmsObj, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
-  attr(result, "filters") <- attr(icrData, "filters")
+  attr(result, "filters") <- attr(ftmsObj, "filters")
   
-  attr(result, "data_info") <- attr(icrData, "data_info")
-  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  attr(result, "data_info") <- attr(ftmsObj, "data_info")
+  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
   
   return(result)
 }
 
 #' @rdname subset
 #' @export
-subset.moduleIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(icrData, "moduleIcrData")) {
-    stop("icrData must be of type moduleIcrData")
+subset.moduleData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
+  if (!inherits(ftmsObj, "moduleData")) {
+    stop("ftmsObj must be of type 'moduleData'")
   }
   
-  result <- .subset.icrData.internal(icrData, samples=samples, groups=groups)
-  attr(result, "class") <- class(icrData)
-  attr(result, "cnames") <- attr(icrData, "cnames")
-  attr(result, "DB") <- attr(icrData, "DB")
+  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
+  attr(result, "class") <- class(ftmsObj)
+  attr(result, "cnames") <- attr(ftmsObj, "cnames")
+  attr(result, "DB") <- attr(ftmsObj, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
-  attr(result, "filters") <- attr(icrData, "filters")
+  attr(result, "filters") <- attr(ftmsObj, "filters")
   
-  attr(result, "data_info") <- attr(icrData, "data_info")
-  attr(result, "instrument_type") <- attr(icrData, "instrument_type")
+  attr(result, "data_info") <- attr(ftmsObj, "data_info")
+  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
   
   return(result)
 }
 
 # Internal only function that performs the bulk of the subsetting operation,
 # leaving the attributes of the result to be filled in by the individual
-# subset.*IcrData functions.
-.subset.icrData.internal <- function(icrData, samples=NA, groups=NA) {
+# subset.*Data functions.
+.subset.ftmsData.internal <- function(ftmsObj, samples=NA, groups=NA) {
   
-  group_DF <- attr(icrData, "group_DF")
+  group_DF <- attr(ftmsObj, "group_DF")
   
   if (!all(is.na(samples))) {
-    ind <- icrData$f_data[, getFDataColName(icrData)] %in% samples
-    fdata <- icrData$f_data[ind, ]
-    ss <- as.character(fdata[,getFDataColName(icrData)])
+    ind <- ftmsObj$f_data[, getFDataColName(ftmsObj)] %in% samples
+    fdata <- ftmsObj$f_data[ind, ]
+    ss <- as.character(fdata[,getFDataColName(ftmsObj)])
   } else if (!all(is.na(groups))) {
     if (!is.null(group_DF)) {
       ind <- group_DF[, "Group"] %in% groups
       group_DF <- group_DF[ind, ]
-      ss <- as.character(group_DF[, getFDataColName(icrData)])
+      ss <- as.character(group_DF[, getFDataColName(ftmsObj)])
       
-      ind <- icrData$f_data[, getFDataColName(icrData)] %in% ss
-      fdata <- icrData$f_data[ind, ]
+      ind <- ftmsObj$f_data[, getFDataColName(ftmsObj)] %in% ss
+      fdata <- ftmsObj$f_data[ind, ]
     } else {
       stop("This object does not have a group specification attribute, cannot subset by groups")
     }
@@ -132,13 +132,13 @@ subset.moduleIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALS
     stop("Must specify exactly one of 'samples' or 'groups'")
   }
   
-  edata <- icrData$e_data[, c(getEDataColName(icrData), ss)]
-  emeta <- icrData$e_meta
+  edata <- ftmsObj$e_data[, c(getEDataColName(ftmsObj), ss)]
+  emeta <- ftmsObj$e_meta
   result <- list(e_data=edata, f_data=fdata, e_meta=emeta)
   
   # subset group_DF if applicable
   if (!is.null(group_DF)) {
-    ind2 <- group_DF[, getFDataColName(icrData)] %in% ss
+    ind2 <- group_DF[, getFDataColName(ftmsObj)] %in% ss
     group_DF <- group_DF[ind2, ]
     attr(result, "group_DF") <- group_DF
   }
@@ -146,21 +146,3 @@ subset.moduleIcrData <- function(icrData, samples=NA, groups=NA, check_rows=FALS
   return(result)
 }
 
-
-
-### TESTS ###
-
-# library(icRanalysis)
-# data(exIcrData)
-# 
-# subset1 <- subset(exIcrData, samples="10c_m")
-# str(subset1)
-# 
-# subset2 <- subset(exIcrData, samples=c("10c_m", "10c_w"))
-# str(subset2)
-# 
-# subset3 <- subset(exIcrData, groups="LL")
-# str(subset3)
-# 
-# subset4 <- subset(exIcrData, groups=c("LL", "LN", "LU"))
-# str(subset4)

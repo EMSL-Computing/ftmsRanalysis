@@ -1,6 +1,6 @@
-# fticRanalysis
+# ftmsRanalysis
 
-The `fticRanalysis` package was designed to help with various steps of processing FTICR data, including:
+The `ftmsRanalysis` package was designed to help with various steps of processing FT-MS data, including:
 
 * data formatting and manipulation
 * reproducible analysis pipeline
@@ -11,14 +11,14 @@ The `fticRanalysis` package was designed to help with various steps of processin
 * multiple samples
 * group comparisons
 
-The `fticRanalysis` package was developed at [Pacific Northwest National Laboratory](http://www.pnnl.gov){target="_blank"}. See here for more information: [https://msc-viz.emsl.pnnl.gov](https://msc-viz.emsl.pnnl.gov){target="_blank"}. 
+The `ftmsRanalysis` package was developed at [Pacific Northwest National Laboratory](http://www.pnnl.gov){target="_blank"}. See here for more information: [https://msc-viz.emsl.pnnl.gov](https://msc-viz.emsl.pnnl.gov){target="_blank"}. 
 
-See the [Get started](articles/fticRanalysis.html) page for a tutorial.
+See the [Get started](articles/ftmsRanalysis.html) page for a tutorial.
 
 ### Installation
 
 The package may be installed from github using the command:
 
 ```{r eval=FALSE}
-devtools::install_github("EMSL-Computing/fticRanalysis")
+devtools::install_github("EMSL-Computing/ftmsRanalysis")
 ```

@@ -4,13 +4,13 @@
 \alias{mapCompoundsToReactions}
 \title{Map compound level data to reactions in MetaCyc}
 \usage{
-mapCompoundsToReactions(compoundIcrData)
+mapCompoundsToReactions(compoundObj)
 }
 \arguments{
-\item{compoundIcrData}{an object of type compoundIcrData}
+\item{compoundObj}{an object of type compoundData}
 }
 \value{
-reactionIcrData object
+reactionData object
 }
 \description{
 Map compound data to MetaCyc modules. Additional database options may be added in the future.

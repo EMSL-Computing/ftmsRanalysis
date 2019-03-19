@@ -1,16 +1,16 @@
 ## Tests of concat function
 
-library(fticRanalysis)
+library(ftmsRanalysis)
 context("concat function")
 
 test_that("tests of concat function on group DDOs", {
   
-  data("peakIcrProcessed")
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Location")
-  grpDdo1 <- divideByGroup(peakIcrProcessed)
+  data("exampleProcessedPeakData")
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
+  grpDdo1 <- divideByGroup(exampleProcessedPeakData)
   
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Crop.Flora")
-  grpDdo2 <- divideByGroup(peakIcrProcessed)
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
+  grpDdo2 <- divideByGroup(exampleProcessedPeakData)
   
   allGrpDdo <-concat(grpDdo1, grpDdo2)
 
@@ -28,13 +28,13 @@ test_that("tests of concat function on group DDOs", {
 
 test_that("tests of concat function on group summary DDOs", {
   
-  data("peakIcrProcessed")
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Location")
-  grpDdo1 <- divideByGroup(peakIcrProcessed)
+  data("exampleProcessedPeakData")
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
+  grpDdo1 <- divideByGroup(exampleProcessedPeakData)
   grpDdo1 <- summarizeGroups(grpDdo1, summary_functions = c("n_present", "prop_present"))
   
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Crop.Flora")
-  grpDdo2 <- divideByGroup(peakIcrProcessed)
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
+  grpDdo2 <- divideByGroup(exampleProcessedPeakData)
   grpDdo2 <- summarizeGroups(grpDdo2, summary_functions = c("n_present", "prop_present"))
   
   allGrpDdo <-concat(grpDdo1, grpDdo2)
@@ -48,12 +48,12 @@ test_that("tests of concat function on group summary DDOs", {
 
 test_that("tests of concat function on group comparison DDOs", {
   
-  data("peakIcrProcessed")
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Location")
-  grpDdo1 <- divideByGroupComparisons(peakIcrProcessed, "all")
+  data("exampleProcessedPeakData")
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
+  grpDdo1 <- divideByGroupComparisons(exampleProcessedPeakData, "all")
   
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Crop.Flora")
-  grpDdo2 <- divideByGroupComparisons(peakIcrProcessed, "all")
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
+  grpDdo2 <- divideByGroupComparisons(exampleProcessedPeakData, "all")
   
   allGrpDdo <-concat(grpDdo1, grpDdo2)
   
@@ -75,17 +75,17 @@ test_that("tests of concat function on group comparison DDOs", {
 
 test_that("tests of concat function on group comparison summary DDOs", {
   
-  data("peakIcrProcessed")
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Location")
-  grpDdo1 <- divideByGroupComparisons(peakIcrProcessed, "all")
+  data("exampleProcessedPeakData")
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
+  grpDdo1 <- divideByGroupComparisons(exampleProcessedPeakData, "all")
   grpDdo1 <- summarizeGroupComparisons(grpDdo1, summary_functions = "uniqueness_gtest",
                                   summary_function_params = list(uniqueness_gtest=
                                                                    list(pres_fn="prop",
                                                                         pres_thresh=0.5,
                                                                         pvalue_thresh=0.05)))
   
-  peakIcrProcessed <- group_designation(peakIcrProcessed, main_effects = "Crop.Flora")
-  grpDdo2 <- divideByGroupComparisons(peakIcrProcessed, "all")
+  exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
+  grpDdo2 <- divideByGroupComparisons(exampleProcessedPeakData, "all")
   grpDdo2 <- summarizeGroupComparisons(grpDdo2, summary_functions = "uniqueness_gtest",
                        summary_function_params = list(uniqueness_gtest=
                                                         list(pres_fn="prop",

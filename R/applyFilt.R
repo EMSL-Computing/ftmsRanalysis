@@ -1,12 +1,12 @@
-#' Apply a S3 filter  object to an icrData S3 object
+#' Apply a S3 filter  object to an ftmsData S3 object
 #'
-#' This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{icrData}
+#' This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{ftmsData}
 #'
 #' @param filter_object an object of the class 'moleculeFilt' created by  \code{\link{molecule_filter}}
-#' @param icrData an object of the class \code{icrData} usually created by \code{\link{as.icrData}}
+#' @param ftmsObj an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}
 #' @param ... further arguments
 #'
-#' @return An object of the class \code{icrData} with specified molecules filtered out of the appropriate datasets.
+#' @return An object of the class \code{ftmsData} with specified molecules filtered out of the appropriate datasets.
 #'
 #' @details Various further arguments can be specified depending on the class of the \code{filter_object} being applied.
 #' For a \code{filter_object} of type 'moleculeFilt', resulting from calling \code{\link{molecule_filter}}:
@@ -42,17 +42,17 @@
 #' @author Lisa Bramer
 #'
 #' @export
-applyFilt <- function(filter_object, icrData, ...){
+applyFilt <- function(filter_object, ftmsObj, ...){
   
-  # check that icrData is of appropriate class #
-  if(!inherits(icrData, "icrData")) stop("icrData must be of class 'icrData'")
+  # check that ftmsObj is of appropriate class #
+  if(!inherits(ftmsObj, "ftmsData")) stop("ftmsObj must be of class 'ftmsData'")
   
   # check that filter_object is of an appropriate class #
   # if(!inherits(filter_object, "moleculeFilt") & !inherits(filter_object, "massFilt"))) stop("filter_object must be of class 'moleculeFilt' or 'massFilt' ")
   
-  # pull column names from omicR_data attributes #
-  samp_cname = getFDataColName(icrData)
-  edata_cname = getEDataColName(icrData)
+  # pull column names from ftmsData attributes #
+  samp_cname = getFDataColName(ftmsObj)
+  edata_cname = getEDataColName(ftmsObj)
   
   UseMethod("applyFilt")
 }
@@ -61,12 +61,12 @@ applyFilt <- function(filter_object, icrData, ...){
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.moleculeFilt <- function(filter_object, icrData, min_num=2){
+applyFilt.moleculeFilt <- function(filter_object, ftmsObj, min_num=2){
   
-  # check to see whether a moleculeFilt has already been run on icrData #
-  if("moleculeFilt" %in% names(attributes(icrData)$filters)){
+  # check to see whether a moleculeFilt has already been run on ftmsObj #
+  if("moleculeFilt" %in% names(attributes(ftmsObj)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(icrData)$filters$moleculeFilt$threshold
+    min_num_prev <- attributes(ftmsObj)$filters$moleculeFilt$threshold
     
     stop(paste("A molecule filter has already been run on this dataset, using a 'min_num' of ", min_num_prev, ". See Details for more information about how to choose a threshold before applying the filter.", sep=""))
     
@@ -79,11 +79,11 @@ applyFilt.moleculeFilt <- function(filter_object, icrData, min_num=2){
     # check that min_num is an integer #
     if(min_num %% 1 != 0) stop("min_num must be an integer greater than or equal to 1")
     # check that min_num is less than the number of samples #
-    if(min_num > (ncol(icrData$e_data) + 1)) stop("min_num cannot be greater than the number of samples")
+    if(min_num > (ncol(ftmsObj$e_data) + 1)) stop("min_num cannot be greater than the number of samples")
     # check that min_num is of length 1 #
     if(length(min_num) != 1) stop("min_num must be of length 1")
     
-    edata_cname <- getEDataColName(icrData)
+    edata_cname <- getEDataColName(ftmsObj)
 
     num_obs <- filter_object$Num_Observations
 
@@ -95,19 +95,19 @@ applyFilt.moleculeFilt <- function(filter_object, icrData, min_num=2){
     }
     
     else{
-      filter.edata <- icrData$e_data[, which(names(icrData$e_data) == edata_cname)][inds]
+      filter.edata <- ftmsObj$e_data[, which(names(ftmsObj$e_data) == edata_cname)][inds]
     }
     
-    # checking if filter specifies all of icrData$e_data
-    if(all(icrData$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in icrData")}
+    # checking if filter specifies all of ftmsObj$e_data
+    if(all(ftmsObj$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in ftmsObj")}
     
     filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- icr_filter_worker(icrData = icrData, filter_object = filter_object_new)
+    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
     
     # return filtered data object #
-    results <- icrData
+    results <- ftmsObj
     results$e_data <- results_pieces$new.edata
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
@@ -128,12 +128,12 @@ applyFilt.moleculeFilt <- function(filter_object, icrData, min_num=2){
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass = 900){
+applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass = 900){
   
-  # check to see whether a massFilt has already been run on icrData #
-  if("massFilt" %in% names(attributes(icrData)$filters)){
+  # check to see whether a massFilt has already been run on ftmsObj #
+  if("massFilt" %in% names(attributes(ftmsObj)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(icrData)$filters$massFilt$threshold
+    min_num_prev <- attributes(ftmsObj)$filters$massFilt$threshold
     
     stop(paste("A mass filter has already been run on this dataset, using a 'min_mass' and 'max_mass' of ", min_num_prev[1], "and ", min_num_prev[2], ".", sep=""))
     
@@ -149,8 +149,8 @@ applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass 
     if(length(min_mass) != 1) stop("min_mass must be of length 1")
     if(length(max_mass) != 1) stop("max_mass must be of length 1")
     
-    edata_cname <- getEDataColName(icrData)
-    mass_cname = getMassColName(icrData)
+    edata_cname <- getEDataColName(ftmsObj)
+    mass_cname = getMassColName(ftmsObj)
     
     mass_info <- filter_object[,mass_cname]
     
@@ -162,20 +162,20 @@ applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass 
     # sample identifiers to keep #
     edata_ids = filter_object[inds, edata_cname]
 
-    temp_edata = icrData$e_data[which(icrData$e_data[,edata_cname] %in% edata_ids),]
-    temp_emeta = icrData$e_meta[which(icrData$e_meta[,edata_cname] %in% edata_ids),]
+    temp_edata = ftmsObj$e_data[which(ftmsObj$e_data[,edata_cname] %in% edata_ids),]
+    temp_emeta = ftmsObj$e_meta[which(ftmsObj$e_meta[,edata_cname] %in% edata_ids),]
     
-    num_rmv = length(icrData$e_data[,edata_cname]) - length(inds)
+    num_rmv = length(ftmsObj$e_data[,edata_cname]) - length(inds)
 
     # set attributes for which filters were run
-    attr(icrData, "filters")$massFilt <- list(report_text = "", threshold = c(), filtered = c())
-    attr(icrData, "filters")$massFilt$report_text <- paste("A mass filter was applied to the data, removing ", makePlural(edata_cname), " that had a mass less than ", min_mass, " or a mass greater than ", max_mass, ". A total of ", num_rmv, " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
-    attr(icrData, "filters")$massFilt$threshold <- c(min_mass, max_mass)
-    attr(icrData, "filters")$massFilt$filtered <- icrData$e_data[which(!icrData$e_data[,edata_cname] %in% edata_ids),edata_cname]
+    attr(ftmsObj, "filters")$massFilt <- list(report_text = "", threshold = c(), filtered = c())
+    attr(ftmsObj, "filters")$massFilt$report_text <- paste("A mass filter was applied to the data, removing ", makePlural(edata_cname), " that had a mass less than ", min_mass, " or a mass greater than ", max_mass, ". A total of ", num_rmv, " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
+    attr(ftmsObj, "filters")$massFilt$threshold <- c(min_mass, max_mass)
+    attr(ftmsObj, "filters")$massFilt$filtered <- ftmsObj$e_data[which(!ftmsObj$e_data[,edata_cname] %in% edata_ids),edata_cname]
     
-    icrData$e_data = temp_edata
-    icrData$e_meta = temp_emeta
-    results = icrData
+    ftmsObj$e_data = temp_edata
+    ftmsObj$e_meta = temp_emeta
+    results = ftmsObj
   }
   
   return(results)
@@ -186,12 +186,12 @@ applyFilt.massFilt <- function(filter_object, icrData, min_mass = 200, max_mass 
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
+applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula'){
   
-  # check to see whether a formulaFilt has already been run on icrData #
-  if("formulaFilt" %in% names(attributes(icrData)$filters)){
+  # check to see whether a formulaFilt has already been run on ftmsObj #
+  if("formulaFilt" %in% names(attributes(ftmsObj)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(icrData)$filters$formulaFilt$threshold
+    min_num_prev <- attributes(ftmsObj)$filters$formulaFilt$threshold
     
     stop(paste("A formula filter has already been run on this dataset, using a 'remove' argument of ", min_num_prev, ".", sep=""))
     
@@ -202,7 +202,7 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
     # check that remove is a valid argument #
     if(!(remove %in% c("NoFormula","Formula"))) stop("'remove' can only take values 'NoFormula' and 'Formula'.")
     
-    edata_cname <- getEDataColName(icrData)
+    edata_cname <- getEDataColName(ftmsObj)
     
     form_assigned <- filter_object$Formula_Assigned
     
@@ -218,19 +218,19 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
     }
     
     else{
-      filter.edata <- icrData$e_data[, which(names(icrData$e_data) == edata_cname)][inds]
+      filter.edata <- ftmsObj$e_data[, which(names(ftmsObj$e_data) == edata_cname)][inds]
     }
     
-    # checking if filter specifies all of icrData$e_data
-    if(all(icrData$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in icrData")}
+    # checking if filter specifies all of ftmsObj$e_data
+    if(all(ftmsObj$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in ftmsObj")}
     
     filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- icr_filter_worker(icrData = icrData, filter_object = filter_object_new)
+    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
     
     # return filtered data object #
-    results <- icrData
+    results <- ftmsObj
     results$e_data <- results_pieces$new.edata
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
@@ -250,16 +250,16 @@ applyFilt.formulaFilt <- function(filter_object, icrData, remove = 'NoFormula'){
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE){
+applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE){
   
     # determine how many filters have already been implemented on the dataset #
-    num_filts = length(attributes(icrData)$filters)
+    num_filts = length(attributes(ftmsObj)$filters)
     
     # create filter name #
     filt_name = paste("emetaFilt", attr(filter_object, "cname"), sep = "_")
     
-    # check to see whether a formulaFilt has already been run on icrData #
-    if(filt_name %in% names(attributes(icrData)$filters)){
+    # check to see whether a formulaFilt has already been run on ftmsObj #
+    if(filt_name %in% names(attributes(ftmsObj)$filters)){
       
       stop(paste("An emeta_filter using the variable '", attr(filter_object, "cname"), "' has already been run on this dataset.", sep=""))
   
@@ -286,7 +286,7 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     }
     
 
-    edata_cname <- getEDataColName(icrData)
+    edata_cname <- getEDataColName(ftmsObj)
     filter_object[edata_cname] <- as.character(filter_object[,edata_cname])
     
     # implement filter #
@@ -314,10 +314,10 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
     filter_object_new = list(edata_filt = rmv_masses, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- icr_filter_worker(icrData = icrData, filter_object = filter_object_new)
+    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
     
     # return filtered data object #
-    results <- icrData
+    results <- ftmsObj
     results$e_data <- results_pieces$new.edata
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
@@ -351,24 +351,24 @@ applyFilt.emetaFilt <- function(filter_object, icrData, min_val = NULL, max_val 
 #'
 #' This function removes
 #'
-#' @param icrData an object of the class \code{icrData} usually created by \code{\link{as.icrData}}
+#' @param ftmsObj an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}
 #' @param filter_object a list created by the functions above
 #' @return list
 #' @author Lisa Bramer
 #'
-icr_filter_worker <- function(filter_object, icrData){
+filter_worker <- function(filter_object, ftmsObj){
 
-  # pull column names from icrData attributes #
-  samp_cname = getFDataColName(icrData)
-  edata_cname = getEDataColName(icrData)
+  # pull column names from ftmsObj attributes #
+  samp_cname = getFDataColName(ftmsObj)
+  edata_cname = getEDataColName(ftmsObj)
 
   # pull group_DF attribute #
-  group_DF = attr(icrData, "group_DF")
+  group_DF = attr(ftmsObj, "group_DF")
   
   # initialize the new omicsData parts #
-  temp.edata <- icrData$e_data
-  temp.fdata <- icrData$f_data
-  temp.emeta <- icrData$e_meta
+  temp.edata <- ftmsObj$e_data
+  temp.fdata <- ftmsObj$f_data
+  temp.emeta <- ftmsObj$e_meta
   
   #check if filter object contains remove arguments
   if(!is.null(filter_object$edata_filt) | !is.null(filter_object$samples_filt)){

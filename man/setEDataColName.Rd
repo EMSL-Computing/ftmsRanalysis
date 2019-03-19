@@ -4,15 +4,15 @@
 \alias{setEDataColName}
 \title{Set the name of the e_data unique identifier column}
 \usage{
-setEDataColName(icrData, cname)
+setEDataColName(ftmsObj, cname)
 }
 \arguments{
-\item{icrData}{an object of type icrData}
+\item{ftmsObj}{an object of type ftmsData}
 
 \item{cname}{column name}
 }
 \value{
-updated icrData
+updated ftmsObj
 }
 \description{
 Sets the name of the column in the e_data element that 

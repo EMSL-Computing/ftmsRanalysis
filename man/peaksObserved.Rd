@@ -4,10 +4,10 @@
 \alias{peaksObserved}
 \title{Boolean vector indicating which peaks were observed}
 \usage{
-peaksObserved(data.obj)
+peaksObserved(ftmsObj)
 }
 \arguments{
-\item{data.obj}{icrData object}
+\item{ftmsObj}{ftmsData object}
 }
 \value{
 vector of TRUE/FALSE values the same length as nrow(data.obj$e_data)

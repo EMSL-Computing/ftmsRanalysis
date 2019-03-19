@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Subset an icrData object according to sample or group — subset.peakIcrData • fticRanalysis</title>
+<title>Subset an ftmsData object according to sample or group — subset.peakData • ftmsRanalysis</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -30,9 +30,9 @@
 
 
 
-<meta property="og:title" content="Subset an icrData object according to sample or group — subset.peakIcrData" />
+<meta property="og:title" content="Subset an ftmsData object according to sample or group — subset.peakData" />
 
-<meta property="og:description" content="Constructs a new icrData object that is a subset of the original
+<meta property="og:description" content="Constructs a new ftmsData object that is a subset of the original
 with only the specified samples or group. Exactly one of samples
 or group must be specified." />
 <meta name="twitter:card" content="summary" />
@@ -64,7 +64,7 @@ or group must be specified." />
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">fticRanalysis</a>
+        <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -78,7 +78,7 @@ or group must be specified." />
   </a>
 </li>
 <li>
-  <a href="../articles/fticRanalysis.html">Get started</a>
+  <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -94,7 +94,7 @@ or group must be specified." />
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing fticRanalysis results with Trelliscope</a>
+      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
     </li>
     <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
@@ -125,41 +125,41 @@ or group must be specified." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Subset an icrData object according to sample or group</h1>
+    <h1>Subset an ftmsData object according to sample or group</h1>
     <small class="dont-index">Source: <a href='https://github.com/EMSL-Computing/fticRanalysis/blob/master/R/subset.R'><code>R/subset.R</code></a></small>
     <div class="hidden name"><code>subset.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Constructs a new icrData object that is a subset of the original
+    <p>Constructs a new ftmsData object that is a subset of the original
 with only the specified samples or group. Exactly one of <code>samples</code>
 or <code>group</code> must be specified.</p>
     
     </div>
 
-    <pre class="usage"><span class='co'># S3 method for peakIcrData</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+    <pre class="usage"><span class='co'># S3 method for peakData</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>ftmsObj</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># S3 method for compoundIcrData</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+<span class='co'># S3 method for compoundData</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>ftmsObj</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># S3 method for reactionIcrData</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+<span class='co'># S3 method for reactionData</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>ftmsObj</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='co'># S3 method for moduleIcrData</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>icrData</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+<span class='co'># S3 method for moduleData</span>
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/subset'>subset</a></span>(<span class='no'>ftmsObj</span>, <span class='kw'>samples</span> <span class='kw'>=</span> <span class='fl'>NA</span>, <span class='kw'>groups</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
   <span class='kw'>check_rows</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>icrData</th>
-      <td><p>icrData object</p></td>
+      <th>ftmsObj</th>
+      <td><p>ftmsData object</p></td>
     </tr>
     <tr>
       <th>samples</th>
@@ -177,7 +177,7 @@ or <code>group</code> must be specified.</p>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>icrData object that contains only the subset of the original
+    <p>ftmsData object that contains only the subset of the original
         data related to the samples or groups provided</p>
     
 
