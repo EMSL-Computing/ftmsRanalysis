@@ -1,0 +1,4 @@
+# regular expressions of filenames to ignore when running covr::report() to assess test coverage
+R/*[pP]lot*
+R/print.R
+R/*internal*
