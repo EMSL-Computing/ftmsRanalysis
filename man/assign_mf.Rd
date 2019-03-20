@@ -18,7 +18,7 @@ an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecul
 Construct molecular formulae based on element counts
 }
 \details{
-Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. KEGG). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
+Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. MetaCyc). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
 }
 \author{
 Lisa Bramer

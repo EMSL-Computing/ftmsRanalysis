@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-Density plots display the distribution of molecular properties corresponding to peaks observed in one or more samples, a group, or pair of groups.  The `densityPlot` function can display histograms or smoothed density, and it can display both together if plotting a single distribution (i.e. one sample or one aggregated group). The distribution of any numeric column of the `e_meta` element may be plotted.
+Density plots display the distribution of meta-data values corresponding to peaks observed in one or more samples, a group, or pair of groups.  The `densityPlot` function can display histograms or smoothed density, and it can display both together if plotting a single distribution (i.e. one sample or one aggregated group). The distribution of any numeric column of the `e_meta` element may be plotted.
 
 To construct a density plot for a single sample, first construct a subset containing only the sample of interest. By default, `densityPlot` plots the distribution (without a histogram) of the chosen variable.
 

@@ -20,7 +20,7 @@ as.compoundData(e_data, f_data, e_meta, edata_cname, fdata_cname,
 
 \item{mass_cname}{character string specifying the name of the column containing the peak/mass identifiers in \code{e_meta}. Note: this is often the same as \code{edata_cname} for cases where mass is used as a unique identifier.}
 
-\item{compound_cname}{character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. Kegg, MetaCyc)}
+\item{compound_cname}{character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. MetaCyc)}
 
 \item{...}{further arguments (see as.\code{\link{peakData}})}
 }

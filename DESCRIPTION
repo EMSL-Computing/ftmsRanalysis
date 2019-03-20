@@ -25,7 +25,6 @@ Imports:
     rlang (>= 0.1.4),
     reshape2
 Suggests:
-    KeggData,
     MetaCycData,
     knitr,
     rmarkdown,

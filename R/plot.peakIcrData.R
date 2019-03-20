@@ -18,7 +18,7 @@
 #' plot(edata_transform(examplePeakData, "log2"))
 #' plot(edata_transform(exampleProcessedPeakData, "pres"))
 plot.peakData <- function(ftmsObj, title=NA, xlabel=NA, ylabel=NA, colorBy="groups") {
-
+  
   # Tests
   if (!inherits(ftmsObj, "peakData")) stop("ftmsObj must be of type 'peakData'")
   if (inherits(ftmsObj, "groupSummary") | inherits(ftmsObj, "comparisonSummary")) {
@@ -61,20 +61,20 @@ plot.peakData <- function(ftmsObj, title=NA, xlabel=NA, ylabel=NA, colorBy="grou
       df <- df %>% dplyr::left_join(groupDF, by=c(Sample=getFDataColName(ftmsObj)))
     }
   }
-
+  
   if (data_scale == "pres") { # do a barplot of num observed
     # browser()
     if (grouped) {
       counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=n()) %>% dplyr::ungroup()
       p <- p %>% plotly::add_bars(x=~Sample, y=~Count, color=~Group, data=counts, hoverinfo="y")
-    
+      
     } else if (identical(colorBy, "molform")) { # stacked barplots showing counts of molecular form vs not for each sample
       df2 <- df %>% 
-        dplyr::left_join(dplyr::select(ftmsObj$e_meta, "Mass", "MolForm")) %>% 
-        dplyr::mutate(HasMolForm=!is.na(MolForm))
+        dplyr::left_join(dplyr::select(ftmsObj$e_meta, getEDataColName(ftmsObj), getMFColName(ftmsObj))) %>% 
+        dplyr::mutate(HasMolForm=factor(!is.na(!!rlang::sym(getMFColName(ftmsObj))), levels = c(TRUE, FALSE)))
       
       counts <- df2 %>% 
-        dplyr::group_by(Sample, HasMolForm) %>% 
+        dplyr::group_by(Sample, HasMolForm, .drop = FALSE) %>% 
         dplyr::summarize(Count=n()) %>% 
         dplyr::ungroup() %>%
         tidyr::spread(HasMolForm, Count) %>%
@@ -99,7 +99,7 @@ plot.peakData <- function(ftmsObj, title=NA, xlabel=NA, ylabel=NA, colorBy="grou
     }
     
   }
-
+  
   # axis styling
   ax <- list(
     zeroline = FALSE, # don't plot axes at zero
@@ -116,4 +116,3 @@ plot.peakData <- function(ftmsObj, title=NA, xlabel=NA, ylabel=NA, colorBy="grou
   
   p
 }
-

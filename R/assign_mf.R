@@ -5,7 +5,7 @@
 #' @param ftmsObj an object of class 'ftmsData', typically a result of \code{\link{as.peakData}}. e_meta must be present.
 #' @param metacyc TRUE/FALSE, use MetaCyc style formulae? (FALSE by default)
 #' 
-#' @details Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. KEGG). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
+#' @details Assigns molecular formulae for observed peaks, when possible. Formulae are assigned in a manner so they can be matched to databases (e.g. MetaCyc). If a Carbon 13 column is given, formulae are not assigned to peaks where C13 is present.
 #' 
 #' @return an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecular formula.
 #' 

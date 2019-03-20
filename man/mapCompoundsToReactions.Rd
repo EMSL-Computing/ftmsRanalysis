@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapCompoundsToReactions.R
 \name{mapCompoundsToReactions}
 \alias{mapCompoundsToReactions}
-\title{Map compound level data to reactions in either KEGG or MetaCyc}
+\title{Map compound level data to reactions in MetaCyc}
 \usage{
 mapCompoundsToReactions(compoundObj)
 }
@@ -13,8 +13,7 @@ mapCompoundsToReactions(compoundObj)
 reactionData object
 }
 \description{
-Map compound data to KEGG or MetaCyc reactions. The database used
-is determined by the database previously used to map peaks to compounds.
+Map compound data to MetaCyc reactions.
 }
 \author{
 Amanda White

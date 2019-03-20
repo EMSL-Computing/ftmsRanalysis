@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapCompoundsToModules.R
 \name{mapCompoundsToModules}
 \alias{mapCompoundsToModules}
-\title{Map compound level data to modules in either KEGG or MetaCyc}
+\title{Map compound level data to modules in MetaCyc}
 \usage{
 mapCompoundsToModules(compoundObj)
 }
@@ -13,7 +13,7 @@ mapCompoundsToModules(compoundObj)
 moduleData object
 }
 \description{
-Map compound data to KEGG or MetaCyc modules The database used
+Map compound data to MetaCyc modules The database used
 is determined by the database previously used to map peaks to compounds.
 For MetaCyc, modules are pathways that are not super-pathways
 }

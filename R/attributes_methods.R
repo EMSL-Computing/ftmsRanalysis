@@ -3,7 +3,7 @@
 #' Get the database associated with an object that has been mapped to
 #' the compound or module level.
 #' @param ftmsObj an object of type ftmsData
-#' @return database (KEGG or MetaCyc)
+#' @return database name
 #' @export
 getDatabase <- function(ftmsObj) {
     if (!inherits(ftmsObj, "ftmsData")) {

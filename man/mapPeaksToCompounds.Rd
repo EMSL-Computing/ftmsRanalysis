@@ -9,14 +9,14 @@ mapPeaksToCompounds(peakObj, db = "MetaCyc")
 \arguments{
 \item{peakObj}{object of type peakData}
 
-\item{db}{database to map to, either 'KEGG' or 'MetaCyc' (case insensitive). This requires
-the KeggData package or the MetaCycData package respectively.}
+\item{db}{database to map to, currently 'MetaCyc' (case insensitive) is the only valid option. This requires
+the MetaCycData package.}
 }
 \value{
 compoundData object
 }
 \description{
-Map peak level FT-MS data to compounds from either KEGG or MetaCyc.
+Map peak level FT-MS data to compounds from MetaCyc.
 }
 \author{
 Amanda White
