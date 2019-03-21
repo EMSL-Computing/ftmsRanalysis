@@ -13,7 +13,7 @@
 #' @param vkBoundarySet Van Krevelen boundary set to use for calculating class proportions
 #' @param uniquenessColName if \code{ftmsObj} is a group comparison summary object, what is the 
 #' name of the column that specifies uniqueness to a group? If only one uniqueness function has
-#' been applied this is unnecessary. (See \code{\link{summarizeComparisons}}.)
+#' been applied this is unnecessary. (See \code{\link{summarizeGroupComparisons}}.)
 #'
 #' @return a function that may be applied to objects of type \code{peakData}, \code{groupSummary},
 #' and \code{comparisonSummary}
@@ -110,7 +110,7 @@ commonVanKrevelenCognostics <- function(ftmsObj, presenceIndicator, vkBoundarySe
   denom <- sum(presenceIndicator)
   allClasses <- rownames(getVanKrevelenCategoryBounds(vkBoundarySet)$VKbounds)
   classProportions <- lapply(allClasses, function(cc) {
-    cog(val=sum(unlist(vkClasses[which(presenceIndicator)]) == cc, na.rm=TRUE)/denom, desc=sprintf("Proportion of observed peaks of class %s", cc))
+    trelliscope::cog(val=sum(unlist(vkClasses[which(presenceIndicator)]) == cc, na.rm=TRUE)/denom, desc=sprintf("Proportion of observed peaks of class %s", cc))
   })
   names(classProportions) <- paste("prop_", gsub(" ", "_", allClasses), sep="")
   
@@ -126,7 +126,7 @@ sampleCognostics <- function(ftmsObj) {
   # add f_data columns
   fdata_cols <- setdiff(colnames(ftmsObj$f_data), getFDataColName(ftmsObj))
   more_cogs <- lapply(fdata_cols, function(cc) {
-    cog(val=ftmsObj$f_data[1, cc], desc=cc)
+    trelliscope::cog(val=ftmsObj$f_data[1, cc], desc=cc)
   })
   names(more_cogs) <- fdata_cols
   return(more_cogs)
@@ -138,7 +138,7 @@ groupCognostics <- function(ftmsObj) {
   if (is.null(groupDF)) stop("Invalid ftmsObj object, no group definition found")
   cols <- c(attr(groupDF, "main_effects"), attr(groupDF, "covariates"))
   more_cogs <- lapply(cols, function(cc) {
-    cog(val=groupDF[1, cc], desc=cc)
+    trelliscope::cog(val=groupDF[1, cc], desc=cc)
   })
   names(more_cogs) <- cols
   return(more_cogs)

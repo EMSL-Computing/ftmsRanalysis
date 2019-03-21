@@ -11,7 +11,7 @@ vanKrevelenCognostics(vkBoundarySet = "bs1", uniquenessColName = NA)
 
 \item{uniquenessColName}{if \code{ftmsObj} is a group comparison summary object, what is the 
 name of the column that specifies uniqueness to a group? If only one uniqueness function has
-been applied this is unnecessary. (See \code{\link{summarizeComparisons}}.)}
+been applied this is unnecessary. (See \code{\link{summarizeGroupComparisons}}.)}
 }
 \value{
 a function that may be applied to objects of type \code{peakData}, \code{groupSummary},
