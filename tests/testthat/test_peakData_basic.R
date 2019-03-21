@@ -57,3 +57,163 @@ test_that("group designation works correctly on peakData", {
                 length(unique(groupDF3[, "Group"])))
   
 })
+
+test_that("peak data construction calls that should cause errors", {
+  
+# this section repeatedly calls as.peakData with different invalid parameter values
+  
+  data("ftms12T_edata")
+  data("ftms12T_fdata")
+  data("ftms12T_emeta")
+  
+  expect_error(as.peakData("hello world", ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                         c_cname="C", h_cname="H", o_cname="O",
+                         n_cname="N", s_cname="S", p_cname="P",
+                         isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, "invalid param", ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, "nope", edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass35", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID99", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="MassABC",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="CJFJKD", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="HJKGLJD", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O(#I",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="NU(%#", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="SU(%#", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="PKJGFILS",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13KOD", isotopic_notation = "A"))
+  
+  # optional parameters
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", extraction_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", o2c_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", h2c_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", kmass_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", nosc_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", gfe_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", aroma_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", modaroma_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", dbe_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", dbeo_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", dbeai_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", elcomp_cname="hello"))
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1", instrument_type=1))
+  # expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+  #                          c_cname="C", h_cname="H", o_cname="O",
+  #                          n_cname="N", s_cname="S", p_cname="P",
+  #                          isotopic_cname = "C13", isotopic_notation = "1", data_scale="hello"))
+
+  
+  ## Change the 3 data frames to have bad data
+  emeta2 <- ftms12T_emeta[1:20, ]
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, emeta2, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  
+  # if extra rows are found in emeta that are not in edata, they're removed from emeta with a warning not an error
+  edata2 <- ftms12T_edata[1:20, ]
+  expect_warning(as.peakData(edata2, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  
+
+  fdata2 <- ftms12T_fdata[1:5,]
+  expect_error(as.peakData(ftms12T_edata, fdata2, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  
+  emeta3 <- dplyr::select(ftms12T_emeta, -Mass)
+  expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, emeta3, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  
+  fdata3 <- dplyr::select(ftms12T_fdata, -SampleID)
+  expect_error(as.peakData(ftms12T_edata, fdata3, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  expect_error(as.peakData(ftms12T_edata, fdata3, ftms12T_emeta, edata_cname="Mass", fdata_cname="Location", mass_cname="Mass",
+                           c_cname="C", h_cname="H", o_cname="O",
+                           n_cname="N", s_cname="S", p_cname="P",
+                           isotopic_cname = "C13", isotopic_notation = "1"))
+  
+  
+})

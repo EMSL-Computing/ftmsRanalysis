@@ -73,11 +73,6 @@ test_nosc_result <- function(peakObj) {
   expect_equal(missing_nosc, missing_mol_form, info="number of missing nosc values is not the same as the number of missing mol. formulae")
 }
 
-  # res1 = setOCRatioColName(ftmsObj, "OtoC_ratio")
-  # res2 = setHCRatioColName(res1, "HtoC_ratio")
-  # res3 = setNCRatioColName(res2, "NtoC_ratio")
-  # res4 = setPCRatioColName(res3, "PtoC_ratio")
-  # res5 = setNPRatioColName(res4, "NtoP_ratio")
 test_elemental_ratios_result <- function(peakObj) {
   oc_cname <- ftmsRanalysis:::getOCRatioColName(peakObj)
   hc_cname <- ftmsRanalysis:::getHCRatioColName(peakObj)
