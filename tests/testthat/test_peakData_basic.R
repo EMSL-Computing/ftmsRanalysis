@@ -3,7 +3,7 @@
 library(ftmsRanalysis)
 context("peakData construction")
 
-test_that("peakData objects are constructed correctly", {
+test_that("peakData objects are constructed correctly with elemental columns", {
   data("ftms12T_edata")
   data("ftms12T_fdata")
   data("ftms12T_emeta")
@@ -35,6 +35,41 @@ test_that("peakData objects are constructed correctly", {
   expect_true(!is.null(getMFColName(peakObj)))
 })
 
+test_that("peakData objects are constructed correctly with molecular formulae", {
+  data("examplePeakData")
+  
+  emeta <- dplyr::select(examplePeakData$e_meta, -c(O, N, S, P))
+
+  #trace(assign_mf, browser)
+  peakObj <- as.peakData(examplePeakData$e_data, examplePeakData$f_data, emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                         mf_cname="MolForm", isotopic_cname = "C13", isotopic_notation = "1")
+  
+  expect_true(!is.null(peakObj$e_data))
+  expect_true(!is.null(peakObj$e_meta))
+  expect_true(!is.null(peakObj$f_data))
+  expect_true(inherits(peakObj, "peakData"))
+  expect_true(inherits(peakObj, "ftmsData"))
+  
+  expect_equal(getEDataColName(peakObj), "Mass")
+  expect_equal(getFDataColName(peakObj), "SampleID")
+  expect_equal(getMassColName(peakObj), "Mass")
+  
+  expect_true(!is.null(getCarbonColName(peakObj)))
+  expect_true(!is.null(getHydrogenColName(peakObj)))
+  expect_true(!is.null(getOxygenColName(peakObj)))
+  expect_true(!is.null(getNitrogenColName(peakObj)))
+  expect_true(!is.null(getSulfurColName(peakObj)))
+  expect_true(!is.null(getPhosphorusColName(peakObj)))
+  
+  expect_true(getCarbonColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getHydrogenColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getOxygenColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getNitrogenColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getSulfurColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getPhosphorusColName(peakObj) %in% colnames(peakObj$e_meta))
+  
+})
+
 test_that("group designation works correctly on peakData", {
   data("examplePeakData")
   
@@ -56,6 +91,33 @@ test_that("group designation works correctly on peakData", {
   expect_true(length(unique(groupDF[, "Group"])) > 
                 length(unique(groupDF3[, "Group"])))
   
+})
+
+test_that("peak data construction works without optional elemental columns", {
+  data("ftms12T_edata")
+  data("ftms12T_fdata")
+  data("ftms12T_emeta")
+  
+  emeta2 <- dplyr::select(ftms12T_emeta, -c(O, N, S, P))
+  peakObj <- as.peakData(ftms12T_edata, ftms12T_fdata, emeta2, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
+                         c_cname="C", h_cname="H")
+  
+  expect_true(!is.null(getOxygenColName(peakObj)))
+  expect_true(!is.null(getNitrogenColName(peakObj)))
+  expect_true(!is.null(getSulfurColName(peakObj)))
+  expect_true(!is.null(getPhosphorusColName(peakObj)))
+  
+  expect_true(getOxygenColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getNitrogenColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getSulfurColName(peakObj) %in% colnames(peakObj$e_meta))
+  expect_true(getPhosphorusColName(peakObj) %in% colnames(peakObj$e_meta))
+  
+  expect_true(all(peakObj$e_meta[, getOxygenColName(peakObj)] == 0))
+  expect_true(all(peakObj$e_meta[, getNitrogenColName(peakObj)] == 0))
+  expect_true(all(peakObj$e_meta[, getSulfurColName(peakObj)] == 0))
+  expect_true(all(peakObj$e_meta[, getPhosphorusColName(peakObj)] == 0))
+
+  expect_true(!all(is.na(peakObj$e_meta[, getMFColName(peakObj)])))
 })
 
 test_that("peak data construction calls that should cause errors", {

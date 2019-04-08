@@ -115,76 +115,79 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   if(is.null(mass_cname)) stop("'mass_cname' must be specified")
   
   # check that either mf_cname or elemental cnames are not null #
-  if(is.null(mf_cname) & any(c(is.null(c_cname), is.null(h_cname), is.null(o_cname), is.null(n_cname), is.null(s_cname), is.null(p_cname)))) stop("Either 'mf_cname' or all of 'c_cname', 'h_cname', 'o_cname', 'n_cname', 's_cname', and 'p_cname' must be specified")
-
-    # check that cname arguments are found #
-    if(!(mass_cname %in% names(e_meta))) stop(paste("Mass column", mass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    if(!is.null(c_cname)){
-      if(!(c_cname %in% names(e_meta))) stop(paste("Carbon column", c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(h_cname)){
-      if(!(h_cname %in% names(e_meta))) stop(paste("Hydrogen column", h_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(o_cname)){
-      if(!(o_cname %in% names(e_meta))) stop(paste("Oxygen column", o_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(n_cname)){
-      if(!(n_cname %in% names(e_meta))) stop(paste("Nitrogen column", n_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(s_cname)){
-      if(!(s_cname %in% names(e_meta))) stop(paste("Sulfur column", s_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(p_cname)){
-      if(!(p_cname %in% names(e_meta))) stop(paste("Phosphorus column", p_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(isotopic_cname)){
-      if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-    }
-    if(!is.null(o2c_cname)){
-      if(!(o2c_cname %in% names(e_meta))) stop(paste("Oxygen:Carbon Ratio column ", o2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(h2c_cname)){
-      if(!(h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", h2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(kmass_cname)){
-      if(!(kmass_cname %in% names(e_meta))) stop(paste("Kendrick Mass column ", kmass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(kdefect_cname)){
-      if(!(kdefect_cname %in% names(e_meta))) stop(paste("Kendrick Defect column ", kdefect_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(nosc_cname)){
-      if(!(nosc_cname %in% names(e_meta))) stop(paste("NOSC column ", nosc_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(gfe_cname)){
-      if(!(gfe_cname %in% names(e_meta))) stop(paste("Gibbs Free Energy column ", gfe_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(mfname_cname)){
-      if(!(mfname_cname %in% names(e_meta))) stop(paste("Molecular formula name/description column ", mfname_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(aroma_cname)){
-      if(!(aroma_cname %in% names(e_meta))) stop(paste("Aromaticity column ", aroma_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(modaroma_cname)){
-      if(!(modaroma_cname %in% names(e_meta))) stop(paste("Modified aromaticity column ", modaroma_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(mf_cname)){
-      if(!(mf_cname %in% names(e_meta))) stop(paste("Molecular formula column ", mf_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(dbe_cname)){
-      if(!(dbe_cname %in% names(e_meta))) stop(paste("Double-bond equivalent column ", dbe_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(dbeo_cname)){
-      if(!(dbeo_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (minus Oxygen) column ", dbeo_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(dbeai_cname)){
-      if(!(dbeai_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (aromaticity index) column ", dbeai_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(elcomp_cname)){
-      if(!(elcomp_cname %in% names(e_meta))) stop(paste("Elemental composition column ", elcomp_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
-    }
-    if(!is.null(extraction_cname)){
-      if(!(extraction_cname %in% names(f_data))) stop(paste("Extraction Method column ", extraction_cname, " not found in f_data. See details of as.peakData for specifying column names.", sep = "") )
-    }
+  if(is.null(mf_cname) & any(c(is.null(c_cname), is.null(h_cname)))) {
+    stop("Either 'mf_cname' or both 'c_cname' and 'h_cname' must be specified")
+  }
+  # check that cname arguments are found #
+  if(!(mass_cname %in% names(e_meta))) {
+    stop(paste("Mass column", mass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(c_cname)){
+    if(!(c_cname %in% names(e_meta))) stop(paste("Carbon column", c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(h_cname)){
+    if(!(h_cname %in% names(e_meta))) stop(paste("Hydrogen column", h_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(o_cname)){
+    if(!(o_cname %in% names(e_meta))) stop(paste("Oxygen column", o_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(n_cname)){
+    if(!(n_cname %in% names(e_meta))) stop(paste("Nitrogen column", n_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(s_cname)){
+    if(!(s_cname %in% names(e_meta))) stop(paste("Sulfur column", s_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(p_cname)){
+    if(!(p_cname %in% names(e_meta))) stop(paste("Phosphorus column", p_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(isotopic_cname)){
+    if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  }
+  if(!is.null(o2c_cname)){
+    if(!(o2c_cname %in% names(e_meta))) stop(paste("Oxygen:Carbon Ratio column ", o2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(h2c_cname)){
+    if(!(h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", h2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(kmass_cname)){
+    if(!(kmass_cname %in% names(e_meta))) stop(paste("Kendrick Mass column ", kmass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(kdefect_cname)){
+    if(!(kdefect_cname %in% names(e_meta))) stop(paste("Kendrick Defect column ", kdefect_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(nosc_cname)){
+    if(!(nosc_cname %in% names(e_meta))) stop(paste("NOSC column ", nosc_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(gfe_cname)){
+    if(!(gfe_cname %in% names(e_meta))) stop(paste("Gibbs Free Energy column ", gfe_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(mfname_cname)){
+    if(!(mfname_cname %in% names(e_meta))) stop(paste("Molecular formula name/description column ", mfname_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(aroma_cname)){
+    if(!(aroma_cname %in% names(e_meta))) stop(paste("Aromaticity column ", aroma_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(modaroma_cname)){
+    if(!(modaroma_cname %in% names(e_meta))) stop(paste("Modified aromaticity column ", modaroma_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(mf_cname)){
+    if(!(mf_cname %in% names(e_meta))) stop(paste("Molecular formula column ", mf_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(dbe_cname)){
+    if(!(dbe_cname %in% names(e_meta))) stop(paste("Double-bond equivalent column ", dbe_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(dbeo_cname)){
+    if(!(dbeo_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (minus Oxygen) column ", dbeo_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(dbeai_cname)){
+    if(!(dbeai_cname %in% names(e_meta))) stop(paste("Double-bond equivalent (aromaticity index) column ", dbeai_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(elcomp_cname)){
+    if(!(elcomp_cname %in% names(e_meta))) stop(paste("Elemental composition column ", elcomp_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  }
+  if(!is.null(extraction_cname)){
+    if(!(extraction_cname %in% names(f_data))) stop(paste("Extraction Method column ", extraction_cname, " not found in f_data. See details of as.peakData for specifying column names.", sep = "") )
+  }
   
   
   # check that the Sample column name is in f_data column names #
@@ -234,6 +237,24 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
       e_meta = e_meta[-which(dplyr::pull(e_meta, edata_cname) %in% ids_rmv), ]
       e_data = e_data[-which(dplyr::pull(e_data, edata_cname) %in% ids_rmv), ]
     }
+  }
+  
+  # if mf_cname is NULL and any of o_cname, n_cname, s_cname or p_cname are NULL, create columns of zeroes for them #
+  if (is.null(mf_cname) & is.null(o_cname)) {
+    o_cname <- tail(make.unique(c(colnames(e_meta), "O")), 1) #unique column name
+    e_meta[, o_cname] <- 0
+  }
+  if (is.null(mf_cname) & is.null(n_cname)) {
+    n_cname <- tail(make.unique(c(colnames(e_meta), "N")), 1) #unique column name
+    e_meta[,n_cname] <- 0
+  }
+  if (is.null(mf_cname) & is.null(s_cname)) {
+    s_cname <- tail(make.unique(c(colnames(e_meta), "S")), 1) #unique column name
+    e_meta[, s_cname] <- 0
+  }
+  if (is.null(mf_cname) & is.null(p_cname)) {
+    p_cname <- tail(make.unique(c(colnames(e_meta), "P")), 1) #unique column name
+    e_meta[, p_cname] <- 0
   }
   
   # store results #
