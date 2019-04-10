@@ -61,6 +61,7 @@ print.compoundData <- function(compObj) {
   invisible(compObj)
 }
 
+#' @export
 print.reactionData <- function(rxnObj) {
   if (!inherits(rxnObj, "reactionData")) stop("Not a 'reactionData' object")
   if (is.null(rxnObj) | all(is.na(rxnObj))) {
@@ -86,7 +87,7 @@ print.moduleData <- function(moduleObj) {
     invisible(moduleObj)
   }
   res <- c("moduleData object", 
-           sprintf("# Reactions: %d", nrow(moduleObj$e_data)),
+           sprintf("# Modules: %d", nrow(moduleObj$e_data)),
            sprintf("# Samples: %d", nrow(moduleObj$f_data)),
            sprintf("Database: %s", attr(moduleObj, "DB")))
   
