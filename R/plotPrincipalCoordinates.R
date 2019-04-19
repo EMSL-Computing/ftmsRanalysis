@@ -20,7 +20,7 @@
 plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, ftmsObj=NA, title=NA, 
                                      xlabel=sprintf("Principal Coordinate %d", x), 
                                      ylabel=sprintf("Principal Coordinate %d", y),
-                                     includeR2OnAxes=TRUE) {
+                                     includeR2OnAxes=TRUE, size = 8) {
   
   # test inputs
   if (!is.numeric(pcoaMat) | !inherits(pcoaMat, "matrix")) stop("pcoaMat must be a numeric matrix")
@@ -46,8 +46,9 @@ plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, ftmsObj=NA, title=NA,
                 y=as.formula(sprintf("~%s", cnames[y])), 
                 type="scatter", 
                 mode="markers", hoverinfo="text", 
-                text=~Sample), 
-             parms)
+                text=~Sample,
+                marker = list(size=size)), 
+                parms)
   
   p <- do.call(plotly::plot_ly, parms)
  
