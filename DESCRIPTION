@@ -14,17 +14,18 @@ LazyData: true
 URL: https://github.com/EMSL-Computing/ftmsRanalysis
 BugReports: https://github.com/EMSL-Computing/ftmsRanalysis/issues
 Imports:
-    igraph,
-    scales,
-    visNetwork,
+    ape,
     dplyr (>= 0.7.0),
-    RColorBrewer,
+    igraph,
     plotly (>= 4.8.0),
-    tidyr,
-    tibble,
+    RColorBrewer,
     rlang (>= 0.1.4),
+    scales,
+    tibble,
+    tidyr,
     reshape2,
-    vegan
+    vegan,
+    visNetwork
 Suggests:
     MetaCycData,
     knitr,
