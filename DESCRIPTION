@@ -23,7 +23,8 @@ Imports:
     tidyr,
     tibble,
     rlang (>= 0.1.4),
-    reshape2
+    reshape2,
+    vegan
 Suggests:
     MetaCycData,
     knitr,
