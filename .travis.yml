@@ -2,9 +2,12 @@ language: r
 sudo: false
 cache: packages
 
+env:
+  _R_CHECK_FORCE_SUGGESTS_=false
+  R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
+
 r:
   - release
-
 
 before_install:
   - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
