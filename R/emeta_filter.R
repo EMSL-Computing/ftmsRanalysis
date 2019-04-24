@@ -23,7 +23,7 @@
 #' # filter to keep peaks with molecular formula of C12H14O12
 #' filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12")
 #' # filter to keep peaks with molecular formula of C12H14O12 and keep NA MolForm peaks
-#' filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12", na.rm = F)
+#' filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12", na.rm = FALSE)
 
 #' @export
 
