@@ -11,7 +11,7 @@
 #' @seealso \link{vegdist}, \link{pcoa}
 #'
 #' @examples
-#' coords <- getPrincipalCoordinates(exampleProcessedPeakData, dist_metric="jaccard", n_dims=7))
+#' coords <- getPrincipalCoordinates(exampleProcessedPeakData, dist_metric="jaccard", n_dims=7)
 getPrincipalCoordinates <- function(ftmsObj, dist_metric="bray", n_dims=5) {
   
   # test inputs
