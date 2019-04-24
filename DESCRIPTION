@@ -29,6 +29,7 @@ Suggests:
     knitr,
     rmarkdown,
     datadr,
-    trelliscope
+    trelliscope,
+    testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
