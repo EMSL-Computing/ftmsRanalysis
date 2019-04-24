@@ -3,5 +3,9 @@ sudo: false
 cache: packages
 
 r:
- - oldrel
- - release
+  - release
+
+
+before_install:
+  - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
+  - Rscript -e 'deps <- remotes::dev_package_deps(dependencies = NA);remotes::install_deps(dependencies = TRUE);remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"));if (!all(deps$package %in% installed.packages())) { message("missing: ", paste(setdiff(deps$package, installed.packages()), collapse=", ")); q(status = 1, save = "no")}'
