@@ -7,7 +7,7 @@
 plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, ftmsObj = NA,
   title = NA, xlabel = sprintf("Principal Coordinate \%d", x),
   ylabel = sprintf("Principal Coordinate \%d", y),
-  includeR2OnAxes = TRUE)
+  includeR2OnAxes = TRUE, size = 8)
 }
 \arguments{
 \item{pcoaMat}{numeric matrix, the output of \code{\link{getPrincipalCoordinates}}}

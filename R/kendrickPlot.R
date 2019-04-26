@@ -64,6 +64,13 @@ kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
   
+  # If too much data then do a heatmap instead of points
+  if (prod(nrow(ftmsObj$e_data), ncol(ftmsObj$e_data)-1) > 10^6) {
+    message("Too much data in e_data to make a scatter plot, producing a heatmap instead")
+    return(heatmap(ftmsObj, xCName=km_col, yCName=kd_col, xBreaks=100, yBreaks=100, 
+                          colorPal=colorPal, xlabel=xlabel, ylabel=ylabel))
+  }
+  
   # Van Krevelen categories
   if (!is.na(vkBoundarySet) & is.na(colorCName)) {
     ftmsObj <- assign_class(ftmsObj, boundary_set = vkBoundarySet)
@@ -73,6 +80,15 @@ kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
 
   xrange <- nice_axis_limits(ftmsObj$e_meta[, km_col])
   yrange <- nice_axis_limits(ftmsObj$e_meta[, kd_col])
+  
+  # if ftmsObj is a comparison summary object, remove all NA rows from e_data/e_meta
+  if (inherits(ftmsObj, "comparisonSummary")) {
+    ind <- !is.na(dplyr::pull(ftmsObj$e_data, colorCName))
+    ftmsObj$e_data <- ftmsObj$e_data[ind, ]
+    masses <- dplyr::pull(ftmsObj$e_data, getEDataColName(ftmsObj))
+    ind <- dplyr::pull(ftmsObj$e_meta, getEDataColName(ftmsObj)) %in% masses
+    ftmsObj$e_meta <- ftmsObj$e_meta[ind, ]
+  }
   
   # Show Mass and Molecular Formula
   hovertext <- paste("Molecular Formula: ", ftmsObj$e_meta[, getMFColName(ftmsObj)],"<br>", getEDataColName(ftmsObj),": ", ftmsObj$e_meta[,getEDataColName(ftmsObj)], sep = "")

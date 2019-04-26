@@ -231,10 +231,12 @@ getFactorColorPalette <- function(level_names) {
   if (length(level_names) > 12) 
     stop("too many levels to infer a color scheme, please provide a colorPal parameter")
   else if (length(level_names) > 9)
-    pal_name <- "Set3"
-  else 
-    pal_name <- "Set1"
-  pal_colors <- RColorBrewer::brewer.pal(length(level_names), pal_name)
+    pal_colors <- RColorBrewer::brewer.pal(length(level_names), "Set3")
+  else if (length(level_names) == 3) # if 3 levels, use a special color-blind optimized set of colors
+    pal_colors <- c("#a16db8", "#7fa453", "#cb674a")
+  else
+    pal_colors <- RColorBrewer::brewer.pal(length(level_names), "Set1")
+    
   colorPal<- scales::col_factor(pal_colors, levels=level_names)   
   return(colorPal)
 }

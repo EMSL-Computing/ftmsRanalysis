@@ -86,3 +86,4 @@ peakCompSummary <- summarizeGroupComparisons(peakGroupComp[[1]]$value, summary_f
                                              ))
 kendrickPlot(peakCompSummary, title="Test18", colorPal=NA, colorCName="uniqueness_gtest", 
                              xlabel="O:C Ratio", ylabel="H:C Ratio") 
+
