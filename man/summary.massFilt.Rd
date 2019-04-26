@@ -4,15 +4,17 @@
 \alias{summary.massFilt}
 \title{Summary method for massFilt object}
 \usage{
-\method{summary}{massFilt}(filter_object, min_mass = NULL,
-  max_mass = NULL)
+\method{summary}{massFilt}(object, min_mass = NULL, max_mass = NULL,
+  ...)
 }
 \arguments{
-\item{filter_object}{an object of class 'massFilt' created by running \code{\link{mass_filter}}}
+\item{object}{an object of class 'massFilt' created by running \code{\link{mass_filter}}}
 
 \item{min_mass}{an integer value specifying the minimum mass a peak must have to be retained in the dataset (inclusive). If only \code{max_mass} is provided, then this values is assumed to be the minimum observed mass value.}
 
 \item{max_mass}{an integer value specifying the maximum mass a peak can have to be retained in the dataset (inclusive). If only \code{min_mass} is provided, then this value is assumed to be the maximum observed mass value.}
+
+\item{...}{included for compliance with generic method}
 }
 \value{
 If \code{min_mass} and/or \code{max_mass} is provided, a summary of the effect of implementing a filter with the specified thresholds. Otherwise, a five-number summary and the mean value of the mass values observed across all samples are given.

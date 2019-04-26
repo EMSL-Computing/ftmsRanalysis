@@ -14,10 +14,10 @@ a ddo where each division is a subset of \code{ftmsObj} corresponding
         to a single sample
 }
 \description{
-Construct a \code{\link{ddo}} from an \code{ftmsData} object by dividing
+Construct a \code{\link[datadr:ddo]{ddo}} from an \code{ftmsData} object by dividing
 by sample. The resulting object may be used with Trelliscope to make
 plots for each sample.
 }
 \seealso{
-\code{\link{ddo}}
+\code{\link[datadr:ddo]{ddo}}
 }

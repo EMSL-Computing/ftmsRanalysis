@@ -4,11 +4,11 @@
 \alias{plot.peakData}
 \title{Plot method for peakData objects}
 \usage{
-\method{plot}{peakData}(ftmsObj, title = NA, xlabel = NA,
-  ylabel = NA, colorBy = "groups")
+\method{plot}{peakData}(x, title = NA, xlabel = NA, ylabel = NA,
+  colorBy = "groups", ...)
 }
 \arguments{
-\item{ftmsObj}{peakData object}
+\item{x}{peakData object}
 
 \item{title}{optional title for the plot}
 
@@ -17,6 +17,8 @@
 \item{ylabel}{optional label for Y axis, if not provided a label will be constructed based on data scale (e.g. "Abundance" or "Number Observed")}
 
 \item{colorBy}{"groups" to color by groups, "molform" for whether or not the peak has a molecular formula (presence/absence only), or NA to make all bars the same color}
+
+\item{...}{included for compliance with generic method}
 }
 \value{
 a \code{plotly} graph object

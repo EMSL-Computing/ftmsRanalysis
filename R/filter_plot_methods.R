@@ -1,13 +1,14 @@
 #' Default plot method for emetaFilt
 #'
-#' @param filter_obj object of class \code{\link{emetaFilt}}
+#' @param x object of class \code{\link{emeta_filter}}
 #' @param min_val a numeric value specifying the minimum value (inclusive) that a peak should have for the specified 'e_meta' column
 #' @param max_val a numeric value specifying the maximum value (inclusive) that a peak should have for the specified 'e_meta' column
 #' @param cats a vector of character values specifying the level(s) of the specified 'e_meta' column which should be retained
 #' @param na.rm logical value specifying if peaks with NA values for the specified 'e_meta' column should be removed. Default value is TRUE
 #' @param title plot title
-#' @param xlabel x-axis label, default is the column of emeta used to construct \code{filter_obj}
+#' @param xlabel x-axis label, default is the column of emeta used to construct \code{x}
 #' @param ylabel y-axis label
+#' @param ... other arguments
 #' @return \code{plotly} plot object
 #' 
 #' @rdname plot.emetaFilt
@@ -32,16 +33,16 @@
 #' 
 #' # Peaks matching "C10" retained
 #' plot(filter_object2, cats=grep("C10", filter_object2$emeta_value, value = TRUE))
-plot.emetaFilt <- function(filter_obj, min_val = NA, max_val = NA, cats = NA, na.rm = TRUE, 
-                           title=NA, xlabel=attr(filter_obj, "cname"), ylabel="Count") {
-  if (attr(filter_obj, "type") == "quantitative") {
-    ftmsRanalysis:::.filterNumericRangePlot(filter_obj, "emeta_value", min_val=min_val, max_val=max_val, title=title, 
+plot.emetaFilt <- function(x, min_val = NA, max_val = NA, cats = NA, na.rm = TRUE, 
+                           title=NA, xlabel=attr(x, "cname"), ylabel="Count", ...) {
+  if (attr(x, "type") == "quantitative") {
+    ftmsRanalysis:::.filterNumericRangePlot(x, "emeta_value", min_val=min_val, max_val=max_val, title=title, 
                                             xlabel=xlabel, ylabel=ylabel)
-  } else if (attr(filter_obj, "type") == "categorical") {
-    .plotCategoricalEmetaFilt(filter_obj, cats = cats, na.rm = na.rm, title=title, 
+  } else if (attr(x, "type") == "categorical") {
+    .plotCategoricalEmetaFilt(x, cats = cats, na.rm = na.rm, title=title, 
                               xlabel=xlabel, ylabel=ylabel)
   } else {
-    stop(sprintf("Unknown emetaFilt type: '%s'", attr(filter_obj, "type")))
+    stop(sprintf("Unknown emetaFilt type: '%s'", attr(x, "type")))
   }
   
 }
@@ -91,11 +92,12 @@ plot.emetaFilt <- function(filter_obj, min_val = NA, max_val = NA, cats = NA, na
 
 #' Plot formula filter 
 #'
-#' @param filter_obj object of type 'formulaFilt', the output of \code{\link{formula_filter}} 
+#' @param x object of type 'formulaFilt', the output of \code{\link{formula_filter}} 
 #' @param remove which items to remove ('NoFormula', or 'Formula'). This only affects plot coloring, no filtering is performed during plotting step.
 #' @param title title for plot
 #' @param xlabel x-axis label for plot
 #' @param ylabel y-axis label for plot
+#' @param ... other arguments
 #'
 #' @return plotly object
 #' 
@@ -109,9 +111,9 @@ plot.emetaFilt <- function(filter_obj, min_val = NA, max_val = NA, cats = NA, na
 #' @examples
 #' filter_obj <- formula_filter(examplePeakData)
 #' plot(filter_obj, remove='NoFormula')
-plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabel="Count") {
+plot.formulaFilt <- function(x, remove = NA, title=NA, xlabel="", ylabel="Count", ...) {
   
-  counts <- table(filter_obj$Formula_Assigned)
+  counts <- table(x$Formula_Assigned)
   
   plot_data <- data.frame(x=names(counts), count=as.vector(counts), stringsAsFactors = FALSE)
   plot_data$x[plot_data$x == "FALSE"] <- "NoFormula"
@@ -151,12 +153,13 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
 
 #' Plot mass filter object
 #'
-#' @param filter_obj massFilt object, created by \code{\link{mass_filter}} function
+#' @param x massFilt object, created by \code{\link{mass_filter}} function
 #' @param min_mass (optional) minimum mass, for highlighting graph
 #' @param max_mass (optional) maximum mass, for highlighting graph
 #' @param title title
 #' @param xlabel x axis label
 #' @param ylabel y axis label
+#' @param ... other arguments
 #'
 #' @return plotly object
 #' 
@@ -170,8 +173,8 @@ plot.formulaFilt <- function(filter_obj, remove = NA, title=NA, xlabel="", ylabe
 #' @examples
 #' filter_obj <- mass_filter(examplePeakData)
 #' plot(filter_obj, min_mass = 200, max_mass = 800)
-plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count") {
-  ftmsRanalysis:::.filterNumericRangePlot(filter_obj, "Mass", min_mass, max_mass, title, xlabel, ylabel)
+plot.massFilt <- function(x, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count", ...) {
+  ftmsRanalysis:::.filterNumericRangePlot(x, "Mass", min_mass, max_mass, title, xlabel, ylabel)
 }
 
 
@@ -252,11 +255,12 @@ plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel
 
 #' Plot molecule filter data
 #'
-#' @param filter_obj moleculeFilt object, created by \code{\link{molecule_filter}} function
+#' @param x moleculeFilt object, created by \code{\link{molecule_filter}} function
 #' @param min_num minimum number of observations for filtering (only affects graph coloring/labeling, no data filtering is performed in this step)
 #' @param title title for plot
 #' @param xlabel x-axis label for plot
 #' @param ylabel y-axis label for plot
+#' @param ... other arguments
 #'
 #' @return plotly object
 #' 
@@ -270,9 +274,9 @@ plot.massFilt <- function(filter_obj, min_mass=NA, max_mass=NA, title=NA, xlabel
 #' @examples
 #' filter_obj <- molecule_filter(examplePeakData)
 #' plot(filter_obj, min_num=2)
-plot.moleculeFilt <- function(filter_obj, min_num=NA, title=NA, xlabel="Minimum Number of Samples for which a Peak is Observed", ylabel="Number of Peaks") {
+plot.moleculeFilt <- function(x, min_num=NA, title=NA, xlabel="Minimum Number of Samples for which a Peak is Observed", ylabel="Number of Peaks", ...) {
   
-  counts <- table(filter_obj$Num_Observations)
+  counts <- table(x$Num_Observations)
   
   # how many molecules have x or more observations:
   values <- rev(cumsum(rev(counts)))

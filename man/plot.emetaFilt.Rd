@@ -4,12 +4,12 @@
 \alias{plot.emetaFilt}
 \title{Default plot method for emetaFilt}
 \usage{
-\method{plot}{emetaFilt}(filter_obj, min_val = NA, max_val = NA,
-  cats = NA, na.rm = TRUE, title = NA, xlabel = attr(filter_obj,
-  "cname"), ylabel = "Count")
+\method{plot}{emetaFilt}(x, min_val = NA, max_val = NA, cats = NA,
+  na.rm = TRUE, title = NA, xlabel = attr(x, "cname"),
+  ylabel = "Count", ...)
 }
 \arguments{
-\item{filter_obj}{object of class \code{\link{emetaFilt}}}
+\item{x}{object of class \code{\link{emeta_filter}}}
 
 \item{min_val}{a numeric value specifying the minimum value (inclusive) that a peak should have for the specified 'e_meta' column}
 
@@ -21,9 +21,11 @@
 
 \item{title}{plot title}
 
-\item{xlabel}{x-axis label, default is the column of emeta used to construct \code{filter_obj}}
+\item{xlabel}{x-axis label, default is the column of emeta used to construct \code{x}}
 
 \item{ylabel}{y-axis label}
+
+\item{...}{other arguments}
 }
 \value{
 \code{plotly} plot object

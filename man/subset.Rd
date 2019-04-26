@@ -7,26 +7,28 @@
 \alias{subset.moduleData}
 \title{Subset an ftmsData object according to sample or group}
 \usage{
-\method{subset}{peakData}(ftmsObj, samples = NA, groups = NA,
-  check_rows = FALSE)
+\method{subset}{peakData}(x, samples = NA, groups = NA,
+  check_rows = FALSE, ...)
 
-\method{subset}{compoundData}(ftmsObj, samples = NA, groups = NA,
-  check_rows = FALSE)
+\method{subset}{compoundData}(x, samples = NA, groups = NA,
+  check_rows = FALSE, ...)
 
-\method{subset}{reactionData}(ftmsObj, samples = NA, groups = NA,
-  check_rows = FALSE)
+\method{subset}{reactionData}(x, samples = NA, groups = NA,
+  check_rows = FALSE, ...)
 
-\method{subset}{moduleData}(ftmsObj, samples = NA, groups = NA,
-  check_rows = FALSE)
+\method{subset}{moduleData}(x, samples = NA, groups = NA,
+  check_rows = FALSE, ...)
 }
 \arguments{
-\item{ftmsObj}{ftmsData object}
+\item{x}{ftmsData object}
 
 \item{samples}{sample ID or vector of sample IDs}
 
 \item{groups}{group name or vector of group names}
 
 \item{check_rows}{logical indicating whether to remove peaks that have no observations after subsetting}
+
+\item{...}{other arguments}
 }
 \value{
 ftmsData object that contains only the subset of the original

@@ -4,12 +4,12 @@
 \alias{plot.moleculeFilt}
 \title{Plot molecule filter data}
 \usage{
-\method{plot}{moleculeFilt}(filter_obj, min_num = NA, title = NA,
+\method{plot}{moleculeFilt}(x, min_num = NA, title = NA,
   xlabel = "Minimum Number of Samples for which a Peak is Observed",
-  ylabel = "Number of Peaks")
+  ylabel = "Number of Peaks", ...)
 }
 \arguments{
-\item{filter_obj}{moleculeFilt object, created by \code{\link{molecule_filter}} function}
+\item{x}{moleculeFilt object, created by \code{\link{molecule_filter}} function}
 
 \item{min_num}{minimum number of observations for filtering (only affects graph coloring/labeling, no data filtering is performed in this step)}
 
@@ -18,6 +18,8 @@
 \item{xlabel}{x-axis label for plot}
 
 \item{ylabel}{y-axis label for plot}
+
+\item{...}{other arguments}
 }
 \value{
 plotly object

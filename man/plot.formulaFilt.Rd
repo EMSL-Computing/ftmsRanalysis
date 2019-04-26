@@ -4,11 +4,11 @@
 \alias{plot.formulaFilt}
 \title{Plot formula filter}
 \usage{
-\method{plot}{formulaFilt}(filter_obj, remove = NA, title = NA,
-  xlabel = "", ylabel = "Count")
+\method{plot}{formulaFilt}(x, remove = NA, title = NA, xlabel = "",
+  ylabel = "Count", ...)
 }
 \arguments{
-\item{filter_obj}{object of type 'formulaFilt', the output of \code{\link{formula_filter}}}
+\item{x}{object of type 'formulaFilt', the output of \code{\link{formula_filter}}}
 
 \item{remove}{which items to remove ('NoFormula', or 'Formula'). This only affects plot coloring, no filtering is performed during plotting step.}
 
@@ -17,6 +17,8 @@
 \item{xlabel}{x-axis label for plot}
 
 \item{ylabel}{y-axis label for plot}
+
+\item{...}{other arguments}
 }
 \value{
 plotly object

@@ -25,13 +25,19 @@ Imports:
     tidyr,
     reshape2,
     vegan,
-    visNetwork
+    visNetwork,
+    data.table,
+    ggplot2, 
+    lazyeval, 
+    stringr
 Suggests:
     MetaCycData,
     knitr,
     rmarkdown,
     datadr,
     trelliscope,
+    foreach,
+    doParallel,
     testthat
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1

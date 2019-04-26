@@ -1,3 +1,10 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 .covrignore
+.travis.yml
+_pkgdown.yml
+.gitignore
+index.Rmd
+pkgdown-template
+docs
+data-raw

@@ -3,14 +3,14 @@
 #' Combine multiple distributed data objects (ddo) into a single ddo
 #' for further analysis or visualizations. The inputs to this function are
 #' the ddo objects created by \code{\link{divideByGroup}} or 
-#' \code{\link{divideByGroupComparison}}. The output is a new ddo
+#' \code{\link{divideByGroupComparisons}}. The output is a new ddo
 #' with all the data of the supplied inputs, in a form that can be 
 #' summarized with \code{\link{summarizeGroups}} or \code{\link{summarizeGroupComparisons}}
 #' respectively, or visualized with \code{trelliscope}.
 #' 
 #' @param ... two or more ddo objects that are the output of \code{\link{summarizeGroups}} or \code{\link{summarizeGroupComparisons}}
 #' 
-#' @seealso \link{ddo}
+#' @seealso \link[datadr:ddo]{ddo}
 #' @author Amanda White
 #' 
 #' @export

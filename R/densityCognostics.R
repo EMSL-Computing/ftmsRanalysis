@@ -4,7 +4,7 @@
 #' to be used with density plots in Trelliscope. The \code{densityCognostics}
 #' function accepts the name of the variable used for the density plot and
 #' returns a function that may be applied to each \code{ftmsData} object, as is
-#' appropriate for use with the \code{\link{makeDisplay}} function. See 
+#' appropriate for use with the \code{\link[trelliscope:makeDisplay]{makeDisplay}} function. See 
 #' Examples section for use.
 #'
 #' @param variable column name of column in \code{e_meta} which should be plotted. Must be one of the column names in \code{ftmsObj$e_meta} that contains numeric values.
