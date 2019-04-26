@@ -19,6 +19,7 @@
 #' plot(edata_transform(examplePeakData, "log2"))
 #' plot(edata_transform(exampleProcessedPeakData, "pres"))
 plot.peakData <- function(x, title=NA, xlabel=NA, ylabel=NA, colorBy="groups", ...) {
+
   # Tests
   if (!inherits(x, "peakData")) stop("ftmsObj must be of type 'peakData'")
   if (inherits(x, "groupSummary") | inherits(x, "comparisonSummary")) {

@@ -1,6 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-.covrignore
 .travis.yml
 _pkgdown.yml
 .gitignore

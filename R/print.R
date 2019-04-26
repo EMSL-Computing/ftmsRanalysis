@@ -89,7 +89,7 @@ print.moduleData <- function(x, ...) {
            sprintf("# Reactions: %d", nrow(x$e_data)),
            sprintf("# Samples: %d", nrow(x$f_data)),
            sprintf("Database: %s", attr(x, "DB")))
-
+  
   res <- c(res, .common_print_data(x))
   
   cat(res, sep="\n")
