@@ -15,8 +15,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
 #' plotPrincipalCoordinates(pcoaMat, x=2, y=3, ftmsObj=exampleProcessedPeakData)
+#' }
 plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, ftmsObj=NA, title=NA, 
                                      xlabel=sprintf("Principal Coordinate %d", x), 
                                      ylabel=sprintf("Principal Coordinate %d", y),

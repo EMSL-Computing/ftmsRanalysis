@@ -27,8 +27,10 @@ plotly object
 Plot formula filter
 }
 \examples{
+\dontrun{
 filter_obj <- formula_filter(examplePeakData)
 plot(filter_obj, remove='NoFormula')
+}
 }
 \author{
 Amanda White

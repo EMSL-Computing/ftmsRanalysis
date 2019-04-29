@@ -43,5 +43,7 @@ plotly object
 Title
 }
 \examples{
+\dontrun{
 scatterPlot(exampleProcessedPeakData, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for exampleProcessedPeakData")
+}
 }

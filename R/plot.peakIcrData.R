@@ -16,8 +16,10 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' plot(edata_transform(examplePeakData, "log2"))
 #' plot(edata_transform(exampleProcessedPeakData, "pres"))
+#' }
 plot.peakData <- function(x, title=NA, xlabel=NA, ylabel=NA, colorBy="groups", ...) {
 
   # Tests

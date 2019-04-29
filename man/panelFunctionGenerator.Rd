@@ -21,6 +21,7 @@ the group name). In that case, see example below for how
 to construct an \code{expr} statement to obtain the necessary information.
 }
 \examples{
+\dontrun{
 library(ftmsRanalysis)
 library(trelliscope)
 
@@ -39,6 +40,7 @@ makeDisplay(groupSummaryDdo,
             name = "Trelliscope test G_1 with VK plot per group",
             group = "Group")
 view()
+}
 }
 \author{
 Amanda White

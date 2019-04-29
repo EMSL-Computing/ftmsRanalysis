@@ -13,6 +13,7 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
@@ -31,6 +32,7 @@
 #'             name = "Trelliscope test G_1 with VK plot per group",
 #'             group = "Group")
 #' view()
+#' }
 panelFunctionGenerator <- function(plot_fn_name, ...) {
   if (missing(plot_fn_name)) stop("plot_fn_name must be provided")
   if (!is.character(plot_fn_name)) stop("plot_fn_name must be character")

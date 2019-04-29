@@ -28,8 +28,10 @@ plotly object
 Plot molecule filter data
 }
 \examples{
+\dontrun{
 filter_obj <- molecule_filter(examplePeakData)
 plot(filter_obj, min_num=2)
+}
 }
 \author{
 Amanda White

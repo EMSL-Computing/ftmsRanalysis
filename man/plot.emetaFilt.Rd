@@ -34,6 +34,7 @@
 Default plot method for emetaFilt
 }
 \examples{
+\dontrun{
 # Emeta filter based on the "OtoC_ratio" column (numeric variable)
 filter_object1 = emeta_filter(exampleProcessedPeakData, cname = "OtoC_ratio")
 
@@ -51,4 +52,5 @@ plot(filter_object2)
 
 # Peaks matching "C10" retained
 plot(filter_object2, cats=grep("C10", filter_object2$emeta_value, value = TRUE))
+}
 }

@@ -31,8 +31,7 @@ filter_object2 = emeta_filter(exampleProcessedPeakData, cname = "MolForm")
 # filter to keep peaks with molecular formula of C12H14O12
 filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12")
 # filter to keep peaks with molecular formula of C12H14O12 and keep NA MolForm peaks
-filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, 
-                          cats = "C12H14O12", na.rm = FALSE)
+filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12", na.rm = FALSE)
 }
 \author{
 Lisa Bramer

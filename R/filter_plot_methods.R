@@ -16,6 +16,7 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' # Emeta filter based on the "OtoC_ratio" column (numeric variable)
 #' filter_object1 = emeta_filter(exampleProcessedPeakData, cname = "OtoC_ratio")
 #' 
@@ -33,6 +34,7 @@
 #' 
 #' # Peaks matching "C10" retained
 #' plot(filter_object2, cats=grep("C10", filter_object2$emeta_value, value = TRUE))
+#' }
 plot.emetaFilt <- function(x, min_val = NA, max_val = NA, cats = NA, na.rm = TRUE, 
                            title=NA, xlabel=attr(x, "cname"), ylabel="Count", ...) {
   if (attr(x, "type") == "quantitative") {
@@ -109,8 +111,10 @@ plot.emetaFilt <- function(x, min_val = NA, max_val = NA, cats = NA, na.rm = TRU
 #' @author Amanda White
 #'
 #' @examples
+#' \dontrun{
 #' filter_obj <- formula_filter(examplePeakData)
 #' plot(filter_obj, remove='NoFormula')
+#' }
 plot.formulaFilt <- function(x, remove = NA, title=NA, xlabel="", ylabel="Count", ...) {
   
   counts <- table(x$Formula_Assigned)
@@ -171,8 +175,10 @@ plot.formulaFilt <- function(x, remove = NA, title=NA, xlabel="", ylabel="Count"
 #' @author Amanda White
 #'
 #' @examples
+#' \dontrun{
 #' filter_obj <- mass_filter(examplePeakData)
 #' plot(filter_obj, min_mass = 200, max_mass = 800)
+#' }
 plot.massFilt <- function(x, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", ylabel="Count", ...) {
   ftmsRanalysis:::.filterNumericRangePlot(x, "Mass", min_mass, max_mass, title, xlabel, ylabel)
 }
@@ -272,8 +278,10 @@ plot.massFilt <- function(x, min_mass=NA, max_mass=NA, title=NA, xlabel="Mass", 
 #' @author Amanda White
 #'
 #' @examples
+#' \dontrun{
 #' filter_obj <- molecule_filter(examplePeakData)
 #' plot(filter_obj, min_num=2)
+#' }
 plot.moleculeFilt <- function(x, min_num=NA, title=NA, xlabel="Minimum Number of Samples for which a Peak is Observed", ylabel="Number of Peaks", ...) {
   
   counts <- table(x$Num_Observations)

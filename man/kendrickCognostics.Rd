@@ -50,7 +50,7 @@ groupDdo <- divideByGroup(exampleProcessedPeakData)
 groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 
 panelFn2 <- panelFunctionGenerator("kendrickPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_n_present")), 
-                                 legendTitle="Number<br>Present")
+                                   legendTitle="Number<br>Present")
 
 makeDisplay(grpCompSummaryDdo, 
          panelFn=panelFn2,

@@ -33,6 +33,8 @@ a \code{\link{plotly}} plot object
 Constructs a scatter plot of any combination of principal coordinates calculated by the \code{\link{getPrincipalCoordinates}} function. If an associated \code{ftmsData} object is provided with groups defined, the resulting plot will be colored by group membership.
 }
 \examples{
+\dontrun{
 pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
 plotPrincipalCoordinates(pcoaMat, x=2, y=3, ftmsObj=exampleProcessedPeakData)
+}
 }

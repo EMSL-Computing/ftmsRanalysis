@@ -29,8 +29,10 @@ plotly object
 Plot mass filter object
 }
 \examples{
+\dontrun{
 filter_obj <- mass_filter(examplePeakData)
 plot(filter_obj, min_mass = 200, max_mass = 800)
+}
 }
 \author{
 Amanda White

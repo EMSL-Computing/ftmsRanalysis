@@ -30,6 +30,8 @@ or boxplot of values of observed peaks per sample (all others). Samples will be
 colored by group, if grouping information is present in \code{ftmsObj}.
 }
 \examples{
+\dontrun{
 plot(edata_transform(examplePeakData, "log2"))
 plot(edata_transform(exampleProcessedPeakData, "pres"))
+}
 }
