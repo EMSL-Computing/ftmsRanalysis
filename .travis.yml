@@ -1,6 +1,7 @@
 language: r
 sudo: false
 cache: packages
+pandoc_version: 1.19.2.1
 
 env:
   _R_CHECK_FORCE_SUGGESTS_=false
@@ -14,3 +15,12 @@ before_install:
   - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
   - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
   - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+
+after_success:
+  - Rscript -e 'covr::codecov()'
+
+before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
+deploy:
+  provider: script
+  script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
+  skip_cleanup: true
