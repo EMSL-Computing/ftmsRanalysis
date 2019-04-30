@@ -6,7 +6,8 @@ pandoc_version: 1.19.2.1
 env:
   _R_CHECK_FORCE_SUGGESTS_=false
   R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
-  R_CHECK_ARGS="--no-examples"
+  r_check_args="--no-examples --no-manual"
+  r_build_args="--no-manual"
 
 r:
   - release
