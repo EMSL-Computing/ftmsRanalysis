@@ -7,8 +7,8 @@ env:
   global:
     _R_CHECK_FORCE_SUGGESTS_=false
     R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
-    r_check_args="--no-examples --no-manual"
-    r_build_args="--no-manual"
+    R_CHECK_ARGS="--no-examples --no-manual"
+    R_BUILD_ARGS="--no-manual"
 
 r:
   - release
