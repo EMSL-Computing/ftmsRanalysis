@@ -19,10 +19,13 @@ before_install:
   - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
 
 after_success:
+  - Rscript -e 'remotes::install_cran("covr")'
   - Rscript -e 'covr::codecov()'
 
-before_deploy: Rscript -e 'remotes::install_cran("pkgdown")'
+before_deploy: 
+  - Rscript -e 'remotes::install_cran("pkgdown")'
+
 deploy:
-  provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
-  skip_cleanup: true
+ provider: script
+ script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
+ skip_cleanup: true
