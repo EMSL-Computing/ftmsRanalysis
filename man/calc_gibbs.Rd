@@ -16,7 +16,7 @@ an object of the same class as \code{ftmsObj} with a column in \code{e_meta} giv
 Calculate Cox Gibbs Free Energy for peaks where empirical formula is available
 }
 \details{
-Cox Gibbs Free Energy  \eqn{= 60.3 - 28.5NOSC}{= 60.3 - 28.5*NOSC}, where NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4$}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4}
+Cox Gibbs Free Energy  \eqn{= 60.3 - 28.5NOSC}{= 60.3 - 28.5*NOSC}, where NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4}
 }
 \references{
 LaRowe and Van Cappellen, 2011, "Degradation of natural organic matter: A thermodynamic analysis". Geochimica et Cosmochimica Acta. 75.

@@ -22,7 +22,7 @@
 #' calc_kendrick \tab calculates Kendrick Mass and Kendrick Defect \cr
 #' \tab \cr
 #' calc_nosc \tab calculates nominal oxidation state of Carbon (NOSC) \cr
-#'  \tab NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4$}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4} \cr
+#'  \tab NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4} \cr
 #'  \tab \cr
 #' calc_element_ratios \tab calculates O:C, H:C, P:C, N:C, and N:P ratios \cr
 #' \cr
