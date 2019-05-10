@@ -12,7 +12,7 @@ devtools::install_github("EMSL-Computing/ftmsRanalysis")
 
 ## Tutorial:
 
-To get started, see the package documentation and function reference located [here](http://EMSL-Computing.github.io/ftmsRanalysis).
+To get started, see the package documentation and function reference located at http://EMSL-Computing.github.io/ftmsRanalysis.
 
 ## Data:
 
