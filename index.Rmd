@@ -1,4 +1,6 @@
 # ftmsRanalysis
+[![Build Status](https://travis-ci.org/amwhite/ftmsRanalysis.svg?branch=master)](https://travis-ci.org/amwhite/ftmsRanalysis)
+[![Coverage Status](https://codecov.io/github/amwhite/ftmsRanalysis/coverage.svg?branch=master)](https://codecov.io/github/amwhite/ftmsRanalysis?branch=master)
 
 The `ftmsRanalysis` package was designed to help with various steps of processing FT-MS data, including:
 
