@@ -10,22 +10,30 @@ env:
     - R_CHECK_ARGS="--no-manual"
     - R_BUILD_ARGS="--no-manual"
 
-r:
-  - release
-
-before_install:
-  - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
-  - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-  - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
-
-after_success:
-  - Rscript -e 'remotes::install_cran("covr")'
-  - Rscript -e 'covr::codecov()'
-
-before_deploy: 
-  - Rscript -e 'remotes::install_cran("pkgdown")'
-
-deploy:
- provider: script
- script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
- skip_cleanup: true
+matrix:
+  include:
+    - r: oldrel
+      before_install:
+        - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
+        - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+        - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+    - r: release
+      before_install:
+        - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
+        - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+        - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+      before_deploy: 
+        - Rscript -e 'remotes::install_cran("pkgdown")'
+      deploy:
+        provider: script
+        script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE)'
+        skip_cleanup: true
+      after_success:
+        - test $TRAVIS_R_VERSION_STRING = 'release' && Rscript -e 'remotes::install_cran("covr");covr::codecov()'
+  allow_failures:
+    - r: devel
+      before_install:
+        - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
+        - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
+        - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+  fast_finish: true
