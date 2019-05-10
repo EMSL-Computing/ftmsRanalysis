@@ -1,4 +1,6 @@
 # fticRanalysis
+[![Build Status](https://travis-ci.org/amwhite/ftmsRanalysis.svg?branch=master)](https://travis-ci.org/amwhite/ftmsRanalysis)
+[![Coverage Status](https://codecov.io/github/amwhite/ftmsRanalysis/coverage.svg?branch=master)](https://codecov.io/github/amwhite/ftmsRanalysis?branch=master)
 
 This R package provides functionality for data formatting, preprocessing, filtering, exploratory data analysis and visualization of fourier transform (FT) mass spectrometry (MS) data. 
 
