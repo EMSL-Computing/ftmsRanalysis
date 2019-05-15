@@ -7,7 +7,7 @@
 plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, ftmsObj = NA,
   title = NA, xlabel = sprintf("Principal Coordinate \%d", x),
   ylabel = sprintf("Principal Coordinate \%d", y),
-  includeR2OnAxes = TRUE)
+  includeR2OnAxes = TRUE, size = 8)
 }
 \arguments{
 \item{pcoaMat}{numeric matrix, the output of \code{\link{getPrincipalCoordinates}}}
@@ -25,6 +25,8 @@ plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, ftmsObj = NA,
 \item{ylabel}{y-axis label}
 
 \item{includeR2OnAxes}{TRUE/FALSE, should the x- and y-axis labels be appended with R^2 values?}
+
+\item{size}{plot marker size (default is 8)}
 }
 \value{
 a \code{\link{plotly}} plot object

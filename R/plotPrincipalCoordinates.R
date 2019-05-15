@@ -10,6 +10,7 @@
 #' @param xlabel x-axis label
 #' @param ylabel y-axis label
 #' @param includeR2OnAxes TRUE/FALSE, should the x- and y-axis labels be appended with R^2 values?
+#' @param size plot marker size (default is 8)
 #'
 #' @return a \code{\link{plotly}} plot object
 #' @export
