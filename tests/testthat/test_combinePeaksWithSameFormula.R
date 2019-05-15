@@ -44,8 +44,8 @@ test_that("test of combinePeaksWithSameFormula function with log2 data", {
   ind_not_dup_new <- !(dplyr::pull(obj2$e_meta, getMFColName(obj2)) %in% dup_mf)
   
   # all values from non-duplicated rows of e_data should be identical between old and new
-  expect_true(identical(ftmsObj$e_data[ind_not_dup_old, ], obj2$e_data[ind_not_dup_new, ]))
-  
+  expect_true(all.equal(ftmsObj$e_data[ind_not_dup_old, ], obj2$e_data[ind_not_dup_new, ], check.attributes=FALSE))
+  expect_true(all(colnames(ftmsObj$e_data[ind_not_dup_old, ]) == colnames(obj2$e_data[ind_not_dup_new, ])))
 })
 
 

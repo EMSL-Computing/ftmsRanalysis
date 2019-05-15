@@ -13,6 +13,7 @@
 #' @export
 #' 
 #' @examples
+#' \dontrun{
 #' library(ftmsRanalysis)
 #' library(trelliscope)
 #' 
@@ -22,8 +23,8 @@
 #' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 #' 
-#' # See expr here:
-#' panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
+#' # See rlang::expr here:
+#' panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=rlang::expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
 #'                                     legendTitle="Proportion<br>Present")
 #' 
 #' makeDisplay(groupSummaryDdo, 
@@ -31,6 +32,7 @@
 #'             name = "Trelliscope test G_1 with VK plot per group",
 #'             group = "Group")
 #' view()
+#' }
 panelFunctionGenerator <- function(plot_fn_name, ...) {
   if (missing(plot_fn_name)) stop("plot_fn_name must be provided")
   if (!is.character(plot_fn_name)) stop("plot_fn_name must be character")

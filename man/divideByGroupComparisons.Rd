@@ -18,7 +18,7 @@ a distributed data object where each division consists of a subset of \code{ftms
 data from just two groups.
 }
 \description{
-Construct a \code{\link{ddo}} where each subset consists of data for
+Construct a \code{\link[datadr:ddo]{ddo}} where each subset consists of data for
 a pair of groups. This is used to facilitate analysis and visualizations
 of group comparisons.
 }

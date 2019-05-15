@@ -16,5 +16,5 @@ character vector of module names
 }
 \description{
 Get the module name(s) for one or more module IDs.
-This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
+This requires the MetaCycData package (\url{http://github.com/EMSL-Computing/MetaCycData}).
 }

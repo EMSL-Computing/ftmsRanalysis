@@ -45,6 +45,10 @@ summarizeGroupComparisons <- function(compData, summary_functions, summary_funct
   
 }
 
+#' @title Group comparison summary functions
+#' @description \code{getGroupComparisonSummaryFunctionNames} returns the names of valid group comparison 
+#' summary functions that may be used with the \code{\link{summarizeGroups}} function.
+#' @export
 getGroupComparisonSummaryFunctionNames <- function() {
   return(c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop"))
 }

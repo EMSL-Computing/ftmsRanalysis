@@ -20,7 +20,7 @@ rows of zMatrix)}
 
 \item{pal}{color palette, can be the name of an RColorBrewer palette 
 (see \code{\link{brewer.pal.info}} for valid names)
-or a palette function such as \code{\link{color_numeric}}}
+or a palette function such as \code{\link{col_numeric}}}
 
 \item{hoverText}{a matrix the same dimensions as \code{zMatrix} 
 that provides text for mouseovers}

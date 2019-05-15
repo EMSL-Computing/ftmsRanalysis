@@ -1,7 +1,7 @@
 #' Get module name
 #' 
 #' Get the module name(s) for one or more module IDs.
-#' This requires the MetaCycData package (\link{http://github.com/EMSL-Computing/MetaCycData}).
+#' This requires the MetaCycData package (\url{http://github.com/EMSL-Computing/MetaCycData}).
 #'
 #' @param module_ids a character vector of module IDs
 #' @param db database to match, currently 'MetaCyc' is the only allowed value

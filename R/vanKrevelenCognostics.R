@@ -7,7 +7,7 @@
 #' and (for \code{comparisonSummary} objects only) the name of the column to use
 #' for identifying which peaks are observed in which group. It 
 #' returns a function that may be applied to each \code{ftmsData} object, as is
-#' appropriate for use with the \code{\link{makeDisplay}} function. See 
+#' appropriate for use with the \code{\link[trelliscope:makeDisplay]{makeDisplay}} function. See 
 #' Examples section for use.
 #'
 #' @param vkBoundarySet Van Krevelen boundary set to use for calculating class proportions

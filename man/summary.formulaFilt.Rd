@@ -4,12 +4,14 @@
 \alias{summary.formulaFilt}
 \title{Summary method for formulaFilt object}
 \usage{
-\method{summary}{formulaFilt}(filter_object, remove = NULL)
+\method{summary}{formulaFilt}(object, remove = NULL, ...)
 }
 \arguments{
-\item{filter_object}{an object of class 'formulaFilt' created by running \code{\link{formula_filter}}}
+\item{object}{an object of class 'formulaFilt' created by running \code{\link{formula_filter}}}
 
 \item{remove}{an character string specifying whether to remove peaks without formulae assigned ('NoFormula') or with formulae assigned ('Formula')}
+
+\item{...}{included for compliance with generic method}
 }
 \value{
 If \code{remove} is provided, a summary of the effect of implementing a filter. Otherwise, a summary of the number of peaks with assigned and unassigned formulae

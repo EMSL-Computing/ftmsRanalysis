@@ -10,59 +10,46 @@
 \usage{
 applyFilt(filter_object, ftmsObj, ...)
 
-\method{applyFilt}{moleculeFilt}(filter_object, ftmsObj, min_num = 2)
+\method{applyFilt}{moleculeFilt}(filter_object, ftmsObj, min_num = 2,
+  ...)
 
 \method{applyFilt}{massFilt}(filter_object, ftmsObj, min_mass = 200,
-  max_mass = 900)
+  max_mass = 900, ...)
 
 \method{applyFilt}{formulaFilt}(filter_object, ftmsObj,
-  remove = "NoFormula")
+  remove = "NoFormula", ...)
 
 \method{applyFilt}{emetaFilt}(filter_object, ftmsObj, min_val = NULL,
-  max_val = NULL, cats = NULL, na.rm = TRUE)
+  max_val = NULL, cats = NULL, na.rm = TRUE, ...)
 }
 \arguments{
 \item{filter_object}{an object of the class 'moleculeFilt' created by  \code{\link{molecule_filter}}}
 
 \item{ftmsObj}{an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}}
 
-\item{...}{further arguments}
+\item{...}{further arguments as described below based on the class of \code{filter_object}}
+
+\item{min_num}{[\code{moleculeFilt} object] an integer value specifying the minimum number of times each biomolecule must be observed across all samples in order to retain the biomolecule. Default value is 2. \cr}
+
+\item{min_mass}{[\code{massFilt} object] a numeric value greater than 0, specifying the minimum mass a peak should have in order to retain the peak. Default value is 200. \cr}
+
+\item{max_mass}{[\code{massFilt} object] a numeric value greater than \code{min_mass}, specifying the maximum mass a peak should have in order to retain the peak. Default value is 900. \cr}
+
+\item{remove}{[\code{formulaFilt} object] a character string specifying which set of peaks to filter. Valid options are "NoFormula" and "Formula", defaults to "NoFormula". \cr}
+
+\item{min_val}{[\code{emetaFilt} object] a numeric value specifying the minimum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr}
+
+\item{max_val}{[\code{emetaFilt} object] a numeric value specifying the maximum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr}
+
+\item{cats}{[\code{emetaFilt} object] a vector of character values specifying the level(s) of the specified 'e_meta' column which should be retained. \cr}
+
+\item{na.rm}{[\code{emetaFilt} object] logical value specifying if peaks with NA values for the specified 'e_meta' column should be removed. Default value is TRUE. \cr}
 }
 \value{
 An object of the class \code{ftmsData} with specified molecules filtered out of the appropriate datasets.
 }
 \description{
 This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{ftmsData}
-}
-\details{
-Various further arguments can be specified depending on the class of the \code{filter_object} being applied.
-For a \code{filter_object} of type 'moleculeFilt', resulting from calling \code{\link{molecule_filter}}:
-\tabular{ll}{
-\code{min_num} \tab an integer value specifying the minimum number of times each biomolecule must be observed across all samples in order to retain the biomolecule. Default value is 2. \cr
-}
-
-For a \code{filter_object} of type 'massFilt', resulting from calling \code{\link{mass_filter}}:
-\tabular{ll}{
-\code{min_mass} \tab a numeric value greater than 0, specifying the minimum mass a peak should have in order to retain the peak. Default value is 200. \cr
-\tab \cr
-\code{max_mass} \tab a numeric value greater than \code{min_mass}, specifying the maximum mass a peak should have in order to retain the peak. Default value is 900. \cr
-}
-
-For a \code{filter_object} of type 'formulaFilt', resulting from calling \code{\link{formula_filter}}:
-\tabular{ll}{
-\code{remove} \tab a character string specifying which set of peaks to filter. Valid options are "NoFormula" and "Formula", defaults to "NoFormula". \cr
-}
-
-For a \code{filter_object} of type 'emetaFilt', resulting from calling \code{\link{emeta_filter}}:
-\tabular{ll}{
-\code{min_val} \tab a numeric value specifying the minimum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
-\tab \cr
-\code{max_val} \tab a numeric value specifying the maximum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
-\tab \cr
-\code{cats} \tab a vector of character values specifying the level(s) of the specified 'e_meta' column which should be retained. \cr
-\tab \cr
-\code{na.rm} \tab logical value specifying if peaks with NA values for the specified 'e_meta' column should be removed. Default value is TRUE. \cr
-}
 }
 \seealso{
 \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}

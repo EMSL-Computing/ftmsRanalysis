@@ -2,7 +2,7 @@
 #' 
 #' Construct elemental count columns based on provided molecular formulae
 #' 
-#' @param ftmsObj an object of class 'ftmsData', typically a result of \code{\link{as.pealData}}. 
+#' @param ftmsObj an object of class 'ftmsData', typically a result of \code{\link{as.peakData}}. 
 #' 
 #' @details Parses molecular formulae for number of observed C, H, O, N, S, and P.
 #' 

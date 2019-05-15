@@ -14,11 +14,11 @@ a ddo where each division is a subset of \code{ftmsObj} corresponding
         to a single group
 }
 \description{
-Construct a \code{\link{ddo}} from an \code{ftmsData} object by dividing
+Construct a \code{\link[datadr:ddo]{ddo}} from an \code{ftmsData} object by dividing
 by group. The resulting object may be used with Trelliscope to make
 plots for each group. The input data must have a \code{group_DF} attribute
 defining the groups.
 }
 \seealso{
-\code{\link{ddo}}
+\code{\link[datadr:ddo]{ddo}}
 }

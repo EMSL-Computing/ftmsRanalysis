@@ -1,6 +1,6 @@
 #' Construct a ddo of group comparisons
 #' 
-#' Construct a \code{\link{ddo}} where each subset consists of data for
+#' Construct a \code{\link[datadr:ddo]{ddo}} where each subset consists of data for
 #' a pair of groups. This is used to facilitate analysis and visualizations
 #' of group comparisons.
 #' 

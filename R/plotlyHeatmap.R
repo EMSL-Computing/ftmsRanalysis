@@ -24,7 +24,7 @@ plotly_build_wrapper <- function(p) {
 #'                rows of zMatrix)
 #' @param pal color palette, can be the name of an RColorBrewer palette 
 #'            (see \code{\link{brewer.pal.info}} for valid names)
-#'            or a palette function such as \code{\link{color_numeric}}
+#'            or a palette function such as \code{\link{col_numeric}}
 #' @param hoverText a matrix the same dimensions as \code{zMatrix} 
 #'                  that provides text for mouseovers 
 #' @param colorbarTitle a title to appear over the color scale bar

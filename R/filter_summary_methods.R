@@ -4,11 +4,12 @@
 #'@rdname summary.moleculeFilt
 #'@name summary.moleculeFilt
 #'
-#'@param filter_object an object of class 'moleculeFilt' created by running \code{\link{molecule_filter}}
+#'@param object an object of class 'moleculeFilt' created by running \code{\link{molecule_filter}}
 #'@param min_num an integer value specifying the minimum number of times each peak must be observed across all samples
+#' @param ... included for compliance with generic method
 #'
 #'@return If \code{min_num} is provided, a summary of the effect of implementing a filter with the specified threshold. Otherwise, a summary of the number of peaks which were observed over the number of possible samples.
-summary.moleculeFilt <- function(filter_object, min_num=NULL){
+summary.moleculeFilt <- function(object, min_num=NULL, ...){
   
   if(!is.null(min_num)) {
     # check that min_num is not a vector #
@@ -18,13 +19,13 @@ summary.moleculeFilt <- function(filter_object, min_num=NULL){
     # check that min_num is an integer #
     if(min_num %% 1 != 0) stop("min_num must be an integer >= 0")
     # check that min_num is less than the max number of observations #
-    if(min_num > max(filter_object$Num_Observations)) stop("min_num cannot be greater than the number of samples")
+    if(min_num > max(object$Num_Observations)) stop("min_num cannot be greater than the number of samples")
   }
   
   # return the numeric version of plot, the threshold used, the number that would be tested and the number that would not be tested
   
   # how many peptides appear in the dataset once, twice, 3 times, etc.
-  cut_data <- table(cut(filter_object$Num_Observations, breaks = -1:max(filter_object$Num_Observations)))
+  cut_data <- table(cut(object$Num_Observations, breaks = -1:max(object$Num_Observations)))
   pep_observation_counts <- data.frame(num_observations=0:(length(cut_data)-1), num_peaks=cut_data)
   pep_observation_counts = pep_observation_counts[,-2]
   names(pep_observation_counts)[2] = "num_peaks"
@@ -57,17 +58,18 @@ summary.moleculeFilt <- function(filter_object, min_num=NULL){
 #'@rdname summary.massFilt
 #'@name summary.massFilt
 #'
-#'@param filter_object an object of class 'massFilt' created by running \code{\link{mass_filter}}
+#'@param object an object of class 'massFilt' created by running \code{\link{mass_filter}}
 #'@param min_mass an integer value specifying the minimum mass a peak must have to be retained in the dataset (inclusive). If only \code{max_mass} is provided, then this values is assumed to be the minimum observed mass value.
 #'@param max_mass an integer value specifying the maximum mass a peak can have to be retained in the dataset (inclusive). If only \code{min_mass} is provided, then this value is assumed to be the maximum observed mass value.
+#' @param ... included for compliance with generic method
 #'
 #'@return If \code{min_mass} and/or \code{max_mass} is provided, a summary of the effect of implementing a filter with the specified thresholds. Otherwise, a five-number summary and the mean value of the mass values observed across all samples are given.
-summary.massFilt <- function(filter_object, min_mass = NULL, max_mass = NULL){
+summary.massFilt <- function(object, min_mass = NULL, max_mass = NULL, ...){
   
   # check to see if only one of min or max is provided #
   # if so, set the null one to the observed min/max #
-  if(!is.null(min_mass) & is.null(max_mass)){max_mass = max(filter_object$Mass)}
-  if(is.null(min_mass) & !is.null(max_mass)){min_mass = min(filter_object$Mass)}
+  if(!is.null(min_mass) & is.null(max_mass)){max_mass = max(object$Mass)}
+  if(is.null(min_mass) & !is.null(max_mass)){min_mass = min(object$Mass)}
 
   if(!is.null(min_mass)) {
   # check that min_mass and max_mass are numeric and meet other constraints #
@@ -81,10 +83,10 @@ summary.massFilt <- function(filter_object, min_mass = NULL, max_mass = NULL){
   
   # if both min and max are null calculate the five number summary #  
   if(is.null(min_mass) & is.null(max_mass)) {
-    return(summary(filter_object$Mass))
+    return(summary(object$Mass))
   }else{
-    num_not_filtered = sum(filter_object$Mass >= min_mass & filter_object$Mass <= max_mass)
-    num_filtered = nrow(filter_object) - num_not_filtered
+    num_not_filtered = sum(object$Mass >= min_mass & object$Mass <= max_mass)
+    num_filtered = nrow(object) - num_not_filtered
     catmat <- c("Minimum Mass"=min_mass, "Maximum Mass"=max_mass, "Filtered"=round(num_filtered,0), "Not Filtered"=round(num_not_filtered,0))
     class(catmat) <- c("summaryDefault", class(catmat))
     return(catmat)
@@ -99,22 +101,23 @@ summary.massFilt <- function(filter_object, min_mass = NULL, max_mass = NULL){
 #'@rdname summary.formulaFilt
 #'@name summary.formulaFilt
 #'
-#'@param filter_object an object of class 'formulaFilt' created by running \code{\link{formula_filter}}
+#'@param object an object of class 'formulaFilt' created by running \code{\link{formula_filter}}
 #'@param remove an character string specifying whether to remove peaks without formulae assigned ('NoFormula') or with formulae assigned ('Formula')
+#' @param ... included for compliance with generic method
 #'
 #'@return If \code{remove} is provided, a summary of the effect of implementing a filter. Otherwise, a summary of the number of peaks with assigned and unassigned formulae
-summary.formulaFilt <- function(filter_object, remove = NULL){
+summary.formulaFilt <- function(object, remove = NULL, ...){
   if(!is.null(remove)){
   if(!(remove %in% c("NoFormula","Formula"))) stop("'remove' can only take values 'NoFormula' and 'Formula'.")
   }
   # if remove is NULL return distribution #  
   if(is.null(remove)) {
-    catmat = c("Formula Assigned"=sum(filter_object$Formula_Assigned), "No Formula Assigned"=nrow(filter_object)-sum(filter_object$Formula_Assigned))
+    catmat = c("Formula Assigned"=sum(object$Formula_Assigned), "No Formula Assigned"=nrow(object)-sum(object$Formula_Assigned))
     class(catmat) <- c("summaryDefault", class(catmat))
     return(catmat)
   }else{
-    num_noform = sum(filter_object$Formula_Assigned)
-    num_form = nrow(filter_object) - num_noform
+    num_noform = sum(object$Formula_Assigned)
+    num_form = nrow(object) - num_noform
     if(remove == "NoFormula"){
       catmat <- list("Remove"=remove, "Filtered"=num_noform, "Not Filtered"=num_form)
       class(catmat) <- c("summaryDefault", class(catmat))
@@ -135,29 +138,29 @@ summary.formulaFilt <- function(filter_object, remove = NULL){
 #'@rdname summary.emetaFilt
 #'@name summary.emetaFilt
 #'
-#'@param filter_object an object of class 'emetaFilt' created by running \code{\link{emeta_filter}}
+#'@param object an object of class 'emetaFilt' created by running \code{\link{emeta_filter}}
 #'@param min_val used only if filter variable specified was quantitative. Minimum value which the filter variable can take (inclusive) to remain in the data
 #'@param max_val used only if filter variable specified was quantitative. Maximum value which the filter variable can take (inclusive) to remain in the data
 #'@param cats used only if filter variable specified was categorical. Levels of categorical variable which should be retained in the data
 #'@param na.rm should peaks with an NA value for the filter variable be removed. Defaults to TRUE.
+#' @param ... included for compliance with generic method
 #'
 #'@return If relevant parameter(s) are provided, a summary of the effect of implementing a filter. Otherwise, a five number summary and the mean value for the filter variable (quantitative) or a summary of the number of peaks per category (categorical).
 #'
 #'@export
-
-summary.emetaFilt <- function(filter_object, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE){
+summary.emetaFilt <- function(object, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE, ...){
   # get variable type #
-  var_type = attr(filter_object, "type")
+  var_type = attr(object, "type")
   
   # get variable name #
-  var_name = attr(filter_object, "cname")
+  var_name = attr(object, "cname")
   
   # set some defaults for quantitative variable #
   if(var_type == "quantitative"){
     # check to see if only one of min or max is provided #
     # if so, set the null one to the observed min/max #
-    if(!is.null(min_val) & is.null(max_val)){max_val = max(filter_object$emeta_value, na.rm = T)}
-    if(is.null(min_val) & !is.null(max_val)){min_val = min(filter_object$emeta_value, na.rm = T)}
+    if(!is.null(min_val) & is.null(max_val)){max_val = max(object$emeta_value, na.rm = T)}
+    if(is.null(min_val) & !is.null(max_val)){min_val = min(object$emeta_value, na.rm = T)}
     
     if(!is.null(min_val)) {
       if(length(min_val) != 1) stop("min_val must be of length 1")
@@ -176,14 +179,14 @@ summary.emetaFilt <- function(filter_object, min_val = NULL, max_val = NULL, cat
   if(var_type == "quantitative"){
     # if both min and max are null #
     if(is.null(min_val) & is.null(max_val)){
-      return(summary(filter_object$emeta_value))
+      return(summary(object$emeta_value))
     }else{
       if(na.rm == TRUE){
-        num_not_filtered = sum(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val, na.rm = T)
+        num_not_filtered = sum(object$emeta_value >= min_val & object$emeta_value <= max_val, na.rm = T)
       }else{
-        num_not_filtered = sum(filter_object$emeta_value >= min_val & filter_object$emeta_value <= max_val, na.rm = T) + sum(is.na(filter_object$emeta_value))
+        num_not_filtered = sum(object$emeta_value >= min_val & object$emeta_value <= max_val, na.rm = T) + sum(is.na(object$emeta_value))
       }
-      num_filtered = nrow(filter_object) - num_not_filtered
+      num_filtered = nrow(object) - num_not_filtered
       catmat <- list("Filter Variable"=var_name,"Minimum Value"=min_val, "Maximum Value"=max_val, "Filtered"=round(num_filtered,0), "Not Filtered"=round(num_not_filtered,0))
       class(catmat) <- c("summaryDefault", class(catmat))
       return(catmat)
@@ -192,16 +195,16 @@ summary.emetaFilt <- function(filter_object, min_val = NULL, max_val = NULL, cat
   if(var_type == "categorical"){
     # if cats is null #
     if(is.null(cats)){
-      res <- table(filter_object$emeta_value)
+      res <- table(object$emeta_value)
       class(res) <- c("summaryDefault",class(res))
       return(res)
     }else{
       if(na.rm == TRUE){
-        num_not_filtered = sum(filter_object$emeta_value %in% cats)
+        num_not_filtered = sum(object$emeta_value %in% cats)
       }else{
-        num_not_filtered = sum(filter_object$emeta_value %in% cats) + sum(is.na(filter_object$emeta_value))
+        num_not_filtered = sum(object$emeta_value %in% cats) + sum(is.na(object$emeta_value))
       }
-      num_filtered = nrow(filter_object) - num_not_filtered
+      num_filtered = nrow(object) - num_not_filtered
       catmat <- list("Filter Variable"=var_name,"Categories Kept"=paste(cats, collapse = ","), "Filtered"=round(num_filtered,0), "Not Filtered"=round(num_not_filtered,0))
       class(catmat) <- c("summaryDefault", class(catmat))
       return(catmat)

@@ -4,12 +4,14 @@
 \alias{summary.moleculeFilt}
 \title{Summary method for moleculeFilt object}
 \usage{
-\method{summary}{moleculeFilt}(filter_object, min_num = NULL)
+\method{summary}{moleculeFilt}(object, min_num = NULL, ...)
 }
 \arguments{
-\item{filter_object}{an object of class 'moleculeFilt' created by running \code{\link{molecule_filter}}}
+\item{object}{an object of class 'moleculeFilt' created by running \code{\link{molecule_filter}}}
 
 \item{min_num}{an integer value specifying the minimum number of times each peak must be observed across all samples}
+
+\item{...}{included for compliance with generic method}
 }
 \value{
 If \code{min_num} is provided, a summary of the effect of implementing a filter with the specified threshold. Otherwise, a summary of the number of peaks which were observed over the number of possible samples.
