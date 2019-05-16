@@ -17,7 +17,7 @@ The \code{densityCognostics} function provides a set of default cognostics
 to be used with density plots in Trelliscope. The \code{densityCognostics}
 function accepts the name of the variable used for the density plot and
 returns a function that may be applied to each \code{ftmsData} object, as is
-appropriate for use with the \code{\link{makeDisplay}} function. See 
+appropriate for use with the \code{\link[trelliscope:makeDisplay]{makeDisplay}} function. See 
 Examples section for use.
 }
 \examples{

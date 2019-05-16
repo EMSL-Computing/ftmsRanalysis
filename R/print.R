@@ -1,20 +1,20 @@
 # Print methods for peakData, compoundData, reactionData and moduleData
 
 #' @export
-print.peakData <- function(peakObj) {
-  if (!inherits(peakObj, "peakData")) stop("Not a peakData object")
-  if (is.null(peakObj) | all(is.na(peakObj))) {
-    print(peakObj)
-    invisible(peakObj)
+print.peakData <- function(x, ...) {
+  if (!inherits(x, "peakData")) stop("Not a peakData object")
+  if (is.null(x) | all(is.na(x))) {
+    print(x)
+    invisible(x)
   }
   res <- c("peakData object", 
-           sprintf("# Peaks: %d", nrow(peakObj$e_data)),
-           sprintf("# Samples: %d", nrow(peakObj$f_data)))
+           sprintf("# Peaks: %d", nrow(x$e_data)),
+           sprintf("# Samples: %d", nrow(x$f_data)))
   
-  res <- c(res, .common_print_data(peakObj))
+  res <- c(res, .common_print_data(x))
     
   cat(res, sep="\n")
-  invisible(peakObj)
+  invisible(x)
 }
 
 # internal only method for constructing print info for common parts of ftmsData objects
@@ -43,79 +43,79 @@ print.peakData <- function(peakObj) {
 }
 
 #' @export
-print.compoundData <- function(compObj) {
-  if (!inherits(compObj, "compoundData")) stop("Not a compoundData object")
-  if (is.null(compObj) | all(is.na(compObj))) {
-    print(compObj)
-    invisible(compObj)
+print.compoundData <- function(x, ...) {
+  if (!inherits(x, "compoundData")) stop("Not a compoundData object")
+  if (is.null(x) | all(is.na(x))) {
+    print(x)
+    invisible(x)
   }
   res <- c("compoundData object", 
-           sprintf("# Rows of data: %d", nrow(compObj$e_data)),
-           sprintf("# Samples: %d", nrow(compObj$f_data)),
-           sprintf("# Compounds: %d", length(unique(compObj$e_meta[, getCompoundColName(compObj)]))),
-           sprintf("Database: %s", attr(compObj, "DB")))
+           sprintf("# Rows of data: %d", nrow(x$e_data)),
+           sprintf("# Samples: %d", nrow(x$f_data)),
+           sprintf("# Compounds: %d", length(unique(x$e_meta[, getCompoundColName(x)]))),
+           sprintf("Database: %s", attr(x, "DB")))
   
-  res <- c(res, .common_print_data(compObj))
+  res <- c(res, .common_print_data(x))
   
   cat(res, sep="\n")
-  invisible(compObj)
+  invisible(x)
 }
 
-print.reactionData <- function(rxnObj) {
-  if (!inherits(rxnObj, "reactionData")) stop("Not a 'reactionData' object")
-  if (is.null(rxnObj) | all(is.na(rxnObj))) {
-    print(rxnObj)
-    invisible(rxnObj)
+print.reactionData <- function(x, ...) {
+  if (!inherits(x, "reactionData")) stop("Not a 'reactionData' object")
+  if (is.null(x) | all(is.na(x))) {
+    print(x)
+    invisible(x)
   }
   res <- c("reactionData object", 
-           sprintf("# Reactions: %d", nrow(rxnObj$e_data)),
-           sprintf("# Samples: %d", nrow(rxnObj$f_data)),
-           sprintf("Database: %s", attr(rxnObj, "DB")))
+           sprintf("# Reactions: %d", nrow(x$e_data)),
+           sprintf("# Samples: %d", nrow(x$f_data)),
+           sprintf("Database: %s", attr(x, "DB")))
 
-  res <- c(res, .common_print_data(rxnObj))
+  res <- c(res, .common_print_data(x))
   
   cat(res, sep="\n")
-  invisible(rxnObj)
+  invisible(x)
 }
 
 #' @export
-print.moduleData <- function(moduleObj) {
-  if (!inherits(moduleObj, "moduleData")) stop("Not a 'moduleData' object")
-  if (is.null(moduleObj) | all(is.na(moduleObj))) {
-    print(moduleObj)
-    invisible(moduleObj)
+print.moduleData <- function(x, ...) {
+  if (!inherits(x, "moduleData")) stop("Not a 'moduleData' object")
+  if (is.null(x) | all(is.na(x))) {
+    print(x)
+    invisible(x)
   }
   res <- c("moduleData object", 
-           sprintf("# Reactions: %d", nrow(moduleObj$e_data)),
-           sprintf("# Samples: %d", nrow(moduleObj$f_data)),
-           sprintf("Database: %s", attr(moduleObj, "DB")))
+           sprintf("# Reactions: %d", nrow(x$e_data)),
+           sprintf("# Samples: %d", nrow(x$f_data)),
+           sprintf("Database: %s", attr(x, "DB")))
   
-  res <- c(res, .common_print_data(moduleObj))
+  res <- c(res, .common_print_data(x))
   
   cat(res, sep="\n")
-  invisible(moduleObj)
+  invisible(x)
 }
 
 #' @export
-print.groupSummary <- function(ftmsObj) {
-  if (!inherits(ftmsObj, "groupSummary")) stop("Not a groupSummary object")
-  if (is.null(ftmsObj) | all(is.na(ftmsObj))) {
-    print(ftmsObj)
-    invisible(ftmsObj)
+print.groupSummary <- function(x, ...) {
+  if (!inherits(x, "groupSummary")) stop("Not a groupSummary object")
+  if (is.null(x) | all(is.na(x))) {
+    print(x)
+    invisible(x)
   }
-  groupname <- unique(getGroupDF(ftmsObj)$Group)
-  res <- c(sprintf("groupSummary object derived from %s", class(ftmsObj)[2]), 
-           sprintf("# Rows: %d", nrow(ftmsObj$e_data)),
-           sprintf("Summary columns: [%s]", paste(ftmsObj$f_data[, getFDataColName(ftmsObj)], collapse = ", ")),
+  groupname <- unique(getGroupDF(x)$Group)
+  res <- c(sprintf("groupSummary object derived from %s", class(x)[2]), 
+           sprintf("# Rows: %d", nrow(x$e_data)),
+           sprintf("Summary columns: [%s]", paste(x$f_data[, getFDataColName(x)], collapse = ", ")),
            sprintf("Groups: %s", paste(groupname, collapse=", ")),
-           sprintf("# Samples in group: %d", nrow(getGroupDF(ftmsObj))))
+           sprintf("# Samples in group: %d", nrow(getGroupDF(x))))
   
-  res <- c(res, .common_print_data(ftmsObj))
+  res <- c(res, .common_print_data(x))
   
   # remove Group info line:
   ind <- grepl("^Group info: ", res)
   res <- res[!ind]
   
   cat(res, sep="\n")
-  invisible(ftmsObj)
+  invisible(x)
 }

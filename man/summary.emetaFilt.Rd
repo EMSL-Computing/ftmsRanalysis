@@ -4,11 +4,11 @@
 \alias{summary.emetaFilt}
 \title{Summary method for emetaFilt object}
 \usage{
-\method{summary}{emetaFilt}(filter_object, min_val = NULL,
-  max_val = NULL, cats = NULL, na.rm = TRUE)
+\method{summary}{emetaFilt}(object, min_val = NULL, max_val = NULL,
+  cats = NULL, na.rm = TRUE, ...)
 }
 \arguments{
-\item{filter_object}{an object of class 'emetaFilt' created by running \code{\link{emeta_filter}}}
+\item{object}{an object of class 'emetaFilt' created by running \code{\link{emeta_filter}}}
 
 \item{min_val}{used only if filter variable specified was quantitative. Minimum value which the filter variable can take (inclusive) to remain in the data}
 
@@ -17,6 +17,8 @@
 \item{cats}{used only if filter variable specified was categorical. Levels of categorical variable which should be retained in the data}
 
 \item{na.rm}{should peaks with an NA value for the filter variable be removed. Defaults to TRUE.}
+
+\item{...}{included for compliance with generic method}
 }
 \value{
 If relevant parameter(s) are provided, a summary of the effect of implementing a filter. Otherwise, a five number summary and the mean value for the filter variable (quantitative) or a summary of the number of peaks per category (categorical).

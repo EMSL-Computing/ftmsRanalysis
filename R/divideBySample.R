@@ -1,13 +1,13 @@
 #' Divide an ftmsData objecdt by sample to form a ddo
 #' 
-#' Construct a \code{\link{ddo}} from an \code{ftmsData} object by dividing
+#' Construct a \code{\link[datadr:ddo]{ddo}} from an \code{ftmsData} object by dividing
 #' by sample. The resulting object may be used with Trelliscope to make
 #' plots for each sample.
 #' 
 #' @param ftmsObj ftmsData object
 #' @return a ddo where each division is a subset of \code{ftmsObj} corresponding
 #'         to a single sample
-#' @seealso \code{\link{ddo}}
+#' @seealso \code{\link[datadr:ddo]{ddo}}
 #' @export
 divideBySample <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) stop("Not an ftmsData object")

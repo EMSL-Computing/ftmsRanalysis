@@ -4,10 +4,12 @@
 \alias{summary.ftmsData}
 \title{Summary of an ftmsData object}
 \usage{
-\method{summary}{ftmsData}(ftmsObj)
+\method{summary}{ftmsData}(object, ...)
 }
 \arguments{
-\item{ftmsObj}{object of type ftmsData}
+\item{object}{an object of type ftmsData}
+
+\item{...}{other arguments}
 }
 \value{
 list object containing summary statistics

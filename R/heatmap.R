@@ -1,12 +1,24 @@
-# Internal only function to produce a heatmap for 21T data (Kendrick and Van Krevelen Plots)
-# ftmsObj: ftmsData object
-# xCName/yCName: column names for x and y data
-# xBreaks/yBreaks: either a number of breaks, or a vector of break endpoints
-# colorPal: either a name of an RColorBrewer palette or a color palette function (e.g. scales package)
-#     that maps the range [0,1] to colors
-# title/xlabel/ylabel: plot and axis labels
-# mouseovers: TRUE/FALSE, should mouseovers be constructed? Uses xlabel, ylabel values.
-.internal21THeatmap <- function(ftmsObj, xCName, yCName, xBreaks=100, yBreaks=100, colorPal=NA, 
+#' Heatmap of density of high resolution data
+#' 
+#' Produces a heatmap showing 2D density for high resolution FTMS data, as an alternative to traditional scatter plots,
+#' which may be difficult to understand or render onscreen when there are too many points. This function is used
+#' by \code{\link{vanKrevelenPlot}} and \code{\link{kendrickPlot}} when the input object contains more than 
+#' 10^6 cells of data (# samples by # rows).
+#' 
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param xCName column name for x-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param yCName column name for y-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param xBreaks either a number of breaks (bins) along the x-axis, or a vector of break endpoints
+#' @param yBreaks either a number of breaks (bins) along the y-axis, or a vector of break endpoints
+#' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
+#' @param xlabel x axis label, default is \code{xCName}
+#' @param ylabel y axis label, default is \code{yCName}
+#' @param title plot title
+#' @param mouseovers TRUE/FALSE, should mouseovers be constructed? Uses xlabel, ylabel values.
+#' 
+#' @export
+#' @author Amanda M. White
+heatmap <- function(ftmsObj, xCName, yCName, xBreaks=100, yBreaks=100, colorPal=NA, 
                                 title=NA, xlabel=NA, ylabel=NA, mouseovers=TRUE) {
   
   # Get the two columns of data to plot from ftmsObj

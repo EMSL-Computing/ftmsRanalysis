@@ -4,11 +4,11 @@
 \alias{plot.massFilt}
 \title{Plot mass filter object}
 \usage{
-\method{plot}{massFilt}(filter_obj, min_mass = NA, max_mass = NA,
-  title = NA, xlabel = "Mass", ylabel = "Count")
+\method{plot}{massFilt}(x, min_mass = NA, max_mass = NA, title = NA,
+  xlabel = "Mass", ylabel = "Count", ...)
 }
 \arguments{
-\item{filter_obj}{massFilt object, created by \code{\link{mass_filter}} function}
+\item{x}{massFilt object, created by \code{\link{mass_filter}} function}
 
 \item{min_mass}{(optional) minimum mass, for highlighting graph}
 
@@ -19,6 +19,8 @@
 \item{xlabel}{x axis label}
 
 \item{ylabel}{y axis label}
+
+\item{...}{other arguments}
 }
 \value{
 plotly object
@@ -27,8 +29,10 @@ plotly object
 Plot mass filter object
 }
 \examples{
+\dontrun{
 filter_obj <- mass_filter(examplePeakData)
 plot(filter_obj, min_mass = 200, max_mass = 800)
+}
 }
 \author{
 Amanda White

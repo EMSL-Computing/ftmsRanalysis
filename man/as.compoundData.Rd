@@ -22,7 +22,7 @@ as.compoundData(e_data, f_data, e_meta, edata_cname, fdata_cname,
 
 \item{compound_cname}{character string specifying the name of the column containing the compound identifier in \code{e_meta}. This is a compound identifier related to a database (e.g. MetaCyc)}
 
-\item{...}{further arguments (see as.\code{\link{peakData}})}
+\item{...}{further arguments (see \code{\link{as.peakData}})}
 }
 \description{
 Converts a list object or several data.frames of FT-MS data to an object of the class 'compoundData'. Objects of the class 'compoundData' are lists with three obligatory components \code{e_data}, \code{f_data}, and \code{e_meta}.

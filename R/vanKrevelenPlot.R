@@ -67,9 +67,10 @@ vanKrevelenPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBou
     stop("at least one of colorCName or vkBoundarySet must be specified")
   }
   
-  # If data is not 12T then do a heatmap instead of points
-  if (getInstrumentType(ftmsObj) != "12T") {
-    return(.internal21THeatmap(ftmsObj, xCName=OC.col, yCName=HC.col, xBreaks=100, yBreaks=100, 
+  # If too much data then do a heatmap instead of points
+  if (prod(nrow(ftmsObj$e_data), ncol(ftmsObj$e_data)-1) > 10^6) {
+    message("Too much data in e_data to make a scatter plot, producing a heatmap instead")
+    return(heatmap(ftmsObj, xCName=OC.col, yCName=HC.col, xBreaks=100, yBreaks=100, 
                                colorPal=colorPal, xlabel=xlabel, ylabel=ylabel))
   }
   
@@ -92,6 +93,15 @@ vanKrevelenPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   xrange <- nice_axis_limits(ftmsObj$e_meta[, OC.col], zero.min=TRUE)
   yrange <- nice_axis_limits(ftmsObj$e_meta[, HC.col], zero.min=TRUE)
 
+  # if ftmsObj is a comparison summary object, remove all NA rows from e_data/e_meta
+  if (inherits(ftmsObj, "comparisonSummary")) {
+    ind <- !is.na(dplyr::pull(ftmsObj$e_data, colorCName))
+    ftmsObj$e_data <- ftmsObj$e_data[ind, ]
+    masses <- dplyr::pull(ftmsObj$e_data, getEDataColName(ftmsObj))
+    ind <- dplyr::pull(ftmsObj$e_meta, getEDataColName(ftmsObj)) %in% masses
+    ftmsObj$e_meta <- ftmsObj$e_meta[ind, ]
+  }
+  
   # Show Mass and Molecular Formula
   hovertext <- paste("Molecular Formula: ", ftmsObj$e_meta[, getMFColName(ftmsObj)],"<br>", getEDataColName(ftmsObj),": ", ftmsObj$e_meta[,getEDataColName(ftmsObj)], sep = "")
   ftmsObj$e_meta$Hover <- hovertext

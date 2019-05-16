@@ -74,23 +74,23 @@ assign_class <- function(ftmsObj, boundary_set = "bs1", calc_ratios = TRUE){
   
   comp_class = rep(NA, nrow(temp))
   comp_class[forms] = classes
+  class_colname = paste(boundary_set, "_class", sep = "")
   
   # add the column to e_meta #
-  temp[,(ncol(temp) + 1)] = comp_class
-  names(temp)[ncol(temp)] = paste(boundary_set, "_class", sep = "")
+  temp[,class_colname] = comp_class
   
   # reassign temp back to e_meta in ftmsObj #
   ftmsObj$e_meta = temp
   
   # set the classcname #
   if(boundary_set == "bs1"){
-    ftmsObj = setBS1ColName(ftmsObj, paste(boundary_set, "_class", sep = ""))
+    ftmsObj = setBS1ColName(ftmsObj, class_colname)
   }
   if(boundary_set == "bs2"){
-    ftmsObj = setBS2ColName(ftmsObj, paste(boundary_set, "_class", sep = ""))
+    ftmsObj = setBS2ColName(ftmsObj, class_colname)
   }
   if(boundary_set == "bs3"){
-    ftmsObj = setBS3ColName(ftmsObj, paste(boundary_set, "_class", sep = ""))
+    ftmsObj = setBS3ColName(ftmsObj, class_colname)
   }
   # return ftmsObj #
   return(ftmsObj)

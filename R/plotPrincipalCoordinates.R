@@ -10,17 +10,20 @@
 #' @param xlabel x-axis label
 #' @param ylabel y-axis label
 #' @param includeR2OnAxes TRUE/FALSE, should the x- and y-axis labels be appended with R^2 values?
+#' @param size plot marker size (default is 8)
 #'
 #' @return a \code{\link{plotly}} plot object
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' pcoaMat <- getPrincipalCoordinates(exampleProcessedPeakData)
 #' plotPrincipalCoordinates(pcoaMat, x=2, y=3, ftmsObj=exampleProcessedPeakData)
+#' }
 plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, ftmsObj=NA, title=NA, 
                                      xlabel=sprintf("Principal Coordinate %d", x), 
                                      ylabel=sprintf("Principal Coordinate %d", y),
-                                     includeR2OnAxes=TRUE) {
+                                     includeR2OnAxes=TRUE, size = 8) {
   
   # test inputs
   if (!is.numeric(pcoaMat) | !inherits(pcoaMat, "matrix")) stop("pcoaMat must be a numeric matrix")
@@ -46,8 +49,9 @@ plotPrincipalCoordinates <- function(pcoaMat, x=1, y=2, ftmsObj=NA, title=NA,
                 y=as.formula(sprintf("~%s", cnames[y])), 
                 type="scatter", 
                 mode="markers", hoverinfo="text", 
-                text=~Sample), 
-             parms)
+                text=~Sample,
+                marker = list(size=size)), 
+                parms)
   
   p <- do.call(plotly::plot_ly, parms)
  

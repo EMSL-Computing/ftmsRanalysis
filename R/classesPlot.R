@@ -8,6 +8,7 @@
 #' @param ylabel y axis label, default is "Density"
 #' @param title plot title, default is NULL
 #' @param vkBoundarySet character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.
+#' @param classColName column name of \code{ftmsData$e_meta} to use for classes (if classes have been precomputed)
 #' 
 #' @return a plotly object
 #' 

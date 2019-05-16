@@ -7,7 +7,7 @@
 parse_mf(ftmsObj)
 }
 \arguments{
-\item{ftmsObj}{an object of class 'ftmsData', typically a result of \code{\link{as.pealData}}.}
+\item{ftmsObj}{an object of class 'ftmsData', typically a result of \code{\link{as.peakData}}.}
 }
 \value{
 an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecular formula.

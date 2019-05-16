@@ -19,6 +19,8 @@ colnames(ftmsObj$f_data) or colnames(attr(ftmsObj, "group_DF")).}
 \item{title}{plot title, default is NULL}
 
 \item{vkBoundarySet}{character vector specifying which boundary set to use when determining class. Valid options are currently "bs1" and "bs2" and defaults to "bs1". See details of \code{\link{assign_class}} for differences in sets.}
+
+\item{classColName}{column name of \code{ftmsData$e_meta} to use for classes (if classes have been precomputed)}
 }
 \value{
 a plotly object

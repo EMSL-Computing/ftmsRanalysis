@@ -11,7 +11,7 @@ vanKrevelenCognostics(vkBoundarySet = "bs1", uniquenessColName = NA)
 
 \item{uniquenessColName}{if \code{ftmsObj} is a group comparison summary object, what is the 
 name of the column that specifies uniqueness to a group? If only one uniqueness function has
-been applied this is unnecessary. (See \code{\link{summarizeComparisons}}.)}
+been applied this is unnecessary. (See \code{\link{summarizeGroupComparisons}}.)}
 }
 \value{
 a function that may be applied to objects of type \code{peakData}, \code{groupSummary},
@@ -24,7 +24,7 @@ function accepts the boundary set used for Van Krevelen class calculations
 and (for \code{comparisonSummary} objects only) the name of the column to use
 for identifying which peaks are observed in which group. It 
 returns a function that may be applied to each \code{ftmsData} object, as is
-appropriate for use with the \code{\link{makeDisplay}} function. See 
+appropriate for use with the \code{\link[trelliscope:makeDisplay]{makeDisplay}} function. See 
 Examples section for use.
 }
 \examples{

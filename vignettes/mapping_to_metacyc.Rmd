@@ -1,0 +1,174 @@
+---
+title: "Mapping FT-MS Data to MetaCyc"
+author: "Amanda White"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 1
+    number_sections: true
+  pkgdown:
+    toc: true
+    toc_depth: 1
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+The `ftmsRanalysis` package facilitates mapping observed peaks with formulas to compounds found in MetaCyc[^1] (https://metacyc.org), a curated database of primary and secondary metabolism. Mapping the observed compounds to metabolites and the associated metabolic pathways provides insight into the pathways that are active, and can suggest new hypotheses about the biochemical processes occurring in a biological or environmental system.
+
+[^1]: [Caspi et al 2018, "The MetaCyc database of metabolic pathways and enzymes", Nucleic Acids Research 46(D1):D633-D639](https://academic.oup.com/nar/article/46/D1/D633/4559117)
+
+PNNL has created an R package of data from MetaCyc to support this functionality, which is available here: https://github.com/EMSL-Computing/MetaCycData. It can be installed with the command:
+```{r eval=FALSE}
+devtools::install_github("EMSL-Computing/MetaCycData")
+```
+
+# Mapping Peaks to Compounds
+
+The first step is to map the peak data to compounds in MetaCyc. This is done by comparing the molecular formula assignments for each peak to compound molecular formulas from the database. Not all peaks will have molecular formulas, and many molecular formulas will map to multiple compounds. 
+
+```{r}
+library(ftmsRanalysis)
+library(MetaCycData)
+
+data("examplePeakData")
+
+compoundData <- mapPeaksToCompounds(examplePeakData, db="MetaCyc")
+```
+
+The `db` parameter specifies what database to use; currently "MetaCyc" is the only valid option, but in the future other databases may be added. (And "MetaCyc" is the default so it does not have to be specified.)
+
+Notice that a warning message was printed above; this is because multiple peaks in the original data are assigned the same molecular formula. This is not uncommon but could create a problem for downstream analysis unless it's resolved. The function `combinePeaksWithSameFormula` will combine rows with the same molecular formula by adding the abundance values (or for presence/absence data, 'or'-ing the rows). 
+
+```{r}
+peak2 <- combinePeaksWithSameFormula(examplePeakData)
+summary(peak2)
+compoundData <- mapPeaksToCompounds(peak2, db="MetaCyc")
+summary(compoundData)
+```
+
+There are many fewer rows of data there in `compoundData` than there are in `peak2`. This is due to the fact that so few peaks have molecular formulas assigned. When this mapping is performed, the compound ID is added to the `e_meta` table (`Compound` column):
+
+```{r}
+head(compoundData$e_meta[, c("Mass", "Compound")])
+```
+
+These IDs can be used to map back to the `MetaCycData` package--the `mc_compounds` data frame contains compound information. This information includes the URL and common name among other fields.
+
+```{r}
+dplyr::filter(mc_compounds, COMPOUND=="CPD-16467")
+```
+
+# Mapping Compounds to Reactions
+
+MetaCyc contains information to map compounds to reactions and biological pathways. MetaCyc's pathyways database includes what they call super-pathways, which are linked sets of smaller pathways. For biological purposes, we wanted to distinguish between base pathways and super-pathways, so the `ftmsRanalysis` and `MetaCycData` packages refer to base pathways as 'modules'. There is a `mc_modules` data frame in the `MetaCycData` package and the associated functions in `ftmsRanalysis` refer to mapping to 'modules'. 
+
+The functions `mapCompoundsToReactions` and `mapCompoundsToModules` perform these mappings. The resulting objects produced by these functions indicate compounds observed per reaction or module. First we will explore mapping to reactions.
+
+```{r}
+rxnData <- mapCompoundsToReactions(compoundData)
+rxnData
+```
+
+Since compounds and reactions have a many to many relationship, the number of rows in `e_data` is different from that of `compoundData2`. The columns of `e_meta` have also changed. Previous metadata that was applicable to peaks and compounds is not applicable to reactions. Instead, there are four columns:
+
+* `Reaction`: database ID
+* `EC_Number`: Enzyme Commission number
+* `Compounds_in_Dataset`: semi-colon delimited string of which compounds in the source dataset were mapped to the reaction
+* `N_Observable_Compounds`: number of compounds in the database which could have been observed, subject to any mass filters previously applied to the source dataset
+
+The proportion of compounds observed per reaction can be calculated by parsing the `Compounds_in_Dataset` field and dividing its element-wise length by the value in `N_Observable_Compounds`.
+
+```{r}
+n_cmp_observed <- unlist(lapply(strsplit(rxnData$e_meta$Compounds_in_Dataset, ";"), length))
+prop_cmp_observed <- n_cmp_observed/rxnData$e_meta$N_Observable_Compounds
+```
+
+We could also look at which reactions are observed in different treatment groups, using `divideByGroupComparisons` and `sumamrizeGroupComparisons`. First, we define treatment groups using `group_designation`. For this example we'll compare crop floras (Corn vs Switchgrass). 
+
+```{r message=FALSE}
+rxnData2 <- group_designation(rxnData, main_effects="Crop.Flora")
+
+rxnGroupCompData <- divideByGroupComparisons(rxnData2, comparisons="all")
+
+rxnCompSummary <- summarizeGroupComparisons(rxnGroupCompData, summary_functions = "uniqueness_gtest",
+                                            summary_function_params=list(uniqueness_gtest=
+                                                                           list(pres_fn="nsamps", pres_thresh=2,
+                                                                           pvalue_thresh=0.05)))
+getKeys(rxnCompSummary)
+```
+
+The `rxnCompSummary` object is a distributed data object (ddo) (see the [`datadr`](http://deltarho.org/docs-datadr/) package for more information about ddo's). A ddo is a list of key-value pairs, where each key defines the groups under comparison, and each value is `reactionData` object. In this case we have one comparison (C vs S) but if we had more than two groups, the `ddo` could have many comparison objects. 
+
+Suppose we wanted to examine the reactions that were observed to be unique to only one of the S or C groups. We would look at the `reactionData` value and filter the `e_data` element to rows that contain the word 'Unique'.
+
+```{r}
+x <- rxnCompSummary[["Group_Comparison=C vs S"]]$value
+summary(x$e_data)
+
+ind <- grep("Unique", x$e_data$uniqueness_gtest)
+x$e_data[ind, ] %>% dplyr::arrange(uniqueness_gtest)
+```
+
+We could then join this table to the `e_meta` component to see the compounds observed, and join it to the `mc_reactions` data frame in `MetaCycData` to see other information (including URLs) about these reactions.
+
+```{r}
+unique_rxn_info <- x$e_data[ind, ] %>% 
+  dplyr::left_join(x$e_meta) %>%
+  dplyr::left_join(mc_reactions, by=c(Reaction='REACTION')) %>%
+  dplyr::arrange(uniqueness_gtest)
+  
+head(unique_rxn_info)
+```
+
+# Mapping Compounds to Modules
+
+The process for mapping from compounds to modules (base pathways) is very similar to that for reactions. 
+
+```{r}
+modData <- mapCompoundsToModules(compoundData)
+modData
+```
+
+In order to facilitate plotting the module reaction graph (coming soon!), `mapCompoundsToModules` actually maps each compound to the node of the module graph it corresonds to, where a node is one or more reactions. In the future `ftmsRanalysis` will include a function to plot a module graph and color the nodes by number (or proportion) of compounds observed. 
+
+For now, let's investigate the modules that are uniquely observed between the two treatment groups. This is accomplished much like it is for reactions above.
+
+```{r}
+modData2 <- group_designation(modData, main_effects="Crop.Flora")
+
+modGroupCompData <- divideByGroupComparisons(modData2, comparisons="all")
+
+modCompSummary <- summarizeGroupComparisons(modGroupCompData, summary_functions = "uniqueness_gtest",
+                                            summary_function_params=list(uniqueness_gtest=
+                                                                           list(pres_fn="nsamps", pres_thresh=2,
+                                                                           pvalue_thresh=0.05)))
+
+y <- modCompSummary[["Group_Comparison=C vs S"]]$value
+summary(y$e_data)
+
+ind <- grep("Unique", y$e_data$uniqueness_gtest)
+y$e_data[ind, ] %>% dplyr::arrange(uniqueness_gtest)
+```
+ 
+ Then join this result to `x$e_meta` and `mc_modules` to get more information about the modules observed.
+ 
+```{r}
+unique_mod_info <- y$e_data[ind, ] %>% 
+  dplyr::left_join(y$e_meta) %>%
+  dplyr::left_join(dplyr::select(mc_modules, MODULE, URL), by=c(Module='MODULE')) %>%
+  dplyr::arrange(uniqueness_gtest)
+  
+head(unique_mod_info)
+
+```
+ 

@@ -20,7 +20,7 @@ data.frame of coordinates where each sample is a row
 Calculate the principal coordinates of the samples in an ftmsData object. Uses \code{\link{vegdist}} to calculate pairwise distances between samples, and \code{\link{pcoa}} to calculate the principal coordinates.
 }
 \examples{
-coords <- getPrincipalCoordinates(exampleProcessedPeakData, dist_metric="jaccard", n_dims=7))
+coords <- getPrincipalCoordinates(exampleProcessedPeakData, dist_metric="jaccard", n_dims=7)
 }
 \seealso{
 \link{vegdist}, \link{pcoa}

@@ -21,6 +21,7 @@ the group name). In that case, see example below for how
 to construct an \code{expr} statement to obtain the necessary information.
 }
 \examples{
+\dontrun{
 library(ftmsRanalysis)
 library(trelliscope)
 
@@ -30,8 +31,8 @@ data('exampleProcessedPeakData')
 groupDdo <- divideByGroup(exampleProcessedPeakData)
 groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 
-# See expr here:
-panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
+# See rlang::expr here:
+panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=rlang::expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
                                     legendTitle="Proportion<br>Present")
 
 makeDisplay(groupSummaryDdo, 
@@ -39,6 +40,7 @@ makeDisplay(groupSummaryDdo,
             name = "Trelliscope test G_1 with VK plot per group",
             group = "Group")
 view()
+}
 }
 \author{
 Amanda White

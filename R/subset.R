@@ -4,104 +4,105 @@
 #' with only the specified samples or group. Exactly one of \code{samples}
 #' or \code{group} must be specified.
 #'
-#' @param ftmsObj ftmsData object
+#' @param x ftmsData object
 #' @param samples sample ID or vector of sample IDs
 #' @param groups group name or vector of group names
 #' @param check_rows logical indicating whether to remove peaks that have no observations after subsetting
+#' @param ... other arguments
 #' @return ftmsData object that contains only the subset of the original
 #'         data related to the samples or groups provided
 #' @rdname subset
 #' @export
-subset.peakData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(ftmsObj, "peakData")) {
+subset.peakData <- function(x, samples=NA, groups=NA, check_rows=FALSE, ...) {
+  if (!inherits(x, "peakData")) {
     stop("ftmsObj must be of type peakData")
   }
   
-  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
-  attr(result, "class") <- class(ftmsObj)
-  attr(result, "cnames") <- attr(ftmsObj, "cnames")
-  attr(result, "DB") <- attr(ftmsObj, "DB")
+  result <- .subset.ftmsData.internal(x, samples=samples, groups=groups)
+  attr(result, "class") <- class(x)
+  attr(result, "cnames") <- attr(x, "cnames")
+  attr(result, "DB") <- attr(x, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
   
-  attr(result, "filters") <- attr(ftmsObj, "filters")
-  attr(result, "data_info") <- attr(ftmsObj, "data_info")
-  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
+  attr(result, "filters") <- attr(x, "filters")
+  attr(result, "data_info") <- attr(x, "data_info")
+  attr(result, "instrument_type") <- attr(x, "instrument_type")
   
   return(result)
 }
 
 #' @rdname subset
 #' @export
-subset.compoundData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(ftmsObj, "compoundData")) {
+subset.compoundData <- function(x, samples=NA, groups=NA, check_rows=FALSE, ...) {
+  if (!inherits(x, "compoundData")) {
     stop("ftmsObj must be of type compoundData")
   }
   
-  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
-  attr(result, "class") <- class(ftmsObj)
-  attr(result, "cnames") <- attr(ftmsObj, "cnames")
-  attr(result, "DB") <- attr(ftmsObj, "DB")
+  result <- .subset.ftmsData.internal(x, samples=samples, groups=groups)
+  attr(result, "class") <- class(x)
+  attr(result, "cnames") <- attr(x, "cnames")
+  attr(result, "DB") <- attr(x, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
-  attr(result, "filters") <- attr(ftmsObj, "filters")
+  attr(result, "filters") <- attr(x, "filters")
   
-  attr(result, "data_info") <- attr(ftmsObj, "data_info")
-  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
+  attr(result, "data_info") <- attr(x, "data_info")
+  attr(result, "instrument_type") <- attr(x, "instrument_type")
   
   return(result)
 }
 
 #' @rdname subset
 #' @export
-subset.reactionData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(ftmsObj, "reactionData")) {
+subset.reactionData <- function(x, samples=NA, groups=NA, check_rows=FALSE, ...) {
+  if (!inherits(x, "reactionData")) {
     stop("ftmsObj must be of type reactionData")
   }
   
-  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
-  attr(result, "class") <- class(ftmsObj)
-  attr(result, "cnames") <- attr(ftmsObj, "cnames")
-  attr(result, "DB") <- attr(ftmsObj, "DB")
+  result <- .subset.ftmsData.internal(x, samples=samples, groups=groups)
+  attr(result, "class") <- class(x)
+  attr(result, "cnames") <- attr(x, "cnames")
+  attr(result, "DB") <- attr(x, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
-  attr(result, "filters") <- attr(ftmsObj, "filters")
+  attr(result, "filters") <- attr(x, "filters")
   
-  attr(result, "data_info") <- attr(ftmsObj, "data_info")
-  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
+  attr(result, "data_info") <- attr(x, "data_info")
+  attr(result, "instrument_type") <- attr(x, "instrument_type")
   
   return(result)
 }
 
 #' @rdname subset
 #' @export
-subset.moduleData <- function(ftmsObj, samples=NA, groups=NA, check_rows=FALSE) {
-  if (!inherits(ftmsObj, "moduleData")) {
+subset.moduleData <- function(x, samples=NA, groups=NA, check_rows=FALSE, ...) {
+  if (!inherits(x, "moduleData")) {
     stop("ftmsObj must be of type 'moduleData'")
   }
   
-  result <- .subset.ftmsData.internal(ftmsObj, samples=samples, groups=groups)
-  attr(result, "class") <- class(ftmsObj)
-  attr(result, "cnames") <- attr(ftmsObj, "cnames")
-  attr(result, "DB") <- attr(ftmsObj, "DB")
+  result <- .subset.ftmsData.internal(x, samples=samples, groups=groups)
+  attr(result, "class") <- class(x)
+  attr(result, "cnames") <- attr(x, "cnames")
+  attr(result, "DB") <- attr(x, "DB")
   
   if(check_rows){
     molfilt <- molecule_filter(result)
     if(any(molfilt$Num_Observations == 0)) result <- applyFilt(molfilt, result, min_num = 1)
   }
-  attr(result, "filters") <- attr(ftmsObj, "filters")
+  attr(result, "filters") <- attr(x, "filters")
   
-  attr(result, "data_info") <- attr(ftmsObj, "data_info")
-  attr(result, "instrument_type") <- attr(ftmsObj, "instrument_type")
+  attr(result, "data_info") <- attr(x, "data_info")
+  attr(result, "instrument_type") <- attr(x, "instrument_type")
   
   return(result)
 }
