@@ -1,4 +1,4 @@
-# fticRanalysis
+# ftmsRanalysis
 [![Build Status](https://travis-ci.org/EMSL-Computing/ftmsRanalysis.svg?branch=master)](https://travis-ci.org/EMSL-Computing/ftmsRanalysis)
 [![Coverage Status](https://codecov.io/github/EMSL-Computing/ftmsRanalysis/coverage.svg?branch=master)](https://codecov.io/github/EMSL-Computing/ftmsRanalysis?branch=master)
 
