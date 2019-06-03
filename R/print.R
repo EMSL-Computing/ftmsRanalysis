@@ -61,6 +61,7 @@ print.compoundData <- function(x, ...) {
   invisible(x)
 }
 
+#' @export
 print.reactionData <- function(x, ...) {
   if (!inherits(x, "reactionData")) stop("Not a 'reactionData' object")
   if (is.null(x) | all(is.na(x))) {
