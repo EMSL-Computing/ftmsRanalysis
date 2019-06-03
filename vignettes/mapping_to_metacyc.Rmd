@@ -11,7 +11,7 @@ output:
     toc: true
     toc_depth: 1
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{Mapping FT-MS Data to MetaCyc}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

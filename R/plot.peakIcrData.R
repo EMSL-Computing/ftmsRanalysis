@@ -21,7 +21,7 @@
 #' plot(edata_transform(exampleProcessedPeakData, "pres"))
 #' }
 plot.peakData <- function(x, title=NA, xlabel=NA, ylabel=NA, colorBy="groups", ...) {
-
+  
   # Tests
   if (!inherits(x, "peakData")) stop("ftmsObj must be of type 'peakData'")
   if (inherits(x, "groupSummary") | inherits(x, "comparisonSummary")) {
@@ -73,9 +73,9 @@ plot.peakData <- function(x, title=NA, xlabel=NA, ylabel=NA, colorBy="groups", .
       
     } else if (identical(colorBy, "molform")) { # stacked barplots showing counts of molecular form vs not for each sample
       df2 <- df %>% 
-        dplyr::left_join(dplyr::select(x$e_meta, "Mass", "MolForm")) %>% 
-        dplyr::mutate(HasMolForm=!is.na(MolForm))
-
+        dplyr::left_join(dplyr::select(x$e_meta, getEDataColName(x), getMFColName(x))) %>% 
+        dplyr::mutate(HasMolForm=factor(!is.na(!!rlang::sym(getMFColName(x))), levels = c(TRUE, FALSE)))
+      
       counts <- df2 %>% 
         dplyr::group_by(Sample, HasMolForm, .drop = FALSE) %>% 
         dplyr::summarize(Count=n()) %>% 
