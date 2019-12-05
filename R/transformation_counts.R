@@ -14,7 +14,7 @@
 #' @author Lisa Bramer
 #' @export
 
-transformation_counts <- function(ftmsObj, transformDF, transformDigits = 4, transMass_cname, transID_cname, transOther_cname = NULL){
+transformation_counts <- function(ftmsObj, transformDF, transformDigits = 4, transMass_cname, transID_cname, transOther_cname = NULL, parallel = TRUE){
   
   # check that ftmsObj is of the correct class #
   if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
@@ -40,9 +40,7 @@ transformation_counts <- function(ftmsObj, transformDF, transformDigits = 4, tra
   
   # if the data is not p/a, then convert to p/a #
   if(getDataScale(ftmsObj) != "pres"){
-    temp = edata_transform(ftmsObj, "pres")
-  }else{
-    temp = ftmsObj
+    ftmsObj = edata_transform(ftmsObj, "pres")
   }
 
   # pull edata and mass cnames #
@@ -51,9 +49,9 @@ transformation_counts <- function(ftmsObj, transformDF, transformDigits = 4, tra
   
   # if mass information is in edata then we can just use edata #
   if(edata_id == mass_id){
-    data = temp$e_data
+    data = ftmsObj$e_data
   }else{ # otherwise we need to merge edata and emeta #
-    data = merge(temp$e_meta[,c(edata_id, mass_id)], temp$e_data, by = edata_id)[,-(edata_id)]
+    data = merge(ftmsObj$e_meta[,c(edata_id, mass_id)], ftmsObj$e_data, by = edata_id)[,-(edata_id)]
   }
   
   # set a local dopar argument #
@@ -63,45 +61,49 @@ transformation_counts <- function(ftmsObj, transformDF, transformDigits = 4, tra
   transformDF[,transMass_cname] = round(transformDF[,transMass_cname], transformDigits)
   
   # setup parallelization variables #
-  num_cores = parallel::detectCores()
-  
-  cl = parallel::makeCluster(num_cores - 1)
-  doParallel::registerDoParallel(cl)
-  
-  # helper function that counts occurences #
-  f6 = function(x) {
-    data.table::data.table(x)[, .N, keyby = x]
+  if(parallel){
+    num_cores = parallel::detectCores()
+    cl = parallel::makeCluster(num_cores - 1)
+    doParallel::registerDoParallel(cl)  
+    on.exit(parallel::stopCluster(cl))
   }
-  
+  else foreach::registerDoSEQ()
+
   # produce vector of which columns are not mass_id #
   col_ids = which(names(data) != mass_id)
   
+  # do distance calculations in parallel
+  mass_dists = foreach::foreach(i = col_ids, .packages = c("data.table")) %dopar% {	
+    temp = data[which(data[,i] == 1), mass_id]
+    temp_dists = round(c(dist(temp)),transformDigits)
+    temp_dists
+  }
+  
   # if there are no extra columns in transformDF #
+  # performed outside parallel block due to issues with data.table
   if(is.null(transOther_cname)){
     # produce counts of transformations for each sample #
-    mass_diffs = foreach::foreach(i = col_ids, .packages = c("data.table")) %dopar% {	
-      temp = data[which(data[,i] == 1), mass_id]
-      temp_dists = round(c(dist(temp)),transformDigits)
-      dists_counts = f6(temp_dists)
-      trans_counts = merge(x = data.table::data.table(transformDF), y = dists_counts, by.x = transMass_cname, by.y = "x", all.x = T, all.y = F)
+    mass_diffs <- lapply(mass_dists, function(dist){
+      dists_counts = data.table::data.table(dist)[, .N, keyby = dist]
+      trans_counts = merge(x = data.table::data.table(transformDF), y = dists_counts, by.x = transMass_cname, by.y = "dist", all.x = T, all.y = F)
       trans_counts[,(transID_cname):=NULL]
-    }
+      trans_counts
+    })
+    
     comp_res = data.frame(mass_diffs[[1]][,transMass_cname, with = F], transformDF[,transID_cname],do.call(cbind, lapply(mass_diffs, function(x) x[,!(transMass_cname), with = F])))
     names(comp_res) = c(transMass_cname, transID_cname, names(data)[-1])
   }else{
-    mass_diffs = foreach::foreach(i = col_ids, .packages = c("data.table")) %dopar% {	
-      temp = data[which(data[,i] == 1), mass_id]
-      temp_dists = round(c(dist(temp)),transformDigits)
-      dists_counts = f6(temp_dists)
-      trans_counts = merge(x = data.table::data.table(transformDF[,c(transMass_cname, transID_cname)]), y = dists_counts, by.x = transMass_cname, by.y = "x", all.x = T, all.y = F)
+    # same as previous block but accounting for extra columns
+    mass_diffs <- lapply(mass_dists, function(dist){
+      dists_counts = data.table::data.table(dist)[, .N, keyby = dist]
+      trans_counts = merge(x = data.table::data.table(transformDF[,c(transMass_cname, transID_cname)]), y = dists_counts, by.x = transMass_cname, by.y = "dist", all.x = T, all.y = F)
       trans_counts[,(transID_cname):=NULL]
-    }
+      trans_counts
+    })
+    
     comp_res = data.frame(mass_diffs[[1]][,transMass_cname, with = F], transformDF[,c(transID_cname, transOther_cname)], do.call(cbind, lapply(mass_diffs, function(x) x[,!(transMass_cname), with = F])))
     names(comp_res) = c(transMass_cname, transID_cname, transOther_cname, names(data)[-1])
   }  
-  
-  # stop the created cluster #
-  parallel::stopCluster(cl)
   
   comp_res[is.na(comp_res)] = 0
 
