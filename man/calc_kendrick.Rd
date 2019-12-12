@@ -4,16 +4,27 @@
 \alias{calc_kendrick}
 \title{Calculate Kendrick Mass and Defect}
 \usage{
-calc_kendrick(ftmsObj)
+calc_kendrick(ftmsObj, base = "CH2")
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
+
+\item{base}{character, one of 'CH2', 'CO2', 'H2', 'H20', or 'CHO', the family of compounds to be used in determining the Kendrick Mass.}
 }
 \value{
 an object of the same class as \code{ftmsObj} with columns in \code{e_meta} giving Kendrick mass and defects
 }
 \description{
 Calculates the Kendrick mass and Kendrick defect needed for Kendrick plots
+}
+\details{
+\tabular{ll}{
+ \tab Kendrick-mass = \eqn{(Observed-Mass)*(Nominal-Mass(base)/Exact-Mass(base))} \cr
+ \tab Kendrick-defect = ceiling(Kendrick-mass) - Kendrick-mass
+}
+}
+\references{
+Hughey, C. A., Hendrickson, C. L., Rodgers, R. P., Marshall, A. G., & Qian, K. (2001). Kendrick mass defect spectrum: a compact visual analysis for ultrahigh-resolution broadband mass spectra. Analytical Chemistry, 73(19), 4676-4681.
 }
 \author{
 Lisa Bramer
