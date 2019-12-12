@@ -4,10 +4,12 @@
 \alias{calc_dbe}
 \title{Calculate DBE and DBE-O Values}
 \usage{
-calc_dbe(ftmsObj)
+calc_dbe(ftmsObj, valences = NULL)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+
+\item{valences}{a named list with the valence for each element.  Names must be any of 'C', 'H', 'N', 'O', 'S', 'P'. Values must be integers corresponding to the valence for each element.}
 }
 \value{
 an object of the same class as \code{ftmsObj} with a column in \code{e\_meta} giving DBE, DBE-O, and DBE_AI values
@@ -16,7 +18,7 @@ an object of the same class as \code{ftmsObj} with a column in \code{e\_meta} gi
 Calculate double bond equivalent (DBE) and double bond equivalent minus Oxygen (DBE-O) values for peaks where empirical formula is available
 }
 \details{
-DBE \eqn{= 1 + C - O - S - 0.5(N + P + H)}{= 1 + C - O - S - 0.5*(N + P + H)} and DBE-0 \eqn{= 1 + C - O - S - 0.5(N + P + H) - O}{= 1 + C - O - S - 0.5*(N + P + H) - O}
+DBE \eqn{= 1 + C - O - S - 0.5*(N + P + H)} and DBE-0 \eqn{= 1 + C - O - S - 0.5(N + P + H) - O}{= 1 + C - O - S - 0.5*(N + P + H) - O} \cr
 }
 \references{
 Koch, B. P., & Dittmar, T. (2006). From mass to structure: an aromaticity index for high‐resolution mass data of natural organic matter. Rapid communications in mass spectrometry, 20(5), 926-932.

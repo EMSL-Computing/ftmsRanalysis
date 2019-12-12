@@ -4,6 +4,7 @@
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param calc_fns a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.
+#' @param calc_args a list with names corresponding to the available calc_fns.  Each element is a sub-list of extra arguments for the specified function.
 #' 
 #' @details The calculations are as follows for each of the `calc_fns`: 
 #' 
@@ -37,7 +38,8 @@
 #' @author Kelly Stratton
 #' @export
 
-compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios")){
+compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios"),
+                           calc_args = list("calc_aroma" = NULL, "calc_dbe" = NULL, "calc_gibbs" = NULL, "calc_kendrick" = NULL, "calc_nosc" = NULL, "calc_element_ratios" = NULL)){
   
   ## initial checks ##
   
@@ -55,7 +57,12 @@ compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
   for(i in 1:length(calc_fns)){
     # set f to the function that is named in the ith element of compound_calcs # 
     f <- get(as.character(calc_fns[i]), envir=asNamespace("ftmsRanalysis"), mode="function")
-    ftmsObj <- f(ftmsObj)
+    
+    # check for extra arguments
+    if(!is.null(calc_args[[as.character(calc_fns[i])]])){
+      ftmsObj <- do.call(f, c(list(ftmsObj = ftmsObj), calc_args[[as.character(calc_fns[i])]]))
+    }
+    else ftmsObj <- f(ftmsObj)
   }
   
   return(ftmsObj)
