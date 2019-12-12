@@ -5,7 +5,8 @@
 \title{Calculate and Count Observed Mass Transformations}
 \usage{
 transformation_counts(ftmsObj, transformDF, transformDigits = 4,
-  transMass_cname, transID_cname, transOther_cname = NULL)
+  transMass_cname, transID_cname, transOther_cname = NULL,
+  parallel = TRUE)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}

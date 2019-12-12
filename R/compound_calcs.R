@@ -4,7 +4,7 @@
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param calc_fns a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.
-#' @param calc_args a list with names corresponding to the available calc_fns.  Each element is a sub-list of extra arguments for the specified function.
+#' @param calc_args a list with names corresponding to the available calc_fns.  Each element is a named sub-list of extra arguments for the specified function.
 #' 
 #' @details The calculations are as follows for each of the `calc_fns`: 
 #' 
@@ -14,13 +14,15 @@
 #'  \tab AI_Mod \eqn{= \frac{1 + C - 0.5O - S - 0.5(N + P + H)}{C - 0.5*O - S - N - P}}{= (1 + C - 0.5*O - S - 0.5*(N + P + H))/(C - 0.5*O - S - N - P)} \cr
 #' \tab \cr
 #' calc_dbe \tab calculates double bond equivalent (DBE) and double bond equivalent minux Oxygent (DBE_O) \cr
-#'  \tab DBE \eqn{= 1 + C - O - S - 0.5(N + P + H)}{= 1 + C - O - S - 0.5*(N + P + H)} \cr
+#'  \tab DBE \eqn{= 1 + C - O - S - 0.5*(N + P + H)} \cr
 #'  \tab DBE_0 \eqn{= 1 + C - O - S - 0.5(N + P + H) - O}{= 1 + C - O - S - 0.5*(N + P + H) - O} \cr
 #' \tab \cr
 #' calc_gibbs \tab calculates Cox Gibbs Free Energy (GFE) \cr
 #'  \tab GFE = \eqn{= 60.3 - 28.5NOSC}{= 60.3 - 28.5*NOSC} \cr
 #' \tab \cr
 #' calc_kendrick \tab calculates Kendrick Mass and Kendrick Defect \cr
+#'  \tab Kendrick-mass = \eqn{(Observed-Mass)*(Nominal-Mass(base)/Exact-Mass(base))} \cr
+#'  \tab Kendrick-defect = ceiling(Kendrick-mass) - Kendrick-mass \cr
 #' \tab \cr
 #' calc_nosc \tab calculates nominal oxidation state of Carbon (NOSC) \cr
 #'  \tab NOSC \eqn{= -(\frac{4C + H - 3N - 2O + 5P - 2S}{C}) + 4}{= -((4*C + H - 3*N - 2*O + 5*P - 2*S)/(C)) + 4} \cr
@@ -32,6 +34,7 @@
 #' @references Koch, B. P., & Dittmar, T. (2006). From mass to structure: an aromaticity index for high‐resolution mass data of natural organic matter. Rapid communications in mass spectrometry, 20(5), 926-932.
 #' @references Errata: Koch, B. P., & Dittmar, T. (2016). From mass to structure: an aromaticity index for high-resolution mass data of natural organic matter. Rapid communications in mass spectrometery, 30(1), 250. DOI: 10.1002/rcm.7433
 #' @references LaRowe and Van Cappellen, 2011, "Degradation of natural organic matter: A thermodynamic analysis". Geochimica et Cosmochimica Acta. 75.
+#' @references Hughey, C. A., Hendrickson, C. L., Rodgers, R. P., Marshall, A. G., & Qian, K. (2001). Kendrick mass defect spectrum: a compact visual analysis for ultrahigh-resolution broadband mass spectra. Analytical Chemistry, 73(19), 4676-4681.
 #' 
 #' @return an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving the newly calculated values
 #'  

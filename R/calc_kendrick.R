@@ -7,6 +7,14 @@
 #'
 #' @return an object of the same class as \code{ftmsObj} with columns in \code{e_meta} giving Kendrick mass and defects
 #' 
+#' @details
+#' \tabular{ll}{
+#'  \tab Kendrick-mass = \eqn{(Observed-Mass)*(Nominal-Mass(base)/Exact-Mass(base))} \cr
+#'  \tab Kendrick-defect = ceiling(Kendrick-mass) - Kendrick-mass
+#' }
+#' 
+#' @references Hughey, C. A., Hendrickson, C. L., Rodgers, R. P., Marshall, A. G., & Qian, K. (2001). Kendrick mass defect spectrum: a compact visual analysis for ultrahigh-resolution broadband mass spectra. Analytical Chemistry, 73(19), 4676-4681.
+#' 
 #' @author Lisa Bramer
 #'
 
@@ -19,7 +27,7 @@ calc_kendrick <- function(ftmsObj, base = 'CH2'){
   # check that ftmsObj doesn't already have cnames specified for ratios in e_meta #
   if(!is.null(getKendrickDefectColName(ftmsObj)) | !is.null(getKendrickMassColName(ftmsObj))) message("mass_cname and/or defect_cname were already specified and will be overwritten")
   
-  if(!(base %in% c('CH2', 'CO2', 'H2', 'H20', 'CHO'))) stop("Base compound must be one of 'CH2', 'CO2', 'H2', 'H20', or 'CHO'")
+  if(!(base %in% c('CH2', 'CO2', 'H2', 'H2O', 'CHO'))) stop("Base compound must be one of 'CH2', 'CO2', 'H2', 'H2O', or 'CHO'")
   
   mass_cname = getMassColName(ftmsObj)
   
@@ -34,7 +42,7 @@ calc_kendrick <- function(ftmsObj, base = 'CH2'){
     'CH2' = 14/14.01565,
     'CO2' = 44/43.98983,
     'H2' = 2/2.015650,
-    'H20' = 18/18.010565,
+    'H2O' = 18/18.010565,
     'CHO' = 29/29.00274
   )
   

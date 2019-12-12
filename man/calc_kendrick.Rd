@@ -17,6 +17,15 @@ an object of the same class as \code{ftmsObj} with columns in \code{e_meta} givi
 \description{
 Calculates the Kendrick mass and Kendrick defect needed for Kendrick plots
 }
+\details{
+\tabular{ll}{
+ \tab Kendrick-mass = \eqn{(Observed-Mass)*(Nominal-Mass(base)/Exact-Mass(base))} \cr
+ \tab Kendrick-defect = ceiling(Kendrick-mass) - Kendrick-mass
+}
+}
+\references{
+Hughey, C. A., Hendrickson, C. L., Rodgers, R. P., Marshall, A. G., & Qian, K. (2001). Kendrick mass defect spectrum: a compact visual analysis for ultrahigh-resolution broadband mass spectra. Analytical Chemistry, 73(19), 4676-4681.
+}
 \author{
 Lisa Bramer
 }
