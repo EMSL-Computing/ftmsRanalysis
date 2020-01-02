@@ -6,7 +6,8 @@
 \usage{
 kendrickPlot(ftmsObj, title = NA, colorPal = NA, colorCName = NA,
   vkBoundarySet = "bs1", xlabel = "Kendrick Mass",
-  ylabel = "Kendrick Defect", legendTitle = colorCName)
+  ylabel = "Kendrick Defect", legendTitle = colorCName,
+  base_compound = NULL)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
@@ -24,6 +25,8 @@ kendrickPlot(ftmsObj, title = NA, colorPal = NA, colorCName = NA,
 \item{ylabel}{y axis label, default is "Kendrick Defect"}
 
 \item{legendTitle}{title for the legend, only used when coloring points according to a numeric scale}
+
+\item{base_compound}{string specifying the base compound used to calculate the Kendrick Mass you want plotted on the x-axis.  Defaults to NULL, in which case the first Kendrick Mass is used.}
 }
 \value{
 a plotly object

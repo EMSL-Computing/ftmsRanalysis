@@ -2,7 +2,7 @@
 % Please edit documentation in R/colname_methods.R
 \name{getKendrickDefectColName}
 \alias{getKendrickDefectColName}
-\title{Get the name of the Kendrick defect column}
+\title{Get the names of the Kendrick defect column}
 \usage{
 getKendrickDefectColName(ftmsObj)
 }
@@ -13,6 +13,6 @@ getKendrickDefectColName(ftmsObj)
 name of Kendrick defect column
 }
 \description{
-Returns the name of the column in the e_meta element that 
+Returns the names of the columns in the e_meta element that 
 contains Kendrick defect data for Kendrick plots.
 }
