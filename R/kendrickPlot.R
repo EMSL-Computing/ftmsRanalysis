@@ -11,6 +11,7 @@
 #' @param xlabel x axis label, default is "Kendrick Mass"
 #' @param ylabel y axis label, default is "Kendrick Defect"
 #' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
+#' @param base_compound string specifying the base compound used to calculate the Kendrick Mass you want plotted on the x-axis.  Defaults to NULL, in which case the first Kendrick Mass is used.
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
 #' 
