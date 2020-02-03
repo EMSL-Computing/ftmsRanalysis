@@ -24,14 +24,16 @@ test_dbe_result <- function(peakObj) {
   expect_true(all(c(dbe_cname, dbeo_cname, dbeai_cname) %in% colnames(peakObj$e_meta)))
   expect_true(all(!is.null(c(dbe_cname, dbeo_cname, dbeai_cname))))
   
-  expect_true(is.numeric(dplyr::pull(peakObj$e_meta, dbe_cname)))
+  expect_true(all(sapply(dplyr::select(peakObj$e_meta, dbe_cname), is.numeric)))
   expect_true(is.numeric(dplyr::pull(peakObj$e_meta, dbeo_cname)))
   expect_true(is.numeric(dplyr::pull(peakObj$e_meta, dbeai_cname)))
+  expect_true(!is.null(attr(peakObj, "valence_DF")) & all(rownames(attr(peakObj, "valence_DF")) %in% colnames(peakObj$e_meta))) # check non-null since all(NULL) = TRUE
   
   missing_mol_form <- sum(is.na(dplyr::pull(peakObj$e_meta, ftmsRanalysis:::getMFColName(peakObj))))
-  missing_dbe <- sum(is.na(dplyr::pull(peakObj$e_meta, dbe_cname)))
+  missing_dbe <- sum(sapply(dplyr::select(peakObj$e_meta, dbe_cname), is.na))/length(dbe_cname) # divide by number of dbe columns for correct comparison
   missing_dbeo <- sum(is.na(dplyr::pull(peakObj$e_meta, dbeo_cname)))
   missing_dbeai <- sum(is.na(dplyr::pull(peakObj$e_meta, dbeai_cname)))
+  
   expect_equal(missing_dbe, missing_mol_form, info="number of missing DBE values is not the same as the number of missing mol. formulae")
   expect_equal(missing_dbeo, missing_mol_form, info="number of missing DBE_O values is not the same as the number of missing mol. formulae")
   expect_equal(missing_dbeai, missing_mol_form, info="number of missing DBE_AI values is not the same as the number of missing mol. formulae")
@@ -132,7 +134,10 @@ test_that("tests of compound_calcs function", {
   expect_error(test_elemental_ratios_result(peak4))
   
   # test multiple kmass cnames and dbe cnames
-  peak5 <- compound_calcs(examplePeakData, calc_fns=opts, calc_args = list('calc_kendrick' = list('base_compounds' = c('CH2', 'CO2', 'H2'))))
+  kendrick_args = list('base_compounds' = c('CH2', 'CO2', 'H2'))
+  dbe_args = list('valences' = data.frame('C' = c(2, 3,3), 'H' = c(1, 1, 1), 'N' = c(3, 2, 3), 'O' = c(2,2,2), 'S' = c(2,3,4), 'P' = c(4,3,2)))
+  calc_args = list('calc_kendrick' = kendrick_args, 'calc_dbe' = dbe_args)
+  peak5 <- compound_calcs(examplePeakData, calc_fns=opts, calc_args = calc_args)
   test_aroma_result(peak5)
   test_dbe_result(peak5)
   test_gibbs_result(peak5)

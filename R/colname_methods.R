@@ -867,7 +867,7 @@ setGibbsColName <- function(ftmsObj, cname) {
 
 #' Get the name of the double-bond equivalent column
 #' 
-#' Gets the name of the column in the e\_meta element that contains double-bond equivalent values
+#' Gets the name of the column in the e_meta element that contains double-bond equivalent values
 #' 
 #' @param ftmsObj an object of type ftmsData
 #' @return name of double-bond equivalent column

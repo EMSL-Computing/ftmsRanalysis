@@ -79,25 +79,24 @@ setGroupDF <- function(ftmsObj, group_df) {
 #' Stores a dataframe of various valence combinations in the valence_DF attribute of the ftmsObject 
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param valence_DF a dataframe with columns C, H, N, O, S, P and values representing valences for each element
+#' @param valences a dataframe with columns C, H, N, O, S, P and values representing valences for each element
 #' @return updated ftmsObj
 #' 
-#' 
-setDBEValenceDF <- function(ftmsObj, valence_DF) {
+setDBEValenceDF <- function(ftmsObj, valences) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  if (!inherits(valence_DF, "data.frame")){
+  if (!inherits(valences, "data.frame")){
     stop("valence_DF must be a data frame")
   }
-  if(!all(colnames(valence_DF) %in% c('C', 'H', 'N', 'O', 'S', 'P'))){
+  if(!all(colnames(valences) %in% c('C', 'H', 'N', 'O', 'S', 'P'))){
     stop("valence_DF must have column names: 'C, H, N, O, S, P'")
   }
   if(!all(sapply(valences, is.numeric))){
     stop("valence_DF must have numeric columns")
   }
   
-  attr(ftmsObj, "valence_DF") <- valence_DF
+  attr(ftmsObj, "valence_DF") <- valences
   return(ftmsObj)
 }
 

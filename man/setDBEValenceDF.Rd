@@ -4,12 +4,12 @@
 \alias{setDBEValenceDF}
 \title{Set the valence_DF attribute}
 \usage{
-setDBEValenceDF(ftmsObj, valence_DF)
+setDBEValenceDF(ftmsObj, valences)
 }
 \arguments{
 \item{ftmsObj}{an object of type ftmsData}
 
-\item{valence_DF}{a dataframe with columns C, H, N, O, S, P and values representing valences for each element}
+\item{valences}{a dataframe with columns C, H, N, O, S, P and values representing valences for each element}
 }
 \value{
 updated ftmsObj
