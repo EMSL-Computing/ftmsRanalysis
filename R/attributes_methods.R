@@ -74,6 +74,32 @@ setGroupDF <- function(ftmsObj, group_df) {
   invisible(ftmsObj)
 }
 
+#' Set the valence_DF attribute
+#' 
+#' Stores a dataframe of various valence combinations in the valence_DF attribute of the ftmsObject 
+#'
+#' @param ftmsObj an object of type ftmsData
+#' @param valences a dataframe with columns C, H, N, O, S, P and values representing valences for each element
+#' @return updated ftmsObj
+#' 
+setDBEValenceDF <- function(ftmsObj, valences) {
+  if (!inherits(ftmsObj, "ftmsData")) {
+    stop("ftmsObj must be of type ftmsData")
+  } 
+  if (!inherits(valences, "data.frame")){
+    stop("valence_DF must be a data frame")
+  }
+  if(!all(colnames(valences) %in% c('C', 'H', 'N', 'O', 'S', 'P'))){
+    stop("valence_DF must have column names: 'C, H, N, O, S, P'")
+  }
+  if(!all(sapply(valences, is.numeric))){
+    stop("valence_DF must have numeric columns")
+  }
+  
+  attr(ftmsObj, "valence_DF") <- valences
+  return(ftmsObj)
+}
+
 #' Get data scale 
 #' 
 #' Get the data scale (e.g. 'abundance', 'pres', 'log2', 'log10', 'log')

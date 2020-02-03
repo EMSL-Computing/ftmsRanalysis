@@ -4,17 +4,17 @@
 \alias{setKendrickMassColName}
 \title{Set the name of the Kendrick mass column}
 \usage{
-setKendrickMassColName(ftmsObj, cname)
+setKendrickMassColName(ftmsObj, cnames)
 }
 \arguments{
 \item{ftmsObj}{an object of type ftmsData}
 
-\item{cname}{column name}
+\item{cnames}{column names}
 }
 \value{
 updated ftmsObj
 }
 \description{
-Sets the name of the column in the e_meta element that 
+Sets the names of the columns in the e_meta element that 
 contains Kendrick mass data for Kendrick plots.
 }

@@ -67,9 +67,9 @@ o2c_cname \tab character string specifying the name of the column, in \code{e_me
 \tab \cr
 h2c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Hydrogen to Carbon ratio for each peak/mass. \cr
 \tab \cr
-kmass_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Kendrick Mass for each peak/mass. \cr
+kmass_cname \tab a possibly named character vector specifying the name of the columns, in \code{e_meta}, containing the Kendrick Mass for each peak/mass.  Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses \cr
 \tab \cr
-kdefect_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Kendrick Defect for each peak/mass. \cr
+kdefect_cname \tab a possibly named character vector specifying the name of the column, in \code{e_meta}, containing the Kendrick Defect for each peak/mass. Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses\cr
 \tab \cr
 nosc_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the NOSC value for each peak/mass \cr
 \tab \cr

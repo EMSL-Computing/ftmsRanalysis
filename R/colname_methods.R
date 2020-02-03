@@ -582,7 +582,7 @@ setIsotopicColName <- function(ftmsObj, cname) {
 
 #' Get the name of the Kendrick mass column
 #' 
-#' Returns the name of the column in the e_meta element that 
+#' Returns the names of the columns in the e_meta element that 
 #' contains Kendrick mass data for Kendrick plots.
 #'
 #' @param ftmsObj an object of type ftmsData
@@ -597,28 +597,28 @@ getKendrickMassColName <- function(ftmsObj) {
 
 #' Set the name of the Kendrick mass column
 #' 
-#' Sets the name of the column in the e_meta element that 
+#' Sets the names of the columns in the e_meta element that 
 #' contains Kendrick mass data for Kendrick plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param cname column name
+#' @param cnames column names
 #' @return updated ftmsObj
 #' 
 #' 
-setKendrickMassColName <- function(ftmsObj, cname) {
+setKendrickMassColName <- function(ftmsObj, cnames) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  if (!(cname %in% names(ftmsObj$e_meta))) {
-    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  if (!all(cnames %in% names(ftmsObj$e_meta))) {
+    stop(sprintf("Columns '%s' are not found in the e_meta data", paste(cnames, collapse = ', ')))
   }
-  attr(ftmsObj, "cnames")$kmass_cname <- cname
+  attr(ftmsObj, "cnames")$kmass_cname <- cnames
   return(ftmsObj)
 }
 
-#' Get the name of the Kendrick defect column
+#' Get the names of the Kendrick defect column
 #' 
-#' Returns the name of the column in the e_meta element that 
+#' Returns the names of the columns in the e_meta element that 
 #' contains Kendrick defect data for Kendrick plots.
 #'
 #' @param ftmsObj an object of type ftmsData
@@ -631,24 +631,24 @@ getKendrickDefectColName <- function(ftmsObj) {
   return(attr(ftmsObj, "cnames")$kdefect_cname)
 }
 
-#' Set the name of the Kendrick defect column
+#' Set the names of the Kendrick defect column
 #' 
 #' Sets the name of the column in the e_meta element that 
 #' contains Kendrick defect data for Kendrick plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param cname column name
+#' @param cnames column names
 #' @return updated ftmsObj
 #' 
 #' 
-setKendrickDefectColName <- function(ftmsObj, cname) {
+setKendrickDefectColName <- function(ftmsObj, cnames) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  if (!(cname %in% names(ftmsObj$e_meta))) {
-    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  if (!all(cnames %in% names(ftmsObj$e_meta))) {
+    stop(sprintf("Columns '%s' are not found in the e_meta data", paste(cnames, collapse = ', ')))
   }
-  attr(ftmsObj, "cnames")$kdefect_cname <- cname
+  attr(ftmsObj, "cnames")$kdefect_cname <- cnames
   return(ftmsObj)
 }
 
@@ -867,7 +867,7 @@ setGibbsColName <- function(ftmsObj, cname) {
 
 #' Get the name of the double-bond equivalent column
 #' 
-#' Gets the name of the column in the e\_meta element that contains double-bond equivalent values
+#' Gets the name of the column in the e_meta element that contains double-bond equivalent values
 #' 
 #' @param ftmsObj an object of type ftmsData
 #' @return name of double-bond equivalent column
@@ -885,18 +885,18 @@ getDBEColName <- function(ftmsObj){
 #' contains double-bond equivalent information.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param cname column name
+#' @param cnames column names
 #' @return updated ftmsObj
 #' 
 #' 
-setDBEColName <- function(ftmsObj, cname) {
+setDBEColName <- function(ftmsObj, cnames) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  if (!(cname %in% names(ftmsObj$e_meta))) {
-    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  if (!all(cnames %in% names(ftmsObj$e_meta))) {
+    stop(sprintf("Columns '%s' are not found in the e_meta data", paste(cnames, collapse = ',')))
   }
-  attr(ftmsObj, "cnames")$dbe_cname <- cname
+  attr(ftmsObj, "cnames")$dbe_cname <- cnames
   return(ftmsObj)
 }
 

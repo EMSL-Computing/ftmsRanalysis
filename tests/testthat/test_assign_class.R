@@ -28,7 +28,6 @@ test_boundary_set <- function(boundary_set) {
   cmp <- suppressWarnings(suppressMessages(mapPeaksToCompounds(exampleProcessedPeakData)))
   cmp2 <- assign_class(cmp, boundary_set = boundary_set)
   test_result(cmp2, boundary_set, "compoundData with pre-calculated elemental ratios")
-  
 }
 
 test_that("tests of assign_class function with bs1", {
