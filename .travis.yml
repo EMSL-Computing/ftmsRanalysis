@@ -34,17 +34,17 @@ matrix:
       before_install:
         - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
         - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-        - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+        - Rscript -e 'remotes::install_github(c("delta-rho/datadr","delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
     - r: 3.4
       before_install:
         - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
         - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-        - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+        - Rscript -e 'remotes::install_github(c("delta-rho/datadr","delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
     - r: devel
       before_install:
         - Rscript -e 'install.packages(c("remotes"));if (!all(c("remotes") %in% installed.packages())) { q(status = 1, save = "no")}'
         - Rscript -e 'remotes::install_deps(dependencies = TRUE)'
-        - Rscript -e 'remotes::install_github(c("delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
+        - Rscript -e 'remotes::install_github(c("delta-rho/datadr","delta-rho/trelliscope","EMSL-Computing/MetaCycData"))'
   allow_failures:
     - r: devel
   fast_finish: true
