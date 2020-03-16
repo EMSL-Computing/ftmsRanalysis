@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 # Introduction
 
 ## FT-MS Analysis
-[TODO: Lisa this needs an edit] Fourier-transform mass spectrometry (FT-MS) is a type of mass spectrometery for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.  Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. FT-MS instrument data can be interpreted as peak intensities for each observed peak. FT-MS analysis has been used to examine a wide range of complex mixtures, including soils, plants, aquatic samples, petroleum and various beverages.
+Fourier-transform mass spectrometry (FT-MS) is a type of mass spectrometery for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.  Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. FT-MS instrument data can be interpreted as peak intensities for each observed peak. FT-MS analysis has been used to examine a wide range of complex mixtures, including soils, plants, aquatic samples, petroleum and various beverages.
 
 The `ftmsRanalysis` package was designed to help with various steps of processing FT-MS data, including:
 
@@ -63,7 +63,7 @@ Data required for the `ftmsRanalysis` package is comprised of three data tables:
 ## e_data (Expression Data)
 The edata object is a data frame with one row per peak and one column per sample. It must have one column that is a unique ID (e.g. Mass).
 
-```{r }
+```{r}
 library(ftmsRanalysis)
 data("ftms12T_edata")
 str(ftms12T_edata)
@@ -254,7 +254,7 @@ densityPlot(one_sample, variable = "NOSC", plot_curve=TRUE, plot_hist=TRUE,
 It's also possible to plot just the histogram or just the density curve with this function with the `plot_hist` and `plot_curve` parameters.
 
 ```{r}
-densityPlot(one_sample, variable = "kmass", 
+densityPlot(one_sample, variable = "kmass.CH2", 
             title="Kendrick Mass for EM0011_sample", plot_hist=TRUE, 
             plot_curve = FALSE, yaxis="count")
 ```
@@ -301,7 +301,7 @@ crop_unique <- summarizeGroupComparisons(byGroup,
                   uniqueness_gtest=list(pres_fn="nsamps", 
                           pres_thresh=2, pvalue_thresh=0.05)))
 
-tail(crop_unique$e_data)
+head(crop_unique$e_data)
 ```
 
 Then we can construct a Van Krevelen plot colored by group membership.
