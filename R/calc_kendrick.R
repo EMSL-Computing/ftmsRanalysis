@@ -54,6 +54,8 @@ calc_kendrick <- function(ftmsObj, base_compounds = 'CH2'){
   
   # calculate kendrick masses for each base...
   masses = as.numeric(as.character(temp[,mass_cname])) %*% t(coefs)
+  # ... workaround for a quick when storing a single column matrix in a dataframe column ...
+  if(dim(masses)[2] == 1) masses <- as.vector(masses)
   # ... and store in new columns
   temp[mass_cols] = masses
   
