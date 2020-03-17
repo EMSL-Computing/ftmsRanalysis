@@ -3,6 +3,12 @@ sudo: false
 cache: packages
 pandoc_version: 1.19.2.1
 
+warnings_are_errors: false
+_r_check_force_suggests_: false
+r_remote_no_errors_from_warnings: true
+r_check_args: --no-build-vignettes --no-manual
+r_build_args: --no-build-vignettes --no-manual
+
 env:
   global:
     - _R_CHECK_FORCE_SUGGESTS_=false
