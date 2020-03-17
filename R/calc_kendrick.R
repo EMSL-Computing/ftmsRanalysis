@@ -3,7 +3,7 @@
 #' Calculates the Kendrick mass and Kendrick defect needed for Kendrick plots
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.
-#' @param base character, one of 'CH2', 'CO2', 'H2', 'H20', or 'CHO', the family of compounds to be used in determining the Kendrick Mass.
+#' @param base_compounds character vector, containing any of 'CH2', 'CO2', 'H2', 'H20', or 'CHO', the family of compounds to be used in determining the Kendrick Mass.
 #'
 #' @return an object of the same class as \code{ftmsObj} with columns in \code{e_meta} giving Kendrick mass and defects
 #' 
@@ -18,16 +18,16 @@
 #' @author Lisa Bramer
 #'
 
-calc_kendrick <- function(ftmsObj, base = 'CH2'){
-  ### DA PLAN:  Calculate ratio = nominal mass/exact mass for each proposed molecule
+calc_kendrick <- function(ftmsObj, base_compounds = 'CH2'){
 
   # check that ftmsObj is of the correct class #
   if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
   # check that ftmsObj doesn't already have cnames specified for ratios in e_meta #
-  if(!is.null(getKendrickDefectColName(ftmsObj)) | !is.null(getKendrickMassColName(ftmsObj))) message("mass_cname and/or defect_cname were already specified and will be overwritten")
+  if(!is.null(getKendrickDefectColName(ftmsObj)) | !is.null(getKendrickMassColName(ftmsObj))) message("mass_cname and/or defect_cname were already specified and may be overwritten")
   
-  if(!(base %in% c('CH2', 'CO2', 'H2', 'H2O', 'CHO'))) stop("Base compound must be one of 'CH2', 'CO2', 'H2', 'H2O', or 'CHO'")
+  # verify base input
+  if(!all(base_compounds %in% c('CH2', 'CO2', 'H2', 'H2O', 'CHO'))) stop("Base compounds must be one of 'CH2', 'CO2', 'H2', 'H2O', or 'CHO'")
   
   mass_cname = getMassColName(ftmsObj)
   
@@ -38,26 +38,36 @@ calc_kendrick <- function(ftmsObj, base = 'CH2'){
   temp = ftmsObj$e_meta
   
   # determine which ratio to use: CH2, CO2, H2, H20, CHO
-  coef  = switch(base,
-    'CH2' = 14/14.01565,
-    'CO2' = 44/43.98983,
-    'H2' = 2/2.015650,
-    'H2O' = 18/18.010565,
-    'CHO' = 29/29.00274
-  )
+  coefs = sapply(base_compounds, function(base){
+                  switch(base,
+                  'CH2' = 14/14.01565,
+                  'CO2' = 44/43.98983,
+                  'H2' = 2/2.015650,
+                  'H2O' = 18/18.010565,
+                  'CHO' = 29/29.00274
+                  )}
+                )
   
-  # calculate kendrick mass #
-  temp$kmass = as.numeric(as.character(temp[,mass_cname]))*coef
+  # make new column names for e_meta
+  mass_cols = sapply(base_compounds, function(base) paste0('kmass.', base))
+  defect_cols = sapply(base_compounds, function(base) paste0('kdefect.', base))
+  
+  # calculate kendrick masses for each base...
+  masses = as.numeric(as.character(temp[,mass_cname])) %*% t(coefs)
+  # ... workaround for a quick when storing a single column matrix in a dataframe column ...
+  if(dim(masses)[2] == 1) masses <- as.vector(masses)
+  # ... and store in new columns
+  temp[mass_cols] = masses
   
   # calculate kendrick defect #
-  temp$kdefect = ceiling(temp$kmass) - temp$kmass
+  temp[defect_cols] = ceiling(temp[mass_cols]) - temp[mass_cols]
   
   # reinsert temp into ftmsObj #
   ftmsObj$e_meta = temp
   
   # assign column names #
-  res1 = setKendrickMassColName(ftmsObj, "kmass")
-  res2 = setKendrickDefectColName(res1, "kdefect")
+  res1 = setKendrickMassColName(ftmsObj, mass_cols)
+  res2 = setKendrickDefectColName(res1, defect_cols)
   
   return(res2)
 }
