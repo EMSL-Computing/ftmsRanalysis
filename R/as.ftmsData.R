@@ -51,9 +51,9 @@
 #' \tab \cr
 #' h2c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Hydrogen to Carbon ratio for each peak/mass. \cr
 #' \tab \cr
-#' kmass_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Kendrick Mass for each peak/mass. \cr
+#' kmass_cname \tab a possibly named character vector specifying the name of the columns, in \code{e_meta}, containing the Kendrick Mass for each peak/mass.  Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses \cr
 #' \tab \cr
-#' kdefect_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Kendrick Defect for each peak/mass. \cr
+#' kdefect_cname \tab a possibly named character vector specifying the name of the column, in \code{e_meta}, containing the Kendrick Defect for each peak/mass. Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses\cr
 #' \tab \cr
 #' nosc_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the NOSC value for each peak/mass \cr
 #' \tab \cr
@@ -150,10 +150,16 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
     if(!(h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", h2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
   }
   if(!is.null(kmass_cname)){
-    if(!(kmass_cname %in% names(e_meta))) stop(paste("Kendrick Mass column ", kmass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+    if(!is.null(names(kmass_cname))){
+      if(!all(names(kmass_cname)) %in% c('CH2', 'CO2', 'H2', 'H2O', 'CHO', '')) stop("Names (not the values) of kmass_cname must be in 'CH2', 'CO2', 'H2', 'H2O', 'CHO'")
+    }
+    if(!all(kmass_cname %in% names(e_meta))) stop(paste("Kendrick Mass column ", kmass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
   }
   if(!is.null(kdefect_cname)){
-    if(!(kdefect_cname %in% names(e_meta))) stop(paste("Kendrick Defect column ", kdefect_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+    if(!is.null(names(kdefect_cname))){
+      if(!all(names(kdefect_cname)) %in% c('CH2', 'CO2', 'H2', 'H2O', 'CHO', '')) stop("Names (not the values) of kdefect_cname must be in 'CH2', 'CO2', 'H2', 'H2O', 'CHO'")
+    }
+    if(!all(kdefect_cname %in% names(e_meta))) stop(paste("Kendrick Defect column ", kdefect_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
   }
   if(!is.null(nosc_cname)){
     if(!(nosc_cname %in% names(e_meta))) stop(paste("NOSC column ", nosc_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )

@@ -11,6 +11,7 @@
 #' @param xlabel x axis label, default is "Kendrick Mass"
 #' @param ylabel y axis label, default is "Kendrick Defect"
 #' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
+#' @param base_compound string specifying the base compound used to calculate the Kendrick Mass you want plotted on the x-axis.  Defaults to NULL, in which case the first Kendrick Mass is used.
 #' @return a plotly object
 #' @seealso \code{\link{plot_ly}}
 #' 
@@ -18,7 +19,7 @@
 #'
 #' @export
 kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", 
-                         xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName) {
+                         xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName, base_compound=NULL) {
 
   # here's an R quirk: legendTitle=colorCName by default. legendTitle value is not 'fixed' until the first
   # time it's evaluated. So if legendTitle is not explicitly set and I change colorCName in this function
@@ -41,24 +42,50 @@ kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
   
   return(ftmsRanalysis:::.kendrickPlotInternal(ftmsObj, title=title, colorPal=colorPal, colorCName=colorCName, 
                                vkBoundarySet=vkBoundarySet, xlabel=xlabel, ylabel=ylabel, 
-                               legendTitle=legendTitle, logColorCol=logColorCol))
+                               legendTitle=legendTitle, logColorCol=logColorCol, base_compound=base_compound))
 } 
 
 .kendrickPlotInternal <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBoundarySet = "bs1", 
                                   xlabel="Kendrick Mass", ylabel="Kendrick Defect", legendTitle=colorCName, 
-                                  logColorCol=FALSE) {
+                                  logColorCol=FALSE, base_compound=NULL) {
   # Test inputs
   # check that ftmsObj is of the correct class #
   if(!inherits(ftmsObj, "peakData") & !inherits(ftmsObj, "compoundData")) stop("ftmsObj must be an object of class 'peakData' or 'compoundData'")
   
-  km_col <- getKendrickMassColName(ftmsObj)
-  if (is.null(km_col) | !is.element(km_col, colnames(ftmsObj$e_meta))) {
+  ## specify Kendrick mass column
+  km_cols <- getKendrickMassColName(ftmsObj)
+  if (is.null(km_cols) | !all(is.element(km_cols, colnames(ftmsObj$e_meta)))) {
     stop("Kendrick mass column attribute is not set or is not present in ftmsObj$e_meta")
   }
-  kd_col <- getKendrickDefectColName(ftmsObj)
-  if (is.null(kd_col) | !is.element(kd_col, colnames(ftmsObj$e_meta))) {
+  
+  if(!is.null(base_compound)){
+    if(is.na(km_cols[base_compound])) stop(sprintf("Specified base compound was not used to calculate any Kendrick Masses.  Specifically, we did not find an element of the kmass_cname attribute with a name '%s'", base_compound))
+    km_col <- km_cols[base_compound]
+  }
+  else if(length(km_cols) > 1){
+    warning('Multiple kendrick masses were calculated using different base compounds, defaulting to the first.')
+    km_col <- km_cols[1]
+  }
+  else km_col <- km_cols
+  ##
+  
+  ## specify Kendrick defect column
+  kd_cols <- getKendrickDefectColName(ftmsObj)
+  if (is.null(kd_cols) | !all(is.element(kd_cols, colnames(ftmsObj$e_meta)))) {
     stop("Kendrick defect column attribute is not set or is not present in ftmsObj$e_meta")
   }
+  
+  if(!is.null(base_compound)){
+    if(is.na(kd_cols[base_compound])) stop(sprintf("Specified base compound was not used to calculate any Kendrick Masses.  
+                                                   Specifically, we did not find an element of the kdefect_cname with a name '%s'", base_compound))
+    kd_col <- kd_cols[base_compound]
+  }
+  else if(length(kd_cols) > 1){
+    warning('Multiple kendrick defects were calculated using different base compounds, defaulting to the first.')
+    kd_col <- kd_cols[1]
+  }
+  else kd_col <- kd_cols
+  ##
   
   if (is.na(colorCName) & is.na(vkBoundarySet)) {
     stop("at least one of colorCName or vkBoundarySet must be specified")

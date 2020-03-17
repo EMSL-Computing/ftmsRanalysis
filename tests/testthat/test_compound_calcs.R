@@ -54,11 +54,11 @@ test_kendrick_result <- function(peakObj) {
   expect_true(all(c(kmass_cname, kdefect_cname) %in% colnames(peakObj$e_meta)))
   expect_true(all(!is.null(c(kmass_cname, kdefect_cname))))
   
-  expect_true(is.numeric(dplyr::pull(peakObj$e_meta, kmass_cname)))
-  expect_true(is.numeric(dplyr::pull(peakObj$e_meta, kdefect_cname)))
+  expect_true(all(sapply(dplyr::select(peakObj$e_meta, kmass_cname), is.numeric)))
+  expect_true(all(sapply(dplyr::select(peakObj$e_meta, kdefect_cname), is.numeric)))
   
-  missing_kmass <- sum(is.na(dplyr::pull(peakObj$e_meta, kmass_cname)))
-  missing_kdefect <- sum(is.na(dplyr::pull(peakObj$e_meta, kdefect_cname)))
+  missing_kmass <- sum(sapply(dplyr::select(peakObj$e_meta, kmass_cname), is.na))
+  missing_kdefect <- sum(sapply(dplyr::select(peakObj$e_meta, kdefect_cname), is.na))
   expect_equal(missing_kmass, 0)
   expect_equal(missing_kdefect, 0)
 }
@@ -131,10 +131,19 @@ test_that("tests of compound_calcs function", {
   expect_error(test_nosc_result(peak4))
   expect_error(test_elemental_ratios_result(peak4))
   
+  # test multiple kmass cnames and dbe cnames
+  peak5 <- compound_calcs(examplePeakData, calc_fns=opts, calc_args = list('calc_kendrick' = list('base_compounds' = c('CH2', 'CO2', 'H2'))))
+  test_aroma_result(peak5)
+  test_dbe_result(peak5)
+  test_gibbs_result(peak5)
+  test_kendrick_result(peak5)
+  test_nosc_result(peak5)
+  test_elemental_ratios_result(peak5)
 })
 
 test_that("tests of compound_calcs that should throw errors", {
   expect_error(compound_calcs(examplePeakData, calc_fns="not a real thing"))
   expect_error(compound_calcs(examplePeakData, calc_fns=NULL))
   expect_error(compound_calcs(examplePeakData, calc_fns=c("calc_aroma", "not a real thing")))  
+  expect_error(compound_calcs(examplePeakData, calc_fns=opts[-which(opts == 'calc_kendrick')], calc_args = list('calc_kendrick' = list('base_compounds' = c('CH2', 'CO2', 'H2')))))
 })

@@ -4,7 +4,7 @@
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
 #' @param calc_fns a character string specifying which calculations to perform. Available options are: calc_aroma, calc_dbe, calc_gibbs, calc_kendrick, calc_nosc, and calc_vankrev.
-#' @param calc_args a list with names corresponding to the available calc_fns.  Each element is a named sub-list of extra arguments for the specified function.
+#' @param calc_args a list with names corresponding to the available calc_fns.  Each element is a named sub-list of extra arguments for the specified function.  See examples for how to pass extra arguments.
 #' 
 #' @details The calculations are as follows for each of the `calc_fns`: 
 #' 
@@ -39,10 +39,25 @@
 #' @return an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving the newly calculated values
 #'  
 #' @author Kelly Stratton
+#' 
+#' @examples 
+#' library(ftmsRanalysis)
+#' 
+#' # default arguments
+#' peakdata_processed = compound_calcs(examplePeakData)
+#' 
+#' # only calculate aromaticity and kendrick mass/defect
+#' peakdata_processed = compound_calcs(examplePeakData, calc_fns = c("calc_aroma", "calc_kendrick"))
+#' 
+#' # Specify extra arguments for calc_kendrick and calc_dbe.  
+#' calc_args = list('calc_kendrick' = list('base_compounds' = c('CH2', 'CO2', 'H2')), 
+#'                  'calc_dbe' = list('valences' = list('C'=5, 'H' = 4, 'S' = 5)))
+#' 
+#' peakdata_processed <- compound_calcs(examplePeakData, calc_args = calc_args)
+#' 
 #' @export
 
-compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios"),
-                           calc_args = list("calc_aroma" = NULL, "calc_dbe" = NULL, "calc_gibbs" = NULL, "calc_kendrick" = NULL, "calc_nosc" = NULL, "calc_element_ratios" = NULL)){
+compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios"), calc_args = NULL){
   
   ## initial checks ##
   
@@ -55,6 +70,14 @@ compound_calcs <- function(ftmsObj, calc_fns=c("calc_aroma", "calc_dbe", "calc_g
   if(!all(calc_fns %in% valid_fns)){stop("calc_fns must contain valid function names. See documentation for more information.")}
   if(length(calc_fns) < 1){stop("calc_fns must contain at least one valid function name")}
   
+  # checks for calc_args #
+  if(!is.null(calc_args) & is.null(names(calc_args))) stop("If specified, calc_args must be a named list with names matching any of the valid function names.  See documentation for valid function names.")
+  if(!all(names(calc_args) %in% valid_fns)) stop("The names of calc_args must all be one of the valid function names.  See documentation for valid function names.")
+  if(!all(names(calc_args) %in% calc_fns)){
+    bad_names = names(calc_args)[which(!(names(calc_args) %in% calc_fns))]
+    stop(sprintf("Extra arguments were specified for functions not named in calc_fns:  %s", paste(bad_names, collapse = ', ')))
+  }
+
   ## end of initial checks ##
 
   for(i in 1:length(calc_fns)){

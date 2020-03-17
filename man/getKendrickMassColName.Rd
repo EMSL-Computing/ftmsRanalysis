@@ -13,6 +13,6 @@ getKendrickMassColName(ftmsObj)
 name of Kendrick mass column
 }
 \description{
-Returns the name of the column in the e_meta element that 
+Returns the names of the columns in the e_meta element that 
 contains Kendrick mass data for Kendrick plots.
 }
