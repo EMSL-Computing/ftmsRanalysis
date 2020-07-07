@@ -30,7 +30,7 @@ assign_mf <- function(ftmsObj, metacyc=FALSE){
   
   x = ftmsObj$e_meta  
   
-  temp = paste("C", x[,c_cname], "H", x[,h_cname], "N", x[,n_cname], "O", x[,o_cname], "S", x[,s_cname], "P", x[,p_cname], sep = "")
+  temp = paste("C", x[,c_cname], "H", x[,h_cname], "O", x[,o_cname], "N", x[,n_cname], "S", x[,s_cname], "P", x[,p_cname], sep = "")
       
       # look for Carbon 
       temp = gsub(pattern = "C1([^0-9])", replacement = "C\\1", temp)
