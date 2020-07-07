@@ -8,21 +8,29 @@
 
 <title>Convert Data to peakData Class — as.peakData • ftmsRanalysis</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,10 +38,10 @@
 
 
 
-<meta property="og:title" content="Convert Data to peakData Class — as.peakData" />
 
+<meta property="og:title" content="Convert Data to peakData Class — as.peakData" />
 <meta property="og:description" content="Converts a list object or several data.frames of FT-MS data to an object of the class 'peakData'. Objects of the class 'peakData' are lists with three obligatory components e_data, f_data, and e_meta." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -47,9 +55,10 @@
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -71,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -106,11 +115,10 @@
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/EMSL-Computing/ftmsRanalysis">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/EMSL-Computing/ftmsRanalysis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -121,6 +129,7 @@
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -132,14 +141,12 @@
     </div>
 
     <div class="ref-description">
-    
     <p>Converts a list object or several data.frames of FT-MS data to an object of the class 'peakData'. Objects of the class 'peakData' are lists with three obligatory components <code>e_data</code>, <code>f_data</code>, and <code>e_meta</code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>as.peakData</span>(<span class='no'>e_data</span>, <span class='no'>f_data</span>, <span class='no'>e_meta</span>, <span class='no'>edata_cname</span>, <span class='no'>fdata_cname</span>, <span class='no'>mass_cname</span>,
   <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -172,125 +179,80 @@
       <td><p>further arguments</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Objects of class 'peakData' contain some attributes that are referenced by downstream functions. These attributes must be specified (or added using available functions) to reference downstream functions for: Kendrick plots, Van Krevelen plots, and functions involving databases.</p>
 <p>If your data contains information about isotopic peaks (e.g. C13), you should specify the attribute <code>isotopic_cname</code> which gives the column in <code>e_meta</code> that contains an indicator of yes/no for each peak. Additionally, you must specify the attribute <code>isotopic_notation</code> which is a character string indicating the value in column <code>isotopic_cname</code> which indicates that a peak is isotopic. 
 Currently, any peaks that are isotopic are removed from the dataset, as available methods (e.g. Van Krevelen plot) are not applicable to these peaks.</p>
 <p>Attributes giving general information about the data object:</p><table class='table'>
-<tr><td></td><td>data_scale</td></tr>
-<tr><td>character string giving the scale that the data is on. Valid options include 'log2', 'log10', 'log' (for natural log), 'pres' (for 0/1 presence/absence data), and 'abundance'. Default value is 'abundance'.</td><td></td></tr>
+<tr><td>data_scale</td><td>character string giving the scale that the data is on. Valid options include 'log2', 'log10', 'log' (for natural log), 'pres' (for 0/1 presence/absence data), and 'abundance'. Default value is 'abundance'.</td></tr>
 <tr><td></td><td></td></tr>
 <tr><td>instrument_type</td><td>character string giving the type of FT-MS instrument data was generated by. Valid options are: "12T" and "21T". Defaults to "12T". This information is used to determine appropriate plotting functions for Van Krevelen, Kendrick, etc. plots.</td></tr>
-<tr><td></td><td></td></tr>
 </table>
 <p>Attributes giving extra information in <code>f_data</code>:</p><table class='table'>
-<tr><td></td><td>extraction_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>f_data</code></td></tr>
-<tr><td>, containing information as to what extraction method was used for a sample. Only necessary if</td><td><code>e_data</code></td></tr>
-<tr><td>contains samples from multiple extraction methods.</td><td></td></tr>
+<tr><td>extraction_cname</td><td>character string specifying the name of the column, in <code>f_data</code>, containing information as to what extraction method was used for a sample. Only necessary if <code>e_data</code> contains samples from multiple extraction methods.</td></tr>
 </table>
 <p>Attributes giving extra information in <code>e_meta</code>:</p><table class='table'>
-<tr><td></td><td>mass_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the mass information for each peak.</td><td></td></tr>
+<tr><td>mass_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the mass information for each peak.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>mf_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the mass (empirical) formula for a peak/mass.</td></tr>
+<tr><td>mf_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the mass (empirical) formula for a peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>c_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the Carbon count for each peak/mass.</td><td></td></tr>
+<tr><td>c_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Carbon count for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>h_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the Hydrogen count for each peak/mass.</td></tr>
+<tr><td>h_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Hydrogen count for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>o_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the Oxygen count for each peak/mass.</td><td></td></tr>
+<tr><td>o_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Oxygen count for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>n_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the Nitrogen count for each peak/mass.</td></tr>
+<tr><td>n_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Nitrogen count for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>s_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the Sulfur count for each peak/mass.</td><td></td></tr>
+<tr><td>s_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Sulfur count for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>p_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the Phosphorus count for each peak/mass.</td></tr>
+<tr><td>p_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Phosphorus count for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>isotopic_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing information about whether each peak is isotopic or not.</td><td></td></tr>
+<tr><td>isotopic_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing information about whether each peak is isotopic or not.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>isotopic_notation</td><td>character string specifying the value used in column</td></tr>
-<tr><td><code>isotopic_cname</code></td><td>which indicates that a peak is isotopic.</td></tr>
+<tr><td>isotopic_notation</td><td>character string specifying the value used in column <code>isotopic_cname</code> which indicates that a peak is isotopic.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>o2c_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the Oxygen to Carbon ratio for each peak/mass.</td><td></td></tr>
+<tr><td>o2c_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Oxygen to Carbon ratio for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>h2c_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the Hydrogen to Carbon ratio for each peak/mass.</td></tr>
+<tr><td>h2c_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Hydrogen to Carbon ratio for each peak/mass.</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>kmass_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the Kendrick Mass for each peak/mass.</td><td></td></tr>
+<tr><td>kmass_cname</td><td>a possibly named character vector specifying the name of the columns, in <code>e_meta</code>, containing the Kendrick Mass for each peak/mass.  Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>kdefect_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the Kendrick Defect for each peak/mass.</td></tr>
+<tr><td>kdefect_cname</td><td>a possibly named character vector specifying the name of the column, in <code>e_meta</code>, containing the Kendrick Defect for each peak/mass. Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>nosc_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the NOSC value for each peak/mass</td><td></td></tr>
+<tr><td>nosc_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the NOSC value for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>gfe_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the Gibb's Free Energy value for each peak/mass</td></tr>
+<tr><td>gfe_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the Gibb's Free Energy value for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>mfname_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the name/description for each peak/mass</td><td></td></tr>
+<tr><td>mfname_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the name/description for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>aroma_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the aromaticity value for each peak/mass</td></tr>
+<tr><td>aroma_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the aromaticity value for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>modaroma_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the modified aromaticity value for each peak/mass</td><td></td></tr>
+<tr><td>modaroma_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the modified aromaticity value for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>dbe_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the double-bond equivalent values for each peak/mass</td></tr>
+<tr><td>dbe_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the double-bond equivalent values for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>dbeo_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the double-bond equivalent minus oxygen value for each peak/mass</td><td></td></tr>
+<tr><td>dbeo_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the double-bond equivalent minus oxygen value for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td>dbeai_cname</td><td>character string specifying the name of the column, in</td></tr>
-<tr><td><code>e_meta</code></td><td>, containing the double-bond equivalent aromaticity index value for each peak/mass</td></tr>
+<tr><td>dbeai_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the double-bond equivalent aromaticity index value for each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
-<tr><td></td><td>elcomp_cname</td></tr>
-<tr><td>character string specifying the name of the column, in</td><td><code>e_meta</code></td></tr>
-<tr><td>, containing the general elemental composition of each peak/mass</td><td></td></tr>
+<tr><td>elcomp_cname</td><td>character string specifying the name of the column, in <code>e_meta</code>, containing the general elemental composition of each peak/mass</td></tr>
 <tr><td></td><td></td></tr>
 <tr><td>check_rows</td><td>logical indicating whether to remove peaks with no nonzero entries.  Defaults to FALSE</td></tr>
-<tr><td></td><td></td></tr>
 </table>
-    
+
+
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-          </ul>
-
-    <h2>Author</h2>
-    <p>Lisa Bramer</p>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -300,11 +262,14 @@ Currently, any peaks that are isotopic are removed from the dataset, as availabl
 <div class="pkgdown">
   <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 

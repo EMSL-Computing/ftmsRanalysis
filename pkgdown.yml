@@ -1,5 +1,5 @@
 pandoc: 1.19.2.1
-pkgdown: 1.3.0
+pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   density_plots: density_plots.html
@@ -8,4 +8,5 @@ articles:
   kendrick_plots: kendrick_plots.html
   mapping_to_metacyc: mapping_to_metacyc.html
   van_krevelen_plots: van_krevelen_plots.html
+last_built: 2020-07-07T22:04Z
 

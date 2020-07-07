@@ -8,21 +8,29 @@
 
 <title>Default cognostics for Van Krevelen plots in Trelliscope — vanKrevelenCognostics • ftmsRanalysis</title>
 
-<!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<!-- Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<!-- jquery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cosmo/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -30,8 +38,8 @@
 
 
 
-<meta property="og:title" content="Default cognostics for Van Krevelen plots in Trelliscope — vanKrevelenCognostics" />
 
+<meta property="og:title" content="Default cognostics for Van Krevelen plots in Trelliscope — vanKrevelenCognostics" />
 <meta property="og:description" content="The vanKrevelenCognostics function provides a set of default cognostics
 to be used with Van Krevelen plots in Trelliscope. The vanKrevelenCognostics
 function accepts the boundary set used for Van Krevelen class calculations
@@ -40,7 +48,7 @@ for identifying which peaks are observed in which group. It
 returns a function that may be applied to each ftmsData object, as is
 appropriate for use with the makeDisplay function. See 
 Examples section for use." />
-<meta name="twitter:card" content="summary" />
+
 
 
 
@@ -54,9 +62,10 @@ Examples section for use." />
 <![endif]-->
 
 
+
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -78,7 +87,7 @@ Examples section for use." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -113,11 +122,10 @@ Examples section for use." />
   </ul>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/EMSL-Computing/ftmsRanalysis">
-    <span class="fa fa-github fa-lg"></span>
+  <a href="https://github.com/EMSL-Computing/ftmsRanalysis/">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -128,6 +136,7 @@ Examples section for use." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -139,20 +148,18 @@ Examples section for use." />
     </div>
 
     <div class="ref-description">
-    
     <p>The <code>vanKrevelenCognostics</code> function provides a set of default cognostics
 to be used with Van Krevelen plots in Trelliscope. The <code>vanKrevelenCognostics</code>
 function accepts the boundary set used for Van Krevelen class calculations
 and (for <code>comparisonSummary</code> objects only) the name of the column to use
 for identifying which peaks are observed in which group. It 
 returns a function that may be applied to each <code>ftmsData</code> object, as is
-appropriate for use with the <code><a href='https://www.rdocumentation.org/packages/trelliscope/topics/makeDisplay'>makeDisplay</a></code> function. See 
+appropriate for use with the <code><a href='https://rdrr.io/pkg/trelliscope/man/makeDisplay.html'>makeDisplay</a></code> function. See 
 Examples section for use.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>vanKrevelenCognostics</span>(<span class='kw'>vkBoundarySet</span> <span class='kw'>=</span> <span class='st'>"bs1"</span>, <span class='kw'>uniquenessColName</span> <span class='kw'>=</span> <span class='fl'>NA</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -167,27 +174,26 @@ name of the column that specifies uniqueness to a group? If only one uniqueness 
 been applied this is unnecessary. (See <code><a href='summarizeGroupComparisons.html'>summarizeGroupComparisons</a></code>.)</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>a function that may be applied to objects of type <code>peakData</code>, <code>groupSummary</code>,
 and <code>comparisonSummary</code></p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>ftmsRanalysis</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>trelliscope</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ftmsRanalysis</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>trelliscope</span>)
 
-<span class='no'>vdbDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/vdbConn'>vdbConn</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='st'>"trell_test"</span>), <span class='kw'>autoYes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/data'>data</a></span>(<span class='st'>'exampleProcessedPeakData'</span>)
+<span class='no'>vdbDir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/trelliscope/man/vdbConn.html'>vdbConn</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempdir</a></span>(), <span class='st'>"trell_test"</span>), <span class='kw'>autoYes</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>'exampleProcessedPeakData'</span>)
 
 <span class='co'>## Van Krevelen plot for each sample</span>
 <span class='no'>sampleDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideBySample.html'>divideBySample</a></span>(<span class='no'>exampleProcessedPeakData</span>)
 <span class='no'>panelFn1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='panelFunctionGenerator.html'>panelFunctionGenerator</a></span>(<span class='st'>"vanKrevelenPlot"</span>, <span class='kw'>vkBoundarySet</span><span class='kw'>=</span><span class='st'>"bs2"</span>, <span class='kw'>title</span><span class='kw'>=</span><span class='st'>"Test"</span>)
 
 <span class='co'># Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/makeDisplay'>makeDisplay</a></span>(<span class='no'>sampleDdo</span>,
+<span class='fu'><a href='https://rdrr.io/pkg/trelliscope/man/makeDisplay.html'>makeDisplay</a></span>(<span class='no'>sampleDdo</span>,
          <span class='kw'>panelFn</span><span class='kw'>=</span><span class='no'>panelFn1</span>,
          <span class='kw'>cogFn</span><span class='kw'>=</span><span class='fu'>vanKrevelenCognostics</span>(<span class='kw'>vkBoundarySet</span><span class='kw'>=</span><span class='st'>"bs2"</span>),
          <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Van_Krevelen_plots_per_sample"</span>)
@@ -195,33 +201,28 @@ and <code>comparisonSummary</code></p>
 <span class='co'>## Van Krevelen plots for group comparison summaries</span>
 <span class='no'>grpCompDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='divideByGroupComparisons.html'>divideByGroupComparisons</a></span>(<span class='no'>exampleProcessedPeakData</span>, <span class='st'>"all"</span>)
 <span class='no'>grpCompSummaryDdo</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='summarizeGroupComparisons.html'>summarizeGroupComparisons</a></span>(<span class='no'>grpCompDdo</span>, <span class='kw'>summary_functions</span><span class='kw'>=</span><span class='st'>"uniqueness_gtest"</span>,
-                                            <span class='kw'>summary_function_params</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>uniqueness_gtest</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>pres_fn</span><span class='kw'>=</span><span class='st'>"nsamps"</span>, <span class='kw'>pres_thresh</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>pvalue_thresh</span><span class='kw'>=</span><span class='fl'>0.05</span>)))
+                                            <span class='kw'>summary_function_params</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>uniqueness_gtest</span><span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>pres_fn</span><span class='kw'>=</span><span class='st'>"nsamps"</span>, <span class='kw'>pres_thresh</span><span class='kw'>=</span><span class='fl'>2</span>, <span class='kw'>pvalue_thresh</span><span class='kw'>=</span><span class='fl'>0.05</span>)))
 
 <span class='no'>panelFn2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='panelFunctionGenerator.html'>panelFunctionGenerator</a></span>(<span class='st'>"vanKrevelenPlot"</span>, <span class='kw'>colorCName</span><span class='kw'>=</span><span class='st'>"uniqueness_gtest"</span>)
 
 <span class='co'># Note: uniquenessColName parameter tells vanKrevelenCognostics which column to use to determine </span>
 <span class='co'># group uniqueness for each peak. If only one summary function is used in summarizeGroupComparisons</span>
 <span class='co'># then it will be inferred, otherwise it's necessary to specify. </span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/makeDisplay'>makeDisplay</a></span>(<span class='no'>grpCompSummaryDdo</span>,
+<span class='fu'><a href='https://rdrr.io/pkg/trelliscope/man/makeDisplay.html'>makeDisplay</a></span>(<span class='no'>grpCompSummaryDdo</span>,
          <span class='kw'>panelFn</span><span class='kw'>=</span><span class='no'>panelFn2</span>,
          <span class='kw'>cogFn</span><span class='kw'>=</span><span class='fu'>vanKrevelenCognostics</span>(<span class='kw'>uniquenessColName</span><span class='kw'>=</span><span class='st'>"uniqueness_gtest"</span>),
          <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Van_Krevelen_plots_for_group_comparison_summaries"</span>)
 
-<span class='fu'><a href='https://www.rdocumentation.org/packages/trelliscope/topics/view'>view</a></span>()
-<span class='co'># }</span></pre>
+<span class='fu'><a href='https://rdrr.io/pkg/trelliscope/man/view.html'>view</a></span>()
+}</div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
+
 
       <footer>
       <div class="copyright">
@@ -231,11 +232,14 @@ and <code>comparisonSummary</code></p>
 <div class="pkgdown">
   <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
