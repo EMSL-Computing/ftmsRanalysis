@@ -34,6 +34,7 @@ test_that("read_CoreMS_data output has correct format", {
 
 test_that("CoreMSData object correctly constructed with required columns", {
   
+  # error thrown when object passed to as.CoreMSData() is not of class 'CoreMSrbind'
   data_frame <- readr::read_csv("example_data1.csv")
   expect_error(as.CoreMSData(data_frame), "all_data must be of the class 'CoreMSrbind'")
   
@@ -43,6 +44,7 @@ test_that("CoreMSData object correctly constructed with required columns", {
                        "example_data_noX1.csv")
   all_data <- read_CoreMS_data(mult_file_mixX1, force_rbind = TRUE)
   
+  # error thrown when column names not found in all_data
   expect_error(as.CoreMSData(all_data, mass_cname = "Mass"),
                "Calculated mass column Mass not found in all_data")
   expect_error(as.CoreMSData(all_data, pheight_cname = "Height"),
@@ -55,13 +57,16 @@ test_that("CoreMSData object correctly constructed with required columns", {
                "Filename column name not found in all_data")
   expect_error(as.CoreMSData(all_data, mf_cname = "formula"),
                "Molecular Formula column formula not found in all_data")
-  expect_error(as.CoreMSData(all_data, c13_cname = "carbon"), "Carbon column carbon not found in all_data")
-  expect_error(as.CoreMSData(all_data, o18_cname = "oxygen"), "Oxygen column oxygen not found in all_data")
-  expect_error(as.CoreMSData(all_data, n15_cname = "carbon"), "Nitrogen column carbon not found in all_data")
-  expect_error(as.CoreMSData(all_data, s34_cname = "carbon"), "Sulfur column carbon not found in all_data")
+  expect_error(as.CoreMSData(all_data, c13_cname = "carbon"), 
+               "Carbon column carbon not found in all_data")
+  expect_error(as.CoreMSData(all_data, o18_cname = "oxygen"), 
+               "Oxygen column oxygen not found in all_data")
+  expect_error(as.CoreMSData(all_data, n15_cname = "carbon"), 
+               "Nitrogen column carbon not found in all_data")
+  expect_error(as.CoreMSData(all_data, s34_cname = "carbon"), 
+               "Sulfur column carbon not found in all_data")
   
-  
-  
+
   cmsObj <- as.CoreMSData(all_data = all_data,
                           mass_cname = "Calculated m/z",
                           pheight_cname = "Peak Height",
@@ -71,8 +76,8 @@ test_that("CoreMSData object correctly constructed with required columns", {
                           mf_cname = "Molecular Formula",
                           c13_cname = "13C")
   
-  
   expect_s3_class(cmsObj, "CoreMSData")
+  
   expect_equal(attr(cmsObj, "cnames")$mass_cname, "Calculated m/z")
   expect_equal(attr(cmsObj, "cnames")$pheight_cname, "Peak Height")
   expect_equal(attr(cmsObj, "cnames")$error_cname, "Mass Error (ppm)")
@@ -82,15 +87,8 @@ test_that("CoreMSData object correctly constructed with required columns", {
   expect_equal(attr(cmsObj, "cnames")$c13_cname, "13C")
   
   expect_true(is.null(attr(cmsObj, "cnames")$s34_cname))
+  expect_true(is.null(attr(cmsObj, "cnames")$o18_cname))
+  expect_true(is.null(attr(cmsObj, "cnames")$n15_cname))
   
 })
-#
-# test_that("error thrown when optional columns not found in 'all_data'", {
-#   file_list <- "example_data1.csv"
-#   all_data <- read_CoreMS_data(file_list)
-#
-#   cmsObj <- as.CoreMSData(all_data = all_data,
-#                           c13_cname = "carbon")
-#
-#   expect_err
-# })
+
