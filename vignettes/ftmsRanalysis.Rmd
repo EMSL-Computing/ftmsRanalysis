@@ -30,7 +30,7 @@ knitr::opts_chunk$set(
 # Introduction
 
 ## FT-MS Analysis
-Fourier-transform mass spectrometry (FT-MS) is a type of mass spectrometery for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.  Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. FT-MS instrument data can be interpreted as peak intensities for each observed peak. FT-MS analysis has been used to examine a wide range of complex mixtures, including soils, plants, aquatic samples, petroleum and various beverages.
+Fourier-transform mass spectrometry (FT-MS) is a type of mass spectrometry for determining the mass-to-charge ratio (m/z) of ions based on the cyclotron frequency of the ions in a fixed magnetic field.  Chemical composition can be determined for a portion of the observed peaks/mass-to-charge ratios. FT-MS instrument data can be interpreted as peak intensities for each observed peak. FT-MS analysis has been used to examine a wide range of complex mixtures, including soils, plants, aquatic samples, petroleum and various beverages.
 
 The `ftmsRanalysis` package was designed to help with various steps of processing FT-MS data, including:
 
