@@ -1,10 +1,13 @@
 #' Create conf\_filter object
+#' 
+#' @param cmsObj an object of class 'CoreMSData', should be output of the function 
+#' \code{\link{as.CoreMSData}}
 #'
-#' @param cmsObj an object of class 'CoreMSData', should be ouput of the function 
-#' \code{as.CoreMSData}
+#' @details To be used with \code{\link{applyFilt.confFilt}} to subset peaks with a minimum confidence score of \code{min_conf}
 #'
 #' @return object of class 'confFilt' 
 #' 
+#' @author Natalie Winans
 #' 
 #' @export
 
@@ -18,7 +21,7 @@ conf_filter <- function(cmsObj) {
   file_id <- attr(cmsObj, "cnames")$file_cname
   formula_id <- attr(cmsObj, "cnames")$mf_cname
   
-  output <- dat %>% select(mass_id, conf_id, error_id, formula_id, file_id)
+  output <- cmsObj %>% dplyr::select(mass_id, conf_id, error_id, formula_id, file_id)
   
   class(output) <- c("confFilt", "data.frame")
   
