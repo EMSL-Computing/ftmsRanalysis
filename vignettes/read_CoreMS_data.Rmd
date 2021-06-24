@@ -1,0 +1,101 @@
+---
+title: "Reading in CoreMS Data"
+author: Natalie Winans
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 1
+    number_sections: true
+  pkgdown:
+    toc: true
+    toc_depth: 1
+
+vignette: >
+  %\VignetteIndexEntry{Reading in CoreMS Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  fig.width = 8, 
+  fig.height = 6,
+  warning = FALSE,
+  message = FALSE
+)
+
+devtools::load_all()
+```
+
+The `ftmsRanalysis` package allows users to read in data from CSV files containing high resolution mass spectrometry (HTMS) data after initial processing and formula assignment. The function \code{read_CoreMS_data} takes one or more CSV files output by the software CoreMS and converts them into a single data.frame that is compatible with `ftmsRanalysis`.
+
+
+# Reading in CSV files
+
+Reading in a single file using `read_CoreMS_data` is simple; the only argument required is the file path. The function will automatically insert a column containing the file name and output a data.frame that has been assigned the class `CoreMSrbind`. 
+
+```{r}
+library(ftmsRanalysis)
+
+single_file <- "example_data1.csv"
+
+dat1 <- read_CoreMS_data(single_file)
+dat1
+```
+
+When reading in multiple CSV files, `read_CoreMS_data` will check to see whether all column names are identical among the files. If the column names are not identical, an error will be thrown indicating this. 
+
+```{r, error = TRUE}
+mult_files <- c("example_data1.csv", "example_data2.csv")
+
+dat2 <- read_CoreMS_data(mult_files)
+```
+
+To override this feature, set the parameter `force_rbind` to `TRUE`. This will remove any columns that are not present in all files and allow the data to be read in.
+
+```{r}
+dat2 <- read_CoreMS_data(mult_files, force_rbind = TRUE)
+dat2
+```
+# Converting to CoreMSData Objectt
+
+The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the data.frame output by `read_CoreMS_data` and the names of the columns corresponding to the mass, peak height, mass error, confidence score, file name, and molecular formula. The column names corresponding to isotope columns C13, S34, O18, and N15 are optional parameters.
+
+```{r}
+dat1 <- as.CoreMSData(dat1,
+                      mass_cname = "Calculated m/z",
+                      pheight_cname = "Peak Height",
+                      error_cname = "Mass Error (ppm)",
+                      conf_cname = "Confidence Score",
+                      file_cname = "Filename",
+                      mf_cname = "Molecular Formula")
+```
+
+
+# Filtering by Confidence Score
+
+It can be useful to filter peaks by confidence score. To apply a filter, first construct a confidence filter object using the function `conf_filter`, then apply the filter using `applyFilt.confFilt`, specifying the `confFilt` object, the `CoreMSData` object, and the desired minimum confidence threshold (`min_conf`).
+
+```{r}
+dat1_filt_obj <- conf_filter(dat1)
+
+dat1_filtered <- applyFilt.confFilt(filter_object =  dat1_filt_obj,
+                                    cmsObj = dat1,
+                                    min_conf = 0.5)
+```
+
+The filtered dataset object contains attributes indicating that a filter has been applied, including the confidence threshold and a list of the mass identifiers of the removed peaks.
+
+```{r}
+attr(dat1_filtered, "filters")$confFilt
+```
+If an attempt is made to apply a confidence filter to a dataset that has already been filtered by confidence score, an error will be thrown to indicate this.
+
+```{r, error = TRUE}
+applyFilt.confFilt(dat1_filt_obj,
+                   dat1_filtered)
+```
+
