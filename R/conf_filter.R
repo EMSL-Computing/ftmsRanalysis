@@ -1,11 +1,13 @@
 #' Create conf\_filter object
 #' 
 #' @param cmsObj an object of class 'CoreMSData', should be output of the function 
-#' \code{as.CoreMSData}
+#' \code{\link{as.CoreMSData}}
 #'
 #' @details To be used with \code{\link{applyFilt.confFilt}} to subset peaks with a minimum confidence score of \code{min_conf}
 #'
 #' @return object of class 'confFilt' 
+#' 
+#' @author Natalie Winans
 #' 
 #' @export
 
