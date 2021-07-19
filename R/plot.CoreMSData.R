@@ -18,7 +18,7 @@ plot.CoreMSData <- function(cmsObj,
                             ylabel = "Unique Masses",
                             long_sample_names = FALSE) {
   
-  if (!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of class 'CoreMSData'")
+  if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of class 'CoreMSData'")
   
   sample_id <- attr(cmsObj, "cnames")$file_cname
   mass_id <- attr(cmsObj, "cnames")$mass_cname 

@@ -22,7 +22,7 @@ read_CoreMS_data <- function(list_of_files, force_rbind = FALSE) {
   
   read_add_filename <- function(file_name) {
     readr::read_csv(file_name) %>%
-      dplyr::mutate(Filename = file_name)
+      dplyr::mutate(Filename = tail(stringr::str_split(file_name, "/")[[1]], 1))
   }
   
   file_list <- lapply(list_of_files, read_add_filename)
@@ -53,7 +53,7 @@ read_CoreMS_data <- function(list_of_files, force_rbind = FALSE) {
 }
 
 
-#' Convert Data to CoreMSData Class
+#' Convert Data to CoreMSData Object
 #'
 #' Converts 'CoreMSrbind' object to 'CoreMSData' object
 #'

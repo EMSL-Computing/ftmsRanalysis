@@ -1,4 +1,4 @@
-library(CoreMS2FREDA)
+library(ftmsRanalysis)
 
 test_that("error thrown when cmsObj not of class 'CoreMSData'", {
   data_frame <- readr::read_csv("example_data1.csv")
@@ -11,7 +11,7 @@ file_list <- "example_data1.csv"
 single_file_data <- read_CoreMS_data(file_list)
 single_file_data <- as.CoreMSData(single_file_data)
 
-test_that("invalid input for title arguments throws error", {
+test_that("invalid input for title argument throws error", {
   expect_error(mass_error_plot(single_file_data, title = 43),
                "title must be single character string")
   expect_error(mass_error_plot(single_file_data, title = c("truck", "green")),
@@ -20,7 +20,7 @@ test_that("invalid input for title arguments throws error", {
                "title must be single character string")
 })
 
-test_that("invalid input for xlabel arguments throws error", {
+test_that("invalid input for xlabel argument throws error", {
   expect_error(mass_error_plot(single_file_data, xlabel = 43),
                "xlabel must be single character string")
   expect_error(mass_error_plot(single_file_data, xlabel = c("truck", "green")),
@@ -29,7 +29,7 @@ test_that("invalid input for xlabel arguments throws error", {
                "xlabel must be single character string")
 })
 
-test_that("invalid input for ylabel arguments throws error", {
+test_that("invalid input for ylabel argument throws error", {
   expect_error(mass_error_plot(single_file_data, ylabel = 43),
                "ylabel must be single character string")
   expect_error(mass_error_plot(single_file_data, ylabel = c("truck", "green")),

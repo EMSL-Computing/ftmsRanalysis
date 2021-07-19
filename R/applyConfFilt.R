@@ -9,9 +9,9 @@
 #' @return an object of the class 'CoreMSData' that has been filtered by confidence score
 #' 
 #' @author Natalie Winans
-#' 
+#'  
 #' @export
-applyFilt.confFilt <- function(filter_object, cmsObj, min_conf = 0.5) {
+applyConfFilt <- function(filter_object, cmsObj, min_conf = 0.5) {
 
   if ("confFilt" %in% names(attr(cmsObj, "filters"))) {
     prev_min_conf <- attr(cmsObj, "filters")$confFilt$minimum
@@ -35,7 +35,8 @@ applyFilt.confFilt <- function(filter_object, cmsObj, min_conf = 0.5) {
     # get mass/ID of peaks to remove
     peaks_removed <- cmsObj %>% 
       dplyr::filter(cmsObj[,conf_cname] < min_conf | is.na(cmsObj[,conf_cname])) %>% 
-      dplyr::select(mass_cname)
+      dplyr::select(mass_cname) %>% 
+      as.list()
     
     if(nrow(filtered_cmsObj) < 1) stop("Filtering using specified minimum confidence results in no peaks left in the data.")
 
