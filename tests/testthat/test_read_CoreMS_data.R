@@ -1,4 +1,4 @@
-library(CoreMS2FREDA)
+library(ftmsRanalysis)
 
 test_that("error thrown when input is not character vector", {
   things <- c(3, 7, 9)
@@ -31,7 +31,7 @@ test_that("read_CoreMS_data output has correct format", {
   
 })
 
-
+# test function as.CoreMSData
 test_that("CoreMSData object correctly constructed with required columns", {
   
   # error thrown when object passed to as.CoreMSData() is not of class 'CoreMSrbind'
@@ -92,3 +92,13 @@ test_that("CoreMSData object correctly constructed with required columns", {
   
 })
 
+# test plot method for CoreMSData objects
+test_that("plot.CoreMSData works as expected", {
+  
+  # create CoreMSData object
+  cmsobj <- as.CoreMSData(read_CoreMS_data(list.files(pattern = "example"), force_rbind = T))
+  
+  cms_plot <- plot(cmsobj)
+  
+
+})
