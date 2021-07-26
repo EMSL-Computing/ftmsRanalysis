@@ -14,9 +14,9 @@
 applyConfFilt <- function(filter_object, cmsObj, min_conf = 0.5) {
 
   if ("confFilt" %in% names(attr(cmsObj, "filters"))) {
-    prev_min_conf <- attr(cmsObj, "filters")$confFilt$minimum
+    prev_min_conf <- attr(cmsObj, "filters")$confFilt$threshold
 
-    stop(paste0("A confidence filter has already been run on this dataset using a 'min_conf' of ", prev_min_conf))
+    stop(paste0("A confidence filter has already been applied to this dataset using a 'min_conf' of ", prev_min_conf))
 
   } else {    # no previous confFilt
     
@@ -41,13 +41,14 @@ applyConfFilt <- function(filter_object, cmsObj, min_conf = 0.5) {
     if(nrow(filtered_cmsObj) < 1) stop("Filtering using specified minimum confidence results in no peaks left in the data.")
 
     num_rmv <- orig_nrow - nrow(filtered_cmsObj) 
+    num_na <- sum(is.na(dplyr::pull(cmsObj, conf_cname)))
     
     cmsObj <- filtered_cmsObj
     
     # add 'filters' attributes
-    attr(cmsObj, "filters")$confFilt <- list(report_text = "", minimum = c(), removed = c())
-    attr(cmsObj, "filters")$confFilt$report_text <- paste0("A confidence filter was applied to the data, removing peaks with a confidence score of less than ", min_conf, ". A total of ", num_rmv, " rows were removed by this filter.")
-    attr(cmsObj, "filters")$confFilt$minimum <- min_conf
+    attr(cmsObj, "filters")$confFilt <- list(report_text = "", threshold = c(), removed = c())
+    attr(cmsObj, "filters")$confFilt$report_text <- paste0("A confidence filter was applied to the data, removing peaks with a confidence score of less than ", min_conf, ". A total of ", num_rmv, " rows were removed by this filter including ", num_na, " missing values.")
+    attr(cmsObj, "filters")$confFilt$threshold <- min_conf
     attr(cmsObj, "filters")$confFilt$removed <- peaks_removed
 
     return(cmsObj)
