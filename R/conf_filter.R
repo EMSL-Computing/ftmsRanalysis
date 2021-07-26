@@ -25,6 +25,8 @@ conf_filter <- function(cmsObj) {
   
   class(output) <- c("confFilt", "data.frame")
   
+  attr(output, "conf_cname") <- conf_id
+  
   return(output)
   
 }
