@@ -8,7 +8,7 @@
 #' @param ylabel optional, if not specified "Unique Masses" will be used
 #' @param diag_x_labs logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names
 #'
-#' @return `plotly` object
+#' @return `ggplot` object
 #' @export
 #'
 #' @examples
@@ -45,11 +45,13 @@ plot.CoreMSData <- function(cmsObj,
     ggplot2::ggplot(ggplot2::aes(x = `dplyr::pull(cmsObj, sample_id)`,
                         y = n,
                         label = n)) +
-    ggplot2::geom_bar(stat = "identity") +
+    ggplot2::geom_bar(stat = "identity",
+                      fill = "steelblue4") +
     ggplot2::theme_bw() +
     ggplot2::labs(title = title,
                   x = xlabel,
                   y = ylabel) +
+    ggplot2::guides(fill = FALSE) +
     ggplot2::geom_text(nudge_y = 1.5)
   
   if (diag_x_labs == TRUE) {
@@ -57,5 +59,5 @@ plot.CoreMSData <- function(cmsObj,
       ggplot2::theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
   }
 
-  plotly::ggplotly(plot)
+  plot
 }

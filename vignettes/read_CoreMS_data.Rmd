@@ -21,8 +21,8 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
-  fig.width = 8, 
-  fig.height = 6,
+  fig.width = 7, 
+  fig.height = 5,
   warning = FALSE,
   message = FALSE
 )
@@ -49,7 +49,7 @@ dat1
 When reading in multiple CSV files, `read_CoreMS_data` will check to see whether all column names are identical among the files. If the column names are not identical, an error will be thrown to indicate this. 
 
 ```{r, error = TRUE}
-mult_files <- c("example_data1.csv", "example_data2.csv")
+mult_files <- c("example_data1.csv", "example_data2.csv", "example_data3.csv")
 
 dat2 <- read_CoreMS_data(mult_files)
 ```
@@ -63,10 +63,10 @@ dat2
 
 # Converting to CoreMSData Object
 
-The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the data.frame output by `read_CoreMS_data` and the names of the columns corresponding to the mass, peak height, mass error, confidence score, file name, and molecular formula. The column names corresponding to isotope columns C13, S34, O18, and N15 are optional parameters.
+The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the data.frame output by the function `read_CoreMS_data` and the names of the columns corresponding to the mass, peak height, mass error, confidence score, file name, and molecular formula. The column names corresponding to isotope columns C13, S34, O18, and N15 are optional parameters that may be used when isotopic functionality is added in the future.
 
 ```{r}
-dat1 <- as.CoreMSData(dat1,
+dat2 <- as.CoreMSData(dat2,
                       mass_cname = "Calculated m/z",
                       pheight_cname = "Peak Height",
                       error_cname = "Mass Error (ppm)",
@@ -75,28 +75,43 @@ dat1 <- as.CoreMSData(dat1,
                       mf_cname = "Molecular Formula")
 ```
 
+## Plotting CoreMSData Object
+
+Calling the plot method on a CoreMSData object produces a barplot showing the number of peaks with unique masses per file (sample). In a case with many samples or very long sample names, the parameter \code{diag_x_labs} can be set to \code{TRUE}. This will display the x-axis tick labels diagonally for improved readability.
+
+```{r}
+plot.CoreMSData(dat2)
+```
 
 # Filtering by Confidence Score
 
-It can be useful to filter peaks by confidence score. To apply a filter, first construct a confidence filter object using the function `conf_filter`, then apply the filter using `applyFilt.confFilt`, specifying the `confFilt` object, the `CoreMSData` object, and the desired minimum confidence threshold (`min_conf`).
+It can be useful to filter peaks by confidence score. To apply a filter, first construct a confidence filter object using the function `conf_filter`. Then, to see the effect of applying a confidence filter using difference minimum confidence thresholds, use the plot method for `confFilter` objects. This plot displays the numbers of peaks retained and removed from the dataset under different confidence filtering parameters. 
 
 ```{r}
-dat1_filt_obj <- conf_filter(dat1)
+dat2_filt_obj <- conf_filter(dat2)
 
-dat1_filtered <- applyFilt.confFilt(filter_object =  dat1_filt_obj,
-                                    cmsObj = dat1,
-                                    min_conf = 0.5)
+plot.confFilt(dat2_filt_obj)
+```
+
+Next, apply a filter using `applyConfFilt`, specifying the `confFilt` object, the `CoreMSData` object, and the desired minimum confidence threshold (`min_conf`).
+
+```{r}
+dat2_filtered <- applyConfFilt(filter_object =  dat2_filt_obj,
+                               cmsObj = dat2,
+                               min_conf = 0.5)
 ```
 
 The filtered dataset object contains attributes indicating that a filter has been applied, including the confidence threshold and a list of the mass identifiers of the removed peaks.
 
 ```{r}
-attr(dat1_filtered, "filters")$confFilt
+attr(dat2_filtered, "filters")$confFilt
 ```
 If an attempt is made to apply a confidence filter to a dataset that has already been filtered by confidence score, an error will be thrown to indicate this.
 
 ```{r, error = TRUE}
-applyFilt.confFilt(dat1_filt_obj,
-                   dat1_filtered)
+applyConfFilt(dat2_filt_obj, dat2_filtered)
 ```
+
+
+
 
