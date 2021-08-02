@@ -63,7 +63,7 @@ dat2
 
 # Converting to CoreMSData Object
 
-The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the data.frame output by `read_CoreMS_data` and the names of the columns corresponding to the mass, peak height, mass error, confidence score, file name, and molecular formula. The column names corresponding to isotope columns C13, S34, O18, and N15 are optional parameters.
+The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the data.frame output by the function `read_CoreMS_data` and the names of the columns corresponding to the mass, peak height, mass error, confidence score, file name, and molecular formula. The column names corresponding to isotope columns C13, S34, O18, and N15 are optional parameters that may be used when isotopic functionality is added in the future.
 
 ```{r}
 dat2 <- as.CoreMSData(dat2,
@@ -76,6 +76,8 @@ dat2 <- as.CoreMSData(dat2,
 ```
 
 ## Plotting CoreMSData Object
+
+Calling the plot method on a CoreMSData object produces a barplot showing the number of peaks with unique masses per file (sample). In a case with many samples or very long sample names, the parameter \code{diag_x_labs} can be set to \code{TRUE}. This will display the x-axis tick labels diagonally for improved readability.
 
 ```{r}
 plot.CoreMSData(dat2)
