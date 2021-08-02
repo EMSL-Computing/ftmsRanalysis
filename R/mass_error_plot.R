@@ -65,8 +65,8 @@ mass_error_plot <- function(cmsObj,
                                                 "\nMolecular Formula: ",
                                                 dplyr::pull(cmsObj, formula_id)))) +
       ggplot2::geom_point(shape = 21,
-                          color = "navyblue",
-                          fill = "chartreuse",
+                          color = "steelblue4",
+                          fill = "skyblue1",
                           size = 2,
                           stroke = 0.5) +
       ggplot2::theme_bw() +
