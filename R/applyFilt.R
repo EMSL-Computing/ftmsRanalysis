@@ -1,29 +1,35 @@
-#' Apply a S3 filter  object to an ftmsData S3 object
+#' Apply an S3 filter  object to an ftmsData or CoreMSData S3 object
 #'
-#' This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{ftmsData}
+#' This function takes a filter object of class 'moleculeFilt', 'massFilt', 'formulaFilt', 'emetaFilt', or 'confFilt' and applies the filter to a dataset of class \code{ftmsData} or \code{CoreMSData}
 #'
-#' @param filter_object an object of the class 'moleculeFilt' created by  \code{\link{molecule_filter}}
-#' @param ftmsObj an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}
+#' @param filter_object an object of the class 'moleculeFilt', 'massFilt', 'formulaFilt', 'emetaFilt', or 'confFilt'
+#' @param msObj an object of the class \code{ftmsData} or \code{CoreMSData}, created by \code{\link{as.peakData}} or \code{\link{as.CoreMSData}}, respectively
 #' @param ... further arguments as described below based on the class of \code{filter_object}
 #'
-#' @return An object of the class \code{ftmsData} with specified molecules filtered out of the appropriate datasets.
+#' @return An object of the class \code{ftmsData} or \code{CoreMSData} with specified molecules filtered out of the appropriate datasets
 #' 
-#' @seealso \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}
+#' @seealso \code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}, \code{\link{conf_filter}}
 #'
 #' @author Lisa Bramer
 #'
 #' @export
-applyFilt <- function(filter_object, ftmsObj, ...){
+applyFilt <- function(filter_object, msObj, ...){
   
-  # check that ftmsObj is of appropriate class #
-  if(!inherits(ftmsObj, "ftmsData")) stop("ftmsObj must be of class 'ftmsData'")
+  # check that msObj is of appropriate class #
+  if(!inherits(msObj, "ftmsData") & !inherits(msObj, "CoreMSData")) stop("msObj must be of class 'ftmsData' or 'CoreMSData")
   
   # check that filter_object is of an appropriate class #
-  # if(!inherits(filter_object, "moleculeFilt") & !inherits(filter_object, "massFilt"))) stop("filter_object must be of class 'moleculeFilt' or 'massFilt' ")
+  if(!inherits(filter_object, "moleculeFilt") & 
+     !inherits(filter_object, "massFilt") &
+     !inherits(filter_object, "formulaFilt") &
+     !inherits(filter_object, "emetaFilt") &
+     !inherits(filter_object, "confFilt")) stop("filter_object must be of class 'moleculeFilt' or 'massFilt' ")
   
   # pull column names from ftmsData attributes #
-  samp_cname = getFDataColName(ftmsObj)
-  edata_cname = getEDataColName(ftmsObj)
+  if (inherits(msObj, "ftmsData")) {
+    samp_cname = getFDataColName(msObj)
+    edata_cname = getEDataColName(msObj)
+  }
   
   UseMethod("applyFilt")
 }
@@ -33,12 +39,12 @@ applyFilt <- function(filter_object, ftmsObj, ...){
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.moleculeFilt <- function(filter_object, ftmsObj, min_num=2, ...){
+applyFilt.moleculeFilt <- function(filter_object, msObj, min_num=2, ...){
   
-  # check to see whether a moleculeFilt has already been run on ftmsObj #
-  if("moleculeFilt" %in% names(attributes(ftmsObj)$filters)){
+  # check to see whether a moleculeFilt has already been run on msObj #
+  if("moleculeFilt" %in% names(attributes(msObj)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(ftmsObj)$filters$moleculeFilt$threshold
+    min_num_prev <- attributes(msObj)$filters$moleculeFilt$threshold
     
     stop(paste("A molecule filter has already been run on this dataset, using a 'min_num' of ", min_num_prev, ". See Details for more information about how to choose a threshold before applying the filter.", sep=""))
     
@@ -51,11 +57,11 @@ applyFilt.moleculeFilt <- function(filter_object, ftmsObj, min_num=2, ...){
     # check that min_num is an integer #
     if(min_num %% 1 != 0) stop("min_num must be an integer greater than or equal to 1")
     # check that min_num is less than the number of samples #
-    if(min_num > (ncol(ftmsObj$e_data) + 1)) stop("min_num cannot be greater than the number of samples")
+    if(min_num > (ncol(msObj$e_data) + 1)) stop("min_num cannot be greater than the number of samples")
     # check that min_num is of length 1 #
     if(length(min_num) != 1) stop("min_num must be of length 1")
     
-    edata_cname <- getEDataColName(ftmsObj)
+    edata_cname <- getEDataColName(msObj)
 
     num_obs <- filter_object$Num_Observations
 
@@ -67,19 +73,19 @@ applyFilt.moleculeFilt <- function(filter_object, ftmsObj, min_num=2, ...){
     }
     
     else{
-      filter.edata <- ftmsObj$e_data[, which(names(ftmsObj$e_data) == edata_cname)][inds]
+      filter.edata <- msObj$e_data[, which(names(msObj$e_data) == edata_cname)][inds]
     }
     
-    # checking if filter specifies all of ftmsObj$e_data
-    if(all(ftmsObj$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in ftmsObj")}
+    # checking if filter specifies all of msObj$e_data
+    if(all(msObj$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in msObj")}
     
     filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
+    results_pieces <- filter_worker(msObj = msObj, filter_object = filter_object_new)
     
     # return filtered data object #
-    results <- ftmsObj
+    results <- msObj
     results$e_data <- results_pieces$new.edata
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
@@ -102,12 +108,12 @@ applyFilt.moleculeFilt <- function(filter_object, ftmsObj, min_num=2, ...){
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass = 900, ...){
+applyFilt.massFilt <- function(filter_object, msObj, min_mass = 200, max_mass = 900, ...){
   
-  # check to see whether a massFilt has already been run on ftmsObj #
-  if("massFilt" %in% names(attributes(ftmsObj)$filters)){
+  # check to see whether a massFilt has already been run on msObj #
+  if("massFilt" %in% names(attributes(msObj)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(ftmsObj)$filters$massFilt$threshold
+    min_num_prev <- attributes(msObj)$filters$massFilt$threshold
     
     stop(paste("A mass filter has already been run on this dataset, using a 'min_mass' and 'max_mass' of ", min_num_prev[1], "and ", min_num_prev[2], ".", sep=""))
     
@@ -123,8 +129,8 @@ applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass 
     if(length(min_mass) != 1) stop("min_mass must be of length 1")
     if(length(max_mass) != 1) stop("max_mass must be of length 1")
     
-    edata_cname <- getEDataColName(ftmsObj)
-    mass_cname = getMassColName(ftmsObj)
+    edata_cname <- getEDataColName(msObj)
+    mass_cname = getMassColName(msObj)
     
     mass_info <- filter_object[,mass_cname]
     
@@ -136,20 +142,20 @@ applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass 
     # sample identifiers to keep #
     edata_ids = filter_object[inds, edata_cname]
 
-    temp_edata = ftmsObj$e_data[which(ftmsObj$e_data[,edata_cname] %in% edata_ids),]
-    temp_emeta = ftmsObj$e_meta[which(ftmsObj$e_meta[,edata_cname] %in% edata_ids),]
+    temp_edata = msObj$e_data[which(msObj$e_data[,edata_cname] %in% edata_ids),]
+    temp_emeta = msObj$e_meta[which(msObj$e_meta[,edata_cname] %in% edata_ids),]
     
-    num_rmv = length(ftmsObj$e_data[,edata_cname]) - length(inds)
+    num_rmv = length(msObj$e_data[,edata_cname]) - length(inds)
 
     # set attributes for which filters were run
-    attr(ftmsObj, "filters")$massFilt <- list(report_text = "", threshold = c(), filtered = c())
-    attr(ftmsObj, "filters")$massFilt$report_text <- paste("A mass filter was applied to the data, removing ", makePlural(edata_cname), " that had a mass less than ", min_mass, " or a mass greater than ", max_mass, ". A total of ", num_rmv, " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
-    attr(ftmsObj, "filters")$massFilt$threshold <- c(min_mass, max_mass)
-    attr(ftmsObj, "filters")$massFilt$filtered <- ftmsObj$e_data[which(!ftmsObj$e_data[,edata_cname] %in% edata_ids),edata_cname]
+    attr(msObj, "filters")$massFilt <- list(report_text = "", threshold = c(), filtered = c())
+    attr(msObj, "filters")$massFilt$report_text <- paste("A mass filter was applied to the data, removing ", makePlural(edata_cname), " that had a mass less than ", min_mass, " or a mass greater than ", max_mass, ". A total of ", num_rmv, " ", makePlural(edata_cname), " were filtered out of the dataset by this filter.", sep="")
+    attr(msObj, "filters")$massFilt$threshold <- c(min_mass, max_mass)
+    attr(msObj, "filters")$massFilt$filtered <- msObj$e_data[which(!msObj$e_data[,edata_cname] %in% edata_ids),edata_cname]
     
-    ftmsObj$e_data = temp_edata
-    ftmsObj$e_meta = temp_emeta
-    results = ftmsObj
+    msObj$e_data = temp_edata
+    msObj$e_meta = temp_emeta
+    results = msObj
   }
   
   return(results)
@@ -161,12 +167,12 @@ applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass 
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula', ...){
+applyFilt.formulaFilt <- function(filter_object, msObj, remove = 'NoFormula', ...){
   
-  # check to see whether a formulaFilt has already been run on ftmsObj #
-  if("formulaFilt" %in% names(attributes(ftmsObj)$filters)){
+  # check to see whether a formulaFilt has already been run on msObj #
+  if("formulaFilt" %in% names(attributes(msObj)$filters)){
     # get previous threshold #
-    min_num_prev <- attributes(ftmsObj)$filters$formulaFilt$threshold
+    min_num_prev <- attributes(msObj)$filters$formulaFilt$threshold
     
     stop(paste("A formula filter has already been run on this dataset, using a 'remove' argument of ", min_num_prev, ".", sep=""))
     
@@ -177,7 +183,7 @@ applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula', 
     # check that remove is a valid argument #
     if(!(remove %in% c("NoFormula","Formula"))) stop("'remove' can only take values 'NoFormula' and 'Formula'.")
     
-    edata_cname <- getEDataColName(ftmsObj)
+    edata_cname <- getEDataColName(msObj)
     
     form_assigned <- filter_object$Formula_Assigned
     
@@ -193,19 +199,19 @@ applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula', 
     }
     
     else{
-      filter.edata <- ftmsObj$e_data[, which(names(ftmsObj$e_data) == edata_cname)][inds]
+      filter.edata <- msObj$e_data[, which(names(msObj$e_data) == edata_cname)][inds]
     }
     
-    # checking if filter specifies all of ftmsObj$e_data
-    if(all(ftmsObj$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in ftmsObj")}
+    # checking if filter specifies all of msObj$e_data
+    if(all(msObj$e_data[,edata_cname] %in% filter.edata)) {stop("filter_object specifies all samples in msObj")}
     
     filter_object_new = list(edata_filt = filter.edata, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
+    results_pieces <- filter_worker(msObj = msObj, filter_object = filter_object_new)
     
     # return filtered data object #
-    results <- ftmsObj
+    results <- msObj
     results$e_data <- results_pieces$new.edata
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
@@ -221,6 +227,7 @@ applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula', 
   return(results)
 }
 
+
 # function for emetaFilt
 #' @param min_val [\code{emetaFilt} object] a numeric value specifying the minimum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
 #' @param max_val [\code{emetaFilt} object] a numeric value specifying the maximum value (inclusive) that a peak should have for the specified 'e_meta' column. \cr
@@ -229,16 +236,16 @@ applyFilt.formulaFilt <- function(filter_object, ftmsObj, remove = 'NoFormula', 
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE, ...){
+applyFilt.emetaFilt <- function(filter_object, msObj, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE, ...){
   
     # determine how many filters have already been implemented on the dataset #
-    num_filts = length(attributes(ftmsObj)$filters)
+    num_filts = length(attributes(msObj)$filters)
     
     # create filter name #
     filt_name = paste("emetaFilt", attr(filter_object, "cname"), sep = "_")
     
-    # check to see whether a formulaFilt has already been run on ftmsObj #
-    if(filt_name %in% names(attributes(ftmsObj)$filters)){
+    # check to see whether a formulaFilt has already been run on msObj #
+    if(filt_name %in% names(attributes(msObj)$filters)){
       
       stop(paste("An emeta_filter using the variable '", attr(filter_object, "cname"), "' has already been run on this dataset.", sep=""))
   
@@ -265,7 +272,7 @@ applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val 
     }
     
 
-    edata_cname <- getEDataColName(ftmsObj)
+    edata_cname <- getEDataColName(msObj)
     filter_object[edata_cname] <- as.character(filter_object[,edata_cname])
     
     # implement filter #
@@ -293,10 +300,10 @@ applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val 
     filter_object_new = list(edata_filt = rmv_masses, emeta_filt = NULL, samples_filt = NULL)
     
     # call the function that does the filter application
-    results_pieces <- filter_worker(ftmsObj = ftmsObj, filter_object = filter_object_new)
+    results_pieces <- filter_worker(msObj = msObj, filter_object = filter_object_new)
     
     # return filtered data object #
-    results <- ftmsObj
+    results <- msObj
     results$e_data <- results_pieces$new.edata
     results$f_data <- results_pieces$new.fdata
     results$e_meta <- results_pieces$new.emeta
@@ -330,24 +337,24 @@ applyFilt.emetaFilt <- function(filter_object, ftmsObj, min_val = NULL, max_val 
 #'
 #' This function removes
 #'
-#' @param ftmsObj an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}
+#' @param msObj an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}
 #' @param filter_object a list created by the functions above
 #' @return list
 #' @author Lisa Bramer
 #'
-filter_worker <- function(filter_object, ftmsObj){
+filter_worker <- function(filter_object, msObj){
 
-  # pull column names from ftmsObj attributes #
-  samp_cname = getFDataColName(ftmsObj)
-  edata_cname = getEDataColName(ftmsObj)
+  # pull column names from msObj attributes #
+  samp_cname = getFDataColName(msObj)
+  edata_cname = getEDataColName(msObj)
 
   # pull group_DF attribute #
-  group_DF = attr(ftmsObj, "group_DF")
+  group_DF = attr(msObj, "group_DF")
   
   # initialize the new omicsData parts #
-  temp.edata <- ftmsObj$e_data
-  temp.fdata <- ftmsObj$f_data
-  temp.emeta <- ftmsObj$e_meta
+  temp.edata <- msObj$e_data
+  temp.fdata <- msObj$f_data
+  temp.emeta <- msObj$e_meta
   
   #check if filter object contains remove arguments
   if(!is.null(filter_object$edata_filt) | !is.null(filter_object$samples_filt)){
@@ -414,4 +421,54 @@ makePlural <- function(thetext) {
     return(paste0(thetext, "es"))
   else 
     return(paste0(thetext, "s"))
+}
+
+
+# function for 'confFilt'
+#' @param min_conf a numeric value greater than 0 specifying the minimum confidence score a peak should have in order to be retained
+#' @export
+#' @name applyFilt
+#' @rdname applyFilt
+applyFilt.confFilt <- function(filter_object, msObj, min_conf = 0.5) {
+  
+  if ("confFilt" %in% names(attr(msObj, "filters"))) {
+    prev_min_conf <- attr(msObj, "filters")$confFilt$threshold
+    
+    stop(paste0("A confidence filter has already been applied to this dataset using a 'min_conf' of ", prev_min_conf))
+    
+  } else {    # no previous confFilt
+    
+    # check min_conf is numeric and of length 1
+    if(!class(min_conf) %in% c("numeric", "integer") | min_conf < 0) stop("min_conf must be a number greater than zero")
+    if(length(min_conf) != 1) stop("min_conf must be of length 1")
+    
+    orig_nrow <- nrow(msObj)
+    
+    mass_cname <- attr(msObj, "cnames")$mass_cname
+    conf_cname <- attr(msObj, "cnames")$conf_cname
+    
+    # get peaks to keep
+    filtered_msObj <- msObj %>% dplyr::filter(msObj[,conf_cname] >= min_conf)
+    
+    # get mass/ID of peaks to remove
+    peaks_removed <- msObj %>% 
+      dplyr::filter(msObj[,conf_cname] < min_conf | is.na(msObj[,conf_cname])) %>% 
+      dplyr::select(mass_cname) %>% 
+      as.list()
+    
+    if(nrow(filtered_msObj) < 1) stop("Filtering using specified minimum confidence results in no peaks left in the data.")
+    
+    num_rmv <- orig_nrow - nrow(filtered_msObj) 
+    num_na <- sum(is.na(dplyr::pull(msObj, conf_cname)))
+    
+    msObj <- filtered_msObj
+    
+    # add 'filters' attributes
+    attr(msObj, "filters")$confFilt <- list(report_text = "", threshold = c(), removed = c())
+    attr(msObj, "filters")$confFilt$report_text <- paste0("A confidence filter was applied to the data, removing peaks with a confidence score of less than ", min_conf, ". A total of ", num_rmv, " rows were removed by this filter including ", num_na, " missing values.")
+    attr(msObj, "filters")$confFilt$threshold <- min_conf
+    attr(msObj, "filters")$confFilt$removed <- peaks_removed
+    
+    return(msObj)
+  }
 }
