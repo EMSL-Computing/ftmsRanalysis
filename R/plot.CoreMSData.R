@@ -34,30 +34,42 @@ plot.CoreMSData <- function(cmsObj,
   if(!(diag_x_labs == TRUE | diag_x_labs == FALSE)) stop("diag_x_labs must be logical argument")
   
   sample_id <- attr(cmsObj, "cnames")$file_cname
-  mass_id <- attr(cmsObj, "cnames")$mass_cname 
+  mass_id <- attr(cmsObj, "cnames")$calc_mass_cname 
 
-  unique_masses_per_sample <- cmsObj %>%
-    dplyr::group_by(dplyr::pull(cmsObj, sample_id)) %>%
-    dplyr::distinct(dplyr::pull(cmsObj, mass_id)) %>%
-    dplyr::tally()
+  unique_masses_per_sample <- cmsObj$monoiso_data %>%
+    dplyr::group_by(dplyr::pull(cmsObj$monoiso_data, sample_id)) %>%
+    dplyr::distinct(dplyr::pull(cmsObj$monoiso_data, mass_id)) %>%
+    dplyr::tally() %>% 
+    dplyr::rename(Sample = `dplyr::pull(cmsObj$monoiso_data, sample_id)`, Monoisotopic = n)
+  
+  Isotopic <- cmsObj$iso_data %>% 
+    dplyr::group_by(dplyr::pull(cmsObj$iso_data, sample_id)) %>%
+    dplyr::distinct(dplyr::pull(cmsObj$iso_data, mass_id)) %>%
+    dplyr::tally() %>% 
+    dplyr::pull(n)
+    
+  unique_masses_per_sample <- cbind(unique_masses_per_sample, Isotopic) %>% 
+    tidyr::pivot_longer(cols = c(!Sample), names_to = "Peak_type", values_to = "Count") %>% 
+    dplyr::mutate(Peak_type = factor(Peak_type, levels = c('Monoisotopic', 'Isotopic'))) # set factor levels manually so bars will be in descending order by count
 
   plot <- unique_masses_per_sample %>%
-    ggplot2::ggplot(ggplot2::aes(x = `dplyr::pull(cmsObj, sample_id)`,
-                        y = n,
-                        label = n)) +
+    ggplot2::ggplot(ggplot2::aes(x = Sample,
+                        y = Count,
+                        fill = Peak_type)) +
     ggplot2::geom_bar(stat = "identity",
-                      fill = "steelblue4") +
+                      position = "dodge") +
     ggplot2::theme_bw() +
     ggplot2::labs(title = title,
                   x = xlabel,
-                  y = ylabel) +
-    ggplot2::guides(fill = FALSE) +
-    ggplot2::geom_text(nudge_y = 1.5)
+                  y = ylabel) #+
+    # ggplot2::geom_text(ggplot2::aes(label = Count), 
+    #           position = position_dodge(0.9), 
+    #           vjust = -.3)
   
   if (diag_x_labs == TRUE) {
     plot <- plot +
-      ggplot2::theme(axis.text.x = element_text(angle = 45, vjust = 0.5))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 0.5))
   }
 
-  plot
+  plotly::ggplotly(plot)
 }
