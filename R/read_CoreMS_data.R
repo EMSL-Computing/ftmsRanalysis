@@ -20,6 +20,7 @@ read_CoreMS_data <- function(list_of_files, force_rbind = FALSE) {
   # Check that list_of_files is a vector of strings
   if(!is.character(list_of_files)) stop("list_of_files must be of the class 'chr'")
   
+  # Extract filename from path
   read_add_filename <- function(file_name) {
     readr::read_csv(file_name) %>%
       dplyr::mutate(Filename = tail(stringr::str_split(file_name, "/")[[1]], 1))
@@ -59,7 +60,9 @@ read_CoreMS_data <- function(list_of_files, force_rbind = FALSE) {
 #'
 #' @param all_data a data.frame/CoreMSData object, should be the output of
 #'   \code{read_CoreMS_data}
-#' @param mass_cname a character string specifying the name of the column
+#' @param obs_mass_cname a character string specifying th name of the column 
+#'   containing the observed mass to charge ratio (m/z) in \code{all_data}
+#' @param calc_mass_cname a character string specifying the name of the column
 #'   containing the calculated mass to charge ratio (m/z) in \code{all_data}
 #' @param pheight_cname a character string specifying the name of the column
 #'   containing the peak height in \code{all_data}
@@ -85,7 +88,8 @@ read_CoreMS_data <- function(list_of_files, force_rbind = FALSE) {
 #' @export
 
 as.CoreMSData <- function(all_data,
-                          mass_cname = "Calculated m/z",
+                          obs_mass_cname = "m/z",
+                          calc_mass_cname = "Calculated m/z",
                           pheight_cname = "Peak Height",
                           error_cname = "Mass Error (ppm)",
                           conf_cname = "Confidence Score",
@@ -100,16 +104,15 @@ as.CoreMSData <- function(all_data,
   if(!inherits(all_data, "CoreMSrbind")) stop("all_data must be of the class 'CoreMSrbind'")
   
   # check that required columns exist in all_data
-  if(!(mass_cname %in% names(all_data))) stop(paste("Calculated mass column", mass_cname,"not found in all_data"))
+  if(!(obs_mass_cname %in% names(all_data))) stop(paste("Observed mass column", obs_mass_cname, "not found in all_data"))
+  if(!(calc_mass_cname %in% names(all_data))) stop(paste("Calculated mass column", calc_mass_cname,"not found in all_data"))
   if(!(pheight_cname %in% names(all_data))) stop(paste("Peak height/intensity column", pheight_cname,"not found in all_data"))
   if(!(error_cname %in% names(all_data))) stop(paste("Mass error column", error_cname,"not found in all_data"))
   if(!(conf_cname %in% names(all_data))) stop(paste("Confidence score column", conf_cname,"not found in all_data"))
   if(!(file_cname %in% names(all_data))) stop(paste("Filename column", file_cname,"not found in all_data"))
+  if(!(mf_cname %in% names(all_data))) stop(paste("Molecular Formula column", mf_cname, "not found in all_data"))
   
-  # check that cname arguments are found in all_data
-  if(!is.null(mf_cname)){
-    if(!(mf_cname %in% names(all_data))) stop(paste("Molecular Formula column", mf_cname, "not found in all_data"))
-  }
+  # check that optional cname arguments are found in all_data
   if(!is.null(c13_cname)){
     if(!(c13_cname %in% names(all_data))) stop(paste("Carbon column", c13_cname, "not found in all_data"))
   }
@@ -123,11 +126,11 @@ as.CoreMSData <- function(all_data,
     if(!(s34_cname %in% names(all_data))) stop(paste("Sulfur column", s34_cname, "not found in all_data"))
   }
   
-  attr(all_data, "cnames") <- list(mass_cname = mass_cname, pheight_cname = pheight_cname,
-                                   error_cname = error_cname, conf_cname = conf_cname,
-                                   file_cname = file_cname, mf_cname = mf_cname,
-                                   c13_cname = c13_cname, o18_cname = o18_cname,
-                                   s34_cname = s34_cname, n15_cname = n15_cname)
+  attr(all_data, "cnames") <- list(obs_mass_cname = obs_mass_cname, calc_mass_cname = calc_mass_cname, 
+                                   pheight_cname = pheight_cname, error_cname = error_cname, 
+                                   conf_cname = conf_cname, file_cname = file_cname, mf_cname = mf_cname,
+                                   c13_cname = c13_cname, o18_cname = o18_cname, s34_cname = s34_cname, 
+                                   n15_cname = n15_cname)
   
   
   class(all_data) <- c("CoreMSData", "data.frame")
