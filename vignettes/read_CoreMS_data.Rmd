@@ -27,10 +27,10 @@ knitr::opts_chunk$set(
   message = FALSE
 )
 
-devtools::load_all()
+# devtools::load_all()
 ```
 
-The `ftmsRanalysis` package allows users to read in data from CSV files containing high resolution mass spectrometry (HTMS) data after initial processing and formula assignment. The function \code{read_CoreMS_data} takes one or more CSV files output by the software CoreMS and converts them into a single `data.frame` that is compatible with `ftmsRanalysis`.
+The `ftmsRanalysis` package allows users to read in data from CSV files containing high resolution mass spectrometry (HTMS) data after initial processing and formula assignment. The function `read_CoreMS_data` takes one or more CSV files output by the software CoreMS and converts them into a single `data.frame` that is compatible with `ftmsRanalysis` functions.
 
 
 # Reading in CSV files
@@ -54,7 +54,7 @@ mult_files <- c("example_data1.csv", "example_data2.csv", "example_data3.csv")
 dat2 <- read_CoreMS_data(mult_files)
 ```
 
-In the case of CoreMS data, columns that do not match are typically isotopic indicator columns (e.g. "18O") which, at this time, are not used in downstream analyses. To override this feature read in the files without the mismatched column(s), set the parameter `force_rbind` to `TRUE`. 
+In the case of CoreMS data, columns that do not match are typically isotopic indicator columns (e.g. "18O") which, at this time, are not used in downstream analyses. To override this feature and read in the files without the mismatched column(s), set the parameter `force_rbind` to `TRUE`. 
 
 ```{r}
 dat2 <- read_CoreMS_data(mult_files, force_rbind = TRUE)
@@ -67,7 +67,8 @@ The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object 
 
 ```{r}
 dat2 <- as.CoreMSData(dat2,
-                      mass_cname = "Calculated m/z",
+                      obs_mass_cname = "m/z",
+                      calc_mass_cname = "Calculated m/z",
                       pheight_cname = "Peak Height",
                       error_cname = "Mass Error (ppm)",
                       conf_cname = "Confidence Score",
@@ -77,27 +78,27 @@ dat2 <- as.CoreMSData(dat2,
 
 ## Plotting CoreMSData Object
 
-Calling the plot method on a CoreMSData object produces a barplot showing the number of peaks with unique masses per file (sample). In a case with many samples or very long sample names, the parameter \code{diag_x_labs} can be set to \code{TRUE}. This will display the x-axis tick labels diagonally for improved readability.
+Calling the plot method on a CoreMSData object produces a barplot showing the number of peaks with unique masses per file (sample). In a case with many samples or very long sample names, the parameter `diag_x_labs` can be set to `TRUE`. This will display the x-axis tick labels diagonally for improved readability.
 
 ```{r}
-plot.CoreMSData(dat2)
+plot(dat2)
 ```
 
 # Filtering by Confidence Score
 
-It can be useful to filter peaks by confidence score. To apply a filter, first construct a confidence filter object using the function `conf_filter`. Then, to see the effect of applying a confidence filter using difference minimum confidence thresholds, use the plot method for `confFilter` objects. This plot displays the numbers of peaks retained and removed from the dataset under different confidence filtering parameters. 
+It can be useful to filter peaks by confidence score. To apply a filter, first construct a confidence filter object using the function `conf_filter`. Then, to see the effect of applying a confidence filter using difference minimum confidence thresholds, use the plot method for `confFilter` objects. This plot displays the numbers of peaks retained and removed from the dataset under different confidence filtering thresholds. 
 
 ```{r}
 dat2_filt_obj <- conf_filter(dat2)
 
-plot.confFilt(dat2_filt_obj)
+plot(dat2_filt_obj)
 ```
 
 Next, apply a filter using `applyConfFilt`, specifying the `confFilt` object, the `CoreMSData` object, and the desired minimum confidence threshold (`min_conf`).
 
 ```{r}
-dat2_filtered <- applyConfFilt(filter_object =  dat2_filt_obj,
-                               cmsObj = dat2,
+dat2_filtered <- applyFilt(filter_object =  dat2_filt_obj,
+                               msObj = dat2,
                                min_conf = 0.5)
 ```
 
@@ -109,9 +110,31 @@ attr(dat2_filtered, "filters")$confFilt
 If an attempt is made to apply a confidence filter to a dataset that has already been filtered by confidence score, an error will be thrown to indicate this.
 
 ```{r, error = TRUE}
-applyConfFilt(dat2_filt_obj, dat2_filtered)
+applyFilt(dat2_filt_obj, dat2_filtered)
 ```
 
+After applying a confidence filter, the filtered CoreMSdata object can be plotted to show the updated number of peaks with unique masses per file/sample.
 
+```{r}
+plot(dat2_filtered)
+```
 
+# Mass-Error Plot
+
+```{r}
+mass_error_plot(dat2)
+```
+
+```{r}
+mass_error_plot(dat2_filtered)
+```
+
+When plotting a dataset with 1000 or more peaks, the `mass_error_plot` function will return a hex plot in which the color indicates the number of points in a region. 
+
+```{r}
+data("example_CoreMSData_1000")
+
+mass_error_plot(example_data_1000)
+mass_error_plot(example_data_1000, min_conf = 0.7)
+```
 
