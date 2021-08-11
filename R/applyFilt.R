@@ -439,8 +439,7 @@ applyFilt.confFilt <- function(filter_object, msObj, min_conf = 0.5) {
   } else {    # no previous confFilt
     
     # check min_conf is numeric and of length 1
-    if(!class(min_conf) %in% c("numeric", "integer") | min_conf < 0) stop("min_conf must be a number greater than zero")
-    if(length(min_conf) != 1) stop("min_conf must be of length 1")
+    if(!class(min_conf) %in% c("numeric", "integer") | min_conf < 0 | min_conf > 1 | length(min_conf) != 1) stop("min_conf must be a single numeric value between 0 and 1")
     
     orig_nrow <- nrow(msObj)
     
