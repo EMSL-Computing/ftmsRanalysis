@@ -1,6 +1,7 @@
 #' Generates mass-error plot for CoreMS output data
 #'
 #' @param cmsObj a data.frame of MS data with columns containing calculated m/z, mass error (ppm), and file names, the output of function \code{read_CoreMS_data}
+#' @param min_conf a numeric value between 0 and 1 specifying a minimum confidence threshold to apply to the dataset. Peaks with confidence scores lower than the threshold will be omitted from the plot.
 #' @param title a character string specifying the plot title
 #' @param xlabel a character string specifying the x-axis label
 #' @param ylabel a character string specifying the y-axis label
@@ -16,6 +17,7 @@
 #' @export
 
 mass_error_plot <- function(cmsObj,
+                            min_conf = NULL,
                             title = NULL,
                             xlabel = "Mass to charge ratio (m/z)",
                             ylabel = "Mass error (ppm)",
@@ -29,6 +31,9 @@ mass_error_plot <- function(cmsObj,
   if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of the class 'CoreMSData'")
   
   # Check that that optional parameter inputs are valid
+  if(!is.null(min_conf)) {
+    if(!inherits(min_conf, "numeric") | !length(min_conf) == 1 | !(min_conf <= 1 & min_conf >= 0)) stop("min_conf must be single numeric value between 0 and 1")
+  }
   if(!is.null(title)) {
     if(!inherits(title, "character") | !(length(title) == 1)) stop("title must be single character string")
   }
@@ -46,14 +51,23 @@ mass_error_plot <- function(cmsObj,
   }
   
   
-  mass_id  <- attr(cmsObj, "cnames")$mass_cname
+  mass_id  <- attr(cmsObj, "cnames")$calc_mass_cname
   error_id <- attr(cmsObj, "cnames")$error_cname
+  conf_id <- attr(cmsObj, "cnames")$conf_cname
   file_id <- attr(cmsObj, "cnames")$file_cname
   formula_id <- attr(cmsObj, "cnames")$mf_cname
   
   num_files <- length(unique(dplyr::pull(cmsObj, file_id)))
   
-  plot <- if (num_files == 1) {
+  num_obs <- nrow(cmsObj)
+  
+  if (!is.null(min_conf)) {
+    cmsObj <- cmsObj %>% 
+      dplyr::filter(dplyr::pull(cmsObj, conf_id) >= min_conf)
+  }
+  
+  # plot <- if (num_files == 1) {
+  plot <- if (num_obs < 1000) {
     
     p <- cmsObj %>%
       ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(cmsObj, mass_id),
@@ -64,6 +78,9 @@ mass_error_plot <- function(cmsObj,
                                                 dplyr::pull(cmsObj, error_id),
                                                 "\nMolecular Formula: ",
                                                 dplyr::pull(cmsObj, formula_id)))) +
+      ggplot2::geom_hline(ggplot2::aes(yintercept = 0), 
+                          linetype = "dashed", 
+                          color = "gray50") +
       ggplot2::geom_point(shape = 21,
                           color = "steelblue4",
                           fill = "skyblue1",
@@ -82,13 +99,16 @@ mass_error_plot <- function(cmsObj,
     
     plotly::ggplotly(p, tooltip = "text")
     
-  } else if (num_files > 1) {
+  } else if (num_obs >= 1000) {
     p <- cmsObj %>%
       ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(cmsObj, mass_id),
                                    y = dplyr::pull(cmsObj, error_id))) +
+      ggplot2::geom_hline(ggplot2::aes(yintercept = 0), 
+                          linetype = "dashed", 
+                          color = "gray50") +
       ggplot2::geom_hex() +
       ggplot2::theme_bw() +
-      ggplot2::labs(title = title, x = xlabel, y = ylabel)
+      ggplot2::labs(title = title, x = xlabel, y = ylabel) 
     
     if (!is.null(xrange)) {
       p <- p + ggplot2::xlim(xrange)
