@@ -441,33 +441,48 @@ applyFilt.confFilt <- function(filter_object, msObj, min_conf = 0.5) {
     # check min_conf is numeric and of length 1
     if(!class(min_conf) %in% c("numeric", "integer") | min_conf < 0 | min_conf > 1 | length(min_conf) != 1) stop("min_conf must be a single numeric value between 0 and 1")
     
-    orig_nrow <- nrow(msObj)
+    monoiso_orig_nrow <- nrow(msObj$monoiso_data)
+    iso_orig_nrow <- nrow(msObj$iso_data)
     
-    mass_cname <- attr(msObj, "cnames")$mass_cname
+    mass_id <- attr(msObj, "cnames")$calc_mass_cname
     conf_cname <- attr(msObj, "cnames")$conf_cname
     
     # get peaks to keep
-    filtered_msObj <- msObj %>% dplyr::filter(msObj[,conf_cname] >= min_conf)
+    monoiso_filtered_msObj <- msObj$monoiso_data %>% dplyr::filter(.data[[conf_cname]] >= min_conf)
+    iso_filtered_msObj <- msObj$iso_data %>% dplyr::filter(.data[[conf_cname]] >= min_conf)
     
     # get mass/ID of peaks to remove
-    peaks_removed <- msObj %>% 
-      dplyr::filter(msObj[,conf_cname] < min_conf | is.na(msObj[,conf_cname])) %>% 
-      dplyr::select(mass_cname) %>% 
+    monoiso_peaks_removed <- msObj$monoiso_data %>% 
+      dplyr::filter(.data[[conf_cname]] < min_conf | is.na(.data[[conf_cname]])) %>% 
+      dplyr::select(mass_id) %>%  
       as.list()
     
-    if(nrow(filtered_msObj) < 1) stop("Filtering using specified minimum confidence results in no peaks left in the data.")
+    iso_peaks_removed <- msObj$iso_data %>% 
+      dplyr::filter(.data[[conf_cname]] < min_conf | is.na(.data[[conf_cname]])) %>% 
+      dplyr::select(mass_id) %>%  
+      as.list()
     
-    num_rmv <- orig_nrow - nrow(filtered_msObj) 
-    num_na <- sum(is.na(dplyr::pull(msObj, conf_cname)))
+    if((nrow(monoiso_filtered_msObj) < 1) & (nrow(iso_filtered_msObj) < 1)) stop("Filtering using specified minimum confidence results in no peaks left in the data.")
     
-    msObj <- filtered_msObj
+    monoiso_num_rmv <- monoiso_orig_nrow - nrow(monoiso_filtered_msObj) 
+    monoiso_num_na <- sum(is.na(dplyr::pull(msObj$monoiso_data, conf_cname)))
+
+    iso_num_rmv <- iso_orig_nrow - nrow(iso_filtered_msObj) 
+    iso_num_na <- sum(is.na(dplyr::pull(msObj$iso_data, conf_cname)))
+        
+    res <- list("monoiso_data" = monoiso_filtered_msObj, "iso_data" = iso_filtered_msObj)
+    
+    class(res) <- c("CoreMSData", "list")
+    
+    # retain 'cnames' attributes
+    attr(res, "cnames") <- attr(msObj, "cnames")
     
     # add 'filters' attributes
-    attr(msObj, "filters")$confFilt <- list(report_text = "", threshold = c(), removed = c())
-    attr(msObj, "filters")$confFilt$report_text <- paste0("A confidence filter was applied to the data, removing peaks with a confidence score of less than ", min_conf, ". A total of ", num_rmv, " rows were removed by this filter including ", num_na, " missing values.")
-    attr(msObj, "filters")$confFilt$threshold <- min_conf
-    attr(msObj, "filters")$confFilt$removed <- peaks_removed
+    attr(res, "filters")$confFilt <- list(report_text = "", threshold = c(), removed = c())
+    attr(res, "filters")$confFilt$report_text <- paste0("A confidence filter was applied to the data, removing peaks with a confidence score of less than ", min_conf, ". A total of ", monoiso_num_rmv, " monoisotopic peaks were removed by this filter including ", monoiso_num_na, " missing values. A total of ", iso_num_rmv, " isotopic peaks were removed by this filter including ", iso_num_na, " missing values.")
+    attr(res, "filters")$confFilt$threshold <- min_conf
+    attr(res, "filters")$confFilt$removed <- list("monoisotopic" = monoiso_peaks_removed, "isotopic" = iso_peaks_removed)
     
-    return(msObj)
+    return(res)
   }
 }
