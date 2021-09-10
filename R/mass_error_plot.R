@@ -57,27 +57,29 @@ mass_error_plot <- function(cmsObj,
   file_id <- attr(cmsObj, "cnames")$file_cname
   formula_id <- attr(cmsObj, "cnames")$mf_cname
   
-  num_files <- length(unique(dplyr::pull(cmsObj, file_id)))
+  num_files <- length(unique(dplyr::pull(cmsObj$monoiso_data, file_id)))
   
-  num_obs <- nrow(cmsObj)
+  num_obs <- nrow(cmsObj$monoiso_data)
   
   if (!is.null(min_conf)) {
-    cmsObj <- cmsObj %>% 
+    plot_df <- cmsObj$monoiso_data %>% 
       dplyr::filter(dplyr::pull(cmsObj, conf_id) >= min_conf)
+  } else {
+    plot_df <- cmsObj$monoiso_data
   }
   
   # plot <- if (num_files == 1) {
   plot <- if (num_obs < 1000) {
     
-    p <- cmsObj %>%
-      ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(cmsObj, mass_id),
-                                   y = dplyr::pull(cmsObj, error_id),
+    p <- plot_df %>%
+      ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(plot_df, mass_id),
+                                   y = dplyr::pull(plot_df, error_id),
                                    text = paste("Mass: ",
-                                                dplyr::pull(cmsObj, mass_id),
+                                                dplyr::pull(plot_df, mass_id),
                                                 "\nError: ",
-                                                dplyr::pull(cmsObj, error_id),
+                                                dplyr::pull(plot_df, error_id),
                                                 "\nMolecular Formula: ",
-                                                dplyr::pull(cmsObj, formula_id)))) +
+                                                dplyr::pull(plot_df, formula_id)))) +
       ggplot2::geom_hline(ggplot2::aes(yintercept = 0), 
                           linetype = "dashed", 
                           color = "gray50") +
@@ -100,9 +102,9 @@ mass_error_plot <- function(cmsObj,
     plotly::ggplotly(p, tooltip = "text")
     
   } else if (num_obs >= 1000) {
-    p <- cmsObj %>%
-      ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(cmsObj, mass_id),
-                                   y = dplyr::pull(cmsObj, error_id))) +
+    p <- plot_df %>%
+      ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(plot_df, mass_id),
+                                   y = dplyr::pull(plot_df, error_id))) +
       ggplot2::geom_hline(ggplot2::aes(yintercept = 0), 
                           linetype = "dashed", 
                           color = "gray50") +
