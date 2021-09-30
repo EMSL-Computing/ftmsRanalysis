@@ -433,34 +433,50 @@ applyFilt.confFilt <- function(filter_object, msObj, min_conf = 0.5) {
   
   if ("confFilt" %in% names(attr(msObj, "filters"))) {
     prev_min_conf <- attr(msObj, "filters")$confFilt$threshold
-    
     stop(paste0("A confidence filter has already been applied to this dataset using a 'min_conf' of ", prev_min_conf))
-    
   } else {    # no previous confFilt
-    
     # check min_conf is numeric and of length 1
     if(!class(min_conf) %in% c("numeric", "integer") | min_conf < 0 | min_conf > 1 | length(min_conf) != 1) stop("min_conf must be a single numeric value between 0 and 1")
     
     monoiso_orig_nrow <- nrow(msObj$monoiso_data)
     iso_orig_nrow <- nrow(msObj$iso_data)
     
-    mass_id <- attr(msObj, "cnames")$calc_mass_cname
+    index <- attr(msObj, "cnames")$index_cname
+    obs_mass <- attr(msObj, "cnames")$obs_mass_cname
+    calc_mass <- attr(msObj, "cnames")$calc_mass_cname
     conf_cname <- attr(msObj, "cnames")$conf_cname
+    monoiso_index <- attr(msObj, "cnames")$monoiso_index_cname
+    filename <- attr(msObj, "cnames")$file_cname
     
-    # get peaks to keep
+    # get monoiso peaks to keep
     monoiso_filtered_msObj <- msObj$monoiso_data %>% dplyr::filter(.data[[conf_cname]] >= min_conf)
-    iso_filtered_msObj <- msObj$iso_data %>% dplyr::filter(.data[[conf_cname]] >= min_conf)
+
+    # create column with unique monoisotopic index/filename identifier for pulling out associated isotopic peaks
+    monoiso_peaks_to_remove <- msObj$monoiso_data %>%
+      filter(.data[[conf_cname]] < 0.05 | is.na(.data[[conf_cname]])) %>% 
+      select(index, calc_mass, filename) %>% 
+      mutate(MonoIndexFile = paste0(.data[[index]], "_", .data[[filename]]))
     
-    # get mass/ID of peaks to remove
-    monoiso_peaks_removed <- msObj$monoiso_data %>% 
-      dplyr::filter(.data[[conf_cname]] < min_conf | is.na(.data[[conf_cname]])) %>% 
-      dplyr::select(mass_id) %>%  
+    # get mass IDs of removed peaks 
+    monoiso_peaks_removed <- monoiso_peaks_to_remove %>% 
+      select(calc_mass) %>% 
       as.list()
     
-    iso_peaks_removed <- msObj$iso_data %>% 
-      dplyr::filter(.data[[conf_cname]] < min_conf | is.na(.data[[conf_cname]])) %>% 
-      dplyr::select(mass_id) %>%  
+    # get iso peaks to remove - those associated with removed monoiso peaks
+    iso_peaks_to_remove <- msObj$iso_data %>% 
+      select(calc_mass, monoiso_index, filename) %>%
+      mutate(MonoIndexFile = paste0(.data[[monoiso_index]], "_", .data[[filename]])) %>% 
+      filter(MonoIndexFile %in% monoiso_peaks_to_remove$MonoIndexFile) %>% 
+      mutate(MonoIndexFile = NULL)
+    
+    # get mass ID of iso peaks removed
+    iso_peaks_removed <- iso_peaks_to_remove %>% 
+      select(calc_mass) %>% 
       as.list()
+    
+    # # get iso peaks to keep
+    iso_filtered_msObj <- msObj$iso_data %>% 
+      anti_join(y = iso_peaks_to_remove)
     
     if((nrow(monoiso_filtered_msObj) < 1) & (nrow(iso_filtered_msObj) < 1)) stop("Filtering using specified minimum confidence results in no peaks left in the data.")
     
