@@ -7,15 +7,15 @@
 n_present <- function(x, data_scale) {
   if (data_scale %in% c('pres', 'abundance')) {
     if (identical(dim(x), NULL)) { # vector
-      res <- as.integer(x>0)
+      res <- as.integer(x>0 & !is.na(x))
     } else { # 2-dimensional
-      res <- as.integer(rowSums(x>0))
+      res <- as.integer(rowSums(x>0, na.rm = TRUE))
     }
   } else {
     if (identical(dim(x), NULL)) { # vector
       res <- as.integer(!is.na(x))
     } else { # 2-dimensional
-      res <- as.integer(rowSums(!is.na(x)))
+      res <- as.integer(rowSums(!is.na(x), na.rm = TRUE))
     }
   }
   return(data.frame(n_present=res))
