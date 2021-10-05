@@ -9,7 +9,7 @@ calc_dbe(ftmsObj, valences = NULL)
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
-\item{valences}{a named list with the valence for each element.  Names must be any of 'C', 'H', 'N', 'O', 'S', 'P'. Values must be integers corresponding to the valence for each element.  Defaults to NULL, in which case the valences that result in the formula given in the details section are used.}
+\item{valences}{a dataframe with columns giving the valence for each element.  Names must be any of 'C', 'H', 'N', 'O', 'S', 'P'. Values must be integers corresponding to the valence for each element.  Defaults to NULL, in which case the valences that result in the formula given in the details section are used.}
 }
 \value{
 an object of the same class as \code{ftmsObj} with a column in \code{e\_meta} giving DBE, DBE-O, and DBE_AI values

@@ -4,10 +4,22 @@
 \alias{scatterPlot}
 \title{Title}
 \usage{
-scatterPlot(ftmsObj, xCName, yCName, colorCName = NA, colorPal = NA,
-  xlabel = xCName, ylabel = yCName, legendTitle = colorCName,
-  title = NA, xrange = NA, yrange = NA, logColorCol = FALSE,
-  hoverTextCName = NA)
+scatterPlot(
+  ftmsObj,
+  xCName,
+  yCName,
+  colorCName = NA,
+  colorPal = NA,
+  xlabel = xCName,
+  ylabel = yCName,
+  legendTitle = colorCName,
+  title = NA,
+  xrange = NA,
+  yrange = NA,
+  logColorCol = FALSE,
+  hoverTextCName = NA,
+  zero.min = FALSE
+)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
@@ -35,6 +47,8 @@ scatterPlot(ftmsObj, xCName, yCName, colorCName = NA, colorPal = NA,
 \item{logColorCol}{TRUE/FALSE, should the color column be log-transformed? Default is FALSE.}
 
 \item{hoverTextCName}{column name for hover (mouseover) text, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
+
+\item{zero.min}{TRUE/FALSE, if an axis range is not provided, should the automatic range minimum be set to 0?}
 }
 \value{
 plotly object

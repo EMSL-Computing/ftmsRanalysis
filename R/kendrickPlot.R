@@ -105,9 +105,6 @@ kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
     colorCName <- "Class"
   }
 
-  xrange <- nice_axis_limits(ftmsObj$e_meta[, km_col])
-  yrange <- nice_axis_limits(ftmsObj$e_meta[, kd_col])
-  
   # if ftmsObj is a comparison summary object, remove all NA rows from e_data/e_meta
   if (inherits(ftmsObj, "comparisonSummary")) {
     ind <- !is.na(dplyr::pull(ftmsObj$e_data, colorCName))
@@ -122,7 +119,7 @@ kendrickPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBounda
   ftmsObj$e_meta$Hover <- hovertext
   
   p <- scatterPlot(ftmsObj, km_col, kd_col, colorCName = colorCName, colorPal=colorPal, xlabel=xlabel, ylabel=ylabel,
-                          legendTitle=legendTitle, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
+                          legendTitle=legendTitle, title=title, logColorCol=logColorCol, hoverTextCName="Hover")
   
   p
   

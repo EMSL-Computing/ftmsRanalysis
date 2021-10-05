@@ -90,9 +90,6 @@ vanKrevelenPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBou
     
   }
   
-  xrange <- nice_axis_limits(ftmsObj$e_meta[, OC.col], zero.min=TRUE)
-  yrange <- nice_axis_limits(ftmsObj$e_meta[, HC.col], zero.min=TRUE)
-
   # if ftmsObj is a comparison summary object, remove all NA rows from e_data/e_meta
   if (inherits(ftmsObj, "comparisonSummary")) {
     ind <- !is.na(dplyr::pull(ftmsObj$e_data, colorCName))
@@ -107,7 +104,7 @@ vanKrevelenPlot <- function(ftmsObj, title=NA, colorPal=NA, colorCName=NA, vkBou
   ftmsObj$e_meta$Hover <- hovertext
   
   p <- scatterPlot(ftmsObj, OC.col, HC.col, colorCName = colorCName, colorPal=colorPal, xlabel=xlabel, ylabel=ylabel,
-                   legendTitle=legendTitle, title=title, xrange=xrange, yrange=yrange, logColorCol=logColorCol, hoverTextCName="Hover")
+                   legendTitle=legendTitle, title=title, logColorCol=logColorCol, hoverTextCName="Hover", zero.min=TRUE)
   
   if (showVKBounds) {
     if (vk_color_different_than_pts) {

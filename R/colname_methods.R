@@ -601,7 +601,7 @@ getKendrickMassColName <- function(ftmsObj) {
 #' contains Kendrick mass data for Kendrick plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param cnames column name
+#' @param cnames column names
 #' @return updated ftmsObj
 #' 
 #' 
@@ -637,7 +637,7 @@ getKendrickDefectColName <- function(ftmsObj) {
 #' contains Kendrick defect data for Kendrick plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param cnames column name
+#' @param cnames column names
 #' @return updated ftmsObj
 #' 
 #' 
@@ -867,7 +867,7 @@ setGibbsColName <- function(ftmsObj, cname) {
 
 #' Get the name of the double-bond equivalent column
 #' 
-#' Gets the name of the column in the e\_meta element that contains double-bond equivalent values
+#' Gets the name of the column in the e_meta element that contains double-bond equivalent values
 #' 
 #' @param ftmsObj an object of type ftmsData
 #' @return name of double-bond equivalent column
@@ -885,18 +885,18 @@ getDBEColName <- function(ftmsObj){
 #' contains double-bond equivalent information.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param cname column name
+#' @param cnames column names
 #' @return updated ftmsObj
 #' 
 #' 
-setDBEColName <- function(ftmsObj, cname) {
+setDBEColName <- function(ftmsObj, cnames) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  if (!(cname %in% names(ftmsObj$e_meta))) {
-    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  if (!all(cnames %in% names(ftmsObj$e_meta))) {
+    stop(sprintf("Columns '%s' are not found in the e_meta data", paste(cnames, collapse = ',')))
   }
-  attr(ftmsObj, "cnames")$dbe_cname <- cname
+  attr(ftmsObj, "cnames")$dbe_cname <- cnames
   return(ftmsObj)
 }
 

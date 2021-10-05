@@ -74,7 +74,8 @@ assign_class <- function(ftmsObj, boundary_set = "bs1", calc_ratios = TRUE){
   
   comp_class = rep(NA, nrow(temp))
   comp_class[forms] = classes
-  class_colname = paste(boundary_set, "_class", sep = "")
+  class_colname = make.unique(c(colnames(ftmsObj$e_meta), paste(boundary_set, "_class", sep = "")))
+  class_colname = class_colname[length(class_colname)]
   
   # add the column to e_meta #
   temp[,class_colname] = comp_class

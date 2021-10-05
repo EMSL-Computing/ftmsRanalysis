@@ -13,5 +13,5 @@ getDBEColName(ftmsObj)
 name of double-bond equivalent column
 }
 \description{
-Gets the name of the column in the e\_meta element that contains double-bond equivalent values
+Gets the name of the column in the e_meta element that contains double-bond equivalent values
 }

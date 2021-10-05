@@ -4,12 +4,12 @@
 \alias{setDBEColName}
 \title{Set the name of the double-bond equivalent column}
 \usage{
-setDBEColName(ftmsObj, cname)
+setDBEColName(ftmsObj, cnames)
 }
 \arguments{
 \item{ftmsObj}{an object of type ftmsData}
 
-\item{cname}{column name}
+\item{cnames}{column names}
 }
 \value{
 updated ftmsObj
