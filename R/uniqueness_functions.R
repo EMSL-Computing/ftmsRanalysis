@@ -275,14 +275,14 @@ gtest.standard = function(data, group){
   p = nrow(data)
   n = ncol(data)
   grps = as.factor(group)
-  num.grps = length(levels(grps))
+  num.grps = length(unique(grps))
   
   ## basic tests before proceeding ##
   if(length(group)!=n)stop("Group vector length does not match number of rows in the data provided")
   if(num.grps < 2)stop("Must have at least two groups to conduct test")
   
   ## store the group names ##
-  grp.names = levels(grps)
+  grp.names = as.character(unique(grps))
   
   grp.ns = NULL
   ## calculate group sample sizes ##
@@ -336,7 +336,7 @@ gtest.standard = function(data, group){
       Gstat[j] = 2*sum(prelim.g[!is.na(prelim.g)])
       df = num.grps - 1
       pvalue[j] = pchisq(Gstat[j],df,lower.tail=FALSE)
-      major.group[j] = ifelse(obs.miss[2,1] > obs.miss[2,2], grp.names[1], grp.names[2])
+      major.group[j] = data.table::fifelse(obs.miss[2,1] > obs.miss[2,2], grp.names[1], grp.names[2])
     }else{
       Gstat[j] = 0
       pvalue[j] = 1

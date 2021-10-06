@@ -35,9 +35,9 @@ comparisonMatrix <- function(ftmsObj, comparisons, control=NULL) {
     
     pairs <- do.call(cbind, comparisons)
   } else if(tolower(comparisons) == "all"){
-    pairs <- combn(levels(groupDF$Group),2)
+    pairs <- combn(as.character(unique(groupDF$Group)),2)
   }else if(tolower(comparisons) == "control"){
-    pairs <- combn(levels(groupDF$Group),2)
+    pairs <- combn(as.character(unique(groupDF$Group)),2)
     if(ncol(pairs) > 1){
       if(length(unique(c(grep(control,pairs[1,]),grep(control,pairs[2,])))) > 1){
         pairs <- pairs[,unique(c(grep(control, pairs[1,]),grep(control, pairs[2,])))]
