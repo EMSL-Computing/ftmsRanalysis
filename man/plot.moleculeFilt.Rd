@@ -4,9 +4,14 @@
 \alias{plot.moleculeFilt}
 \title{Plot molecule filter data}
 \usage{
-\method{plot}{moleculeFilt}(x, min_num = NA, title = NA,
+\method{plot}{moleculeFilt}(
+  x,
+  min_num = NA,
+  title = NA,
   xlabel = "Minimum Number of Samples for which a Peak is Observed",
-  ylabel = "Number of Peaks", ...)
+  ylabel = "Number of Peaks",
+  ...
+)
 }
 \arguments{
 \item{x}{moleculeFilt object, created by \code{\link{molecule_filter}} function}

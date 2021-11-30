@@ -4,8 +4,7 @@
 \alias{summary.massFilt}
 \title{Summary method for massFilt object}
 \usage{
-\method{summary}{massFilt}(object, min_mass = NULL, max_mass = NULL,
-  ...)
+\method{summary}{massFilt}(object, min_mass = NULL, max_mass = NULL, ...)
 }
 \arguments{
 \item{object}{an object of class 'massFilt' created by running \code{\link{mass_filter}}}

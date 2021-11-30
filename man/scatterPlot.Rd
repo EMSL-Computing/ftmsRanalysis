@@ -4,10 +4,21 @@
 \alias{scatterPlot}
 \title{Title}
 \usage{
-scatterPlot(ftmsObj, xCName, yCName, colorCName = NA, colorPal = NA,
-  xlabel = xCName, ylabel = yCName, legendTitle = colorCName,
-  title = NA, xrange = NA, yrange = NA, logColorCol = FALSE,
-  hoverTextCName = NA)
+scatterPlot(
+  ftmsObj,
+  xCName,
+  yCName,
+  colorCName = NA,
+  colorPal = NA,
+  xlabel = xCName,
+  ylabel = yCName,
+  legendTitle = colorCName,
+  title = NA,
+  xrange = NA,
+  yrange = NA,
+  logColorCol = FALSE,
+  hoverTextCName = NA
+)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}

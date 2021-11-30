@@ -4,9 +4,12 @@
 \alias{compound_calcs}
 \title{Wrapper function to calculate values associated with individual peaks/compounds}
 \usage{
-compound_calcs(ftmsObj, calc_fns = c("calc_aroma", "calc_dbe",
-  "calc_gibbs", "calc_kendrick", "calc_nosc", "calc_element_ratios"),
-  calc_args = NULL)
+compound_calcs(
+  ftmsObj,
+  calc_fns = c("calc_aroma", "calc_dbe", "calc_gibbs", "calc_kendrick", "calc_nosc",
+    "calc_element_ratios"),
+  calc_args = NULL
+)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}

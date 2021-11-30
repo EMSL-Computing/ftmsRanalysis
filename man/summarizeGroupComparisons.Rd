@@ -4,8 +4,11 @@
 \alias{summarizeGroupComparisons}
 \title{Summarize group comparisons}
 \usage{
-summarizeGroupComparisons(compData, summary_functions,
-  summary_function_params = NULL)
+summarizeGroupComparisons(
+  compData,
+  summary_functions,
+  summary_function_params = NULL
+)
 }
 \arguments{
 \item{compData}{a groupComparison object or a ddo of groupComparison objects, i.e. the output 

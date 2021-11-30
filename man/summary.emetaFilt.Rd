@@ -4,8 +4,7 @@
 \alias{summary.emetaFilt}
 \title{Summary method for emetaFilt object}
 \usage{
-\method{summary}{emetaFilt}(object, min_val = NULL, max_val = NULL,
-  cats = NULL, na.rm = TRUE, ...)
+\method{summary}{emetaFilt}(object, min_val = NULL, max_val = NULL, cats = NULL, na.rm = TRUE, ...)
 }
 \arguments{
 \item{object}{an object of class 'emetaFilt' created by running \code{\link{emeta_filter}}}

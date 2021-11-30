@@ -6,26 +6,33 @@
 \alias{applyFilt.massFilt}
 \alias{applyFilt.formulaFilt}
 \alias{applyFilt.emetaFilt}
-\title{Apply a S3 filter  object to an ftmsData S3 object}
+\alias{applyFilt.confFilt}
+\title{Apply an S3 filter  object to an ftmsData or CoreMSData S3 object}
 \usage{
-applyFilt(filter_object, ftmsObj, ...)
+applyFilt(filter_object, msObj, ...)
 
-\method{applyFilt}{moleculeFilt}(filter_object, ftmsObj, min_num = 2,
-  ...)
+\method{applyFilt}{moleculeFilt}(filter_object, msObj, min_num = 2, ...)
 
-\method{applyFilt}{massFilt}(filter_object, ftmsObj, min_mass = 200,
-  max_mass = 900, ...)
+\method{applyFilt}{massFilt}(filter_object, msObj, min_mass = 200, max_mass = 900, ...)
 
-\method{applyFilt}{formulaFilt}(filter_object, ftmsObj,
-  remove = "NoFormula", ...)
+\method{applyFilt}{formulaFilt}(filter_object, msObj, remove = "NoFormula", ...)
 
-\method{applyFilt}{emetaFilt}(filter_object, ftmsObj, min_val = NULL,
-  max_val = NULL, cats = NULL, na.rm = TRUE, ...)
+\method{applyFilt}{emetaFilt}(
+  filter_object,
+  msObj,
+  min_val = NULL,
+  max_val = NULL,
+  cats = NULL,
+  na.rm = TRUE,
+  ...
+)
+
+\method{applyFilt}{confFilt}(filter_object, msObj, min_conf = 0.5)
 }
 \arguments{
-\item{filter_object}{an object of the class 'moleculeFilt' created by  \code{\link{molecule_filter}}}
+\item{filter_object}{an object of the class 'moleculeFilt', 'massFilt', 'formulaFilt', 'emetaFilt', or 'confFilt'}
 
-\item{ftmsObj}{an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}}
+\item{msObj}{an object of the class \code{ftmsData} or \code{CoreMSData}, created by \code{\link{as.peakData}} or \code{\link{as.CoreMSData}}, respectively}
 
 \item{...}{further arguments as described below based on the class of \code{filter_object}}
 
@@ -44,15 +51,17 @@ applyFilt(filter_object, ftmsObj, ...)
 \item{cats}{[\code{emetaFilt} object] a vector of character values specifying the level(s) of the specified 'e_meta' column which should be retained. \cr}
 
 \item{na.rm}{[\code{emetaFilt} object] logical value specifying if peaks with NA values for the specified 'e_meta' column should be removed. Default value is TRUE. \cr}
+
+\item{min_conf}{a numeric value greater than 0 specifying the minimum confidence score a peak should have in order to be retained}
 }
 \value{
-An object of the class \code{ftmsData} with specified molecules filtered out of the appropriate datasets.
+An object of the class \code{ftmsData} or \code{CoreMSData} with specified molecules filtered out of the appropriate datasets
 }
 \description{
-This function takes a filter object of class 'moleculeFilt' and applies the filter to a dataset of class \code{ftmsData}
+This function takes a filter object of class 'moleculeFilt', 'massFilt', 'formulaFilt', 'emetaFilt', or 'confFilt' and applies the filter to a dataset of class \code{ftmsData} or \code{CoreMSData}
 }
 \seealso{
-\code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}
+\code{\link{molecule_filter}}, \code{\link{mass_filter}}, \code{\link{formula_filter}}, \code{\link{emeta_filter}}, \code{\link{conf_filter}}
 }
 \author{
 Lisa Bramer

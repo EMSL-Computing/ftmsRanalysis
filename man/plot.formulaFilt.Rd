@@ -4,8 +4,7 @@
 \alias{plot.formulaFilt}
 \title{Plot formula filter}
 \usage{
-\method{plot}{formulaFilt}(x, remove = NA, title = NA, xlabel = "",
-  ylabel = "Count", ...)
+\method{plot}{formulaFilt}(x, remove = NA, title = NA, xlabel = "", ylabel = "Count", ...)
 }
 \arguments{
 \item{x}{object of type 'formulaFilt', the output of \code{\link{formula_filter}}}
