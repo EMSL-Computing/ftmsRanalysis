@@ -4,8 +4,15 @@
 \alias{plot.massFilt}
 \title{Plot mass filter object}
 \usage{
-\method{plot}{massFilt}(x, min_mass = NA, max_mass = NA, title = NA,
-  xlabel = "Mass", ylabel = "Count", ...)
+\method{plot}{massFilt}(
+  x,
+  min_mass = NA,
+  max_mass = NA,
+  title = NA,
+  xlabel = "Mass",
+  ylabel = "Count",
+  ...
+)
 }
 \arguments{
 \item{x}{massFilt object, created by \code{\link{mass_filter}} function}

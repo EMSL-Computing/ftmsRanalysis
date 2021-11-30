@@ -3,7 +3,9 @@
 \name{ftms12T_edata}
 \alias{ftms12T_edata}
 \title{FTICR Expression Data}
-\format{A data.frame with 2,442 rows (peaks/masses) and 21 columns (mass identifier and samples):}
+\format{
+A data.frame with 2,442 rows (peaks/masses) and 21 columns (mass identifier and samples):
+}
 \description{
 A dataset containing expression data from a 12T FTICR instrument.
 }

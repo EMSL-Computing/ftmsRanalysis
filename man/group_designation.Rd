@@ -4,8 +4,7 @@
 \alias{group_designation}
 \title{Creates Data Frame for Group Membership Based on Specified Main Effects}
 \usage{
-group_designation(ftmsObj, main_effects, covariates = NULL,
-  var.name = FALSE)
+group_designation(ftmsObj, main_effects, covariates = NULL, var.name = FALSE)
 }
 \arguments{
 \item{ftmsObj}{an object of the class 'ftmsData', usually created by \code{\link{as.peakData}}.}

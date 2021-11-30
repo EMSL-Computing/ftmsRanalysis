@@ -4,9 +4,18 @@
 \alias{as.moduleData}
 \title{Convert Data to moduleData Class}
 \usage{
-as.moduleData(e_data, f_data, e_meta = NULL, edata_cname, fdata_cname,
-  module_cname, module_node_cname, instrument_type = "12T", db = NA,
-  ...)
+as.moduleData(
+  e_data,
+  f_data,
+  e_meta = NULL,
+  edata_cname,
+  fdata_cname,
+  module_cname,
+  module_node_cname,
+  instrument_type = "12T",
+  db = NA,
+  ...
+)
 }
 \arguments{
 \item{e_data}{a \eqn{p \times n + 1} data.frame of expression data, where \eqn{p} is the number of observed module nodes and \eqn{n} is the number of samples. Each row corresponds to data for each peak. One column specifying a unique identifier for each peak/mass (row) must be present.}
