@@ -15,9 +15,9 @@ test_that("read_CoreMS_data output has correct format", {
   single_file_noX1 <- "example_data_noX1.csv"
   
   # check that error thrown when force_rbind = FALSE
-  expect_error(read_CoreMS_data(mult_file_mixX1), "one or more columns not present in all files")
+  #expect_error(read_CoreMS_data(mult_file_mixX1), "one or more columns not present in all files")
   
-  mult_data <- read_CoreMS_data(mult_file_mixX1, force_rbind = TRUE)
+  mult_data <- read_CoreMS_data(mult_file_mixX1)
   expect_s3_class(mult_data, "CoreMSrbind")
   expect_false("X1" %in% names(mult_data))
   
@@ -32,7 +32,7 @@ test_that("read_CoreMS_data output has correct format", {
 })
 
 # test function as.CoreMSData
-test_that("CoreMSData object correctly constructed with required columns", {
+test_that("CoreMSData object correctly constructed", {
   
   # error thrown when object passed to as.CoreMSData() is not of class 'CoreMSrbind'
   data_frame <- readr::read_csv("example_data1.csv")
@@ -42,10 +42,12 @@ test_that("CoreMSData object correctly constructed with required columns", {
                        "example_data2.csv",
                        "example_data3.csv",
                        "example_data_noX1.csv")
-  all_data <- read_CoreMS_data(mult_file_mixX1, force_rbind = TRUE)
+  all_data <- read_CoreMS_data(mult_file_mixX1)
   
   # error thrown when column names not found in all_data
-  expect_error(as.CoreMSData(all_data, mass_cname = "Mass"),
+  expect_error(as.CoreMSData(all_data, obs_mass_cname = "Mass"),
+               "Observed mass column Mass not found in all_data")
+  expect_error(as.CoreMSData(all_data, calc_mass_cname = "Mass"),
                "Calculated mass column Mass not found in all_data")
   expect_error(as.CoreMSData(all_data, pheight_cname = "Height"),
                "Peak height/intensity column Height not found in all_data")
@@ -68,17 +70,18 @@ test_that("CoreMSData object correctly constructed with required columns", {
   
 
   cmsObj <- as.CoreMSData(all_data = all_data,
-                          mass_cname = "Calculated m/z",
+                          obs_mass_cname = "m/z",
+                          calc_mass_cname = "Calculated m/z",
                           pheight_cname = "Peak Height",
                           error_cname = "Mass Error (ppm)",
                           conf_cname = "Confidence Score",
                           file_cname = "Filename",
                           mf_cname = "Molecular Formula",
                           c13_cname = "13C")
+
   
-  expect_s3_class(cmsObj, "CoreMSData")
-  
-  expect_equal(attr(cmsObj, "cnames")$mass_cname, "Calculated m/z")
+  expect_equal(attr(cmsObj, "cnames")$obs_mass_cname, "m/z")
+  expect_equal(attr(cmsObj, "cnames")$calc_mass_cname, "Calculated m/z")
   expect_equal(attr(cmsObj, "cnames")$pheight_cname, "Peak Height")
   expect_equal(attr(cmsObj, "cnames")$error_cname, "Mass Error (ppm)")
   expect_equal(attr(cmsObj, "cnames")$conf_cname, "Confidence Score")
@@ -90,15 +93,16 @@ test_that("CoreMSData object correctly constructed with required columns", {
   expect_true(is.null(attr(cmsObj, "cnames")$o18_cname))
   expect_true(is.null(attr(cmsObj, "cnames")$n15_cname))
   
+  # correct structure of CoreMSData object
+  expect_s3_class(cmsObj, "CoreMSData")
+  expect_s3_class(cmsObj, "list")
+  expect_true(length(cmsObj) == 2)
+  expect_s3_class(cmsObj$monoiso_data, "data.frame")
+  expect_s3_class(cmsObj$iso_data, "data.frame")
+  
+  # monoisotopic and isotopic peaks correctly sorted
+  expect_false(all(stringr::str_detect(cmsObj$monoiso_data$`Molecular Formula`, pattern = "13C|18O|15N|34S")))
+  expect_true(all(stringr::str_detect(cmsObj$iso_data$`Molecular Formula`, pattern = "13C|18O|15N|34S")))
 })
 
-# test plot method for CoreMSData objects
-test_that("plot.CoreMSData works as expected", {
-  
-  # create CoreMSData object
-  cmsobj <- as.CoreMSData(read_CoreMS_data(list.files(pattern = "example"), force_rbind = T))
-  
-  cms_plot <- plot(cmsobj)
-  
 
-})
