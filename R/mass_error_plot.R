@@ -7,7 +7,7 @@
 #' @param ylabel a character string specifying the y-axis label
 #' @param xrange a numerical vector of length 2 specifying the x-axis range
 #' @param yrange a numerical vector of length 2 specifying the y-axis range
-#' @param color_pal
+#' @param color_pal has not yet been implemented
 #' @param log_color_scale logical, if TRUE, color scale will be log-transformed. Defaults to FALSE.
 #'
 #' @details
@@ -32,7 +32,7 @@ mass_error_plot <- function(cmsObj,
   
   # Check that that optional parameter inputs are valid
   if(!is.null(min_conf)) {
-    if(!inherits(min_conf, "numeric") | !length(min_conf) == 1 | !(min_conf <= 1 & min_conf >= 0)) stop("min_conf must be single numeric value between 0 and 1")
+    if(!inherits(min_conf, "numeric") | !length(min_conf) == 1 | !(min_conf < 1 & min_conf > 0)) stop("min_conf must be single numeric value between 0 and 1")
   }
   if(!is.null(title)) {
     if(!inherits(title, "character") | !(length(title) == 1)) stop("title must be single character string")
@@ -50,7 +50,6 @@ mass_error_plot <- function(cmsObj,
     if(!inherits(yrange, "numeric") | !(length(yrange) == 2)) stop("yrange must be numeric vector with length 2")
   }
   
-  
   mass_id  <- attr(cmsObj, "cnames")$calc_mass_cname
   error_id <- attr(cmsObj, "cnames")$error_cname
   conf_id <- attr(cmsObj, "cnames")$conf_cname
@@ -59,18 +58,17 @@ mass_error_plot <- function(cmsObj,
   
   num_files <- length(unique(dplyr::pull(cmsObj$monoiso_data, file_id)))
   
-  num_obs <- nrow(cmsObj$monoiso_data)
-  
   if (!is.null(min_conf)) {
     plot_df <- cmsObj$monoiso_data %>% 
-      dplyr::filter(dplyr::pull(cmsObj, conf_id) >= min_conf)
+      dplyr::filter(dplyr::pull(cmsObj$monoiso_data, conf_id) >= min_conf)
   } else {
     plot_df <- cmsObj$monoiso_data
   }
   
-  # plot <- if (num_files == 1) {
+  num_obs <- nrow(plot_df)
+  
+  # scatterplot used for < 1000 points, hexplot otherwise
   plot <- if (num_obs < 1000) {
-    
     p <- plot_df %>%
       ggplot2::ggplot(ggplot2::aes(x = dplyr::pull(plot_df, mass_id),
                                    y = dplyr::pull(plot_df, error_id),
