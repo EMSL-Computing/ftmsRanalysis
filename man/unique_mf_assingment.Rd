@@ -9,14 +9,11 @@ unique_mf_assingment(cmsObj, method)
 \arguments{
 \item{cmsObj}{\code{CoreMSData} object, output of functions \link{\code{read_CoreMS_data}} and \link{\code{as.CoreMSData}}}
 
-\item{method}{Must be either "max_conf", "max_height", or "most_prev". Selects formula corresponding to highest confidence score, peak height, or prevalence across samples, respectively.}
+\item{method}{Must be either "confidence", "peak_intensity", or "prevalence". Selects formula corresponding to highest confidence score, peak height, or prevalence across samples, respectively.}
 }
 \value{
 \code{CoreMSData} object
 }
 \description{
 Unique Molecular Formula Assignment
-}
-\author{
-Natalie Winans
 }
