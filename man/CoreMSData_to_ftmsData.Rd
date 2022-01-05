@@ -10,7 +10,7 @@ CoreMSData_to_ftmsData(cmsObj)
 \item{cms_data}{a `CoreMSData` object, created using \link{\code{as.CoreMSData}}}
 }
 \value{
-e_data and e_meta
+list of two data frames, `e_data` and `e_meta`
 }
 \description{
 CoreMSData to ftmsData

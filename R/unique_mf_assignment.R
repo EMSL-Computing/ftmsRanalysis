@@ -1,16 +1,21 @@
 #' Unique Molecular Formula Assignment
 #' 
+#' Takes an object of class 'CoreMSData' and assigns unique molecular formulas to each peak within each sample 
+#' 
 #' @param cmsObj \code{CoreMSData} object, output of functions \link{\code{read_CoreMS_data}} and \link{\code{as.CoreMSData}}
-#' @param method Must be either "max_conf", "max_height", or "most_prev". Selects formula corresponding to highest confidence score, peak height, or prevalence across samples, respectively.
+#' @param method Must be either "confidence", "peak_intensity", or "prevalence". Selects formula corresponding to highest confidence score, peak height, or prevalence across samples, respectively.
 #'
 #' @return \code{CoreMSData} object
+#' 
+#' @author Natalie Winans
 #' 
 #' @export
 unique_mf_assingment <- function(cmsObj, method) {
   
   # check inputs
   if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of the class 'CoreMSData'")
-  if(!(method %in% c("max_conf", "max_height", "most_prev"))) stop("method must be 'max_conf', 'max_height', or 'most_prev'")
+  if(!(method %in% c("confidence", "peak_intensity", "prevalence"))) 
+    stop("method must be 'confidence', 'peak_intensity', or 'prevalence'")
  
   # get column names from cmsObj
   index <- attr(cmsObj, "cnames")$index_cname
@@ -22,7 +27,7 @@ unique_mf_assingment <- function(cmsObj, method) {
   formula <- attr(cmsObj, "cnames")$mf_cname
   filename <- attr(cmsObj, "cnames")$file_cname
   
-  if (method == "max_conf") {
+  if (method == "confidence") {
     # get maximum of confidence score ties
     tied_max_confs <- cmsObj$monoiso_data %>%  
       dplyr::group_by(.data[[filename]], .data[[obs_mass]]) %>% 
@@ -58,19 +63,20 @@ unique_mf_assingment <- function(cmsObj, method) {
       return(cmsObj)
     }
     
-  } else if (method == "max_height") {
+  } else if (method == "peak_intensity") {
     
     tied_max_heights <- cmsObj$monoiso_data %>%  
       dplyr::group_by(.data[[filename]], .data[[obs_mass]]) %>% 
       dplyr::slice(which(.data[[peak_height]] == max(.data[[peak_height]]))) %>% 
       dplyr::filter(dplyr::n() > 1)
     
-    conf_threshold <- tied_max_heights %>% 
-      dplyr::slice(which(.data[[conf_score]] ==  min(.data[[conf_score]]))) %>% 
-      dplyr::pull(.data[[conf_score]]) %>% 
-      max()
-    
     if (nrow(tied_max_heights) > 0) {
+      
+      conf_threshold <- tied_max_heights %>% 
+        dplyr::slice(which(.data[[conf_score]] ==  min(.data[[conf_score]]))) %>% 
+        dplyr::pull(.data[[conf_score]]) %>% 
+        max()
+      
       stop("Data set contains tied maximum peak heights. Apply a confidence filter at a threshold of at least ", 
            round(conf_threshold + 0.01, 2), ".")
       
@@ -97,7 +103,7 @@ unique_mf_assingment <- function(cmsObj, method) {
       return(cmsObj)
     }
     
-  } else if (method == "most_prev") {
+  } else if (method == "prevalence") {
     
     # extract sets of mfs for each file/sample
     mf_sets <- cmsObj$monoiso_data %>%
@@ -120,15 +126,16 @@ unique_mf_assingment <- function(cmsObj, method) {
     # pull out formulas that occur more than once within a file/sample
     tied_most_prev <- unq_prev %>% 
       dplyr::group_by(.data[[filename]], .data[[formula]]) %>% 
-      filter(n() > 1)
-    
-    conf_threshold <- tied_most_prev %>% 
-      dplyr::group_by(.data[[filename]], .data[[formula]]) %>% 
-      dplyr::slice(which(.data[[conf_score]] ==  min(.data[[conf_score]]))) %>% 
-      dplyr::pull(.data[[conf_score]]) %>% 
-      max()
+      dplyr::filter(dplyr::n() > 1)
     
     if (nrow(tied_most_prev) > 0) {
+      
+      conf_threshold <- tied_most_prev %>% 
+        dplyr::group_by(.data[[filename]], .data[[formula]]) %>% 
+        dplyr::slice(which(.data[[conf_score]] ==  min(.data[[conf_score]]))) %>% 
+        dplyr::pull(.data[[conf_score]]) %>% 
+        max()
+      
       stop("Data set contains tied most prevalent formulas. Apply a confidence filter at a threshold of at least ", 
            round(conf_threshold + 0.01, 2), ".")
       
@@ -149,12 +156,8 @@ unique_mf_assingment <- function(cmsObj, method) {
       
       cmsObj$monoiso_data <- new_monoiso_data
       cmsObj$iso_data <- new_iso_data
-      return(cmsObj)
       
+      return(cmsObj)
     }
-    
   }
-  
-
-  
 }
