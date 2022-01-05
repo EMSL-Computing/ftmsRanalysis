@@ -37,8 +37,8 @@ combinePeaksWithSameFormula <- function(ftmsObj) {
   # determine which rows of e_data need to be combined
   if (inherits(ftmsObj, "peakData")) {
     mf_col <- getMFColName(ftmsObj)
-    massMFComb <- dplyr::select_(ftmsObj$e_meta, getEDataColName(ftmsObj), getMassColName(ftmsObj), getMFColName(ftmsObj)) %>%
-      dplyr::rename_(Mass=getMassColName(ftmsObj), MF=getMFColName(ftmsObj)) %>%
+    massMFComb <- dplyr::select(ftmsObj$e_meta, getEDataColName(ftmsObj), getMassColName(ftmsObj), getMFColName(ftmsObj)) %>%
+      dplyr::rename(Mass=getMassColName(ftmsObj), MF=getMFColName(ftmsObj)) %>%
       dplyr::filter(!is.na(MF))
     if (anyDuplicated(massMFComb$MF) > 0) { # identify dups
       tmp <- table(massMFComb$MF)
@@ -72,7 +72,7 @@ combinePeaksWithSameFormula <- function(ftmsObj) {
   
   # get first ID and index for each MF
   massMFFinal <- edata %>%
-    dplyr::rename_(ID=getEDataColName(ftmsObj)) %>%
+    dplyr::rename(ID=getEDataColName(ftmsObj)) %>%
     dplyr::summarize(ID=dplyr::first(ID), index=min(index))
   colnames(massMFFinal)[2] <- getEDataColName(ftmsObj)
   

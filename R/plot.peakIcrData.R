@@ -68,7 +68,7 @@ plot.peakData <- function(x, title=NA, xlabel=NA, ylabel=NA, colorBy="groups", .
   if (data_scale == "pres") { # do a barplot of num observed
     # browser()
     if (grouped) {
-      counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=n()) %>% dplyr::ungroup()
+      counts <- df %>% dplyr::group_by(Group, Sample) %>% dplyr::summarize(Count=dplyr::n()) %>% dplyr::ungroup()
       p <- p %>% plotly::add_bars(x=~Sample, y=~Count, color=~Group, data=counts, hoverinfo="y")
       
     } else if (identical(colorBy, "molform")) { # stacked barplots showing counts of molecular form vs not for each sample

@@ -16,14 +16,17 @@ conf_filter <- function(cmsObj) {
   if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of class 'CoreMSData")
   
   conf_id <- attr(cmsObj, "cnames")$conf_cname
-  mass_id  <- attr(cmsObj, "cnames")$mass_cname
+  obs_mass_id  <- attr(cmsObj, "cnames")$obs_mass_cname
   error_id <- attr(cmsObj, "cnames")$error_cname
   file_id <- attr(cmsObj, "cnames")$file_cname
   formula_id <- attr(cmsObj, "cnames")$mf_cname
   
-  output <- cmsObj %>% dplyr::select(mass_id, conf_id, error_id, formula_id, file_id)
+  moutput <- cmsObj$monoiso_data %>% dplyr::select(obs_mass_id, conf_id, error_id, formula_id, file_id)
+  ioutput <- cmsObj$iso_data %>% dplyr::select(obs_mass_id, conf_id, error_id, formula_id, file_id)
   
-  class(output) <- c("confFilt", "data.frame")
+  output <- list("monoiso_data" = moutput, "iso_data" = ioutput)
+  
+  class(output) <- c("confFilt", "list")
   
   attr(output, "conf_cname") <- conf_id
   
