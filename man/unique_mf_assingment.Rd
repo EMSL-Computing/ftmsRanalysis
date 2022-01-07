@@ -15,5 +15,8 @@ unique_mf_assingment(cmsObj, method)
 \code{CoreMSData} object
 }
 \description{
-Unique Molecular Formula Assignment
+Takes an object of class 'CoreMSData' and assigns unique molecular formulas to each peak within each sample
+}
+\author{
+Natalie Winans
 }

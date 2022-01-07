@@ -23,3 +23,6 @@ Reads in CoreMS output file(s) in CSV format as a single `data.frame` with class
   'filename' column, verifies identical column names, and combines all files
   into a single `data.frame`/`CoreMSrbind` object
 }
+\author{
+Natalie Winans
+}
