@@ -85,7 +85,9 @@ unique_mf_assingment <- function(cmsObj, method) {
       new_monoiso_data <- cmsObj$monoiso_data %>% 
         dplyr::filter(!(is.na(.data[[formula]]))) %>% 
         dplyr::group_by(.data[[filename]], .data[[obs_mass]]) %>% 
-        dplyr::slice(which(.data[[peak_height]] == max(.data[[peak_height]]))) 
+        dplyr::slice(which(.data[[peak_height]] == max(.data[[peak_height]]))) %>% 
+        dplyr::group_by(.data[[filename]], .data[[formula]]) %>% 
+        dplyr::slice(which(.data[[peak_height]] == max(.data[[peak_height]])))
       
       # get unique identifier with index & sample of removed mono peaks
       mono_peaks_removed <- suppressMessages(dplyr::anti_join(cmsObj$monoiso_data, new_monoiso_data)) %>% 
