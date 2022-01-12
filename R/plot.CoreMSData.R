@@ -11,7 +11,6 @@
 #' @return `ggplot` object
 #' @export
 #'
-#' @examples
 plot.CoreMSData <- function(cmsObj, 
                             title = "Unique Masses per Sample", 
                             xlabel = "Sample", 
@@ -51,7 +50,7 @@ plot.CoreMSData <- function(cmsObj,
   unique_masses_per_sample <- cbind(unique_masses_per_sample, Isotopic) %>% 
     tidyr::pivot_longer(cols = c(!Sample), names_to = "Peak_type", values_to = "Count") %>% 
     dplyr::mutate(Peak_type = factor(Peak_type, levels = c('Monoisotopic', 'Isotopic'))) # set factor levels manually so bars will be in descending order by count
-
+  
   plot <- unique_masses_per_sample %>%
     ggplot2::ggplot(ggplot2::aes(x = Sample,
                         y = Count,
@@ -61,10 +60,10 @@ plot.CoreMSData <- function(cmsObj,
     ggplot2::theme_bw() +
     ggplot2::labs(title = title,
                   x = xlabel,
-                  y = ylabel) #+
-    # ggplot2::geom_text(ggplot2::aes(label = Count), 
-    #           position = position_dodge(0.9), 
-    #           vjust = -.3)
+                  y = ylabel) +
+    ggplot2::scale_y_continuous(expand = ggplot2::expansion(mult = c(0, .1))) +
+    ggplot2::scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
+    ggplot2::guides(fill = ggplot2::guide_legend(title = "Peak Type"))
   
   if (diag_x_labs == TRUE) {
     plot <- plot +
@@ -72,4 +71,5 @@ plot.CoreMSData <- function(cmsObj,
   }
 
   plotly::ggplotly(plot)
+  
 }
