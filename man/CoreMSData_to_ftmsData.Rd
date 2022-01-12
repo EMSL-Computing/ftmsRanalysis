@@ -4,17 +4,10 @@
 \alias{CoreMSData_to_ftmsData}
 \title{CoreMSData to ftmsData}
 \usage{
-CoreMSData_to_ftmsData(
-  cmsObj,
-  calib_mass_cname = NULL,
-  heteroatom_cname = NULL,
-  iontype_cname = NULL
-)
+CoreMSData_to_ftmsData(cmsObj)
 }
 \arguments{
 \item{cms_data}{a `CoreMSData` object, created using \link{`as.CoreMSData`}. Must not contain redundant m/z values or molecular formulas within a sample. This is accomplished using the function \link{`uniqe_mf_assignment`}.}
-
-\item{meta_cols}{a vector containing the names of metadata columns to be included in output `e_meta`. Default metadata columns are "Calibrated m/z", "Calculated m/z", "Resolving Power", "S/N", "Ion Charge", "Mass Error (ppm)", "Mass Error Score", "Isotopologue Similarity", "Confidence Score", "Heteroatom Class", and "Ion Type".}
 }
 \value{
 a list of two data frames, `e_data` and `e_meta`
