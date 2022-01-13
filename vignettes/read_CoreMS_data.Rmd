@@ -26,115 +26,161 @@ knitr::opts_chunk$set(
   warning = FALSE,
   message = FALSE
 )
-
-# devtools::load_all()
 ```
 
-The `ftmsRanalysis` package allows users to read in data from CSV files containing high resolution mass spectrometry (HTMS) data after initial processing and formula assignment. The function `read_CoreMS_data` takes one or more CSV files output by the software CoreMS and converts them into a single `data.frame` that is compatible with `ftmsRanalysis` functions.
+The `ftmsRanalysis` package allows users to read in data from CSV files containing high resolution mass spectrometry data after initial processing and formula assignment. 
 
 
-# Reading in CSV files
+# Reading in data from CSV files
 
-Reading in a single file using `read_CoreMS_data` is simple; the only argument required is the file path. The function will automatically insert a column containing the file name and output a data.frame that has been assigned the class `CoreMSrbind`. 
+The function `read_CoreMS_data` takes one or more CSV files output by the software CoreMS and converts them into a single `data.frame` that is compatible with `ftmsRanalysis` functions. Reading in a single file using `read_CoreMS_data` is simple; the only argument required is the file path. The function will automatically insert a column containing the file name and output a data.frame that has been assigned the class `CoreMSrbind`. 
 
 ```{r}
 library(ftmsRanalysis)
 
-single_file <- "example_data1.csv"
-
-dat1 <- read_CoreMS_data(single_file)
+dat1 <- read_CoreMS_data("ex_data1.csv")
 dat1
 ```
 
-When reading in multiple CSV files, `read_CoreMS_data` will check to see whether all column names are identical among the files. If the column names are not identical, an error will be thrown to indicate this. 
+Multiple files can be read in by providing a list of file paths, either constructed manually or by pattern matching using the function `list.files`, as in the example below.
 
 ```{r, error = TRUE}
-mult_files <- c("example_data1.csv", "example_data2.csv", "example_data3.csv")
+ex_files <- list.files(pattern = "ex_data")
 
-dat2 <- read_CoreMS_data(mult_files)
+dat2 <- read_CoreMS_data(ex_files)
 ```
 
-In the case of CoreMS data, columns that do not match are typically isotopic indicator columns (e.g. "18O") which, at this time, are not used in downstream analyses. To override this feature and read in the files without the mismatched column(s), set the parameter `force_rbind` to `TRUE`. 
+
+At this point, it is good practice to check the dataset to verify whether there are isotopic columns present, and if so, which ones. This information will be used to create a CoreMSData object in the next step.
 
 ```{r}
-dat2 <- read_CoreMS_data(mult_files, force_rbind = TRUE)
-dat2
+dat2 %>% 
+  head() %>%
+  DT::datatable(options = list(dom = 't',
+                               scrollX = TRUE),
+                rownames = FALSE)
 ```
 
 # Converting to CoreMSData Object
 
-The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the data.frame output by the function `read_CoreMS_data` and the names of the columns corresponding to the mass, peak height, mass error, confidence score, file name, and molecular formula. The column names corresponding to isotope columns C13, S34, O18, and N15 are optional parameters that may be used when isotopic functionality is added in the future.
+The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the `data.frame` output by the function `read_CoreMS_data` and, optionally, the names of the columns corresponding to the mass-to-error ratio (m/z), peak height, mass error, confidence score, file name, and molecular formula. The default values for these parameters are set to the column names in typical CoreMS output. The column names corresponding to isotope columns C13, S34, O18, and N15 should be included only if present in the dataset. In this case, we will include names for the C13 and O18 columns.
 
 ```{r}
-dat2 <- as.CoreMSData(dat2,
-                      obs_mass_cname = "m/z",
-                      calc_mass_cname = "Calculated m/z",
-                      pheight_cname = "Peak Height",
-                      error_cname = "Mass Error (ppm)",
-                      conf_cname = "Confidence Score",
-                      file_cname = "Filename",
-                      mf_cname = "Molecular Formula")
+cmsDat <- as.CoreMSData(dat2, c13_cname = "13C", o18_cname = "18O")
 ```
 
 ## Plotting CoreMSData Object
 
-Calling the plot method on a CoreMSData object produces a barplot showing the number of peaks with unique masses per file (sample). In a case with many samples or very long sample names, the parameter `diag_x_labs` can be set to `TRUE`. This will display the x-axis tick labels diagonally for improved readability.
+Calling the plot method on a CoreMSData object produces a barplot showing the number of peaks, both monoisotopic and isotopic, with unique masses per file/sample. In a case with many samples or very long sample names, the parameter `diag_x_labs` can be set to `TRUE`. This will display the x-axis tick labels diagonally for improved readability.
 
 ```{r}
-plot(dat2)
+plot(cmsDat)
 ```
 
 # Filtering by Confidence Score
 
-It can be useful to filter peaks by confidence score. To apply a filter, first construct a confidence filter object using the function `conf_filter`. Then, to see the effect of applying a confidence filter using difference minimum confidence thresholds, use the plot method for `confFilter` objects. This plot displays the numbers of peaks retained and removed from the dataset under different confidence filtering thresholds. 
+It can be useful to filter peaks by confidence score. To apply a filter, first construct a `confFilter` object using the function `conf_filter`. A `confFilter` object can be plotted to see the effect of applying a confidence filter using difference minimum confidence thresholds. This plot displays the numbers of monoisotopic peaks retained in the dataset under different confidence filtering thresholds. 
 
 ```{r}
-dat2_filt_obj <- conf_filter(dat2)
+cmsDat_filt_obj <- conf_filter(cmsDat)
 
-plot(dat2_filt_obj)
+plot(cmsDat_filt_obj)
 ```
 
-Next, apply a filter using `applyConfFilt`, specifying the `confFilt` object, the `CoreMSData` object, and the desired minimum confidence threshold (`min_conf`).
+Next, apply a filter using `applyConfFilt`, specifying the `confFilt` object, the `CoreMSData` object, and the desired minimum confidence threshold, `min_conf`.
 
 ```{r}
-dat2_filtered <- applyFilt(filter_object =  dat2_filt_obj,
-                               msObj = dat2,
-                               min_conf = 0.5)
+cmsDat_filtered <- applyFilt(filter_object =  cmsDat_filt_obj,
+                           msObj = cmsDat,
+                           min_conf = 0.5)
 ```
 
-The filtered dataset object contains attributes indicating that a filter has been applied, including the confidence threshold and a list of the mass identifiers of the removed peaks.
+The filtered dataset object contains attributes indicating that a filter has been applied, including the confidence threshold and a list of the mass identifiers of the removed peaks. These values can be accessed using the `attr` function.
 
 ```{r}
-attr(dat2_filtered, "filters")$confFilt
+attr(cmsDat_filtered, "filters")$confFilt$report_text
 ```
+
 If an attempt is made to apply a confidence filter to a dataset that has already been filtered by confidence score, an error will be thrown to indicate this.
 
 ```{r, error = TRUE}
-applyFilt(dat2_filt_obj, dat2_filtered)
+applyFilt(filter_object = cmsDat_filt_obj,
+          msObj = cmsDat_filtered, 
+          min_conf = 0.8)
 ```
 
 After applying a confidence filter, the filtered CoreMSdata object can be plotted to show the updated number of peaks with unique masses per file/sample.
 
 ```{r}
-plot(dat2_filtered)
+plot(cmsDat_filtered)
 ```
 
 # Mass-Error Plot
 
+The `mass_error_plot` function provides a quick summary of the dataset as well as another method for previewing the impact of a confidence filter on the dataset before application, using the optional parameter, `min_conf`. These plots show only monoisotopic peaks.
+
 ```{r}
-mass_error_plot(dat2)
+mass_error_plot(cmsDat_filtered)
+```
+
+When plotting a dataset with 1000 or more peaks, the `mass_error_plot` function will return a hex plot in which the color indicates the number of points in a region, while a dataset with fewer than 1000 peaks will return a scatter plot.
+
+```{r}
+mass_error_plot(cmsDat_filtered, min_conf = 0.85)
+```
+
+
+# Assigning Unique Molecular Formulas to Peaks
+
+
+
+```{r, error=TRUE}
+cmsDat_unique_mf <- unique_mf_assingment(cmsDat, method = "confidence")
+```
+```{r}
+cmsDat_filt <- applyFilt(filter_object = cmsDat_filt_obj,
+                      msObj = cmsDat,
+                      min_conf = 0.16)
+
+plot(cmsDat_filt)
+```
+
+
+```{r}
+cmsDat_unique_mf <- unique_mf_assingment(cmsDat_filt, method = "confidence")
+
+plot(cmsDat_unique_mf)
+```
+
+
+```{r, error=TRUE}
+un_mf_height <- unique_mf_assingment(cmsDat_filt, method = "peak_intensity")
 ```
 
 ```{r}
-mass_error_plot(dat2_filtered)
+un_mf_height <- applyFilt(cmsDat_filt_obj, cmsDat, min_conf = 0.31) %>% unique_mf_assingment(method = "peak_intensity")
+
+plot(un_mf_height)
 ```
 
-When plotting a dataset with 1000 or more peaks, the `mass_error_plot` function will return a hex plot in which the color indicates the number of points in a region. 
+
+```{r, error=TRUE}
+un_mf_prev <- unique_mf_assingment(cmsDat_filt, method = "prevalence")
+```
+```{r}
+un_mf_prev <- applyFilt(cmsDat_filt_obj, cmsDat, min_conf = 0.52) %>%
+  unique_mf_assingment(., method = "prevalence")
+
+plot(un_mf_prev)
+```
+
+# Convert CoreMSData object into ftmsData object
 
 ```{r}
-data("example_CoreMSData_1000")
+ftmsObj <- CoreMSData_to_ftmsData(cmsDat_unique_mf)
 
-mass_error_plot(example_data_1000)
-mass_error_plot(example_data_1000, min_conf = 0.7)
+ftmsObj$e_data 
+ftmsObj$e_meta
 ```
+
 
