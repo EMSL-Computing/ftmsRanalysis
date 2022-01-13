@@ -10,7 +10,7 @@ read_CoreMS_data(list_of_files, sample_names = NULL)
 \item{list_of_files}{a vector of character strings specifying the data files
 (in .csv format) to be read in and concatenated}
 
-\item{sample_names}{(optional) a vector of character strings denoting preferred sample names}
+\item{sample_names}{(optional) a character vector denoting preferred sample names}
 }
 \value{
 CoreMSrbind object
