@@ -15,5 +15,5 @@ conf_filter_dt(cmsObj, min_conf)
 `data.frame` containg counts of remaining and removed monoisotopic peaks in each file/sample, based on selected minimum confidence threshold
 }
 \description{
-Confidence Filter Data Table
+Creates a data table for confidence filtering in Shiny app
 }

@@ -4,7 +4,7 @@
 #'
 #' @param list_of_files a vector of character strings specifying the data files
 #'   (in .csv format) to be read in and concatenated
-#' @param sample_names (optional) a vector of character strings denoting preferred sample names
+#' @param sample_names (optional) a character vector denoting preferred sample names
 #'
 #' @details \code{read_CoreMS_data} reads in selected CSV files, appends
 #'   'filename' column, verifies identical column names, and combines all files
@@ -18,12 +18,17 @@
 
 read_CoreMS_data <- function(list_of_files, sample_names = NULL) {
   
-  # Check that list_of_files is a vector of strings
+  # Check that list_of_files is a character vector
   if(!is.character(list_of_files)) stop("list_of_files must be of the class 'chr'")
   
-  # Check that list_of_files is a vector of strings
+  # Check that sample_names is a character vector
   if(!is.null(sample_names)){
-    if(!is.character(sample_names)) stop("list_of_files must be of the class 'chr'")
+    if(!is.character(sample_names)) stop("sample_names must be of the class 'chr'")
+  }
+  
+  # Check that length of sample_names is equal to number of files
+  if(!is.null(sample_names)) {
+    if(!(length(sample_names) == length(list_of_files))) stop("length of sample_names must be equal to length of list_of_files")
   }
   
   if(is.null(sample_names)){

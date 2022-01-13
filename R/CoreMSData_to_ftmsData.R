@@ -32,12 +32,13 @@ CoreMSData_to_ftmsData <- function(cmsObj) {
     dplyr::group_by(.data[[filename]], .data[[formula]]) %>% 
     dplyr::filter(dplyr::n() > 1)
   
-  if(nrow(dup_mass) > 0 | nrow(dup_form) > 0) stop("cmsObj contains either duplicate m/z values or duplicate molecular formulas within a sample. The formula `unique_mf_assignment` must be used before converting `CoreMSData` object to `ftmsData` object.")
+  if(nrow(dup_mass) > 0 | nrow(dup_form) > 0) stop("cmsObj contains either duplicate m/z values or duplicate molecular formulas within a sample. The function `unique_mf_assignment` must be used before converting `CoreMSData` object to `ftmsData` object.")
   
   # create e_data
   e_data <- cmsObj$monoiso_data %>% 
     dplyr::ungroup() %>% 
-    dplyr::select(.data[[obs_mass]], .data[[formula]], .data[[peak_height]], .data[[filename]]) %>% 
+    dplyr::select(.data[[obs_mass]], .data[[formula]], 
+                  .data[[peak_height]], .data[[filename]]) %>% 
     dplyr::group_by(.data[[formula]]) %>% 
     dplyr::mutate(Mass = mean(.data[[obs_mass]])) %>% 
     dplyr::ungroup() %>% 
@@ -56,7 +57,9 @@ CoreMSData_to_ftmsData <- function(cmsObj) {
     dplyr::pull(.data[[formula]]) 
   
   # get indices of elements that occur in dataset
-  these_elements <- which(colSums(do.call(rbind, purrr::map(forms, stringr::str_detect, pattern = possible_elements)), 
+  these_elements <- which(colSums(do.call(rbind, purrr::map(forms, 
+                                                            stringr::str_detect, 
+                                                            pattern = possible_elements)), 
                                   na.rm = TRUE) > 0)
   
   elem_cnames <- possible_elements[these_elements]
