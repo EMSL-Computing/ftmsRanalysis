@@ -9,7 +9,7 @@
   title = "Unique Masses per Sample",
   xlabel = "Sample",
   ylabel = "Unique Masses",
-  diag_x_labs = FALSE
+  rotate_x_labs = FALSE
 )
 }
 \arguments{
@@ -21,7 +21,7 @@
 
 \item{ylabel}{optional, if not specified "Unique Masses" will be used}
 
-\item{diag_x_labs}{logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names}
+\item{rotate_x_labs}{logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names}
 }
 \value{
 `ggplot` object
