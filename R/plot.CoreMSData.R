@@ -6,7 +6,7 @@
 #' @param title optional, if not specified "Unique Masses per Sample" will be used
 #' @param xlabel optional, if not specified "Sample" will be used
 #' @param ylabel optional, if not specified "Unique Masses" will be used
-#' @param diag_x_labs logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names
+#' @param rotate_x_labs logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names
 #'
 #' @return `ggplot` object
 #' @export
@@ -15,7 +15,7 @@ plot.CoreMSData <- function(cmsObj,
                             title = "Unique Masses per Sample", 
                             xlabel = "Sample", 
                             ylabel = "Unique Masses",
-                            diag_x_labs = FALSE) {
+                            rotate_x_labs = FALSE) {
   
   # Check that cmsObj is a "CoreMSData" object (output from function as.CoreMSData())
   if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of class 'CoreMSData'")
@@ -30,7 +30,7 @@ plot.CoreMSData <- function(cmsObj,
   if(!is.null(ylabel)) {
     if(!inherits(ylabel, "character") | !(length(ylabel) == 1)) stop("ylabel must be single character string")
   }
-  if(!(diag_x_labs == TRUE | diag_x_labs == FALSE)) stop("diag_x_labs must be logical argument")
+  if(!(rotate_x_labs == TRUE | rotate_x_labs == FALSE)) stop("rotate_x_labs must be logical argument")
   
   sample_id <- attr(cmsObj, "cnames")$file_cname
   mass_id <- attr(cmsObj, "cnames")$calc_mass_cname 
@@ -65,9 +65,9 @@ plot.CoreMSData <- function(cmsObj,
     ggplot2::scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
     ggplot2::guides(fill = ggplot2::guide_legend(title = "Peak Type"))
   
-  if (diag_x_labs == TRUE) {
+  if (rotate_x_labs == TRUE) {
     plot <- plot +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 0.5))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5))
   }
 
   plotly::ggplotly(plot)
