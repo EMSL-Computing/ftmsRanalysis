@@ -15,20 +15,36 @@ transformation_counts(
 )
 }
 \arguments{
-\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a
+result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
 
-\item{transformDF}{a data.frame of known transformations of interest, with a minimum of two columns (in any order): column 'transMass_cname' gives the transformation masses which should be counted and column 'transID_cname' gives a unique identifier (usually character string) for each transformation mass}
+\item{transformDF}{a data.frame of known transformations of interest, with a
+minimum of two columns (in any order): column 'transMass_cname' gives the
+transformation masses which should be counted and column 'transID_cname'
+gives a unique identifier (usually character string) for each
+transformation mass}
 
-\item{transformDigits}{the number of decimal places that should be retained for the purposes of matching observed transformations to transformations in \code{transformDF}. Defaults to 4}
+\item{transformDigits}{the number of decimal places that should be retained
+for the purposes of matching observed transformations to transformations in
+\code{transformDF}. Defaults to 4}
 
-\item{transMass_cname}{a character string giving the name of the column in \code{transformDF} which gives the mass of the transformations of interest}
+\item{transMass_cname}{a character string giving the name of the column in
+\code{transformDF} which gives the mass of the transformations of interest}
 
-\item{transID_cname}{a character string giving the name of the column in \code{transformDF} which gives a unique identifier for each transformation of interest}
+\item{transID_cname}{a character string giving the name of the column in
+\code{transformDF} which gives a unique identifier for each transformation
+of interest}
 
-\item{transOther_cname}{a character vector specifying any other columns in \code{transformDF} which should be returned with the transformation counts. This is only applicable if \code{transformDF} has more than 2 columns with information that should be carried through to results. Defaults to NULL}
+\item{transOther_cname}{a character vector specifying any other columns in
+\code{transformDF} which should be returned with the transformation counts.
+This is only applicable if \code{transformDF} has more than 2 columns with
+information that should be carried through to results. Defaults to NULL}
+
+\item{parallel}{logical, defaults to TRUE}
 }
 \value{
-a data.frame with counts of the the number of times that each transformation in \code{transformDF} was observed in each sample
+a data.frame with counts of the the number of times that each
+  transformation in \code{transformDF} was observed in each sample
 }
 \description{
 Calculate and Count Observed Mass Transformations

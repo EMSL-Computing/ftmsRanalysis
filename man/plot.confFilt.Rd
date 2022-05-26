@@ -5,7 +5,7 @@
 \title{Plot confidence filter object}
 \usage{
 \method{plot}{confFilt}(
-  confFiltObj,
+  x,
   title = "Peaks Retained Under Confidence Filter",
   xlabel = "Minimum Confidence Threshold",
   ylabel = "Monoisotopic Peaks Retained",
@@ -13,7 +13,7 @@
 )
 }
 \arguments{
-\item{confFiltObj}{object of class 'confFilt' created by \code{\link{conf_filter}} function}
+\item{x}{object of class 'confFilt' created by \code{\link{conf_filter}} function}
 
 \item{title}{(optional) plot title}
 

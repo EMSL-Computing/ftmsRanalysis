@@ -7,7 +7,7 @@
 CoreMSData_to_ftmsData(cmsObj)
 }
 \arguments{
-\item{cms_data}{a `CoreMSData` object, created using \link{`as.CoreMSData`}. Must not contain redundant m/z values or molecular formulas within a sample. This is accomplished using the function \link{`uniqe_mf_assignment`}.}
+\item{cmsObj}{a `CoreMSData` object, created using \code{\link{as.CoreMSData}}. Must not contain redundant m/z values or molecular formulas within a sample. This is accomplished using the function \code{\link{unique_mf_assignment}}.}
 }
 \value{
 a list of three data frames, `e_data`, `f_data`, and `e_meta`
@@ -16,7 +16,7 @@ a list of three data frames, `e_data`, `f_data`, and `e_meta`
 Converts an object of the class `CoreMSData` into an `ftmsData` object consisting of the data frames `e_data`, `f_data`, and `e_meta`
 }
 \seealso{
-\link{`conf_filter`} and \link{`applyFilt`}
+\code{\link{conf_filter}} and \code{\link{applyFilt}}
 }
 \author{
 Natalie Winans

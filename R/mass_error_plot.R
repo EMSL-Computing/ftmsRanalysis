@@ -10,8 +10,6 @@
 #' @param color_pal has not yet been implemented
 #' @param log_color_scale logical, if TRUE, color scale will be log-transformed. Defaults to FALSE.
 #'
-#' @details
-#'
 #' @return plotly object
 #'
 #' @export

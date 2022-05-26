@@ -2,9 +2,9 @@
 #' 
 #' Converts an object of the class `CoreMSData` into an `ftmsData` object consisting of the data frames `e_data`, `f_data`, and `e_meta`
 #'
-#' @param cms_data a `CoreMSData` object, created using \link{`as.CoreMSData`}. Must not contain redundant m/z values or molecular formulas within a sample. This is accomplished using the function \link{`uniqe_mf_assignment`}.
+#' @param cmsObj a `CoreMSData` object, created using \code{\link{as.CoreMSData}}. Must not contain redundant m/z values or molecular formulas within a sample. This is accomplished using the function \code{\link{unique_mf_assignment}}.
 #' 
-#'@seealso \link{`conf_filter`} and \link{`applyFilt`}
+#'@seealso \code{\link{conf_filter}} and \code{\link{applyFilt}}
 #'
 #' @return a list of three data frames, `e_data`, `f_data`, and `e_meta`
 #' 
