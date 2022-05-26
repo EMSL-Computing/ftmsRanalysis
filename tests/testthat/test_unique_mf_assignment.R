@@ -3,14 +3,14 @@ library(ftmsRanalysis)
 data("exampleCoreMSData")
 
 test_that("errors thrown when given incorrect input",{
-  expect_error(unique_mf_assingment(exampleCoreMSData$monoiso_data, method = "confidence"), "cmsObj must be of the class 'CoreMSData'")
-  expect_error(unique_mf_assingment(exampleCoreMSData, method = "max_conf"), "method must be 'confidence', 'peak_intensity', or 'prevalence'")
+  expect_error(unique_mf_assignment(exampleCoreMSData$monoiso_data, method = "confidence"), "cmsObj must be of the class 'CoreMSData'")
+  expect_error(unique_mf_assignment(exampleCoreMSData, method = "max_conf"), "method must be 'confidence', 'peak_intensity', or 'prevalence'")
 })
 
 test_that("errors thrown when tied filter parameters", {
-  expect_error(unique_mf_assingment(exampleCoreMSData, method = "confidence"))
-  expect_error(unique_mf_assingment(exampleCoreMSData, method = "peak_intensity"))
-  expect_error(unique_mf_assingment(exampleCoreMSData, method = "prevalence"))
+  expect_error(unique_mf_assignment(exampleCoreMSData, method = "confidence"))
+  expect_error(unique_mf_assignment(exampleCoreMSData, method = "peak_intensity"))
+  expect_error(unique_mf_assignment(exampleCoreMSData, method = "prevalence"))
 })
 
 # Confidence filter
@@ -19,9 +19,9 @@ cmsDat_filt <- applyFilt(filter_object = conf_filter(exampleCoreMSData),
                          min_conf = 0.52)
 
 # Example output using each method
-unq_conf <- unique_mf_assingment(cmsDat_filt, method = "confidence")
-unq_height <- unique_mf_assingment(cmsDat_filt, method = "peak_intensity")
-unq_prev <- unique_mf_assingment(cmsDat_filt, method = "prevalence")
+unq_conf <- unique_mf_assignment(cmsDat_filt, method = "confidence")
+unq_height <- unique_mf_assignment(cmsDat_filt, method = "peak_intensity")
+unq_prev <- unique_mf_assignment(cmsDat_filt, method = "prevalence")
 
 test_that("output CoreMSData object correctly formatted", {
 

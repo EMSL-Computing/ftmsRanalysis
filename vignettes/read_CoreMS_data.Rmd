@@ -130,7 +130,7 @@ applyFilt(filter_object = cmsDat_filt_obj,
 If this function is called on a dataset that has not been adequately confidence filtered, it is likely that ties will be present in the dataset. In this case, an error message will provide a minimum confidence score threshold that must be applied to the dataset before assigning unique molecular formulas.
 
 ```{r, error=TRUE}
-cmsDat_unique_mf <- unique_mf_assingment(cmsDat, method = "confidence")
+cmsDat_unique_mf <- unique_mf_assignment(cmsDat, method = "confidence")
 ```
 
 ```{r}
@@ -138,7 +138,7 @@ cmsDat_unique_mf <-  cmsDat %>%
   applyFilt(filter_object = cmsDat_filt_obj,
                       msObj = .,
                       min_conf = 0.16) %>% 
-  unique_mf_assingment(method = "confidence")
+  unique_mf_assignment(method = "confidence")
 ```
 
 
@@ -168,5 +168,5 @@ ftmsObj$f_data %>% DT::datatable()
 ftmsObj$e_meta %>% DT::datatable(rownames = FALSE)
 ```
 
-For further steps and information, see [this introduction to `ftmsRanalysis`](ftmsRanalysis.html).
+For further steps and information, see [this introduction to `ftmsRanalysis`](ftmsRanalysis.html).x
 
