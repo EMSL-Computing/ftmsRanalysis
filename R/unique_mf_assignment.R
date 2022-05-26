@@ -1,16 +1,20 @@
 #' Unique Molecular Formula Assignment
-#' 
-#' Takes an object of class 'CoreMSData' and assigns unique molecular formulas to each peak within each sample 
-#' 
-#' @param cmsObj \code{CoreMSData} object, output of functions \link{\code{read_CoreMS_data}} and \link{\code{as.CoreMSData}}
-#' @param method Must be either "confidence", "peak_intensity", or "prevalence". Selects formula corresponding to highest confidence score, peak height, or prevalence across samples, respectively.
+#'
+#' Takes an object of class 'CoreMSData' and assigns unique molecular formulas
+#' to each peak within each sample
+#'
+#' @param cmsObj \code{CoreMSData} object, output of functions
+#'   \code{\link{read_CoreMS_data}} and \code{\link{as.CoreMSData}}
+#' @param method Must be either "confidence", "peak_intensity", or "prevalence".
+#'   Selects formula corresponding to highest confidence score, peak height, or
+#'   prevalence across samples, respectively.
 #'
 #' @return \code{CoreMSData} object
-#' 
+#'
 #' @author Natalie Winans
-#' 
+#'
 #' @export
-unique_mf_assingment <- function(cmsObj, method) {
+unique_mf_assignment <- function(cmsObj, method) {
   
   # check inputs
   if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of the class 'CoreMSData'")

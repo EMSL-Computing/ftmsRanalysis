@@ -41,6 +41,3 @@ plotly object
 \description{
 Generates mass-error plot for CoreMS output data
 }
-\details{
-
-}

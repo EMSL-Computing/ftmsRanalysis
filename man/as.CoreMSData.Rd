@@ -28,8 +28,14 @@ as.CoreMSData(
 \item{all_data}{a data.frame/CoreMSData object, should be the output of
 \code{read_CoreMS_data}}
 
-\item{obs_mass_cname}{a character string specifying th name of the column 
+\item{index_cname}{a character string specifying the name of the column 
+containing the index value}
+
+\item{obs_mass_cname}{a character string specifying the name of the column 
 containing the observed mass to charge ratio (m/z) in \code{all_data}}
+
+\item{calib_mass_cname}{a character string specifying the name of the column
+containing the calibrated mass to charge ratio (m/z) in \code{all_data}}
 
 \item{calc_mass_cname}{a character string specifying the name of the column
 containing the calculated mass to charge ratio (m/z) in \code{all_data}}
@@ -43,8 +49,17 @@ containing the mass error (ppm) in \code{all_data}}
 \item{conf_cname}{a character string specifying the name of the column
 containing the confidence score in \code{all_data}}
 
+\item{heteroatom_cname}{a character string specifying the name of the 
+column containing the heteroatom class in \code{all_data}}
+
+\item{iontype_cname}{a characer string specifying the name of the column
+containing the ion type in \code{all_data}}
+
 \item{file_cname}{a character string specifying the name of the column
 containing the filenames in \code{all_data}}
+
+\item{monoiso_index_cname}{a character string specifying the name of the 
+column containing the monoisotopic index in \code{all_data}}
 
 \item{mf_cname}{a character string specifying the name of the column
 containing the molecular formula in \code{all_data}}

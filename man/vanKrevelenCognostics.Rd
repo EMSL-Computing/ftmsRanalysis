@@ -7,25 +7,28 @@
 vanKrevelenCognostics(vkBoundarySet = "bs1", uniquenessColName = NA)
 }
 \arguments{
-\item{vkBoundarySet}{Van Krevelen boundary set to use for calculating class proportions}
+\item{vkBoundarySet}{Van Krevelen boundary set to use for calculating class
+proportions}
 
-\item{uniquenessColName}{if \code{ftmsObj} is a group comparison summary object, what is the 
-name of the column that specifies uniqueness to a group? If only one uniqueness function has
-been applied this is unnecessary. (See \code{\link{summarizeGroupComparisons}}.)}
+\item{uniquenessColName}{if \code{ftmsObj} is a group comparison summary
+object, what is the name of the column that specifies uniqueness to a
+group? If only one uniqueness function has been applied this is
+unnecessary. (See \code{\link{summarizeGroupComparisons}}.)}
 }
 \value{
-a function that may be applied to objects of type \code{peakData}, \code{groupSummary},
-and \code{comparisonSummary}
+a function that may be applied to objects of type \code{peakData},
+  \code{groupSummary}, and \code{comparisonSummary}
 }
 \description{
-The \code{vanKrevelenCognostics} function provides a set of default cognostics
-to be used with Van Krevelen plots in Trelliscope. The \code{vanKrevelenCognostics}
-function accepts the boundary set used for Van Krevelen class calculations
-and (for \code{comparisonSummary} objects only) the name of the column to use
-for identifying which peaks are observed in which group. It 
-returns a function that may be applied to each \code{ftmsData} object, as is
-appropriate for use with the \code{\link[trelliscope:makeDisplay]{makeDisplay}} function. See 
-Examples section for use.
+The \code{vanKrevelenCognostics} function provides a set of default
+cognostics to be used with Van Krevelen plots in Trelliscope. The
+\code{vanKrevelenCognostics} function accepts the boundary set used for Van
+Krevelen class calculations and (for \code{comparisonSummary} objects only)
+the name of the column to use for identifying which peaks are observed in
+which group. It returns a function that may be applied to each
+\code{ftmsData} object, as is appropriate for use with the
+\code{\link[trelliscope:makeDisplay]{makeDisplay}} function. See Examples
+section for use.
 }
 \examples{
 \dontrun{
@@ -40,26 +43,31 @@ sampleDdo <- divideBySample(exampleProcessedPeakData)
 panelFn1 <- panelFunctionGenerator("vanKrevelenPlot", vkBoundarySet="bs2", title="Test")
 
 # Note: make sure the same vkBoundarySet value is provided to the panel and cognostics functions
-makeDisplay(sampleDdo, 
+makeDisplay(sampleDdo,
          panelFn=panelFn1,
          cogFn=vanKrevelenCognostics(vkBoundarySet="bs2"),
          name = "Van_Krevelen_plots_per_sample")
 
 ## Van Krevelen plots for group comparison summaries
 grpCompDdo <- divideByGroupComparisons(exampleProcessedPeakData, "all")
-grpCompSummaryDdo <- summarizeGroupComparisons(grpCompDdo, summary_functions="uniqueness_gtest", 
-                                            summary_function_params=list(uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)))
+grpCompSummaryDdo <- summarizeGroupComparisons(
+                       grpCompDdo, 
+                       summary_functions="uniqueness_gtest",
+                       summary_function_params=list(uniqueness_gtest=list(
+                                                 pres_fn="nsamps", 
+                                                 pres_thresh=2, 
+                                                 pvalue_thresh=0.05)))
 
 panelFn2 <- panelFunctionGenerator("vanKrevelenPlot", colorCName="uniqueness_gtest")
 
-# Note: uniquenessColName parameter tells vanKrevelenCognostics which column to use to determine 
+# Note: uniquenessColName parameter tells vanKrevelenCognostics which column to use to determine
 # group uniqueness for each peak. If only one summary function is used in summarizeGroupComparisons
-# then it will be inferred, otherwise it's necessary to specify. 
-makeDisplay(grpCompSummaryDdo, 
+# then it will be inferred, otherwise it's necessary to specify.
+makeDisplay(grpCompSummaryDdo,
          panelFn=panelFn2,
          cogFn=vanKrevelenCognostics(uniquenessColName="uniqueness_gtest"),
          name = "Van_Krevelen_plots_for_group_comparison_summaries")
-         
+
 view()
 }
 }

@@ -30,7 +30,8 @@ Imports:
     ggplot2,
     lazyeval,
     stringr,
-    magrittr
+    magrittr,
+    readr
 Suggests:
     MetaCycData,
     knitr,
@@ -39,6 +40,9 @@ Suggests:
     trelliscope,
     foreach,
     doParallel,
-    testthat
+    testthat,
+    purrr,
+    viridis,
+    DT
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2

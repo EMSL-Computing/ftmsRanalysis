@@ -4,18 +4,28 @@
 #'
 #' @param all_data a data.frame/CoreMSData object, should be the output of
 #'   \code{read_CoreMS_data}
-#' @param obs_mass_cname a character string specifying th name of the column 
+#' @param index_cname a character string specifying the name of the column 
+#'   containing the index value
+#' @param obs_mass_cname a character string specifying the name of the column 
 #'   containing the observed mass to charge ratio (m/z) in \code{all_data}
 #' @param calc_mass_cname a character string specifying the name of the column
 #'   containing the calculated mass to charge ratio (m/z) in \code{all_data}
+#' @param calib_mass_cname a character string specifying the name of the column
+#'   containing the calibrated mass to charge ratio (m/z) in \code{all_data}
 #' @param pheight_cname a character string specifying the name of the column
 #'   containing the peak height in \code{all_data}
 #' @param error_cname a character string specifying the name of the column
 #'   containing the mass error (ppm) in \code{all_data}
 #' @param conf_cname a character string specifying the name of the column
 #'   containing the confidence score in \code{all_data}
+#' @param heteroatom_cname a character string specifying the name of the 
+#'   column containing the heteroatom class in \code{all_data}
+#' @param iontype_cname a characer string specifying the name of the column
+#'   containing the ion type in \code{all_data}
 #' @param file_cname a character string specifying the name of the column
 #'   containing the filenames in \code{all_data}
+#' @param monoiso_index_cname a character string specifying the name of the 
+#'   column containing the monoisotopic index in \code{all_data}
 #' @param mf_cname a character string specifying the name of the column
 #'   containing the molecular formula in \code{all_data}
 #' @param c13_cname a character string specifying the name of the column

@@ -7,7 +7,7 @@
 conf_filter_dt(cmsObj, min_conf)
 }
 \arguments{
-\item{cmsObj}{CoreMSData object created using \link{`as.CoreMSData`}}
+\item{cmsObj}{CoreMSData object created using \code{\link{as.CoreMSData}}}
 
 \item{min_conf}{numeric value between 0 and 1 denoting minimum confidence threshold}
 }
