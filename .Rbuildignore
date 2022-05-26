@@ -7,3 +7,4 @@ index.Rmd
 pkgdown-template
 docs
 data-raw
+^scratchwork$
