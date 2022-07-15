@@ -6,11 +6,17 @@ context("filtering on peakData objects")
 test_that("mass filters work correctly on peakData", {
   data("examplePeakData")
   
+  # test with a random mass column name and make sure it is unique
+  tmp_masscol = sample(LETTERS, 10)
+  tmp_masscol = make.unique(c(colnames(examplePeakData$e_meta), tmp_masscol))[ncol(examplePeakData$e_meta) + 1]
+  
+  examplePeakData$e_meta[[tmp_masscol]] <- examplePeakData$e_meta[[getMassColName(examplePeakData)]]
+  attributes(examplePeakData)$cnames$mass_cname = tmp_masscol
+  
   filtData <- mass_filter(examplePeakData)
   expect_true(inherits(filtData, "massFilt"))
   expect_true(inherits(filtData, "data.frame"))
   expect_true(ncol(filtData) == 2)
-  expect_true(all(c(getEDataColName(examplePeakData), getMassColName(examplePeakData)) %in% colnames(filtData)))
   
   peakObj2 <- applyFilt(filtData, examplePeakData, min_mass = 200, max_mass = 900)
   expect_true(inherits(peakObj2, "peakData"))

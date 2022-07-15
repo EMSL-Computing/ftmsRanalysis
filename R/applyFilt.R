@@ -124,9 +124,8 @@ applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass 
     if(length(max_mass) != 1) stop("max_mass must be of length 1")
     
     edata_cname <- getEDataColName(ftmsObj)
-    mass_cname = getMassColName(ftmsObj)
     
-    mass_info <- filter_object[,mass_cname]
+    mass_info <- filter_object[,"Mass"]
     
     # get indices for which ones meet the requirement #
     inds <- which(mass_info <= max_mass & mass_info >= min_mass)
@@ -134,7 +133,7 @@ applyFilt.massFilt <- function(filter_object, ftmsObj, min_mass = 200, max_mass 
     if(length(inds) < 1) stop("Filtering using the specified minimum and maximum masses results in no peaks left in the data.")
     
     # sample identifiers to keep #
-    edata_ids = filter_object[inds, edata_cname]
+    edata_ids = filter_object[inds, "ID__"]
 
     temp_edata = ftmsObj$e_data[which(ftmsObj$e_data[,edata_cname] %in% edata_ids),]
     temp_emeta = ftmsObj$e_meta[which(ftmsObj$e_meta[,edata_cname] %in% edata_ids),]

@@ -26,11 +26,10 @@ mass_filter <- function(ftmsObj){
   mass_id = getMassColName(ftmsObj)
   
   # pull two columns from e_meta #
-  res = data.frame(ID = ftmsObj$e_meta[,edata_id], ftmsObj$e_meta[,mass_id])
-  names(res)[2] = mass_id
+  res = data.frame(`ID__` = ftmsObj$e_meta[,edata_id], Mass = ftmsObj$e_meta[,mass_id])
   
   # make sure mass column is numeric #
-  res[,mass_id] = as.numeric(as.character(res[,mass_id]))
+  res[,"Mass"] = as.numeric(as.character(res[,"Mass"]))
   
   class(res) = c("massFilt", "data.frame")
 
