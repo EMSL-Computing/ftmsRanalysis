@@ -82,15 +82,23 @@ CoreMSData_to_ftmsData <- function(cmsObj) {
                   .data[[heteroatom]], .data[[ion_type]]) %>% 
     dplyr::distinct() %>% 
     tidyr::separate(col = .data[[formula]], into = elem_cnames, sep = " ") %>% 
-    dplyr::mutate(C = if (exists("C", where = .)) as.integer(stringr::str_remove(C, "C")) else NULL,
-                  H = if (exists("H", where = .)) as.integer(stringr::str_remove(H, "H")) else NULL,
-                  O = if (exists("O", where = .)) as.integer(stringr::str_remove(O, "O")) else NULL,
-                  N = if (exists("N", where = .)) as.integer(stringr::str_remove(N, "N")) else NULL,
-                  S = if (exists("S", where = .)) as.integer(stringr::str_remove(S, "S")) else NULL,
-                  P = if (exists("P", where = .)) as.integer(stringr::str_remove(P, "P")) else NULL) %>% 
+    dplyr::mutate(C = if (exists("C", where = .)) as.integer(stringr::str_remove(C, "C")) else 0,
+                  H = if (exists("H", where = .)) as.integer(stringr::str_remove(H, "H")) else 0,
+                  O = if (exists("O", where = .)) as.integer(stringr::str_remove(O, "O")) else 0,
+                  N = if (exists("N", where = .)) as.integer(stringr::str_remove(N, "N")) else 0,
+                  S = if (exists("S", where = .)) as.integer(stringr::str_remove(S, "S")) else 0,
+                  P = if (exists("P", where = .)) as.integer(stringr::str_remove(P, "P")) else 0) %>% 
+    dplyr::select(Mass, C, H, O, N, S, P, `Calibrated m/z`, .data[[calc_mass]], 
+                  .data[[heteroatom]], .data[[ion_type]]) %>%
     dplyr::arrange(Mass)
 
-  ftmsObj <- list("e_data"= e_data, "f_data" = f_data, "e_meta" = e_meta)
+  # ftmsObj <- list("e_data"= e_data, "f_data" = f_data, "e_meta" = e_meta)
   
-  return(ftmsObj)
+  # return peakData object
+  peakDataObj <- as.peakData(e_data, f_data, e_meta,
+                             edata_cname = "Mass", fdata_cname = "SampleID", mass_cname = "Mass",
+                             c_cname = "C", h_cname = "H", o_cname = "O",
+                             n_cname = "N", s_cname = "S", p_cname = "P")
+  
+  return(peakDataObj)
 }
