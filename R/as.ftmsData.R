@@ -216,7 +216,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   }
   
   # check that f_data has at least 2 columns #
-  if(ncol(f_data) < 2) stop("f_data must contain at least 2 columns")
+  # if(ncol(f_data) < 2) stop("f_data must contain at least 2 columns")
   
   # if e_meta is provided, check that all peaks in e_data occur in e_meta #
   if(!is.null(e_meta)){
