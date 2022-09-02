@@ -1,15 +1,21 @@
 #' Create e\_meta filter object
 #'
-#' This function returns an emetaFilt object for use with \code{\link{applyFilt}} to filter a 'peakData' or 'compoundData' object based on a column in e\_meta
-#' 
+#' This function returns an emetaFilt object for use with
+#' \code{\link{applyFilt}} to filter a 'peakData' or 'compoundData' object based
+#' on a column in e\_meta
+#'
 #' @param ftmsObj an object of the class 'peakData' or 'compoundData'
-#' @param cname character string giving name of column in \code{e_meta} which filter should be based upon.
-#'  
-#' @return Object of class 'emetaFilt' that contains the molecule identifier and the e\_meta column of interest. This can be used in conjunction with \code{\link{applyFilt}} to filter peaks outside of a specified range of values.
+#' @param cname character string giving name of column in \code{e_meta} which
+#'   filter should be based upon.
+#'
+#' @return Object of class 'emetaFilt' that contains the molecule identifier and
+#'   the e\_meta column of interest. This can be used in conjunction with
+#'   \code{\link{applyFilt}} to filter peaks outside of a specified range of
+#'   values.
 #'
 #'
 #' @author Lisa Bramer
-#' @examples 
+#' @examples
 #' data("exampleProcessedPeakData")
 #' # filter peaks based on Oxygen to Carbon ratio #
 #' filter_object1 = emeta_filter(exampleProcessedPeakData, cname = "OtoC_ratio")
@@ -17,13 +23,14 @@
 #' filtered_data = applyFilt(filter_object1, exampleProcessedPeakData, min_val = 0.5)
 #' # filter to keep peaks with O:C ratio greater than or equal to 0.5  and less than or equal to 1 #
 #' filtered_data = applyFilt(filter_object1, exampleProcessedPeakData, min_val = 0.5, max_val = 1)
-#' 
+#'
 #' # filter peaks based on molecular formula #
 #' filter_object2 = emeta_filter(exampleProcessedPeakData, cname = "MolForm")
 #' # filter to keep peaks with molecular formula of C12H14O12
 #' filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12")
 #' # filter to keep peaks with molecular formula of C12H14O12 and keep NA MolForm peaks
-#' filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12", na.rm = FALSE)
+#' filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, 
+#'                           cats = "C12H14O12", na.rm = FALSE)
 
 #' @export
 

@@ -11,7 +11,7 @@ ftmsObj <- exampleCoreMSData %>%
   applyFilt(filter_object = conf_filter(exampleCoreMSData),
             msObj = .,
             min_conf = 0.5) %>% 
-  unique_mf_assingment(cmsObj = .,
+  unique_mf_assignment(cmsObj = .,
                        method = "confidence") %>% 
   CoreMSData_to_ftmsData()
 

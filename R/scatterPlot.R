@@ -1,13 +1,19 @@
-#' Title
+#' Scatter Plot
 #'
-#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
-#' @param xCName column name for x-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
-#' @param yCName column name for y-axis, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
-#' @param colorCName column name for point colors, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
-#' @param colorPal color palette function, one of \code{\link{col_numeric}}, \code{\link{col_factor}} or similar \code{scales} palette function
+#' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a
+#'   result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
+#' @param xCName column name for x-axis, must be a column of
+#'   \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param yCName column name for y-axis, must be a column of
+#'   \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param colorCName column name for point colors, must be a column of
+#'   \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param colorPal color palette function, one of \code{\link{col_numeric}},
+#'   \code{\link{col_factor}} or similar \code{scales} palette function
 #' @param xlabel x axis label, default is \code{xCName}
 #' @param ylabel y axis label, default is \code{yCName}
-#' @param legendTitle title for the legend, only used when coloring points according to a numeric scale
+#' @param legendTitle title for the legend, only used when coloring points
+#'   according to a numeric scale
 #' @param title plot title
 #' @param xrange x-axis bounds
 #' @param yrange y-axis bounds
@@ -20,7 +26,12 @@
 #'
 #' @examples
 #' \dontrun{
-#' scatterPlot(exampleProcessedPeakData, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for exampleProcessedPeakData")
+#' scatterPlot(exampleProcessedPeakData,
+#'             "NOSC", 
+#'             "DBE", 
+#'             colorCName="HtoC_ratio", 
+#'             legendTitle="H:C Ratio", 
+#'             title="DBE vs NOSC for exampleProcessedPeakData")
 #' }
 scatterPlot <- function(ftmsObj, xCName, yCName, colorCName=NA, colorPal=NA, xlabel=xCName, ylabel=yCName, 
                         legendTitle=colorCName, title=NA, xrange=NA, yrange=NA, logColorCol=FALSE, hoverTextCName=NA, zero.min=FALSE) {

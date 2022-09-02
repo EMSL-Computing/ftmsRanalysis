@@ -7,26 +7,32 @@
 summarizeGroups(ftmsObj, summary_functions)
 }
 \arguments{
-\item{ftmsObj}{an object of class 'peakData' or 'compoundData' or a ddo of ftmsData objects 
-(e.g. the output of \code{\link{divideByGroup}})}
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData' or a ddo of
+ftmsData objects (e.g. the output of \code{\link{divideByGroup}})}
 
-\item{summary_functions}{vector of summary function names to apply to each row of \code{ftmsObj$e_data} for each group. Valid
-summary function names are given by \code{\link{getGroupSummaryFunctionNames}}.}
+\item{summary_functions}{vector of summary function names to apply to each
+row of \code{ftmsObj$e_data} for each group. Valid summary function names
+are given by \code{\link{getGroupSummaryFunctionNames}}.}
 }
 \value{
-If the input is an ftmsData object, the result will be a new \code{ftmsData} object where each provided summary function will be applied to each group found in
-\code{getGroupDF(ftmsObj)}. If \code{getGroupDF(ftmsObj) == null} the function will assume all samples belong to
-a single group. If the input is a ddo the result will be a ddo where each value is the result of applying
-\code{summarizeGroups} to each value of the input.
+If the input is an ftmsData object, the result will be a new
+  \code{ftmsData} object where each provided summary function will be applied
+  to each group found in \code{getGroupDF(ftmsObj)}. If
+  \code{getGroupDF(ftmsObj) == null} the function will assume all samples
+  belong to a single group. If the input is a ddo the result will be a ddo
+  where each value is the result of applying \code{summarizeGroups} to each
+  value of the input.
 }
 \description{
-Summarize sample data by group using a specified summary function. The summary
-function provided must take a data frame with one or more columns corresponding to 
-samples. It must return a data frame with the same number of rows and one column.
+Summarize sample data by group using a specified summary function. The
+summary function provided must take a data frame with one or more columns
+corresponding to samples. It must return a data frame with the same number of
+rows and one column.
 }
 \examples{
 data("exampleProcessedPeakData")
-summary1 <- summarizeGroups(exampleProcessedPeakData, summary_functions=c("n_present", "prop_present"))
+summary1 <- summarizeGroups(exampleProcessedPeakData, 
+                            summary_functions=c("n_present", "prop_present"))
 
 groupDdo <- divideByGroup(exampleProcessedPeakData)
 summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))

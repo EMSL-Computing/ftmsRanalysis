@@ -428,7 +428,7 @@ makePlural <- function(thetext) {
 #' @export
 #' @name applyFilt
 #' @rdname applyFilt
-applyFilt.confFilt <- function(filter_object, msObj, min_conf = 0.5) {
+applyFilt.confFilt <- function(filter_object, msObj, min_conf = 0.5, ...) {
   
   if ("confFilt" %in% names(attr(msObj, "filters"))) {
     prev_min_conf <- attr(msObj, "filters")$confFilt$threshold

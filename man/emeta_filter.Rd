@@ -9,13 +9,19 @@ emeta_filter(ftmsObj, cname)
 \arguments{
 \item{ftmsObj}{an object of the class 'peakData' or 'compoundData'}
 
-\item{cname}{character string giving name of column in \code{e_meta} which filter should be based upon.}
+\item{cname}{character string giving name of column in \code{e_meta} which
+filter should be based upon.}
 }
 \value{
-Object of class 'emetaFilt' that contains the molecule identifier and the e\_meta column of interest. This can be used in conjunction with \code{\link{applyFilt}} to filter peaks outside of a specified range of values.
+Object of class 'emetaFilt' that contains the molecule identifier and
+  the e\_meta column of interest. This can be used in conjunction with
+  \code{\link{applyFilt}} to filter peaks outside of a specified range of
+  values.
 }
 \description{
-This function returns an emetaFilt object for use with \code{\link{applyFilt}} to filter a 'peakData' or 'compoundData' object based on a column in e\_meta
+This function returns an emetaFilt object for use with
+\code{\link{applyFilt}} to filter a 'peakData' or 'compoundData' object based
+on a column in e\_meta
 }
 \examples{
 data("exampleProcessedPeakData")
@@ -31,7 +37,8 @@ filter_object2 = emeta_filter(exampleProcessedPeakData, cname = "MolForm")
 # filter to keep peaks with molecular formula of C12H14O12
 filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12")
 # filter to keep peaks with molecular formula of C12H14O12 and keep NA MolForm peaks
-filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, cats = "C12H14O12", na.rm = FALSE)
+filtered_data = applyFilt(filter_object2, exampleProcessedPeakData, 
+                          cats = "C12H14O12", na.rm = FALSE)
 }
 \author{
 Lisa Bramer

@@ -24,8 +24,10 @@
 #' groupSummaryDdo <- summarizeGroups(groupDdo, summary_functions = c("prop_present", "n_present"))
 #' 
 #' # See rlang::expr here:
-#' panelFnG1 <- panelFunctionGenerator("vanKrevelenPlot", colorCName=rlang::expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
-#'                                     legendTitle="Proportion<br>Present")
+#' panelFnG1 <- panelFunctionGenerator(
+#'   "vanKrevelenPlot", 
+#'   colorCName=rlang::expr(paste0(getSplitVar(v, "Group"), "_prop_present")), 
+#'   legendTitle="Proportion<br>Present")
 #' 
 #' makeDisplay(groupSummaryDdo, 
 #'             panelFn=panelFnG1,

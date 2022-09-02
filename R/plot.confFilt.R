@@ -1,6 +1,6 @@
 #' Plot confidence filter object
 #'
-#' @param confFiltObj object of class 'confFilt' created by \code{\link{conf_filter}} function
+#' @param x object of class 'confFilt' created by \code{\link{conf_filter}} function
 #' @param title (optional) plot title
 #' @param xlabel x axis label, defaults to "Minimum Confidence Threshold"
 #' @param ylabel y axis label, defaults to "Number of Peaks"
@@ -11,14 +11,14 @@
 #' @author Natalie Winans
 #' 
 #' @export
-plot.confFilt <- function(confFiltObj, 
+plot.confFilt <- function(x, 
                           title = "Peaks Retained Under Confidence Filter", 
                           xlabel = "Minimum Confidence Threshold",
                           ylabel = "Monoisotopic Peaks Retained",
                           ...) {
   
-  # Check that confFiltObj is a confFilt object (output from function conf_filter)
-  if(!inherits(confFiltObj, "confFilt")) stop("confFiltObj must be of class 'confFilt'")
+  # Check that x is a confFilt object (output from function conf_filter)
+  if(!inherits(x, "confFilt")) stop("x must be of class 'confFilt'")
   
   # Check that that parameter inputs are valid
   if(!is.null(title)) {
@@ -31,14 +31,14 @@ plot.confFilt <- function(confFiltObj,
     if(!inherits(ylabel, "character") | !(length(ylabel) == 1)) stop("ylabel must be single character string")
   }
   
-  conf_score <- attr(confFiltObj, "conf_cname")
+  conf_score <- attr(x, "conf_cname")
 
   min_conf <- seq(from = 0, to = 1, by = 0.1)
   Kept_mono <- c()
   Kept_iso <- c()
   for (i in 1:length(min_conf)) {
-    Kept_mono[i] <- sum(dplyr::pull(confFiltObj$monoiso_data, conf_score) > min_conf[i], na.rm = TRUE)
-    Kept_iso[i] <- sum(dplyr::pull(confFiltObj$iso_data, conf_score) > min_conf[i], na.rm = TRUE)
+    Kept_mono[i] <- sum(dplyr::pull(x$monoiso_data, conf_score) > min_conf[i], na.rm = TRUE)
+    Kept_iso[i] <- sum(dplyr::pull(x$iso_data, conf_score) > min_conf[i], na.rm = TRUE)
   }
   
   mono_plot_data <- data.frame(min_conf, Kept_mono) %>% 

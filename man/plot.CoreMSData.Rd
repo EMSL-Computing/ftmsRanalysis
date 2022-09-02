@@ -5,15 +5,16 @@
 \title{Plot Method for CoreMSData Objects}
 \usage{
 \method{plot}{CoreMSData}(
-  cmsObj,
+  x,
   title = "Unique Masses per Sample",
   xlabel = "Sample",
   ylabel = "Unique Masses",
-  diag_x_labs = FALSE
+  rotate_x_labs = FALSE,
+  ...
 )
 }
 \arguments{
-\item{cmsObj}{CoreMSData object}
+\item{x}{CoreMSData object}
 
 \item{title}{optional, if not specified "Unique Masses per Sample" will be used}
 
@@ -21,7 +22,9 @@
 
 \item{ylabel}{optional, if not specified "Unique Masses" will be used}
 
-\item{diag_x_labs}{logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names}
+\item{rotate_x_labs}{logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names}
+
+\item{...}{included for compliance with generic method}
 }
 \value{
 `ggplot` object

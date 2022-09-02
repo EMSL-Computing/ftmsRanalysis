@@ -27,7 +27,7 @@ applyFilt(filter_object, msObj, ...)
   ...
 )
 
-\method{applyFilt}{confFilt}(filter_object, msObj, min_conf = 0.5)
+\method{applyFilt}{confFilt}(filter_object, msObj, min_conf = 0.5, ...)
 }
 \arguments{
 \item{filter_object}{an object of the class 'moleculeFilt', 'massFilt', 'formulaFilt', 'emetaFilt', or 'confFilt'}

@@ -2,23 +2,25 @@
 #' 
 #' Initial plot for CoreMSData objets showing number of unique masses per sample/file
 #'
-#' @param cmsObj CoreMSData object
+#' @param x CoreMSData object
 #' @param title optional, if not specified "Unique Masses per Sample" will be used
 #' @param xlabel optional, if not specified "Sample" will be used
 #' @param ylabel optional, if not specified "Unique Masses" will be used
-#' @param diag_x_labs logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names
-#'
+#' @param rotate_x_labs logical, optionally angles sample names on x-axis for readability if there are many samples and/or long sample names
+#' @param ... included for compliance with generic method
+#' 
 #' @return `ggplot` object
 #' @export
 #'
-plot.CoreMSData <- function(cmsObj, 
+plot.CoreMSData <- function(x, 
                             title = "Unique Masses per Sample", 
                             xlabel = "Sample", 
                             ylabel = "Unique Masses",
-                            diag_x_labs = FALSE) {
+                            rotate_x_labs = FALSE,
+                            ...) {
   
-  # Check that cmsObj is a "CoreMSData" object (output from function as.CoreMSData())
-  if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of class 'CoreMSData'")
+  # Check that x is a "CoreMSData" object (output from function as.CoreMSData())
+  if(!inherits(x, "CoreMSData")) stop("x must be of class 'CoreMSData'")
   
   # Check that that parameter inputs are valid
   if(!is.null(title)) {
@@ -30,20 +32,20 @@ plot.CoreMSData <- function(cmsObj,
   if(!is.null(ylabel)) {
     if(!inherits(ylabel, "character") | !(length(ylabel) == 1)) stop("ylabel must be single character string")
   }
-  if(!(diag_x_labs == TRUE | diag_x_labs == FALSE)) stop("diag_x_labs must be logical argument")
+  if(!(rotate_x_labs == TRUE | rotate_x_labs == FALSE)) stop("rotate_x_labs must be logical argument")
   
-  sample_id <- attr(cmsObj, "cnames")$file_cname
-  mass_id <- attr(cmsObj, "cnames")$calc_mass_cname 
+  sample_id <- attr(x, "cnames")$file_cname
+  mass_id <- attr(x, "cnames")$calc_mass_cname 
 
-  unique_masses_per_sample <- cmsObj$monoiso_data %>%
-    dplyr::group_by(dplyr::pull(cmsObj$monoiso_data, sample_id)) %>%
-    dplyr::distinct(dplyr::pull(cmsObj$monoiso_data, mass_id)) %>%
+  unique_masses_per_sample <- x$monoiso_data %>%
+    dplyr::group_by(dplyr::pull(x$monoiso_data, sample_id)) %>%
+    dplyr::distinct(dplyr::pull(x$monoiso_data, mass_id)) %>%
     dplyr::tally() %>% 
-    dplyr::rename(Sample = `dplyr::pull(cmsObj$monoiso_data, sample_id)`, Monoisotopic = n)
+    dplyr::rename(Sample = `dplyr::pull(x$monoiso_data, sample_id)`, Monoisotopic = n)
   
-  Isotopic <- cmsObj$iso_data %>% 
-    dplyr::group_by(dplyr::pull(cmsObj$iso_data, sample_id)) %>%
-    dplyr::distinct(dplyr::pull(cmsObj$iso_data, mass_id)) %>%
+  Isotopic <- x$iso_data %>% 
+    dplyr::group_by(dplyr::pull(x$iso_data, sample_id)) %>%
+    dplyr::distinct(dplyr::pull(x$iso_data, mass_id)) %>%
     dplyr::tally() %>% 
     dplyr::pull(n)
     
@@ -65,9 +67,9 @@ plot.CoreMSData <- function(cmsObj,
     ggplot2::scale_fill_manual(values = c("#00AFBB", "#E7B800")) +
     ggplot2::guides(fill = ggplot2::guide_legend(title = "Peak Type"))
   
-  if (diag_x_labs == TRUE) {
+  if (rotate_x_labs == TRUE) {
     plot <- plot +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 45, vjust = 0.5))
+      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5))
   }
 
   plotly::ggplotly(plot)
