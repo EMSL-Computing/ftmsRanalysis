@@ -17,7 +17,8 @@ scatterPlot(
   xrange = NA,
   yrange = NA,
   logColorCol = FALSE,
-  hoverTextCName = NA
+  hoverTextCName = NA,
+  zero.min = FALSE
 )
 }
 \arguments{
@@ -46,6 +47,8 @@ scatterPlot(
 \item{logColorCol}{TRUE/FALSE, should the color column be log-transformed? Default is FALSE.}
 
 \item{hoverTextCName}{column name for hover (mouseover) text, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
+
+\item{zero.min}{TRUE/FALSE, if an axis range is not provided, should the automatic range minimum be set to 0?}
 }
 \value{
 plotly object

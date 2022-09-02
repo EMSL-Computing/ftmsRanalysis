@@ -9,7 +9,7 @@ setKendrickMassColName(ftmsObj, cnames)
 \arguments{
 \item{ftmsObj}{an object of type ftmsData}
 
-\item{cnames}{column name}
+\item{cnames}{column names}
 }
 \value{
 updated ftmsObj

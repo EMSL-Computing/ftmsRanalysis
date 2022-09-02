@@ -13,6 +13,7 @@
 #' @param yrange y-axis bounds
 #' @param logColorCol TRUE/FALSE, should the color column be log-transformed? Default is FALSE.
 #' @param hoverTextCName column name for hover (mouseover) text, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}
+#' @param zero.min TRUE/FALSE, if an axis range is not provided, should the automatic range minimum be set to 0?
 #'
 #' @return plotly object
 #' @export
@@ -22,7 +23,7 @@
 #' scatterPlot(exampleProcessedPeakData, "NOSC", "DBE", colorCName="HtoC_ratio", legendTitle="H:C Ratio", title="DBE vs NOSC for exampleProcessedPeakData")
 #' }
 scatterPlot <- function(ftmsObj, xCName, yCName, colorCName=NA, colorPal=NA, xlabel=xCName, ylabel=yCName, 
-                        legendTitle=colorCName, title=NA, xrange=NA, yrange=NA, logColorCol=FALSE, hoverTextCName=NA) {
+                        legendTitle=colorCName, title=NA, xrange=NA, yrange=NA, logColorCol=FALSE, hoverTextCName=NA, zero.min=FALSE) {
 
   if (missing(ftmsObj)) stop("ftmsObj must be provided")
   if (missing(xCName)) stop("xCName must be provided")
@@ -156,10 +157,10 @@ scatterPlot <- function(ftmsObj, xCName, yCName, colorCName=NA, colorPal=NA, xla
   plot_data <- plot_data[!ind.na, ]
   
   if (identical(xrange, NA)) {
-    xrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, xCName])
+    xrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, xCName], zero.min = zero.min)
   }
   if (identical(yrange, NA)) {
-    yrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, yCName])
+    yrange <- ftmsRanalysis:::nice_axis_limits(plot_data[, yCName], zero.min = zero.min)
   }
 
   p <- plotly::plot_ly(plot_data, x=plot_data[,xCName], y=plot_data[,yCName]) 

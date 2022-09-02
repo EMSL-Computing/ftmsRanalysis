@@ -61,7 +61,7 @@ peakdata_processed = compound_calcs(examplePeakData, calc_fns = c("calc_aroma", 
 
 # Specify extra arguments for calc_kendrick and calc_dbe.  
 calc_args = list('calc_kendrick' = list('base_compounds' = c('CH2', 'CO2', 'H2')), 
-                 'calc_dbe' = list('valences' = list('C'=5, 'H' = 4, 'S' = 5)))
+                 'calc_dbe' = list('valences' = data.frame('C'=5, 'H' = 4, 'S' = 5)))
 
 peakdata_processed <- compound_calcs(examplePeakData, calc_args = calc_args)
 

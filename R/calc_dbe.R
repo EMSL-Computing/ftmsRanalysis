@@ -3,7 +3,7 @@
 #' Calculate double bond equivalent (DBE) and double bond equivalent minus Oxygen (DBE-O) values for peaks where empirical formula is available
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.
-#' @param valences a named list with the valence for each element.  Names must be any of 'C', 'H', 'N', 'O', 'S', 'P'. Values must be integers corresponding to the valence for each element.  Defaults to NULL, in which case the valences that result in the formula given in the details section are used.
+#' @param valences a dataframe with columns giving the valence for each element.  Names must be any of 'C', 'H', 'N', 'O', 'S', 'P'. Values must be integers corresponding to the valence for each element.  Defaults to NULL, in which case the valences that result in the formula given in the details section are used.
 #' 
 #' @details 
 #' \tabular{ll}{
@@ -27,14 +27,13 @@ calc_dbe <- function(ftmsObj, valences = NULL){
   
   # get coefficients that will multiply each elemental count.  Each coefficient is equal to {valence}-2
   if(is.null(valences)){
-    # coefficients that result in the equation given in @details
-    coefs <- list('C' = 2, 'H' = -1, 'N' = 1, 'O' = 0, 'S' = 0, 'P' = 1)
+    coefs <- data.frame('C' = 2, 'H' = -1, 'N' = 1, 'O' = 0, 'S' = 0, 'P' = 1) # coefficients that result in the equation given in @details
   }
   else{
-    cond1 <- inherits(valences, 'list')
-    cond2 <- all(names(valences) %in% c('C', 'H', 'N', 'O', 'S', 'P'))
-    if(!all(cond1, cond2)) stop("argument valences must be a named list of integers with names 'C', 'H', 'N', 'O', 'S', 'P' and values representing the valence for each element.")
-    coefs <- lapply(c('C', 'H', 'N', 'O', 'S', 'P'), function(x) if(!is.null(valences[[x]])) valences[[x]]-2 else 2)
+    if(!inherits(valences, 'data.frame')) stop('valences must be a data frame')
+    if(!all(names(valences) %in% c('C', 'H', 'N', 'O', 'S', 'P'))) stop("valences dataframe must have column names column names 'C', 'H', 'N', 'O', 'S', 'P'")
+    if(!all(sapply(valences, is.numeric)) | any(is.na(rowSums(valences)))) stop('valences dataframe must contain all numeric, nonmissing values')
+    coefs <- lapply(c('C', 'H', 'N', 'O', 'S', 'P'), function(x) if(!is.null(valences[[x]])) valences[[x]]-2 else 0) %>% data.frame()
     names(coefs) <- c('C', 'H', 'N', 'O', 'S', 'P')
   }
   
@@ -49,23 +48,36 @@ calc_dbe <- function(ftmsObj, valences = NULL){
   S_counts = if(getSulfurColName(ftmsObj) %in% colnames(temp)) temp[,getSulfurColName(ftmsObj)] else 0
   P_counts = if(getPhosphorusColName(ftmsObj) %in% colnames(temp)) temp[,getPhosphorusColName(ftmsObj)] else 0
   
-  temp$DBE = 1 + 0.5*(coefs[['C']]*C_counts + coefs[['H']]*H_counts + coefs[['N']]*N_counts + coefs[['O']]*O_counts + coefs[['S']]*S_counts + coefs[['P']]*P_counts)
+  dbe_cols <- NULL
   
+  for(i in 1:nrow(coefs)){
+    row <- coefs[i,]
+    DBE_id <- make.unique(c(colnames(temp$e_meta), paste0('DBE_', i)))[length(colnames(temp$e_meta)) + 1] #makes DBE_id unique if column already exists
+    dbe_cols <- c(dbe_cols, DBE_id)
+    
+    temp[DBE_id] = 1 + 0.5*(row[['C']]*C_counts + row[['H']]*H_counts + row[['N']]*N_counts + row[['O']]*O_counts + row[['S']]*S_counts + row[['P']]*P_counts)
+  }
+  
+  # reassign valences in case they input one with missing columns and it was fixed in the first if-else statement
+  valences <- coefs + 2
+  rownames(valences) = dbe_cols
+  
+  # DBE_O and DBE_AI have fixed valences
   temp$DBE_O = 1 + 0.5*(2*C_counts - H_counts + N_counts + P_counts) - O_counts
-  
   temp$DBE_AI = 1 + C_counts - O_counts - S_counts - 0.5*(N_counts + P_counts + H_counts)
   
   if(length(which(is.na(temp[,getMFColName(ftmsObj)]))) > 0){
-    temp$DBE[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
+    temp[which(is.na(temp[,getMFColName(ftmsObj)])), dbe_cols] = NA
     temp$DBE_O[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
     temp$DBE_AI[which(is.na(temp[,getMFColName(ftmsObj)]))] = NA
   }
-
+  
   ftmsObj$e_meta = temp
   
-  ftmsObj = setDBEColName(ftmsObj, "DBE")
+  ftmsObj = setDBEColName(ftmsObj, dbe_cols)
   ftmsObj = setDBEoColName(ftmsObj, "DBE_O")
   ftmsObj = setDBEAIColName(ftmsObj, "DBE_AI")
+  ftmsObj = setDBEValenceDF(ftmsObj, valences)
   
   return(ftmsObj)
 }
