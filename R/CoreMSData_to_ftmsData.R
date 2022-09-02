@@ -1,12 +1,12 @@
 #' CoreMSData to ftmsData
 #' 
-#' Converts an object of the class `CoreMSData` into an `ftmsData` object consisting of the data frames `e_data` and `e_meta`
+#' Converts an object of the class `CoreMSData` into an `ftmsData` object consisting of the data frames `e_data`, `f_data`, and `e_meta`
 #'
 #' @param cms_data a `CoreMSData` object, created using \link{`as.CoreMSData`}. Must not contain redundant m/z values or molecular formulas within a sample. This is accomplished using the function \link{`uniqe_mf_assignment`}.
 #' 
 #'@seealso \link{`conf_filter`} and \link{`applyFilt`}
 #'
-#' @return a list of two data frames, `e_data` and `e_meta`
+#' @return a list of three data frames, `e_data`, `f_data`, and `e_meta`
 #' 
 #' @author Natalie Winans
 #' 
@@ -49,6 +49,13 @@ CoreMSData_to_ftmsData <- function(cmsObj) {
                 values_fill = 0) %>% 
     dplyr::arrange(Mass)
   
+  # create f_data
+  f_data <- cmsObj$monoiso_data %>% 
+    dplyr::ungroup() %>% 
+    dplyr::select(.data[[filename]]) %>% 
+    dplyr::distinct() %>% 
+    dplyr::rename(SampleID = .data[[filename]])
+  
   # create e_meta
   possible_elements <- c("C", "H", "O", "N", "S", "P")
   
@@ -83,7 +90,7 @@ CoreMSData_to_ftmsData <- function(cmsObj) {
                   P = if (exists("P", where = .)) as.integer(stringr::str_remove(P, "P")) else NULL) %>% 
     dplyr::arrange(Mass)
 
-  ftmsObj <- list("e_data"= e_data, "e_meta" = e_meta)
+  ftmsObj <- list("e_data"= e_data, "f_data" = f_data, "e_meta" = e_meta)
   
   return(ftmsObj)
 }
