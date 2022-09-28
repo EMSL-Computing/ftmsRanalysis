@@ -27,15 +27,8 @@ test_that("CoreMSData object correctly constructed", {
                "Filename column name not found in all_data")
   expect_error(as.CoreMSData(all_data, mf_cname = "formula"),
                "Molecular Formula column formula not found in all_data")
-  expect_error(as.CoreMSData(all_data, c13_cname = "carbon"), 
-               "Carbon column carbon not found in all_data")
-  expect_error(as.CoreMSData(all_data, o18_cname = "oxygen"), 
-               "Oxygen column oxygen not found in all_data")
-  expect_error(as.CoreMSData(all_data, n15_cname = "carbon"), 
-               "Nitrogen column carbon not found in all_data")
-  expect_error(as.CoreMSData(all_data, s34_cname = "carbon"), 
-               "Sulfur column carbon not found in all_data")
-  
+  expect_error(as.CoreMSData(all_data, iso_cols = c(1,2,3)), 
+               "iso_cols must be a character vector")
   
   cmsObj <- as.CoreMSData(all_data = all_data,
                           obs_mass_cname = "m/z",
@@ -45,7 +38,7 @@ test_that("CoreMSData object correctly constructed", {
                           conf_cname = "Confidence Score",
                           file_cname = "Filename",
                           mf_cname = "Molecular Formula",
-                          c13_cname = "13C")
+                          iso_cols = "13C")
   
   
   expect_equal(attr(cmsObj, "cnames")$obs_mass_cname, "m/z")
@@ -55,11 +48,7 @@ test_that("CoreMSData object correctly constructed", {
   expect_equal(attr(cmsObj, "cnames")$conf_cname, "Confidence Score")
   expect_equal(attr(cmsObj, "cnames")$file_cname, "Filename")
   expect_equal(attr(cmsObj, "cnames")$mf_cname, "Molecular Formula")
-  expect_equal(attr(cmsObj, "cnames")$c13_cname, "13C")
-  
-  expect_true(is.null(attr(cmsObj, "cnames")$s34_cname))
-  expect_true(is.null(attr(cmsObj, "cnames")$o18_cname))
-  expect_true(is.null(attr(cmsObj, "cnames")$n15_cname))
+  expect_equal(attr(cmsObj, "cnames")$iso_cols, "13C")
   
   # correct structure of CoreMSData object
   expect_s3_class(cmsObj, "CoreMSData")

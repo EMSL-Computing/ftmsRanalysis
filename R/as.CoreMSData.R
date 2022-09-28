@@ -56,50 +56,34 @@ as.CoreMSData <- function(all_data,
                           file_cname = "Filename",
                           monoiso_index_cname = "Mono Isotopic Index",
                           mf_cname = "Molecular Formula",
-                          c13_cname = NULL,
-                          s34_cname = NULL,
-                          o18_cname = NULL,
-                          n15_cname = NULL){
+                          iso_cols = c("13C", "18O", "15N", "34S")){
   
   # check that all_data is of class 'CoreMSrbind'
   if(!inherits(all_data, "CoreMSrbind")) stop("all_data must be of the class 'CoreMSrbind'")
   
+  if(!inherits(iso_cols, "character")) stop("iso_cols must be a character vector")
+  non_iso_cols <- setdiff(names(all_data), iso_cols)
+  
   # check that specified columns exist in all_data
-  if(!(index_cname %in% names(all_data))) stop(paste("Index column", index_cname, "not found in all_data"))
-  if(!(obs_mass_cname %in% names(all_data))) stop(paste("Observed mass column", obs_mass_cname, "not found in all_data"))
-  if(!(calc_mass_cname %in% names(all_data))) stop(paste("Calculated mass column", calc_mass_cname,"not found in all_data"))
-  if(!(calib_mass_cname %in% names(all_data))) stop(paste("Calibrated mass column", calib_mass_cname,"not found in all_data"))
-  if(!(pheight_cname %in% names(all_data))) stop(paste("Peak height/intensity column", pheight_cname,"not found in all_data"))
-  if(!(error_cname %in% names(all_data))) stop(paste("Mass error column", error_cname,"not found in all_data"))
-  if(!(conf_cname %in% names(all_data))) stop(paste("Confidence score column", conf_cname,"not found in all_data"))
-  if(!(heteroatom_cname %in% names(all_data))) stop(paste("Heteroatom class column", heteroatom_cname,"not found in all_data"))
-  if(!(iontype_cname %in% names(all_data))) stop(paste("Ion type column", iontype_cname,"not found in all_data"))
-  if(!(file_cname %in% names(all_data))) stop(paste("Filename column", file_cname,"not found in all_data"))
-  if(!(monoiso_index_cname %in% names(all_data))) stop(paste("Monoisotopic index column", mf_cname, "not found in all_data"))
-  if(!(mf_cname %in% names(all_data))) stop(paste("Molecular Formula column", mf_cname, "not found in all_data"))
+  if(!(index_cname %in% non_iso_cols)) stop(paste("Index column", index_cname, "not found in all_data"))
+  if(!(obs_mass_cname %in% non_iso_cols)) stop(paste("Observed mass column", obs_mass_cname, "not found in all_data"))
+  if(!(calc_mass_cname %in% non_iso_cols)) stop(paste("Calculated mass column", calc_mass_cname,"not found in all_data"))
+  if(!(calib_mass_cname %in% non_iso_cols)) stop(paste("Calibrated mass column", calib_mass_cname,"not found in all_data"))
+  if(!(pheight_cname %in% non_iso_cols)) stop(paste("Peak height/intensity column", pheight_cname,"not found in all_data"))
+  if(!(error_cname %in% non_iso_cols)) stop(paste("Mass error column", error_cname,"not found in all_data"))
+  if(!(conf_cname %in% non_iso_cols)) stop(paste("Confidence score column", conf_cname,"not found in all_data"))
+  if(!(heteroatom_cname %in% non_iso_cols)) stop(paste("Heteroatom class column", heteroatom_cname,"not found in all_data"))
+  if(!(iontype_cname %in% non_iso_cols)) stop(paste("Ion type column", iontype_cname,"not found in all_data"))
+  if(!(file_cname %in% non_iso_cols)) stop(paste("Filename column", file_cname,"not found in all_data"))
+  if(!(monoiso_index_cname %in% non_iso_cols)) stop(paste("Monoisotopic index column", mf_cname, "not found in all_data"))
+  if(!(mf_cname %in% non_iso_cols)) stop(paste("Molecular Formula column", mf_cname, "not found in all_data"))
   
-  # isotopic columns may or may not be present in all_data
-  if(!(is.null(c13_cname))) {
-    if(!(c13_cname %in% names(all_data))) stop(paste("Carbon column", c13_cname, "not found in all_data"))
-  }  
-  if(!(is.null(o18_cname))) {
-    if(!(o18_cname %in% names(all_data))) stop(paste("Oxygen column", o18_cname, "not found in all_data"))
-  }    
-  if(!(is.null(n15_cname))) {
-    if(!(n15_cname %in% names(all_data))) stop(paste("Nitrogen column", n15_cname, "not found in all_data"))
-  }      
-  if(!(is.null(s34_cname))) {
-    if(!(s34_cname %in% names(all_data))) stop(paste("Sulfur column", s34_cname, "not found in all_data"))
-  }
-  
-  iso_cols <- c(c13_cname, o18_cname, n15_cname, s34_cname)
-  
-  # check that isotopic cnames specified if columns present
-  if(any(c("13C", "18O", "15N", "34S") %in% colnames(all_data)) & is.null(iso_cols)) stop("Isotopic columns present in all_data. Provide column names for all isotopic columns.") 
+  iso_cols_present <- intersect(names(all_data), iso_cols)
+  if(length(iso_cols_present) == 0) iso_cols_present <- NULL
   
   # split all_data into monoisotopic and isotopic dataframes
   if (!is.null(iso_cols)) {
-    iso_data <- all_data %>% dplyr::filter_at(dplyr::vars(all_of(iso_cols)), dplyr::any_vars(. > 0))
+    iso_data <- all_data %>% dplyr::filter_at(dplyr::vars(all_of(iso_cols_present)), dplyr::any_vars(. > 0))
     monoiso_data <- suppressMessages(dplyr::anti_join(all_data, iso_data))
   } else {
     iso_data <- data.frame(matrix(ncol = ncol(all_data), nrow = 0))
@@ -124,8 +108,7 @@ as.CoreMSData <- function(all_data,
                               pheight_cname = pheight_cname, error_cname = error_cname, 
                               conf_cname = conf_cname, heteroatom_cname = heteroatom_cname, 
                               iontype_cname = iontype_cname, monoiso_index_cname = monoiso_index_cname, 
-                              mf_cname = mf_cname, file_cname = file_cname, c13_cname = c13_cname, 
-                              o18_cname = o18_cname, s34_cname = s34_cname, n15_cname = n15_cname)
+                              mf_cname = mf_cname, file_cname = file_cname, iso_cols = iso_cols_present)
   
   class(res) <- c("list", "CoreMSData")
   

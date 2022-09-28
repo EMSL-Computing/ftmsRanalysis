@@ -92,8 +92,6 @@ CoreMSData_to_ftmsData <- function(cmsObj) {
                   .data[[heteroatom]], .data[[ion_type]]) %>%
     dplyr::arrange(Mass)
 
-  # ftmsObj <- list("e_data"= e_data, "f_data" = f_data, "e_meta" = e_meta)
-  
   # return peakData object
   peakDataObj <- as.peakData(e_data, f_data, e_meta,
                              edata_cname = "Mass", fdata_cname = "SampleID", mass_cname = "Mass",
