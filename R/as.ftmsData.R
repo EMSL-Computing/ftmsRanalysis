@@ -33,16 +33,6 @@
 #' \tab \cr
 #' c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Carbon count for each peak/mass. \cr
 #' \tab \cr
-#' h_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Hydrogen count for each peak/mass. \cr
-#' \tab \cr
-#' o_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Oxygen count for each peak/mass. \cr
-#' \tab \cr
-#' n_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Nitrogen count for each peak/mass. \cr
-#' \tab \cr
-#' s_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Sulfur count for each peak/mass. \cr
-#' \tab \cr
-#' p_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Phosphorus count for each peak/mass. \cr
-#' \tab \cr
 #' isotopic_cname \tab character string specifying the name of the column, in \code{e_meta}, containing information about whether each peak is isotopic or not. \cr
 #' \tab \cr
 #' isotopic_notation \tab character string specifying the value used in column \code{isotopic_cname} which indicates that a peak is isotopic. \cr
@@ -84,9 +74,10 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   .as.peakData(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname, ...)
 }
 
+# Need to change the col names param here 
 .as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
-                        extraction_cname = NULL, mf_cname = NULL, c_cname = NULL, h_cname = NULL,
-                        o_cname = NULL, n_cname = NULL, s_cname = NULL, p_cname = NULL, 
+                        extraction_cname = NULL, mf_cname = NULL, 
+                        element_col_names = list("C" = "C", "H" = "H"),
                         isotopic_cname = NULL, isotopic_notation = NULL, o2c_cname = NULL, h2c_cname = NULL, kmass_cname = NULL,
                         kdefect_cname = NULL, nosc_cname = NULL, gfe_cname = NULL, mfname_cname = NULL, 
                         aroma_cname = NULL, modaroma_cname = NULL, dbe_cname = NULL, dbeo_cname = NULL, dbeai_cname = NULL,
@@ -120,30 +111,26 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   if(is.null(mass_cname)) stop("'mass_cname' must be specified")
   
   # check that either mf_cname or elemental cnames are not null #
-  if(is.null(mf_cname) & any(c(is.null(c_cname), is.null(h_cname)))) {
-    stop("Either 'mf_cname' or both 'c_cname' and 'h_cname' must be specified")
+  if(is.null(mf_cname) & any(c(is.null(element_col_names$C), is.null(element_col_names$H)))) {
+    stop("Either 'mf_cname' or both 'C' and 'H' must be specified in 'element_col_names'")
   }
   # check that cname arguments are found #
   if(!(mass_cname %in% names(e_meta))) {
     stop(paste("Mass column", mass_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
   }
-  if(!is.null(c_cname)){
-    if(!(c_cname %in% names(e_meta))) stop(paste("Carbon column", c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  if(!is.null(element_col_names$C)){
+    if(!(element_col_names$C %in% names(e_meta))) stop(paste("Carbon column", element_col_names$C, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
   }
-  if(!is.null(h_cname)){
-    if(!(h_cname %in% names(e_meta))) stop(paste("Hydrogen column", h_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  if(!is.null(element_col_names$H)){
+    if(!(element_col_names$H %in% names(e_meta))) stop(paste("Hydrogen column", element_col_names$H, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
   }
-  if(!is.null(o_cname)){
-    if(!(o_cname %in% names(e_meta))) stop(paste("Oxygen column", o_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  # check that all elements given in element_col_names are present within e_meta. Check that the elements/isotopes are within coreMS superset.
+  load("data/element_names.rda")
+  if(!all(names(element_col_names) %in% element_names)){
+    stop(paste("The following elements in 'element_col_names' are not supported: ", paste(names(element_col_names[!(names(element_col_names) %in% element_names)]), collapse = ','), ". See details of as.peakData for specifying column names.", sep = ""))
   }
-  if(!is.null(n_cname)){
-    if(!(n_cname %in% names(e_meta))) stop(paste("Nitrogen column", n_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-  }
-  if(!is.null(s_cname)){
-    if(!(s_cname %in% names(e_meta))) stop(paste("Sulfur column", s_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
-  }
-  if(!is.null(p_cname)){
-    if(!(p_cname %in% names(e_meta))) stop(paste("Phosphorus column", p_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
+  if(!all(element_col_names %in% names(e_meta))){
+    stop(paste("The following elements in 'element_col_names' are not found in e_meta: ", paste(names(element_col_names[!(names(element_col_names) %in% names(e_meta))]), collapse = ','), ". See details of as.peakData for specifying column names.", sep = ""))
   }
   if(!is.null(isotopic_cname)){
     if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
@@ -251,21 +238,21 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   }
   
   # if mf_cname is NULL and any of o_cname, n_cname, s_cname or p_cname are NULL, create columns of zeroes for them #
-  if (is.null(mf_cname) & is.null(o_cname)) {
-    o_cname <- tail(make.unique(c(colnames(e_meta), "O")), 1) #unique column name
-    e_meta[, o_cname] <- 0
+  if (is.null(mf_cname) & is.null(element_col_names$O)) {
+    element_col_names$O <- tail(make.unique(c(colnames(e_meta), "O")), 1) #unique column name
+    e_meta[, element_col_names$O] <- 0
   }
-  if (is.null(mf_cname) & is.null(n_cname)) {
-    n_cname <- tail(make.unique(c(colnames(e_meta), "N")), 1) #unique column name
-    e_meta[,n_cname] <- 0
+  if (is.null(mf_cname) & is.null(element_col_names$N)) {
+    element_col_names$N <- tail(make.unique(c(colnames(e_meta), "N")), 1) #unique column name
+    e_meta[,element_col_names$N] <- 0
   }
-  if (is.null(mf_cname) & is.null(s_cname)) {
-    s_cname <- tail(make.unique(c(colnames(e_meta), "S")), 1) #unique column name
-    e_meta[, s_cname] <- 0
+  if (is.null(mf_cname) & is.null(element_col_names$S)) {
+    element_col_names$S <- tail(make.unique(c(colnames(e_meta), "S")), 1) #unique column name
+    e_meta[, element_col_names$S] <- 0
   }
-  if (is.null(mf_cname) & is.null(p_cname)) {
-    p_cname <- tail(make.unique(c(colnames(e_meta), "P")), 1) #unique column name
-    e_meta[, p_cname] <- 0
+  if (is.null(mf_cname) & is.null(element_col_names$P)) {
+    element_col_names$P <- tail(make.unique(c(colnames(e_meta), "P")), 1) #unique column name
+    e_meta[, element_col_names$P] <- 0
   }
   
   # store results #
@@ -274,8 +261,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   # set column name attributes #
   attr(res, "cnames") = list(edata_cname = edata_cname, fdata_cname = fdata_cname, mass_cname = mass_cname, 
                              extraction_cname = extraction_cname, mf_cname = mf_cname, 
-                             c_cname = c_cname, h_cname = h_cname, o_cname = o_cname, n_cname = n_cname, 
-                             s_cname = s_cname, p_cname = p_cname, isotopic_cname = isotopic_cname,
+                             element_col_names = element_col_names, isotopic_cname = isotopic_cname,
                              o2c_cname = o2c_cname, 
                              h2c_cname = h2c_cname, kmass_cname = kmass_cname, kdefect_cname = kdefect_cname, 
                              nosc_cname = nosc_cname, gfe_cname = gfe_cname, mfname_cname = mfname_cname, 
@@ -301,14 +287,14 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   attr(res, "filters") = NULL
   
   # if mf_cname is NULL and elemental columns are non-NULL, construct formulae #
-  if(is.null(mf_cname) & all(c(!is.null(c_cname), !is.null(h_cname), !is.null(o_cname), !is.null(n_cname), !is.null(s_cname), !is.null(p_cname)))){
-    res = assign_mf(res)    
-  } 
-  
-  # if mf_cname is non-NULL and elemental columns are NULL, parse formulae #
-  if(!is.null(mf_cname) & all(c(is.null(c_cname), is.null(h_cname), is.null(o_cname), is.null(n_cname), is.null(s_cname), is.null(p_cname)))){
-    res = parse_mf(res)    
-  } 
+  # if(is.null(mf_cname) & all(c(!is.null(c_cname), !is.null(h_cname), !is.null(o_cname), !is.null(n_cname), !is.null(s_cname), !is.null(p_cname)))){
+  #   res = assign_mf(res)    
+  # } 
+  # 
+  # # if mf_cname is non-NULL and elemental columns are NULL, parse formulae #
+  # if(!is.null(mf_cname) & all(c(is.null(c_cname), is.null(h_cname), is.null(o_cname), is.null(n_cname), is.null(s_cname), is.null(p_cname)))){
+  #   res = parse_mf(res)    
+  # } 
   
   return(res)
   
