@@ -398,7 +398,7 @@ setCarbonColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$c_cname <- cname
+  attr(ftmsObj, "cnames")$element_col_names$C <- cname
   return(ftmsObj)
 }
 
@@ -414,7 +414,7 @@ getHydrogenColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$h_cname)
+  return(attr(ftmsObj, "cnames")$element_col_names$H)
 }
 
 #' Set the name of the hydrogen column
@@ -434,7 +434,7 @@ setHydrogenColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$h_cname <- cname
+  attr(ftmsObj, "cnames")$element_col_names$H <- cname
   return(ftmsObj)
 }
 
@@ -450,7 +450,7 @@ getOxygenColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$o_cname)
+  return(attr(ftmsObj, "cnames")$element_col_names$O)
 }
 
 #' Set the name of the oxygen column
@@ -470,7 +470,7 @@ setOxygenColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$o_cname <- cname
+  attr(ftmsObj, "cnames")$element_col_names$O <- cname
   return(ftmsObj)
 }
 
@@ -486,7 +486,7 @@ getNitrogenColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$n_cname)
+  return(attr(ftmsObj, "cnames")$element_col_names$N)
 }
 
 #' Set the name of the nitrogen column
@@ -506,7 +506,7 @@ setNitrogenColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$n_cname <- cname
+  attr(ftmsObj, "cnames")$element_col_names$N <- cname
   return(ftmsObj)
 }
 
@@ -522,7 +522,7 @@ getSulfurColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$s_cname)
+  return(attr(ftmsObj, "cnames")$element_col_names$S)
 }
 
 #' Set the name of the sulfur column
@@ -542,7 +542,7 @@ setSulfurColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$s_cname <- cname
+  attr(ftmsObj, "cnames")$element_col_names$S <- cname
   return(ftmsObj)
 }
 
@@ -558,7 +558,7 @@ getPhosphorusColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$p_cname)
+  return(attr(ftmsObj, "cnames")$element_col_names$P)
 }
 
 #' Set the name of the phosphorus column
@@ -578,7 +578,7 @@ setPhosphorusColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$p_cname <- cname
+  attr(ftmsObj, "cnames")$element_col_names$P <- cname
   return(ftmsObj)
 }
 
