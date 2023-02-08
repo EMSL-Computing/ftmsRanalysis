@@ -328,6 +328,44 @@ setMassColName <- function(ftmsObj, cname) {
   return(ftmsObj)
 }
 
+#' Get the name of the column for the specified element
+#' 
+#' Returns the name of the column in the e_meta element that 
+#' contains element count data for calculations.
+#'
+#' @param ftmsObj an object of type ftmsData
+#' @param element a string specifying the element or isotope name under its standard abbreviation
+#' @return name of element column
+#' @export
+getElementColName <- function(ftmsObj, element) {
+  if (!inherits(ftmsObj, "ftmsData")) {
+    stop("ftmsObj must be of type ftmsData")
+  } 
+  return(attr(ftmsObj, "cnames")$element_col_names[[element]])
+}
+
+#' Set the name of the column of the specified element
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains the element's count data.
+#'
+#' @param ftmsObj an object of type ftmsData
+#' @param element a string specifying the element or isotope name under its standard abbreviation
+#' @param cname column name
+#' @return updated ftmsObj
+#' 
+#' 
+setElementColName <- function(ftmsObj, element, cname) {
+  if (!inherits(ftmsObj, "ftmsData")) {
+    stop("ftmsObj must be of type ftmsData")
+  } 
+  if (!(cname %in% names(ftmsObj$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(ftmsObj, "cnames")$element_col_names[[element]] <- cname
+  return(ftmsObj)
+}
+
 #' Get the name of the carbon column
 #' 
 #' Returns the name of the column in the e_meta element that 
@@ -340,7 +378,7 @@ getCarbonColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$c_cname)
+  return(attr(ftmsObj, "cnames")$element_col_names$C)
 }
 
 #' Set the name of the carbon column
