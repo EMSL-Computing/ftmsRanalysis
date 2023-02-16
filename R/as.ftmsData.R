@@ -78,7 +78,8 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
 .as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
                         extraction_cname = NULL, mf_cname = NULL, 
                         element_col_names = list("C" = "C", "H" = "H"),
-                        isotopic_cname = NULL, isotopic_notation = NULL, o2c_cname = NULL, h2c_cname = NULL, kmass_cname = NULL,
+                        isotopic_cname = NULL, isotopic_notation = NULL, 
+                        ratio_cnames = list("O:C" = NULL, "H:C" = NULL), kmass_cname = NULL,
                         kdefect_cname = NULL, nosc_cname = NULL, gfe_cname = NULL, mfname_cname = NULL, 
                         aroma_cname = NULL, modaroma_cname = NULL, dbe_cname = NULL, dbeo_cname = NULL, dbeai_cname = NULL,
                         elcomp_cname = NULL, instrument_type = "12T", data_scale = "abundance", check_rows = FALSE){
@@ -135,11 +136,11 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   if(!is.null(isotopic_cname)){
     if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
   }
-  if(!is.null(o2c_cname)){
-    if(!(o2c_cname %in% names(e_meta))) stop(paste("Oxygen:Carbon Ratio column ", o2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  if(!is.null(ratio_cnames$o2c_cname)){
+    if(!(ratio_cnames$o2c_cname %in% names(e_meta))) stop(paste("Oxygen:Carbon Ratio column ", ratio_cnames$o2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
   }
-  if(!is.null(h2c_cname)){
-    if(!(h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", h2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
+  if(!is.null(ratio_cnames$h2c_cname)){
+    if(!(ratio_cnames$h2c_cname %in% names(e_meta))) stop(paste("Hydrogen:Carbon Ratio column ", ratio_cnames$h2c_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = "") )
   }
   if(!is.null(kmass_cname)){
     if(!is.null(names(kmass_cname))){
@@ -262,8 +263,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   attr(res, "cnames") = list(edata_cname = edata_cname, fdata_cname = fdata_cname, mass_cname = mass_cname, 
                              extraction_cname = extraction_cname, mf_cname = mf_cname, 
                              element_col_names = element_col_names, isotopic_cname = isotopic_cname,
-                             o2c_cname = o2c_cname, 
-                             h2c_cname = h2c_cname, kmass_cname = kmass_cname, kdefect_cname = kdefect_cname, 
+                             ratio_cnames = ratio_cnames, kmass_cname = kmass_cname, kdefect_cname = kdefect_cname, 
                              nosc_cname = nosc_cname, gfe_cname = gfe_cname, mfname_cname = mfname_cname, 
                              aroma_cname = aroma_cname, modaroma_cname = modaroma_cname, dbe_cname = dbe_cname,
                              dbeo_cname = dbeo_cname, dbeai_cname = dbeai_cname, elcomp_cname = elcomp_cname 
