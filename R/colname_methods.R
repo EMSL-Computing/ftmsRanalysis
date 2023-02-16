@@ -110,6 +110,44 @@ setMFColName <- function(ftmsObj, cname) {
   return(ftmsObj)
 }
 
+#' Get the name of a ratio column
+#' 
+#' Returns the name of the column in the e_meta element that 
+#' contains the specified ratio data for Van Krevelen plots.
+#'
+#' @param ftmsObj an object of type ftmsData
+#' @param ratio string specifying ratio to retrieve. Written as "H:C"
+#' @return name of specified ratio column
+#' @export
+getRatioColName <- function(ftmsObj, ratio) {
+  if (!inherits(ftmsObj, "ftmsData")) {
+    stop("ftmsObj must be of type ftmsData")
+  }
+  ratio_col_name <- paste0(strsplit(ratio,":")[[1]][1], "2", strsplit(ratio,":")[[1]][2], "_cname")
+  return(attr(ftmsObj, "cnames")[[ratio_col_name]])
+}
+
+#' Set the name of the specified ratio column
+#' 
+#' Sets the name of the column in the e_meta element that 
+#' contains the specified ratio data for Van Krevelen plots.
+#'
+#' @param ftmsObj an object of type ftmsData
+#' @param ratio a string specifying the ratio pair for the column formatted as "C:H"
+#' @param cname column name
+#' @return updated ftmsObj
+#' 
+#' 
+setRatioColName <- function(ftmsObj, ratio, cname) {
+  if (!inherits(ftmsObj, "ftmsData")) {
+    stop("ftmsObj must be of type ftmsData")
+  } 
+  if (!(cname %in% names(ftmsObj$e_meta))) {
+    stop(sprintf("Column '%s' is not found in the e_meta data", cname))
+  }
+  attr(ftmsObj, "cnames")$ratio_cnames[[ratio]] <- cname
+  return(ftmsObj)
+}
 
 #' Get the name of the O:C ratio column
 #' 
