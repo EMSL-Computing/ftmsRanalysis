@@ -36,13 +36,14 @@ Suggests:
     MetaCycData,
     knitr,
     rmarkdown,
-    datadr,
-    trelliscope,
     foreach,
     doParallel,
     testthat,
     purrr,
     viridis,
     DT
+Remotes:
+    github::delta-rho/datadr,
+    github::EMSL-Computing/MetaCycData
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3
