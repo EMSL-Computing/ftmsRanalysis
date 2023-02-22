@@ -1,6 +1,8 @@
 # ftmsRanalysis
-[![Build Status](https://travis-ci.org/EMSL-Computing/ftmsRanalysis.svg?branch=master)](https://travis-ci.org/EMSL-Computing/ftmsRanalysis)
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/EMSL-Computing/ftmsRanalysis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/EMSL-Computing/ftmsRanalysis/actions/workflows/R-CMD-check.yaml)
 [![Coverage Status](https://codecov.io/github/EMSL-Computing/ftmsRanalysis/coverage.svg?branch=master)](https://codecov.io/github/EMSL-Computing/ftmsRanalysis?branch=master)
+<!-- badges: end -->
 
 This R package provides functionality for data formatting, preprocessing, filtering, exploratory data analysis and visualization of fourier transform (FT) mass spectrometry (MS) data. 
 
