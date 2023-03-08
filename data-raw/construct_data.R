@@ -20,8 +20,7 @@ save(ftms12T_emeta, file = "data/ftms12T_emeta.rda")
 mydata = as.peakData(e_data = edata, f_data = fdata, e_meta = emeta,
                         edata_cname = "Mass", mass_cname = "Mass", fdata_cname = "SampleID",
                         isotopic_cname = "C13", isotopic_notation = "1",
-                        c_cname = "C", h_cname = "H", o_cname = "O", 
-                        n_cname = "N", s_cname = "S", p_cname = "P",
+                        element_col_names = list("C"="C", "H"="H", "O"="O", "N"="N", "S"="S", "P"="P"),
                         instrument_type = "12T")
 examplePeakData = mydata
 
