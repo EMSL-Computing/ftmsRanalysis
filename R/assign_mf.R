@@ -20,33 +20,18 @@ assign_mf <- function(ftmsObj, metacyc=FALSE){
   # check that ftmsObj doesn't already have cnames specified for mf in e_meta #
   if(!is.null(getMFColName(ftmsObj))) message("mf_cname was already specified and will be overwritten")
   
-  # pull column name attributes and set them #
-  c_cname = getCarbonColName(ftmsObj)
-  o_cname = getOxygenColName(ftmsObj)
-  h_cname = getHydrogenColName(ftmsObj)
-  n_cname = getNitrogenColName(ftmsObj)
-  s_cname = getSulfurColName(ftmsObj)
-  p_cname = getPhosphorusColName(ftmsObj)
+  # pull out columns of elements from e_meta and list of the element names present in e_meta
+  x <- dplyr::select(ftmsObj$e_meta, all_of(as.character(attr(ftmsObj, "cnames")$element_col_names)))
+  n <- names(x)
   
-  x = ftmsObj$e_meta  
+  # use helper function to map the element counts to construct a chemical formula
+  formulas <- apply(x, MARGIN = 1, function(x) paste(purrr::map2(as.numeric(x), n, formula_writer_helper, metacyc=metacyc), collapse = ""))
   
-  temp = paste("C", x[,c_cname], "H", x[,h_cname], "O", x[,o_cname], "N", x[,n_cname], "S", x[,s_cname], "P", x[,p_cname], sep = "")
-      
-      # look for Carbon 
-      temp = gsub(pattern = "C1([^0-9])", replacement = "C\\1", temp)
-      temp = gsub(pattern = "P1$", replacement = "P", temp)
-      
-      # get rid of 1's #     
-      if (!metacyc) {
-        temp = gsub("(?<=[[:alpha:]])1(?=[[:alpha:]])", "", temp, perl=TRUE)
-      }
-      
-      # get rid of zeros #
-      temp = gsub(pattern = "[[:alpha:]]0", replacement = "", temp)
-    
-      temp[which(temp == "")] = NA
-      
-      ftmsObj$e_meta$MolForm = temp
+  # blank formula --> NA
+  formulas[which(formulas == "")] = NA
+  
+  # assign formulas to formula column in e_meta
+  ftmsObj$e_meta$MolForm = formulas
   
   # assign mf_cname #
   res = setMFColName(ftmsObj, cname = "MolForm")
@@ -54,4 +39,16 @@ assign_mf <- function(ftmsObj, metacyc=FALSE){
   return(res)
 }
 
-
+# Internal helper function that returns the subsection of a molecular formula for an element and its count within the peak
+# Used in assign_mf where it's iterated over all elements and peaks
+formula_writer_helper <- function(count, name, metacyc=FALSE){
+  if (count > 1){
+    return(paste0(name, count))
+  } else if(count == 1 && metacyc==FALSE){
+    return(name)
+  } else if(count == 1 && metacyc==TRUE){
+    return(paste0(name, count))
+  } else {
+    return("")
+  }
+}
