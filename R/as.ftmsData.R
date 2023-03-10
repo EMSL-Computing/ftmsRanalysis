@@ -77,7 +77,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
 # Need to change the col names param here 
 .as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
                         extraction_cname = NULL, mf_cname = NULL, 
-                        element_col_names = list("C" = "C", "H" = "H"),
+                        element_col_names = list("C"=NULL, "H"=NULL, "O"=NULL, "N"=NULL, "S"=NULL, "P"=NULL),
                         isotopic_cname = NULL, isotopic_notation = NULL, 
                         ratio_cnames = list("O:C" = NULL, "H:C" = NULL), kmass_cname = NULL,
                         kdefect_cname = NULL, nosc_cname = NULL, gfe_cname = NULL, mfname_cname = NULL, 
@@ -125,13 +125,15 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   if(!is.null(element_col_names$H)){
     if(!(element_col_names$H %in% names(e_meta))) stop(paste("Hydrogen column", element_col_names$H, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
   }
-  # check that all elements given in element_col_names are present within e_meta. Check that the elements/isotopes are within coreMS superset.
-  load("data/element_names.rda")
+  # Check that the elements/isotopes in element_col-Nmaes are within coreMS superset.
   if(!all(names(element_col_names) %in% element_names)){
     stop(paste("The following elements in 'element_col_names' are not supported: ", paste(names(element_col_names[!(names(element_col_names) %in% element_names)]), collapse = ','), ". See details of as.peakData for specifying column names.", sep = ""))
   }
-  if(!all(element_col_names %in% names(e_meta))){
-    stop(paste("The following elements in 'element_col_names' are not found in e_meta: ", paste(names(element_col_names[!(names(element_col_names) %in% names(e_meta))]), collapse = ','), ". See details of as.peakData for specifying column names.", sep = ""))
+  # Check that non-NULL elements in element_col_names are present within e_meta
+  for(element in names(element_col_names)){
+    if(!is.null(element_col_names[[element]]) && ! element %in% names(e_meta)){
+      stop(paste("The following element in 'element_col_names' is not found in e_meta: ", element))
+    }
   }
   if(!is.null(isotopic_cname)){
     if(!(isotopic_cname %in% names(e_meta))) stop(paste("Isotopic column", isotopic_cname, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
@@ -241,19 +243,19 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   # if mf_cname is NULL and any of o_cname, n_cname, s_cname or p_cname are NULL, create columns of zeroes for them #
   if (is.null(mf_cname) & is.null(element_col_names$O)) {
     element_col_names$O <- tail(make.unique(c(colnames(e_meta), "O")), 1) #unique column name
-    e_meta[, element_col_names$O] <- 0
+    e_meta[[element_col_names$O]] <- 0
   }
   if (is.null(mf_cname) & is.null(element_col_names$N)) {
     element_col_names$N <- tail(make.unique(c(colnames(e_meta), "N")), 1) #unique column name
-    e_meta[,element_col_names$N] <- 0
+    e_meta[[element_col_names$N]] <- 0
   }
   if (is.null(mf_cname) & is.null(element_col_names$S)) {
     element_col_names$S <- tail(make.unique(c(colnames(e_meta), "S")), 1) #unique column name
-    e_meta[, element_col_names$S] <- 0
+    e_meta[[element_col_names$S]] <- 0
   }
   if (is.null(mf_cname) & is.null(element_col_names$P)) {
     element_col_names$P <- tail(make.unique(c(colnames(e_meta), "P")), 1) #unique column name
-    e_meta[, element_col_names$P] <- 0
+    e_meta[[element_col_names$P]] <- 0
   }
   
   # store results #
@@ -286,15 +288,15 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   # set filters attributes #
   attr(res, "filters") = NULL
   
-  # if mf_cname is NULL and elemental columns are non-NULL, construct formulae #
-  # if(is.null(mf_cname) & all(c(!is.null(c_cname), !is.null(h_cname), !is.null(o_cname), !is.null(n_cname), !is.null(s_cname), !is.null(p_cname)))){
-  #   res = assign_mf(res)    
-  # } 
-  # 
+  #if mf_cname is NULL and elemental columns are non-NULL, construct formulae #
+  if(is.null(mf_cname) & all(!sapply(element_col_names, is.null))){
+    res = assign_mf(res)
+  }
+
   # # if mf_cname is non-NULL and elemental columns are NULL, parse formulae #
-  # if(!is.null(mf_cname) & all(c(is.null(c_cname), is.null(h_cname), is.null(o_cname), is.null(n_cname), is.null(s_cname), is.null(p_cname)))){
-  #   res = parse_mf(res)    
-  # } 
+  if(!is.null(mf_cname) & all(sapply(element_col_names, is.null))){
+    res = parse_mf(res)
+  }
   
   return(res)
   
