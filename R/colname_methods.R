@@ -123,8 +123,7 @@ getRatioColName <- function(ftmsObj, ratio) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   }
-  ratio_col_name <- paste0(strsplit(ratio,":")[[1]][1], "2", strsplit(ratio,":")[[1]][2], "_cname")
-  return(attr(ftmsObj, "cnames")[[ratio_col_name]])
+  return(attr(ftmsObj, "cnames")$ratio_cnames[[ratio]])
 }
 
 #' Set the name of the specified ratio column
@@ -161,7 +160,7 @@ getOCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$o2c_cname)
+  return(attr(ftmsObj, "cnames")$ratio_cnames["O:C"])
 }
 
 #' Set the name of the O:C ratio column
@@ -181,7 +180,7 @@ setOCRatioColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$o2c_cname <- cname
+  attr(ftmsObj, "cnames")$ratio_cnames["O:C"] <- cname
   return(ftmsObj)
 }
 
@@ -198,7 +197,7 @@ getHCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$h2c_cname)
+  return(attr(ftmsObj, "cnames")$ratio_cnames["H:C"])
 }
 
 #' Set the name of the H:C ratio column
@@ -218,7 +217,7 @@ setHCRatioColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$h2c_cname <- cname
+  attr(ftmsObj, "cnames")$ratio_cnames["H:C"] <- cname
   return(ftmsObj)
 }
 
@@ -234,7 +233,7 @@ getNCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$n2c_cname)
+  return(attr(ftmsObj, "cnames")$ratio_cnames["N:C"])
 }
 
 #' Set the name of the N:C ratio column
@@ -254,7 +253,7 @@ setNCRatioColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$n2c_cname <- cname
+  attr(ftmsObj, "cnames")$ratio_cnames["N:C"] <- cname
   return(ftmsObj)
 }
 
@@ -270,7 +269,7 @@ getPCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$p2c_cname)
+  return(attr(ftmsObj, "cnames")$ratio_cnames["P:C"])
 }
 
 #' Set the name of the P:C ratio column
@@ -290,7 +289,7 @@ setPCRatioColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$p2c_cname <- cname
+  attr(ftmsObj, "cnames")$ratio_cnames["P:C"] <- cname
   return(ftmsObj)
 }
 
@@ -306,7 +305,7 @@ getNPRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$n2p_cname)
+  return(attr(ftmsObj, "cnames")$ratio_cnames["N:P"])
 }
 
 #' Set the name of the N:P ratio column
@@ -326,7 +325,7 @@ setNPRatioColName <- function(ftmsObj, cname) {
   if (!(cname %in% names(ftmsObj$e_meta))) {
     stop(sprintf("Column '%s' is not found in the e_meta data", cname))
   }
-  attr(ftmsObj, "cnames")$n2p_cname <- cname
+  attr(ftmsObj, "cnames")$ratio_cnames["N:P"] <- cname
   return(ftmsObj)
 }
 
