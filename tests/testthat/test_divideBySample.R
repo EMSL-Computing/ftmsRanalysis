@@ -19,7 +19,7 @@ test_that("basic tests on divideBySample", {
   i <- 2
   val <- sampleDdo[[paste0("SampleID=", samples[i])]]$value
   
-  testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split"))
+  testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split", "valence_DF"))
   
   expect_equal(nrow(getGroupDF(val)), 1)
   expect_true(samples[i] %in% colnames(val$e_data))

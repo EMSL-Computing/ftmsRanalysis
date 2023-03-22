@@ -57,7 +57,7 @@ coreMSDataToFtmsData <- function(cmsObj) {
     dplyr::rename(SampleID = .data[[filename]])
   
   # create e_meta
-  possible_elements <- c("C", "H", "O", "N", "S", "P")
+  #possible_elements <- c("C", "H", "O", "N", "S", "P")
   
   forms <- cmsObj$monoiso_data %>% 
     dplyr::ungroup() %>% 
@@ -66,10 +66,12 @@ coreMSDataToFtmsData <- function(cmsObj) {
   # get indices of elements that occur in dataset
   these_elements <- which(colSums(do.call(rbind, purrr::map(forms, 
                                                             stringr::str_detect, 
-                                                            pattern = possible_elements)), 
+                                                            pattern = element_names)), 
                                   na.rm = TRUE) > 0)
   
-  elem_cnames <- possible_elements[these_elements]
+  element_cnames <- element_names[these_elements]
+  element_col_names <- as.list(element_cnames)
+  names(element_col_names) <- element_cnames
   
   e_meta <- cmsObj$monoiso_data %>% 
     dplyr::ungroup() %>% 
@@ -81,22 +83,16 @@ coreMSDataToFtmsData <- function(cmsObj) {
     dplyr::select(Mass, .data[[formula]], `Calibrated m/z`, .data[[calc_mass]], 
                   .data[[heteroatom]], .data[[ion_type]]) %>% 
     dplyr::distinct() %>% 
-    tidyr::separate(col = .data[[formula]], into = elem_cnames, sep = " ") %>% 
-    dplyr::mutate(C = if (exists("C", where = .)) as.integer(stringr::str_remove(C, "C")) else 0,
-                  H = if (exists("H", where = .)) as.integer(stringr::str_remove(H, "H")) else 0,
-                  O = if (exists("O", where = .)) as.integer(stringr::str_remove(O, "O")) else 0,
-                  N = if (exists("N", where = .)) as.integer(stringr::str_remove(N, "N")) else 0,
-                  S = if (exists("S", where = .)) as.integer(stringr::str_remove(S, "S")) else 0,
-                  P = if (exists("P", where = .)) as.integer(stringr::str_remove(P, "P")) else 0) %>% 
-    dplyr::select(Mass, C, H, O, N, S, P, `Calibrated m/z`, .data[[calc_mass]], 
+    tidyr::separate(col = .data[[formula]], into = element_cnames, sep = " ") %>% 
+    dplyr::mutate_at(element_cnames, ~ as.integer(gsub("[^0-9]", "", .x))) %>% 
+    dplyr::select(Mass, all_of(element_cnames), `Calibrated m/z`, .data[[calc_mass]], 
                   .data[[heteroatom]], .data[[ion_type]]) %>%
     dplyr::arrange(Mass)
 
   # return peakData object
   peakDataObj <- as.peakData(e_data, f_data, e_meta,
                              edata_cname = "Mass", fdata_cname = "SampleID", mass_cname = "Mass",
-                             c_cname = "C", h_cname = "H", o_cname = "O",
-                             n_cname = "N", s_cname = "S", p_cname = "P")
+                             element_col_names = element_col_names)
   
   return(peakDataObj)
 }

@@ -31,7 +31,7 @@ assign_class <- function(ftmsObj, boundary_set = "bs1", calc_ratios = TRUE){
   
   # check that O:C and H:C are non-NULL #
   # if they are NULL check calc_vankrev argument and act accordingly #
-  if(is.null(getOCRatioColName(ftmsObj)) | is.null(getHCRatioColName(ftmsObj)) | is.null(getNCRatioColName(ftmsObj)) | is.null(getPCRatioColName(ftmsObj)) | is.null(getNPRatioColName(ftmsObj))){
+  if(is.null(getRatioColName(ftmsObj, "O:C")) | is.null(getRatioColName(ftmsObj, "H:C")) | is.null(getRatioColName(ftmsObj, "N:C")) | is.null(getRatioColName(ftmsObj, "P:C")) | is.null(getRatioColName(ftmsObj, "N:P"))){
     if(calc_ratios == TRUE){
       ftmsObj = compound_calcs(ftmsObj, "calc_element_ratios")
     }else{
@@ -59,14 +59,14 @@ assign_class <- function(ftmsObj, boundary_set = "bs1", calc_ratios = TRUE){
   }
   
   if(boundary_set == "bs1"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(ftmsObj)], x_oc = temp2[,getOCRatioColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs1)
+    classes = mapply(x_hc = temp2[,getRatioColName(ftmsObj, "H:C")], x_oc = temp2[,getRatioColName(ftmsObj, "O:C")], MoreArgs = list(bound_match), assign_bs1)
   }
   if(boundary_set == "bs2"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(ftmsObj)], x_oc = temp2[,getOCRatioColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs2)
+    classes = mapply(x_hc = temp2[,getRatioColName(ftmsObj, "H:C")], x_oc = temp2[,getRatioColName(ftmsObj, "O:C")], MoreArgs = list(bound_match), assign_bs2)
     classes[which(classes == "")] = "Other"
   }
   if(boundary_set == "bs3"){
-    classes = mapply(x_hc = temp2[,getHCRatioColName(ftmsObj)], x_oc = temp2[,getOCRatioColName(ftmsObj)], x_nc = temp2[,getNCRatioColName(ftmsObj)], x_pc = temp2[,getPCRatioColName(ftmsObj)], x_np = temp2[,getNPRatioColName(ftmsObj)], x_o = temp2[,getOxygenColName(ftmsObj)], x_n = temp2[,getNitrogenColName(ftmsObj)], x_s = temp2[,getSulfurColName(ftmsObj)], x_p = temp2[,getPhosphorusColName(ftmsObj)], x_mass = temp2[,getMassColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs3)
+    classes = mapply(x_hc = temp2[,getRatioColName(ftmsObj, "H:C")], x_oc = temp2[,getRatioColName(ftmsObj, "O:C")], x_nc = temp2[,getRatioColName(ftmsObj, "N:C")], x_pc = temp2[,getRatioColName(ftmsObj, "P:C")], x_np = temp2[,getRatioColName(ftmsObj, "N:P")], x_o = temp2[,getOxygenColName(ftmsObj)], x_n = temp2[,getNitrogenColName(ftmsObj)], x_s = temp2[,getSulfurColName(ftmsObj)], x_p = temp2[,getPhosphorusColName(ftmsObj)], x_mass = temp2[,getMassColName(ftmsObj)], MoreArgs = list(bound_match), assign_bs3)
     classes[which(classes == "")] = "Other"
     classes[grep("Nucleotide", classes)] = "Nucleotide"
   }
