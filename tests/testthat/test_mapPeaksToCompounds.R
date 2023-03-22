@@ -32,7 +32,7 @@ test_that("mapPeaksToCompounds works correctly mapping to MetaCyc", {
   expect_true(inherits(compObj, "compoundData"))
   expect_true(all(c("e_data", "e_meta", "f_data") %in% names(compObj)))
   
-  testCompareAttributes(compObj, exampleProcessedPeakData, excludeAttr=c("class", "DB", "cnames"))
+  testCompareAttributes(compObj, exampleProcessedPeakData, excludeAttr=c("class", "DB", "cnames", "valence_DF"))
   peakCNames <- attr(exampleProcessedPeakData, "cnames")
   compCNames <- attr(exampleProcessedPeakData, "cnames")
   expect_true(identical(peakCNames, compCNames[names(peakCNames)]))

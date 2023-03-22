@@ -11,7 +11,7 @@ testSubsetSizesAttributes <- function(subsetObj, originalObj) {
   expect_true(all(dim(subsetObj$e_meta) == dim(originalObj$e_meta)))
   
   # compare attributes
-  diffAttrNames <- "group_DF"  #attribute names that should not be the same in the subset
+  diffAttrNames <- c("group_DF", "valence_DF")  #attribute names that should not be the same in the subset
   for (attr_name in setdiff(names(attributes(originalObj)), diffAttrNames)) {
     expect_identical(attr(subsetObj, attr_name), attr(originalObj, attr_name), info=sprintf("attr_name='%s'", attr_name))
   }
