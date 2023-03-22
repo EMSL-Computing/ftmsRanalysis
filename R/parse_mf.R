@@ -26,18 +26,22 @@ parse_mf <- function(ftmsObj){
   mf_cname = getMFColName(ftmsObj)
   mf_vals = as.vector(ftmsObj$e_meta[,mf_cname])
   
-  # pull elements present in ftmsObj
-  n <- names(attr(ftmsObj, "cnames")$element_col_names)
+  # create vector of all element names to iterate through
+  elements <- unique(sapply(element_names, gsub, pattern="\\d", replacement=""))
   
   # apply helper function which creates an element count vector for each element and then cbinds them together
-  counts <- lapply(n, atom_count_vectorizer, mf_vals) %>%
-    as.data.frame(col.names = n)
+  counts <- lapply(elements, atom_count_vectorizer, mf_vals) %>%
+    as.data.frame(col.names = elements)
+  
+  # remove columns that are all 0 (element was not present in any formulas)
+  counts <- counts %>%
+    select(where(~ any(. != 0)))
   
   # column bind the element counts to e_meta
   ftmsObj$e_meta <- cbind(ftmsObj$e_meta, counts)
   
   # set the element col name attribute for each element
-  for (element in n) {
+  for (element in names(counts)) {
     ftmsObj <- setElementColName(ftmsObj, element, element)
   }
 
