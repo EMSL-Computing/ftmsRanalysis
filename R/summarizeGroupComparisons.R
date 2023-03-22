@@ -99,7 +99,7 @@ getGroupComparisonSummaryFunctionNames <- function() {
   
   if (inherits(compData, "peakData")) {
     res <- as.peakData(new_edata, new_fdata, compData$e_meta, getEDataColName(compData), "Comparison_Summary_Column", 
-                          getMassColName(compData), mf_cname=getMFColName(compData), instrument_type=getInstrumentType(compData) )
+                          getMassColName(compData), mf_cname=getMFColName(compData), element_col_names = attr(compData, "cnames")$element_col_names, instrument_type=getInstrumentType(compData) )
   } else if (inherits(compData, "compoundData")) {
     res <- as.compoundData(new_edata, new_fdata, compData$e_meta, getEDataColName(compData), "Comparison_Summary_Column", 
                               mass_cname=getMassColName(compData), getCompoundColName(compData), instrument_type=getInstrumentType(compData) )

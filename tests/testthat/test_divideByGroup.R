@@ -24,7 +24,7 @@ test_that("basic tests on divideByGroup", {
   grp_samples <- dplyr::filter(getGroupDF(exampleProcessedPeakData), Group==groups[i])[, getFDataColName(exampleProcessedPeakData)]
   val <- groupDdo[[paste0("Group=", groups[i])]]$value
   
-  testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split"))
+  testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split", "valence_DF"))
  
   expect_equal(nrow(getGroupDF(val)), length(grp_samples))
   expect_true(all(grp_samples %in% colnames(val$e_data)))

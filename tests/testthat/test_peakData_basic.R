@@ -10,8 +10,7 @@ test_that("peakData objects are constructed correctly with elemental columns", {
   
   #trace(assign_mf, browser)
   peakObj <- as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
-                         c_cname="C", h_cname="H", o_cname="O",
-                         n_cname="N", s_cname="S", p_cname="P",
+                         element_col_names = list("C"="C", "H"="H", "O"="O", "N"="N", "S"="S", "P"="P"),
                          isotopic_cname = "C13", isotopic_notation = "1")
   
   expect_true(!is.null(peakObj$e_data))
@@ -100,7 +99,7 @@ test_that("peak data construction works without optional elemental columns", {
   
   emeta2 <- dplyr::select(ftms12T_emeta, -c(O, N, S, P))
   peakObj <- as.peakData(ftms12T_edata, ftms12T_fdata, emeta2, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
-                         c_cname="C", h_cname="H")
+                         element_col_names = list("C"="C", "H"="H"))
   
   expect_true(!is.null(getOxygenColName(peakObj)))
   expect_true(!is.null(getNitrogenColName(peakObj)))
@@ -243,16 +242,14 @@ test_that("peak data construction calls that should cause errors", {
   ## Change the 3 data frames to have bad data
   emeta2 <- ftms12T_emeta[1:20, ]
   expect_error(as.peakData(ftms12T_edata, ftms12T_fdata, emeta2, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
-                           c_cname="C", h_cname="H", o_cname="O",
-                           n_cname="N", s_cname="S", p_cname="P",
+                           element_col_names = list("C"="C", "H"="H", "O"="O", "N"="N", "S"="S", "P"="P"),
                            isotopic_cname = "C13", isotopic_notation = "1"))
   
   # if extra rows are found in emeta that are not in edata, they're removed from emeta with a warning not an error
   edata2 <- ftms12T_edata[1:20, ]
   expect_warning(as.peakData(edata2, ftms12T_fdata, ftms12T_emeta, edata_cname="Mass", fdata_cname="SampleID", mass_cname="Mass",
-                           c_cname="C", h_cname="H", o_cname="O",
-                           n_cname="N", s_cname="S", p_cname="P",
-                           isotopic_cname = "C13", isotopic_notation = "1"))
+                             element_col_names = list("C"="C", "H"="H", "O"="O", "N"="N", "S"="S", "P"="P"),
+                             isotopic_cname = "C13", isotopic_notation = "1"))
   
 
   fdata2 <- ftms12T_fdata[1:5,]

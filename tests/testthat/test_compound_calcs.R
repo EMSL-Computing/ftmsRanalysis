@@ -24,13 +24,13 @@ test_dbe_result <- function(peakObj) {
   expect_true(all(c(dbe_cname, dbeo_cname, dbeai_cname) %in% colnames(peakObj$e_meta)))
   expect_true(all(!is.null(c(dbe_cname, dbeo_cname, dbeai_cname))))
   
-  expect_true(all(sapply(dplyr::select(peakObj$e_meta, dbe_cname), is.numeric)))
+  expect_true(all(sapply(dplyr::select(tidyselect::all_of(peakObj$e_meta), dbe_cname), is.numeric)))
   expect_true(is.numeric(dplyr::pull(peakObj$e_meta, dbeo_cname)))
   expect_true(is.numeric(dplyr::pull(peakObj$e_meta, dbeai_cname)))
   expect_true(!is.null(attr(peakObj, "valence_DF")) & all(rownames(attr(peakObj, "valence_DF")) %in% colnames(peakObj$e_meta))) # check non-null since all(NULL) = TRUE
   
   missing_mol_form <- sum(is.na(dplyr::pull(peakObj$e_meta, ftmsRanalysis:::getMFColName(peakObj))))
-  missing_dbe <- sum(sapply(dplyr::select(peakObj$e_meta, dbe_cname), is.na))/length(dbe_cname) # divide by number of dbe columns for correct comparison
+  missing_dbe <- sum(sapply(dplyr::select(tidyselect::all_of(peakObj$e_meta), dbe_cname), is.na))/length(dbe_cname) # divide by number of dbe columns for correct comparison
   missing_dbeo <- sum(is.na(dplyr::pull(peakObj$e_meta, dbeo_cname)))
   missing_dbeai <- sum(is.na(dplyr::pull(peakObj$e_meta, dbeai_cname)))
   
@@ -76,11 +76,11 @@ test_nosc_result <- function(peakObj) {
 }
 
 test_elemental_ratios_result <- function(peakObj) {
-  oc_cname <- ftmsRanalysis:::getOCRatioColName(peakObj)
-  hc_cname <- ftmsRanalysis:::getHCRatioColName(peakObj)
-  nc_cname <- ftmsRanalysis:::getNCRatioColName(peakObj)
-  pc_cname <- ftmsRanalysis:::getPCRatioColName(peakObj)
-  np_cname <- ftmsRanalysis:::getNPRatioColName(peakObj)
+  oc_cname <- ftmsRanalysis:::getRatioColName(peakObj, "O:C")
+  hc_cname <- ftmsRanalysis:::getRatioColName(peakObj, "H:C")
+  nc_cname <- ftmsRanalysis:::getRatioColName(peakObj, "N:C")
+  pc_cname <- ftmsRanalysis:::getRatioColName(peakObj, "P:C")
+  np_cname <- ftmsRanalysis:::getRatioColName(peakObj, "N:P")
   expect_true(all(c(oc_cname, hc_cname, nc_cname, pc_cname, np_cname) %in% colnames(peakObj$e_meta)))
   expect_true(all(!is.null(c(oc_cname, hc_cname, nc_cname, pc_cname, np_cname))))
   

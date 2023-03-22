@@ -35,7 +35,7 @@ parse_mf <- function(ftmsObj){
   
   # remove columns that are all 0 (element was not present in any formulas)
   counts <- counts %>%
-    select(where(~ any(. != 0)))
+    dplyr::select(tidyselect::where(~ any(. != 0)))
   
   # column bind the element counts to e_meta
   ftmsObj$e_meta <- cbind(ftmsObj$e_meta, counts)

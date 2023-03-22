@@ -108,7 +108,7 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
   #                            Summary.Function.Name=NA, stringsAsFactors = FALSE)
   
   if (inherits(ftmsObj, "peakData")) {
-    res <- as.peakData(new_edata, new_fdata, ftmsObj$e_meta, getEDataColName(ftmsObj), "Group_Summary_Column", getMassColName(ftmsObj), mf_cname=getMFColName(ftmsObj) )
+    res <- as.peakData(new_edata, new_fdata, ftmsObj$e_meta, getEDataColName(ftmsObj), "Group_Summary_Column", getMassColName(ftmsObj), mf_cname=getMFColName(ftmsObj), element_col_names = attr(ftmsObj, "cnames")$element_col_names )
   } else if (inherits(ftmsObj, "compoundData")) {
       res <- as.compoundData(new_edata, new_fdata, ftmsObj$e_meta, getEDataColName(ftmsObj), "Group_Summary_Column", getMassColName(ftmsObj), getCompoundColName(ftmsObj) )
   }
@@ -129,7 +129,7 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
   }
   
   new_group_df <- dplyr::select(new_fdata, Group_Summary_Column, Group) %>% 
-    dplyr::left_join(dplyr::select(groupDF, -dplyr::one_of(getFDataColName(ftmsObj))), by="Group") %>%
+    dplyr::left_join(dplyr::select(groupDF, -dplyr::one_of(getFDataColName(ftmsObj))), by="Group", multiple="all") %>%
     unique()
   attr(new_group_df, "main_effects") <- attr(groupDF, "main_effects")
   res <- ftmsRanalysis:::setGroupDF(res, new_group_df)
