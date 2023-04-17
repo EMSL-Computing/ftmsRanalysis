@@ -4,9 +4,14 @@
 \alias{classesPlot}
 \title{Plot to look at the percentage of each class in the data}
 \usage{
-classesPlot(ftmsObj, xaxis = NULL,
-  ylabel = "Percentage of Chemical Classes", title = NULL,
-  vkBoundarySet = "bs1", classColName = NULL)
+classesPlot(
+  ftmsObj,
+  xaxis = NULL,
+  ylabel = "Percentage of Chemical Classes",
+  title = NULL,
+  vkBoundarySet = "bs1",
+  classColName = NULL
+)
 }
 \arguments{
 \item{ftmsObj}{ftmsData object of class peakData or compoundData}

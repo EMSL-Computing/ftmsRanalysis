@@ -27,9 +27,11 @@ Imports:
     vegan,
     visNetwork,
     data.table,
-    ggplot2, 
-    lazyeval, 
-    stringr
+    ggplot2,
+    lazyeval,
+    stringr,
+    magrittr,
+    readr
 Suggests:
     MetaCycData,
     knitr,
@@ -38,6 +40,9 @@ Suggests:
     trelliscope,
     foreach,
     doParallel,
-    testthat
+    testthat,
+    purrr,
+    viridis,
+    DT
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.1

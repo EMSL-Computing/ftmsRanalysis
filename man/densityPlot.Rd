@@ -4,11 +4,20 @@
 \alias{densityPlot}
 \title{Density plot of quantitative characteristic of peaks for a peakData or compoundData object}
 \usage{
-densityPlot(ftmsObj, variable, samples = NA, groups = FALSE,
-  title = NA, yaxis = "density", plot_hist = FALSE,
-  plot_curve = TRUE, curve_colors = NA, hist_color = "gray",
-  xlabel = NA, ylabel = paste0(toupper(substring(yaxis, 1, 1)),
-  substring(yaxis, 2), sep = ""))
+densityPlot(
+  ftmsObj,
+  variable,
+  samples = NA,
+  groups = FALSE,
+  title = NA,
+  yaxis = "density",
+  plot_hist = FALSE,
+  plot_curve = TRUE,
+  curve_colors = NA,
+  hist_color = "gray",
+  xlabel = NA,
+  ylabel = paste0(toupper(substring(yaxis, 1, 1)), substring(yaxis, 2), sep = "")
+)
 }
 \arguments{
 \item{ftmsObj}{ftmsData object of class peakData or compoundData}

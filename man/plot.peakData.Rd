@@ -4,8 +4,7 @@
 \alias{plot.peakData}
 \title{Plot method for peakData objects}
 \usage{
-\method{plot}{peakData}(x, title = NA, xlabel = NA, ylabel = NA,
-  colorBy = "groups", ...)
+\method{plot}{peakData}(x, title = NA, xlabel = NA, ylabel = NA, colorBy = "groups", ...)
 }
 \arguments{
 \item{x}{peakData object}

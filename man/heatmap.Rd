@@ -4,9 +4,18 @@
 \alias{heatmap}
 \title{Heatmap of density of high resolution data}
 \usage{
-heatmap(ftmsObj, xCName, yCName, xBreaks = 100, yBreaks = 100,
-  colorPal = NA, title = NA, xlabel = NA, ylabel = NA,
-  mouseovers = TRUE)
+heatmap(
+  ftmsObj,
+  xCName,
+  yCName,
+  xBreaks = 100,
+  yBreaks = 100,
+  colorPal = NA,
+  title = NA,
+  xlabel = NA,
+  ylabel = NA,
+  mouseovers = TRUE
+)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}

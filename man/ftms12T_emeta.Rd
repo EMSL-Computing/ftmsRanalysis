@@ -3,7 +3,8 @@
 \name{ftms12T_emeta}
 \alias{ftms12T_emeta}
 \title{FTICR Peak Meta Information}
-\format{A data.frame with 2,442 rows (peaks/masses) and 10 columns:
+\format{
+A data.frame with 2,442 rows (peaks/masses) and 10 columns:
 \describe{
   \item{Mass}{Mass identifier (matches Mass column in edata) - negative ion mass as samples were analyzed by electrospray ionization in negative mode}
   \item{C}{Number of Carbons making up identified compound}
@@ -15,7 +16,8 @@
   \item{P}{Number of Phosphorus making up identified compound}
   \item{Error}{Difference between the experimental mass and the accurate mass }
   \item{NeutralMass}{Experimental mass + mass of hydrogen - mass of electron}
-}}
+}
+}
 \description{
 A dataset containing the meta information associated with each peak.
 }

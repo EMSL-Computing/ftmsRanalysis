@@ -4,10 +4,17 @@
 \alias{plotPrincipalCoordinates}
 \title{Plot principal coordinates of ftmsData samples}
 \usage{
-plotPrincipalCoordinates(pcoaMat, x = 1, y = 2, ftmsObj = NA,
-  title = NA, xlabel = sprintf("Principal Coordinate \%d", x),
+plotPrincipalCoordinates(
+  pcoaMat,
+  x = 1,
+  y = 2,
+  ftmsObj = NA,
+  title = NA,
+  xlabel = sprintf("Principal Coordinate \%d", x),
   ylabel = sprintf("Principal Coordinate \%d", y),
-  includeR2OnAxes = TRUE, size = 8)
+  includeR2OnAxes = TRUE,
+  size = 8
+)
 }
 \arguments{
 \item{pcoaMat}{numeric matrix, the output of \code{\link{getPrincipalCoordinates}}}

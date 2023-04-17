@@ -4,10 +4,17 @@
 \alias{kendrickPlot}
 \title{Kendrick plot of an ftmsData object}
 \usage{
-kendrickPlot(ftmsObj, title = NA, colorPal = NA, colorCName = NA,
-  vkBoundarySet = "bs1", xlabel = "Kendrick Mass",
-  ylabel = "Kendrick Defect", legendTitle = colorCName,
-  base_compound = NULL)
+kendrickPlot(
+  ftmsObj,
+  title = NA,
+  colorPal = NA,
+  colorCName = NA,
+  vkBoundarySet = "bs1",
+  xlabel = "Kendrick Mass",
+  ylabel = "Kendrick Defect",
+  legendTitle = colorCName,
+  base_compound = NULL
+)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}
