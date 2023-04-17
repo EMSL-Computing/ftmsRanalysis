@@ -18,10 +18,7 @@ as.CoreMSData(
   file_cname = "Filename",
   monoiso_index_cname = "Mono Isotopic Index",
   mf_cname = "Molecular Formula",
-  c13_cname = NULL,
-  s34_cname = NULL,
-  o18_cname = NULL,
-  n15_cname = NULL
+  iso_cols = c("13C", "18O", "15N", "34S")
 )
 }
 \arguments{

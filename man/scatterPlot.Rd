@@ -50,8 +50,7 @@ according to a numeric scale}
 
 \item{yrange}{y-axis bounds}
 
-\item{logColorCol}{TRUE/FALSE, should the color column be log-transformed?
-Default is FALSE.}
+\item{logColorCol}{TRUE/FALSE, should the color column be log-transformed? Default is FALSE.}
 
 \item{hoverTextCName}{column name for hover (mouseover) text, must be a column of \code{ftmsObj$e_data} or \code{ftmsObj$e_meta}}
 

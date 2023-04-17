@@ -3,8 +3,8 @@ library(ftmsRanalysis)
 data("exampleCoreMSData")
 
 test_that("errors thrown when given incorrect input", {
-  expect_error(CoreMSData_to_ftmsData(exampleCoreMSData$monoiso_data), "cmsObj must be of the class 'CoreMSData'")
-  expect_error(CoreMSData_to_ftmsData(exampleCoreMSData), "cmsObj contains either duplicate m/z values or duplicate molecular formulas within a sample. The function `unique_mf_assignment` must be used before converting `CoreMSData` object to `ftmsData` object.")
+  expect_error(coreMSDataToFtmsData(exampleCoreMSData$monoiso_data), "cmsObj must be of the class 'CoreMSData'")
+  expect_error(coreMSDataToFtmsData(exampleCoreMSData), "cmsObj contains either duplicate m/z values or duplicate molecular formulas within a sample. The function `unique_mf_assignment` must be used before converting `CoreMSData` object to `ftmsData` object.")
 })
 
 ftmsObj <- exampleCoreMSData %>% 
@@ -13,7 +13,7 @@ ftmsObj <- exampleCoreMSData %>%
             min_conf = 0.5) %>% 
   unique_mf_assignment(cmsObj = .,
                        method = "confidence") %>% 
-  CoreMSData_to_ftmsData()
+  coreMSDataToFtmsData()
 
 test_that("e_data and e_meta have correct structure", {
   filenames <- exampleCoreMSData$monoiso_data[[attr(exampleCoreMSData, "cnames")$file_cname]] 

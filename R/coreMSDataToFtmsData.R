@@ -11,7 +11,7 @@
 #' @author Natalie Winans
 #' 
 #' @export
-CoreMSData_to_ftmsData <- function(cmsObj) {
+coreMSDataToFtmsData <- function(cmsObj) {
   
   if(!inherits(cmsObj, "CoreMSData")) stop("cmsObj must be of the class 'CoreMSData'")
   

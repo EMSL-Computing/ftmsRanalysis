@@ -2,12 +2,11 @@
 #' 
 #' Creates a data table for confidence filtering in Shiny app
 #'
-#' @param min_conf numeric value between 0 and 1 denoting minimum confidence threshold
 #' @param cmsObj CoreMSData object created using \code{\link{as.CoreMSData}}
+#' @param min_conf numeric value between 0 and 1 denoting minimum confidence threshold
 #'
 #' @return `data.frame` containg counts of remaining and removed monoisotopic peaks in each file/sample, based on selected minimum confidence threshold
 #'
-#' @examples
 conf_filter_dt <- function(cmsObj, min_conf) {
   
   conf_score <- attr(cmsObj, "cnames")$conf_cname

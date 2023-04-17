@@ -144,7 +144,7 @@ cmsDat_unique_mf <-  cmsDat %>%
 
 # Convert CoreMSData object into ftmsData object
 
-Once unique molecular formulas have been assigned to peaks within each sample, we can convert the `CoreMSData` object into an `ftmsData` object using the function `CoreMSData_to_ftmsData`. This transforms the data table containing monoisotopic peaks into a list of three data tables:
+Once unique molecular formulas have been assigned to peaks within each sample, we can convert the `CoreMSData` object into an `ftmsData` object using the function `coreMSDataToFtmsData`. This transforms the data table containing monoisotopic peaks into a list of three data tables:
 
 * **`e_data`**: Expression data
   + Rows correspond to unique peaks observed, with Mass column containing unique m/z values
@@ -159,7 +159,7 @@ Once unique molecular formulas have been assigned to peaks within each sample, w
   + Additional columns contain other CoreMS-output peak metadata
 
 ```{r}
-ftmsObj <- CoreMSData_to_ftmsData(cmsDat_unique_mf)
+ftmsObj <- coreMSDataToFtmsData(cmsDat_unique_mf)
 ```
 
 ```{r, include = FALSE}
