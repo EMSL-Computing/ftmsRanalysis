@@ -77,7 +77,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
 # Need to change the col names param here 
 .as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_cname,
                         extraction_cname = NULL, mf_cname = NULL, 
-                        element_col_names = list("C"=NULL, "H"=NULL, "O"=NULL, "N"=NULL, "S"=NULL, "P"=NULL),
+                        element_col_names = list("C"="C", "H"="H", "O"=NULL, "N"=NULL, "S"=NULL, "P"=NULL),
                         isotopic_cname = NULL, isotopic_notation = NULL, 
                         ratio_cnames = list("O:C" = NULL, "H:C" = NULL), kmass_cname = NULL,
                         kdefect_cname = NULL, nosc_cname = NULL, gfe_cname = NULL, mfname_cname = NULL, 
@@ -293,8 +293,8 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
     res = assign_mf(res)
   }
 
-  # # if mf_cname is non-NULL and elemental columns are NULL, parse formulae #
-  if(!is.null(mf_cname) & all(sapply(element_col_names, is.null))){
+  # # if mf_cname is non-NULL and any elements within element_cols are NULL, parse formulae #
+  if(!is.null(mf_cname) & any(sapply(element_col_names, is.null))){
     res = parse_mf(res)
   }
   
