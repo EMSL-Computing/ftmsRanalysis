@@ -13,11 +13,11 @@ test_that("basic tests on divideBySample", {
   sampleDdo <- divideBySample(ftmsObj = exampleProcessedPeakData)
   
   expect_equal(length(sampleDdo), length(samples))
-  expect_true(inherits(sampleDdo, "ddo"))
+  expect_true(inherits(sampleDdo, "list"))
   
   ## test one subset
   i <- 2
-  val <- sampleDdo[[paste0("SampleID=", samples[i])]]$value
+  val <- sampleDdo[[paste0("SampleID=", samples[i])]]
   
   testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split", "valence_DF"))
   

@@ -31,7 +31,7 @@
 #' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
 summarizeGroups <- function(ftmsObj, summary_functions) {
   require(datadr)
-  if (!(inherits(ftmsObj, "peakData") | !inherits(ftmsObj, "compoundData")) & !inherits(ftmsObj, "ddo") )
+  if (!(inherits(ftmsObj, "peakData") | !inherits(ftmsObj, "compoundData")) & !inherits(ftmsObj, "list") )
       stop("ftmsObj must be of type peakData, compoundData, or a ddo containing those objects")
   if (inherits(ftmsObj, "groupSummary") | inherits(ftmsObj, "groupComparison") | inherits(ftmsObj, "comparisonSummary")) 
     stop("ftmsObj cannot be a groupSummary, groupComparison or comparisonSummary object")
@@ -39,10 +39,10 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
   if (is.vector(summary_functions)) summary_functions <- as.list(summary_functions)
   if (!is.list(summary_functions)) stop("summary_function must be a list")
   
-  if (inherits(ftmsObj, "ddo")) {
-    res <- drPersist(addTransform(ftmsObj, function(v) {
+  if (inherits(ftmsObj, "list")) {
+    res <- lapply(ftmsObj, function(v) {
       ftmsRanalysis:::.summarizeGroupsInternal(v, summary_functions)
-    }))
+    })
   } else {
     res <- .summarizeGroupsInternal(ftmsObj, summary_functions)
   }

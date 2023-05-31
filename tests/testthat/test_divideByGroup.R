@@ -17,12 +17,12 @@ test_that("basic tests on divideByGroup", {
   groupDdo <- divideByGroup(ftmsObj = exampleProcessedPeakData)
 
   expect_equal(length(groupDdo), length(groups))
-  expect_true(inherits(groupDdo, "ddo"))
+  expect_true(inherits(groupDdo, "list"))
   
   ## test one subset
   i <- 2
   grp_samples <- dplyr::filter(getGroupDF(exampleProcessedPeakData), Group==groups[i])[, getFDataColName(exampleProcessedPeakData)]
-  val <- groupDdo[[paste0("Group=", groups[i])]]$value
+  val <- groupDdo[[paste0("Group=", groups[i])]]
   
   testCompareAttributes(val, exampleProcessedPeakData, c("group_DF", "split", "valence_DF"))
  
