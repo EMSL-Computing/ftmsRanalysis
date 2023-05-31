@@ -62,14 +62,14 @@ test_that("test summarizeGroups function on a ddo", {
   
   grpSummaryDdo <- summarizeGroups(peakByGroup, summary_functions=c("n_present", "prop_present"))
   
-  expect_true(inherits(grpSummaryDdo, "ddo"))
+  expect_true(inherits(grpSummaryDdo, "list"))
   expect_true(length(grpSummaryDdo) == length(grpNames))
-  expect_true(all(paste0("Group=", grpNames) %in% unlist(getKeys(grpSummaryDdo))))
+  expect_true(all(paste0("Group=", grpNames) %in% names(grpSummaryDdo)))
   
-  grp2 <- grpSummaryDdo[[2]]$value
+  grp2 <- grpSummaryDdo[[2]]
   expect_true(inherits(grp2, "peakData"))
   expect_true(inherits(grp2, "groupSummary"))
   
-  expect_true(all(paste0(getSplitVar(grp2, "Group"), "_", c("n_present", "prop_present")) %in% colnames(grp2$e_data)))
-  expect_true(all(paste0(getSplitVar(grp2, "Group"), "_", c("n_present", "prop_present")) %in% grp2$f_data$Group_Summary_Column))
+  expect_true(all(paste0(attr(grp2, "group_DF")$Group, "_", c("n_present", "prop_present")) %in% colnames(grp2$e_data)))
+  expect_true(all(paste0(attr(grp2, "group_DF")$Group, "_", c("n_present", "prop_present")) %in% grp2$f_data$Group_Summary_Column))
 })
