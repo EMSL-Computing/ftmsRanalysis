@@ -9,27 +9,30 @@
 #'         to a single sample
 #' @seealso \code{\link[datadr:ddo]{ddo}}
 #' @export
+
 divideBySample <- function(ftmsObj) {
+  
   if (!inherits(ftmsObj, "ftmsData")) stop("Not an ftmsData object")
-  require(datadr)
+  
   sample.colname <- getFDataColName(ftmsObj)
   samples <- as.character(ftmsObj$f_data[, sample.colname])
   
   edata_nonsample_cols <- setdiff(colnames(ftmsObj$e_data), samples)
   
   result <- lapply(samples, function(ss) {
-
+    
     val <- subset(ftmsObj, samples=ss)
     
-    # datadr attributes
     attr(val, "split") <- data.frame(Sample=ss, stringsAsFactors = FALSE)
     colnames(attr(val, "split")) <- sample.colname
     
-    key <- paste0(sample.colname, "=", ss)
-    return(kvPair(key, val))
+    return(val)
   })
- 
-  result <- ddo(result)
+  
+  result_names <- lapply(samples, function(ss) {
+    paste0(sample.colname, "=", ss)
+  })
+  names(result) <- result_names
+  
   return(result)
 }
-
