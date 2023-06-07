@@ -11,13 +11,12 @@
 #' data from just two groups.
 #' @export
 divideByGroupComparisons <- function(ftmsObj, comparisons, control=NULL) {
+  
   if (missing(ftmsObj)) stop("ftmsObj is missing")
   if (missing(comparisons)) stop("comparisons is missing")
   if (!inherits(ftmsObj, "ftmsData")) stop("ftmsObj must be of type ftmsData")
 #  if (!is.matrix(comparisons) & !is.data.frame(comparisons)) stop("comparisons must be either a matrix or a data frame")
   if (missing(comparisons)) stop("comparisons is missing")
-  
-  require(datadr)  
   
   fdata.colname <- getFDataColName(ftmsObj)
   
@@ -35,6 +34,7 @@ divideByGroupComparisons <- function(ftmsObj, comparisons, control=NULL) {
   samples <- unique(as.character(ftmsObj$f_data[, fdata.colname]))
   edata_nonsample_cols <- setdiff(colnames(ftmsObj$e_data), groups)
   
+  # lapply over each col in matrix and return list of subset data
   result <- lapply(1:ncol(compMatrix), function(i) {
     grp.names <- compMatrix[,i]
 
@@ -45,10 +45,19 @@ divideByGroupComparisons <- function(ftmsObj, comparisons, control=NULL) {
     attr(val, "split") <- data.frame(Group_Comparison=comp_name, stringsAsFactors = FALSE)
     colnames(attr(val, "split")) <- "Group_Comparison"
     
-    key <- paste0("Group_Comparison=", comp_name)
-    return(kvPair(key, val))
+    return(val)
   })
-  result <- ddo(result)
+  
+  # Loop over cols of matrix and create vector of names for results above
+  result_names <- lapply(1:ncol(compMatrix), function(i) {
+    grp.names <- compMatrix[,i]
+    comp_name <- paste(grp.names, collapse=" vs ")
+    key <- paste0("Group_Comparison=", comp_name)
+    return(key)
+  })
+  
+  names(result) <- result_names
+  
   attr(result, "e_meta") <- ftmsObj$e_meta
   return(result)
 }
