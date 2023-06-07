@@ -15,14 +15,14 @@ test_that("tests of concat function on group DDOs", {
   allGrpDdo <-concat(grpDdo1, grpDdo2)
 
   expect_equal(length(allGrpDdo), length(grpDdo1)+length(grpDdo2))
-  expect_true(all(getKeys(allGrpDdo) %in% c(getKeys(grpDdo1), getKeys(grpDdo2))))
+  expect_true(all(names(allGrpDdo) %in% c(names(grpDdo1), names(grpDdo2))))
   
-  expect_true(all(class(allGrpDdo[[1]]$value) == class(grpDdo1[[1]]$value)))
+  expect_true(all(class(allGrpDdo[[1]]) == class(grpDdo1[[1]])))
   
   grpSummaries <- summarizeGroups(allGrpDdo, c("n_present", "prop_present"))
   
   expect_equal(length(grpSummaries), length(allGrpDdo))
-  expect_true(all(getKeys(grpSummaries) %in% getKeys(allGrpDdo)))
+  expect_true(all(names(grpSummaries) %in% names(allGrpDdo)))
   
 })
 
@@ -40,9 +40,9 @@ test_that("tests of concat function on group summary DDOs", {
   allGrpDdo <-concat(grpDdo1, grpDdo2)
   
   expect_equal(length(allGrpDdo), length(grpDdo1)+length(grpDdo2))
-  expect_true(all(getKeys(allGrpDdo) %in% c(getKeys(grpDdo1), getKeys(grpDdo2))))
+  expect_true(all(names(allGrpDdo) %in% c(names(grpDdo1), names(grpDdo2))))
   
-  expect_true(all(class(allGrpDdo[[1]]$value) == class(grpDdo1[[1]]$value)))
+  expect_true(all(class(allGrpDdo[[1]]) == class(grpDdo1[[1]])))
   
 })
 
@@ -58,9 +58,9 @@ test_that("tests of concat function on group comparison DDOs", {
   allGrpDdo <-concat(grpDdo1, grpDdo2)
   
   expect_equal(length(allGrpDdo), length(grpDdo1)+length(grpDdo2))
-  expect_true(all(getKeys(allGrpDdo) %in% c(getKeys(grpDdo1), getKeys(grpDdo2))))
+  expect_true(all(names(allGrpDdo) %in% c(names(grpDdo1), names(grpDdo2))))
   
-  expect_true(all(class(allGrpDdo[[1]]$value) == class(grpDdo1[[1]]$value)))
+  expect_true(all(class(allGrpDdo[[1]]) == class(grpDdo1[[1]])))
   
   compSummaries <- summarizeGroupComparisons(allGrpDdo, summary_functions = "uniqueness_gtest",
                                         summary_function_params = list(uniqueness_gtest=
@@ -69,7 +69,7 @@ test_that("tests of concat function on group comparison DDOs", {
                                                                               pvalue_thresh=0.05)))
   
   expect_equal(length(compSummaries), length(allGrpDdo))
-  expect_true(all(getKeys(compSummaries) %in% getKeys(allGrpDdo)))
+  expect_true(all(names(compSummaries) %in% names(allGrpDdo)))
   
 })
 
@@ -95,9 +95,9 @@ test_that("tests of concat function on group comparison summary DDOs", {
   allGrpDdo <-concat(grpDdo1, grpDdo2)
   
   expect_equal(length(allGrpDdo), length(grpDdo1)+length(grpDdo2))
-  expect_true(all(getKeys(allGrpDdo) %in% c(getKeys(grpDdo1), getKeys(grpDdo2))))
+  expect_true(all(names(allGrpDdo) %in% c(names(grpDdo1), names(grpDdo2))))
   
-  expect_true(all(class(allGrpDdo[[1]]$value) == class(grpDdo1[[1]]$value)))
+  expect_true(all(class(allGrpDdo[[1]]) == class(grpDdo1[[1]])))
   
 })
 

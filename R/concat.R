@@ -26,22 +26,18 @@
 #' allGrpDdo <-concat(grpDdo1, grpDdo2)
 #' grpSummaries <- summarizeGroups(allGrpDdo, c("n_present", "prop_present"))
 concat <- function(...) {
-  require(datadr)
-  
   parms <- list(...)
   # test inputs
   if (length(parms) == 0) return(NULL)
-  if (!all(unlist(lapply(parms, function(x) inherits(x, "ddo"))))) 
-    stop("input values must be ddo objects")
-  if (!all(unlist(lapply(parms, function(x) inherits(x[[1]]$value, "ftmsData") | inherits(x[[1]]$value, "groupComparison"))))) 
-    stop("input values must be distributed data objects of ftmsData or groupComparison objects")
+  if (!all(unlist(lapply(parms, function(x) inherits(x, "list"))))) 
+    stop("input values must be list objects")
+  if (!all(unlist(lapply(parms, function(x) inherits(x[[1]], "ftmsData") | inherits(x[[1]], "groupComparison"))))) 
+    stop("input values must be lists of ftmsData or groupComparison objects")
   
   if (length(parms) == 1) return(parms[[1]])
   
-  # combine multiple DDOs
-  tmp <- unlist(lapply(parms, as.list), recursive = FALSE)
-  res <- ddo(tmp)
+  # combine multiple lists of ftmsData Objects
+  res <- c(unlist(parms, recursive=FALSE))
 
   return(res)
 }
-

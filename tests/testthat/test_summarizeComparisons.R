@@ -6,7 +6,7 @@ context("summarizeGroupComparisons function")
 test_that("test of summarizeGroupComparisons on a groupComparison object", {
   data("exampleProcessedPeakData")
   
-  grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons = "all")[[1]]$value
+  grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons = "all")[[1]]
 
   grpCompSummary <- summarizeGroupComparisons(grpComp, summary_functions="uniqueness_gtest", 
                                          summary_function_params=list(
@@ -35,18 +35,18 @@ test_that("test of summarizeGroupComparisons on a ddo", {
                                            uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2, pvalue_thresh=0.05)
                                          ))
   
-  expect_true(inherits(grpCompSummary, "ddo"))
+  expect_true(inherits(grpCompSummary, "list"))
   expect_equal(length(grpCompSummary), length(grpComp))
   
   # test one subset
   i <- 3
-  val <- grpCompSummary[[i]]$value
+  val <- grpCompSummary[[i]]
   expect_true(inherits(val, "comparisonSummary"))
   expect_false(inherits(val, "groupComparison"))
   expect_equal(ncol(val$e_data), 2)
-  expect_true(getEDataColName(grpComp[[i]]$value) %in% colnames(val$e_data))
-  expect_true(all(dim(grpComp[[i]]$value$e_meta) == dim(val$e_meta)))
-  expect_true(all(colnames(grpComp[[i]]$value$e_meta) %in% colnames(val$e_meta)))
+  expect_true(getEDataColName(grpComp[[i]]) %in% colnames(val$e_data))
+  expect_true(all(dim(grpComp[[i]]$e_meta) == dim(val$e_meta)))
+  expect_true(all(colnames(grpComp[[i]]$e_meta) %in% colnames(val$e_meta)))
   expect_equal(nrow(val$f_data), 1)
   expect_true(all(grpCompSummary$f_data$Summary_Function_Name == "uniqueness_gtest"))
   expect_equal(nrow(val$f_data), 1)
@@ -59,7 +59,7 @@ test_that("test of summarizeGroupComparisons on a ddo", {
 test_that("test of summarizeGroupComparisons with multiple summary functions on a groupComparison object", {
   data("exampleProcessedPeakData")
   
-  grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons = "all")[[1]]$value
+  grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons = "all")[[1]]
   
   grpCompSummary <- summarizeGroupComparisons(grpComp, summary_functions=c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop"), 
                                          summary_function_params=list(
