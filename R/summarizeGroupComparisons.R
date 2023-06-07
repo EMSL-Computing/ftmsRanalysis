@@ -22,7 +22,7 @@ summarizeGroupComparisons <- function(compData, summary_functions, summary_funct
   if (missing(compData)) stop("summary_functions is missing")
   #if (length(summary_functions) != 1) stop("summary_functions must have length 1")
   
-  if (!(inherits(compData, "groupComparison") | inherits(compData, "ddo") ) )
+  if (!(inherits(compData, "groupComparison") | inherits(compData, "list") ) )
     stop("compData must be of type groupComparison or a ddo containing groupComparisons")
   
   if (!is.null(summary_function_params)) {
@@ -34,10 +34,10 @@ summarizeGroupComparisons <- function(compData, summary_functions, summary_funct
     }
   }
   
-  if (inherits(compData, "ddo")) {
-    res <- drPersist(addTransform(compData, function(v) {
+  if (inherits(compData, "list")) {
+    res <- lapply(compData, function(v) {
       ftmsRanalysis:::.summarizeGroupComparisonsInternal(v, summary_functions, summary_function_params)
-    }))
+    })
   } else {
     res <- .summarizeGroupComparisonsInternal(compData, summary_functions, summary_function_params)
   }
