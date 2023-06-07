@@ -10,11 +10,11 @@ test_that("basic tests on divideByGroupComparisons with all comparisons", {
   
   grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons="all")  
   
-  expect_true(inherits(grpComp, "ddo"))
+  expect_true(inherits(grpComp, "list"))
   expect_true(length(grpComp) == ncol(comparisons))
   
   i <- 3
-  testSubset <- grpComp[[i]]$value
+  testSubset <- grpComp[[i]]
   expect_true(inherits(testSubset, "groupComparison"))
   
   grps <- comparisons[,i]
@@ -35,14 +35,14 @@ test_that("divideByGroupComparisons works without a groupDF", {
   
   grpComp <- divideByGroupComparisons(examplePeakData, comparisons="control", control="EM0061_sample")  
   
-  expect_true(inherits(grpComp, "ddo"))
+  expect_true(inherits(grpComp, "list"))
   expect_true(length(grpComp) == ncol(comparisons))
   
   n_samples <- length(unique(examplePeakData$f_data[, getFDataColName(examplePeakData)]))
   expect_true(length(grpComp) == n_samples-1)
   
   i <- 5
-  testSubset <- grpComp[[i]]$value
+  testSubset <- grpComp[[i]]
   expect_true(inherits(testSubset, "groupComparison"))
   
   grps <- comparisons[,i]
@@ -64,11 +64,11 @@ test_that("divideByGroupComparisons with one-factor comparisons", {
   
   grpComp <- divideByGroupComparisons(exampleProcessedPeakData, comparisons="one-factor")  
   
-  expect_true(inherits(grpComp, "ddo"))
+  expect_true(inherits(grpComp, "list"))
   expect_true(length(grpComp) == ncol(comparisons))
   
   i <- 3
-  testSubset <- grpComp[[i]]$value
+  testSubset <- grpComp[[i]]
   expect_true(inherits(testSubset, "groupComparison"))
   
   grps <- comparisons[,i]
