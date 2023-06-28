@@ -30,7 +30,6 @@
 #' groupDdo <- divideByGroup(exampleProcessedPeakData)
 #' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
 summarizeGroups <- function(ftmsObj, summary_functions) {
-  require(datadr)
   if (!(inherits(ftmsObj, "peakData") | !inherits(ftmsObj, "compoundData")) & !inherits(ftmsObj, "list") )
       stop("ftmsObj must be of type peakData, compoundData, or a ddo containing those objects")
   if (inherits(ftmsObj, "groupSummary") | inherits(ftmsObj, "groupComparison") | inherits(ftmsObj, "comparisonSummary")) 
