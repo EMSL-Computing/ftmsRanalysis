@@ -4,16 +4,21 @@
 \alias{calc_element_ratios}
 \title{Calculate Elemental Ratios}
 \usage{
-calc_element_ratios(ftmsObj)
+calc_element_ratios(ftmsObj, ratios = NULL)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
+
+\item{ratios}{a matrix of size 2xN where N is the number of ratios to calculate. Defaults to O:C, H:C, N:C, P:C, N:P. As a matrix:\tabular{lllll}{
+   O \tab H \tab N \tab P \tab N \cr
+   C \tab C \tab C \tab C \tab P \cr
+}}
 }
 \value{
 an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving elemental ratios
 }
 \description{
-Calculates the Oxygen:Carbon, Hydrogen:Carbon, Nitrogen:Carbon, Phosphorus:Carbon, and Nitrogen:Phosphorus ratios
+Calculates the ratios of counts of specified element/isotope pairs.
 }
 \author{
 Lisa Bramer
