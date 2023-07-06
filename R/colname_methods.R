@@ -160,7 +160,7 @@ getOCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["O:C"])
+  return(getRatioColName(ftmsObj, "O:C"))
 }
 
 #' Set the name of the O:C ratio column
@@ -197,7 +197,7 @@ getHCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["H:C"])
+  return(getRatioColName(ftmsObj, "H:C"))
 }
 
 #' Set the name of the H:C ratio column
@@ -233,7 +233,7 @@ getNCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["N:C"])
+  return(getRatioColName(ftmsObj, "N:C"))
 }
 
 #' Set the name of the N:C ratio column
@@ -269,7 +269,7 @@ getPCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["P:C"])
+  return(getRatioColName(ftmsObj, "P:C"))
 }
 
 #' Set the name of the P:C ratio column
@@ -305,7 +305,7 @@ getNPRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["N:P"])
+  return(getRatioColName(ftmsObj, "N:P"))
 }
 
 #' Set the name of the N:P ratio column
