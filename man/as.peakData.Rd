@@ -46,25 +46,13 @@ mass_cname \tab character string specifying the name of the column, in \code{e_m
 \tab \cr
 mf_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the mass (empirical) formula for a peak/mass. \cr
 \tab \cr
-c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Carbon count for each peak/mass. \cr
-\tab \cr
-h_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Hydrogen count for each peak/mass. \cr
-\tab \cr
-o_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Oxygen count for each peak/mass. \cr
-\tab \cr
-n_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Nitrogen count for each peak/mass. \cr
-\tab \cr
-s_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Sulfur count for each peak/mass. \cr
-\tab \cr
-p_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Phosphorus count for each peak/mass. \cr
+element_col_names \tab named list of character strings specifying element/isotope column names, in \code{e_meta}, containing the respective count for each peak/mass. \cr
 \tab \cr
 isotopic_cname \tab character string specifying the name of the column, in \code{e_meta}, containing information about whether each peak is isotopic or not. \cr
 \tab \cr
 isotopic_notation \tab character string specifying the value used in column \code{isotopic_cname} which indicates that a peak is isotopic. \cr
 \tab \cr
-o2c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Oxygen to Carbon ratio for each peak/mass. \cr
-\tab \cr
-h2c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Hydrogen to Carbon ratio for each peak/mass. \cr
+ratio_cnames \tab named list of character strings specifying the name of the column, in \code{e_meta}, containing the respective ratio of two elements or isotopes for each peak/mass. \cr
 \tab \cr
 kmass_cname \tab a possibly named character vector specifying the name of the columns, in \code{e_meta}, containing the Kendrick Mass for each peak/mass.  Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses \cr
 \tab \cr

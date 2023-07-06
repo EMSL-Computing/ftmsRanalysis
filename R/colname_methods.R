@@ -116,7 +116,7 @@ setMFColName <- function(ftmsObj, cname) {
 #' contains the specified ratio data for Van Krevelen plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param ratio string specifying ratio to retrieve. Written as "H:C"
+#' @param ratio string specifying ratio to retrieve. Written as "H:C". Note that order matters.
 #' @return name of specified ratio column
 #' @export
 getRatioColName <- function(ftmsObj, ratio) {
@@ -132,7 +132,7 @@ getRatioColName <- function(ftmsObj, ratio) {
 #' contains the specified ratio data for Van Krevelen plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param ratio a string specifying the ratio pair for the column formatted as "C:H"
+#' @param ratio a string specifying the ratio pair for the column formatted as "H:C". Note that order matters.
 #' @param cname column name
 #' @return updated ftmsObj
 #' 
@@ -367,7 +367,7 @@ setMassColName <- function(ftmsObj, cname) {
 
 #' Get the name of the column for the specified element
 #' 
-#' Returns the name of the column in the e_meta element that 
+#' Returns the name of the column in e_meta for the specified element that 
 #' contains element count data for calculations.
 #'
 #' @param ftmsObj an object of type ftmsData

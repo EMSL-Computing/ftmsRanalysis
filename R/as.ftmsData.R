@@ -31,15 +31,13 @@
 #' \tab \cr
 #' mf_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the mass (empirical) formula for a peak/mass. \cr
 #' \tab \cr
-#' c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Carbon count for each peak/mass. \cr
+#' element_col_names \tab named list of character strings specifying element/isotope column names, in \code{e_meta}, containing the respective count for each peak/mass. \cr
 #' \tab \cr
 #' isotopic_cname \tab character string specifying the name of the column, in \code{e_meta}, containing information about whether each peak is isotopic or not. \cr
 #' \tab \cr
 #' isotopic_notation \tab character string specifying the value used in column \code{isotopic_cname} which indicates that a peak is isotopic. \cr
 #' \tab \cr
-#' o2c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Oxygen to Carbon ratio for each peak/mass. \cr
-#' \tab \cr
-#' h2c_cname \tab character string specifying the name of the column, in \code{e_meta}, containing the Hydrogen to Carbon ratio for each peak/mass. \cr
+#' ratio_cnames \tab named list of character strings specifying the name of the column, in \code{e_meta}, containing the respective ratio of two elements or isotopes for each peak/mass. \cr
 #' \tab \cr
 #' kmass_cname \tab a possibly named character vector specifying the name of the columns, in \code{e_meta}, containing the Kendrick Mass for each peak/mass.  Names should be any of 'CH2', 'CO2', 'H2', 'H2O', 'CHO' and correspond to the base compounds used to calculate each of the Kendrick Masses \cr
 #' \tab \cr
@@ -125,7 +123,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   if(!is.null(element_col_names$H)){
     if(!(element_col_names$H %in% names(e_meta))) stop(paste("Hydrogen column", element_col_names$H, " not found in e_meta. See details of as.peakData for specifying column names.", sep = ""))
   }
-  # Check that the elements/isotopes in element_col-Nmaes are within coreMS superset.
+  # Check that the elements/isotopes in element_col-names are within coreMS element/isotope superset.
   if(!all(names(element_col_names) %in% element_names)){
     stop(paste("The following elements in 'element_col_names' are not supported: ", paste(names(element_col_names[!(names(element_col_names) %in% element_names)]), collapse = ','), ". See details of as.peakData for specifying column names.", sep = ""))
   }

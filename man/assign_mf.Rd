@@ -12,7 +12,7 @@ assign_mf(ftmsObj, metacyc = FALSE)
 \item{metacyc}{TRUE/FALSE, use MetaCyc style formulae? (FALSE by default)}
 }
 \value{
-an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecular formula.
+an object of class 'ftmsData' with a column in \code{e_meta} giving the molecular formula.
 }
 \description{
 Construct molecular formulae based on element counts
