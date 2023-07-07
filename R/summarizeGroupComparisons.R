@@ -1,13 +1,13 @@
 #' Summarize group comparisons
 #' 
-#' Summarize a group comparisons object or a ddo of group comparisons objects. This function
+#' Summarize a group comparisons object or a list of group comparisons objects. This function
 #' applies a summary function to the columns of \code{compData$e_data} corresponding to each
 #' column to calculate a summary column for each group. 
 #' 
 #' Currently this function does not allow executing the same summary function multiple times
 #' with different parameters.
 #'
-#' @param compData a groupComparison object or a ddo of groupComparison objects, i.e. the output 
+#' @param compData a groupComparison object or a list of groupComparison objects, i.e. the output 
 #' of \code{\link{divideByGroupComparisons}}.
 #' @param summary_functions vector of summary function names to apply to each row of \code{ftmsObj$e_data} for each group. Valid
 #' summary function names are given by \code{\link{getGroupComparisonSummaryFunctionNames}}. 
@@ -15,7 +15,7 @@
 #' match values in \code{summary_functions}, each value should be a list of name/value parameters, e.g.
 #' \code{list(uniqueness_gtest=list(pval_threshold=0.01))}.
 #'
-#' @return a comparisonSummary object or a ddo of comparisonSummary objects
+#' @return a comparisonSummary object or a list of comparisonSummary objects
 #' @export
 summarizeGroupComparisons <- function(compData, summary_functions, summary_function_params=NULL) {
   if (missing(compData)) stop("compData is missing")
@@ -23,7 +23,7 @@ summarizeGroupComparisons <- function(compData, summary_functions, summary_funct
   #if (length(summary_functions) != 1) stop("summary_functions must have length 1")
   
   if (!(inherits(compData, "groupComparison") | inherits(compData, "list") ) )
-    stop("compData must be of type groupComparison or a ddo containing groupComparisons")
+    stop("compData must be of type groupComparison or a list containing groupComparisons")
   
   if (!is.null(summary_function_params)) {
     if (!is.list(summary_function_params)) {

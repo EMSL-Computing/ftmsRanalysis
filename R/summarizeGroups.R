@@ -5,7 +5,7 @@
 #' corresponding to samples. It must return a data frame with the same number of
 #' rows and one column.
 #'
-#' @param ftmsObj an object of class 'peakData' or 'compoundData' or a ddo of
+#' @param ftmsObj an object of class 'peakData' or 'compoundData' or a list of
 #'   ftmsData objects (e.g. the output of \code{\link{divideByGroup}})
 #' @param summary_functions vector of summary function names to apply to each
 #'   row of \code{ftmsObj$e_data} for each group. Valid summary function names
@@ -14,7 +14,7 @@
 #'   \code{ftmsData} object where each provided summary function will be applied
 #'   to each group found in \code{getGroupDF(ftmsObj)}. If
 #'   \code{getGroupDF(ftmsObj) == null} the function will assume all samples
-#'   belong to a single group. If the input is a ddo the result will be a ddo
+#'   belong to a single group. If the input is a list the result will be a list
 #'   where each value is the result of applying \code{summarizeGroups} to each
 #'   value of the input.
 #'
@@ -27,11 +27,11 @@
 #' summary1 <- summarizeGroups(exampleProcessedPeakData, 
 #'                             summary_functions=c("n_present", "prop_present"))
 #'
-#' groupDdo <- divideByGroup(exampleProcessedPeakData)
-#' summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
+#' groupList <- divideByGroup(exampleProcessedPeakData)
+#' summary2 <- summarizeGroups(groupList, summary_functions=c("n_present", "prop_present"))
 summarizeGroups <- function(ftmsObj, summary_functions) {
   if (!(inherits(ftmsObj, "peakData") | !inherits(ftmsObj, "compoundData")) & !inherits(ftmsObj, "list") )
-      stop("ftmsObj must be of type peakData, compoundData, or a ddo containing those objects")
+      stop("ftmsObj must be of type peakData, compoundData, or a list containing those objects")
   if (inherits(ftmsObj, "groupSummary") | inherits(ftmsObj, "groupComparison") | inherits(ftmsObj, "comparisonSummary")) 
     stop("ftmsObj cannot be a groupSummary, groupComparison or comparisonSummary object")
   if (missing(summary_functions)) stop("summary_function must be provided")
@@ -48,7 +48,7 @@ summarizeGroups <- function(ftmsObj, summary_functions) {
   return(res)
 }
   
-# Internal only function for use on 1 ftmsData object not a ddo of them
+# Internal only function for use on 1 ftmsData object not a list of them
 .summarizeGroupsInternal <- function(ftmsObj, summary_functions) {
 
   # Get function objects from names

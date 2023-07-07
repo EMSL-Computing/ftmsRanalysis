@@ -2,7 +2,7 @@
 % Please edit documentation in R/divideByGroupComparisons.R
 \name{divideByGroupComparisons}
 \alias{divideByGroupComparisons}
-\title{Construct a ddo of group comparisons}
+\title{Construct a list of group comparisons}
 \usage{
 divideByGroupComparisons(ftmsObj, comparisons, control = NULL)
 }
@@ -14,11 +14,11 @@ divideByGroupComparisons(ftmsObj, comparisons, control = NULL)
 \item{control}{if wanting to only compare against a control, must specify which group or sample is the control}
 }
 \value{
-a distributed data object where each division consists of a subset of \code{ftmsObj} with
+a named list where each element consists of a subset of \code{ftmsObj} with
 data from just two groups.
 }
 \description{
-Construct a \code{\link[datadr:ddo]{ddo}} where each subset consists of data for
+Construct a list where each element is a subset consisting of data for
 a pair of groups. This is used to facilitate analysis and visualizations
 of group comparisons.
 }

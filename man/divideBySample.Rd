@@ -2,7 +2,7 @@
 % Please edit documentation in R/divideBySample.R
 \name{divideBySample}
 \alias{divideBySample}
-\title{Divide an ftmsData objecdt by sample to form a ddo}
+\title{Divide an ftmsData objecdt by sample to form a list}
 \usage{
 divideBySample(ftmsObj)
 }
@@ -10,14 +10,11 @@ divideBySample(ftmsObj)
 \item{ftmsObj}{ftmsData object}
 }
 \value{
-a ddo where each division is a subset of \code{ftmsObj} corresponding
+a named list where each element is a subset of \code{ftmsObj} corresponding
         to a single sample
 }
 \description{
-Construct a \code{\link[datadr:ddo]{ddo}} from an \code{ftmsData} object by dividing
+Construct a named list from an \code{ftmsData} object by dividing
 by sample. The resulting object may be used with Trelliscope to make
 plots for each sample.
-}
-\seealso{
-\code{\link[datadr:ddo]{ddo}}
 }

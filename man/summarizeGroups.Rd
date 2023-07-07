@@ -7,7 +7,7 @@
 summarizeGroups(ftmsObj, summary_functions)
 }
 \arguments{
-\item{ftmsObj}{an object of class 'peakData' or 'compoundData' or a ddo of
+\item{ftmsObj}{an object of class 'peakData' or 'compoundData' or a list of
 ftmsData objects (e.g. the output of \code{\link{divideByGroup}})}
 
 \item{summary_functions}{vector of summary function names to apply to each
@@ -19,7 +19,7 @@ If the input is an ftmsData object, the result will be a new
   \code{ftmsData} object where each provided summary function will be applied
   to each group found in \code{getGroupDF(ftmsObj)}. If
   \code{getGroupDF(ftmsObj) == null} the function will assume all samples
-  belong to a single group. If the input is a ddo the result will be a ddo
+  belong to a single group. If the input is a list the result will be a list
   where each value is the result of applying \code{summarizeGroups} to each
   value of the input.
 }
@@ -34,8 +34,8 @@ data("exampleProcessedPeakData")
 summary1 <- summarizeGroups(exampleProcessedPeakData, 
                             summary_functions=c("n_present", "prop_present"))
 
-groupDdo <- divideByGroup(exampleProcessedPeakData)
-summary2 <- summarizeGroups(groupDdo, summary_functions=c("n_present", "prop_present"))
+groupList <- divideByGroup(exampleProcessedPeakData)
+summary2 <- summarizeGroups(groupList, summary_functions=c("n_present", "prop_present"))
 }
 \author{
 Amanda White
