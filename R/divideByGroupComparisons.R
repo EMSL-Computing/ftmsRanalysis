@@ -1,13 +1,13 @@
-#' Construct a ddo of group comparisons
+#' Construct a list of group comparisons
 #' 
-#' Construct a \code{\link[datadr:ddo]{ddo}} where each subset consists of data for
+#' Construct a list where each element is a subset consisting of data for
 #' a pair of groups. This is used to facilitate analysis and visualizations
 #' of group comparisons.
 #' 
 #' @param ftmsObj ftmsData object
 #' @param comparisons dictates which pairwise comparisons to make. 'all' will create a matrix for all pairwise comparisons, 'control' will create a matrix for all comparisons against a specified control group, 'one-factor' will create a matrix of pairwise comparisons to be made where only one 'main_effect' changes between the two groups, or a list of specific comparisons to be made (e.g., list(c("Group1","Group2"),c("Group3","Group4"))) can be given.
 #' @param control if wanting to only compare against a control, must specify which group or sample is the control
-#' @return a distributed data object where each division consists of a subset of \code{ftmsObj} with
+#' @return a named list where each element consists of a subset of \code{ftmsObj} with
 #' data from just two groups.
 #' @export
 divideByGroupComparisons <- function(ftmsObj, comparisons, control=NULL) {
