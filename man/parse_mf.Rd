@@ -16,7 +16,7 @@ an object of class 'ftmsData' with a column in \code{e\_meta} giving the molecul
 Construct elemental count columns based on provided molecular formulae
 }
 \details{
-Parses molecular formulae for number of observed C, H, O, N, S, and P.
+Parses molecular formulae for number of observed elements.
 }
 \author{
 Lisa Bramer

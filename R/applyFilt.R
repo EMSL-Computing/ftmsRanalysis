@@ -129,7 +129,7 @@ applyFilt.massFilt <- function(filter_object, msObj, min_mass = 200, max_mass = 
     if(length(min_mass) != 1) stop("min_mass must be of length 1")
     if(length(max_mass) != 1) stop("max_mass must be of length 1")
     
-    edata_cname <- getEDataColName(ftmsObj)
+    edata_cname <- getEDataColName(msObj)
     
     mass_info <- filter_object[,"Mass"]
     

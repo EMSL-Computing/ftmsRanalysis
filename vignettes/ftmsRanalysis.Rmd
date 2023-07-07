@@ -78,7 +78,7 @@ str(ftms12T_fdata)
 ```
 
 ## e_meta (Molecular Identification Data)
-The emeta object is a data frame with one row per peak and columns containing other meta data. Either a column giving the molecular formula or elemental count columns (currently the elements C, H, O, S, N, and P are supported) are required. It must have an ID column corresponding to the ID column in edata. If information about isotopic peaks is available and specified, these peaks are currently filtered from the data upon peakData object creation.
+The emeta object is a data frame with one row per peak and columns containing other meta data. Either a column giving the molecular formula or elemental count columns are required. It must have an ID column corresponding to the ID column in edata. If information about isotopic peaks is available and specified, these peaks are currently filtered from the data upon peakData object creation.
 
 ```{r }
 data("ftms12T_emeta")
@@ -90,9 +90,8 @@ str(ftms12T_emeta)
 ```{r}
 peakObj <- as.peakData(ftms12T_edata, ftms12T_fdata, ftms12T_emeta, 
                        edata_cname="Mass", fdata_cname="SampleID", 
-                       mass_cname="Mass", c_cname="C", h_cname="H", 
-                       o_cname="O", n_cname="N", s_cname="S", 
-                       p_cname="P", isotopic_cname = "C13", 
+                       mass_cname="Mass", element_col_names = list("C"="C", "H"="H", "O"="O", "N"="N", "S"="S", "P"="P"), 
+                       isotopic_cname = "C13", 
                        isotopic_notation = "1")
 peakObj
 ```

@@ -1,12 +1,18 @@
 #' Calculate Elemental Ratios
 #' 
-#' Calculates the Oxygen:Carbon, Hydrogen:Carbon, Nitrogen:Carbon, Phosphorus:Carbon, and Nitrogen:Phosphorus ratios
+#' Calculates the ratios of counts of specified element/isotope pairs.
 #' 
 #' @param ftmsObj an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.
+#' @param ratios a matrix of size 2xN where N is the number of ratios to calculate. Defaults to calculating O:C, H:C, N:C, P:C, and N:P. As a matrix: 
 #'
+#' | O | H | N | P | N |
+#' |---|---|---|---|---|
+#' | C | C | C | C | P |
+#' 
+#' 
 #' @return an object of the same class as \code{ftmsData} with columns in \code{e_meta} giving elemental ratios
 #' @author Lisa Bramer
-#' 
+#' @md
 
 
 calc_element_ratios <- function(ftmsObj, ratios=NULL){
@@ -24,7 +30,7 @@ calc_element_ratios <- function(ftmsObj, ratios=NULL){
     ratio_mat <- matrix(data = c("O","C","H","C","N","C","P","C","N","P"), nrow = 2)
   } else {
     if(!is.matrix(ratios)) stop("ratios must be of type matrix")
-    if(dim(ratios)[1] != 2) stop("ratios matrix must be of size Nx2 where N is number of ratios to be calculated. Must be 2 rows.")
+    if(dim(ratios)[1] != 2) stop("ratios matrix must be of size 2xN where N is number of ratios to be calculated. Must be 2 rows.")
     ratio_mat <- ratios
   }
   

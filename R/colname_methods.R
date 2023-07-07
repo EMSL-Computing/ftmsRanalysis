@@ -116,7 +116,7 @@ setMFColName <- function(ftmsObj, cname) {
 #' contains the specified ratio data for Van Krevelen plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param ratio string specifying ratio to retrieve. Written as "H:C"
+#' @param ratio string specifying ratio to retrieve. Written as "H:C". Note that order matters.
 #' @return name of specified ratio column
 #' @export
 getRatioColName <- function(ftmsObj, ratio) {
@@ -132,7 +132,7 @@ getRatioColName <- function(ftmsObj, ratio) {
 #' contains the specified ratio data for Van Krevelen plots.
 #'
 #' @param ftmsObj an object of type ftmsData
-#' @param ratio a string specifying the ratio pair for the column formatted as "C:H"
+#' @param ratio a string specifying the ratio pair for the column formatted as "H:C". Note that order matters.
 #' @param cname column name
 #' @return updated ftmsObj
 #' 
@@ -160,7 +160,7 @@ getOCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["O:C"])
+  return(getRatioColName(ftmsObj, "O:C"))
 }
 
 #' Set the name of the O:C ratio column
@@ -197,7 +197,7 @@ getHCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["H:C"])
+  return(getRatioColName(ftmsObj, "H:C"))
 }
 
 #' Set the name of the H:C ratio column
@@ -233,7 +233,7 @@ getNCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["N:C"])
+  return(getRatioColName(ftmsObj, "N:C"))
 }
 
 #' Set the name of the N:C ratio column
@@ -269,7 +269,7 @@ getPCRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["P:C"])
+  return(getRatioColName(ftmsObj, "P:C"))
 }
 
 #' Set the name of the P:C ratio column
@@ -305,7 +305,7 @@ getNPRatioColName <- function(ftmsObj) {
   if (!inherits(ftmsObj, "ftmsData")) {
     stop("ftmsObj must be of type ftmsData")
   } 
-  return(attr(ftmsObj, "cnames")$ratio_cnames["N:P"])
+  return(getRatioColName(ftmsObj, "N:P"))
 }
 
 #' Set the name of the N:P ratio column
@@ -367,7 +367,7 @@ setMassColName <- function(ftmsObj, cname) {
 
 #' Get the name of the column for the specified element
 #' 
-#' Returns the name of the column in the e_meta element that 
+#' Returns the name of the column in e_meta for the specified element that 
 #' contains element count data for calculations.
 #'
 #' @param ftmsObj an object of type ftmsData
