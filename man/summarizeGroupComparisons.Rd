@@ -11,7 +11,7 @@ summarizeGroupComparisons(
 )
 }
 \arguments{
-\item{compData}{a groupComparison object or a ddo of groupComparison objects, i.e. the output 
+\item{compData}{a groupComparison object or a list of groupComparison objects, i.e. the output 
 of \code{\link{divideByGroupComparisons}}.}
 
 \item{summary_functions}{vector of summary function names to apply to each row of \code{ftmsObj$e_data} for each group. Valid
@@ -22,10 +22,10 @@ match values in \code{summary_functions}, each value should be a list of name/va
 \code{list(uniqueness_gtest=list(pval_threshold=0.01))}.}
 }
 \value{
-a comparisonSummary object or a ddo of comparisonSummary objects
+a comparisonSummary object or a list of comparisonSummary objects
 }
 \description{
-Summarize a group comparisons object or a ddo of group comparisons objects. This function
+Summarize a group comparisons object or a list of group comparisons objects. This function
 applies a summary function to the columns of \code{compData$e_data} corresponding to each
 column to calculate a summary column for each group.
 }

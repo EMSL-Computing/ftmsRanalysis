@@ -1,16 +1,15 @@
-#' Combine multiple distributed data objects of ftmsData
+#' Combine multiple ftmsData objects
 #' 
-#' Combine multiple distributed data objects (ddo) into a single ddo
+#' Combine multiple ftmsData objects into a single ftmsData object
 #' for further analysis or visualizations. The inputs to this function are
-#' the ddo objects created by \code{\link{divideByGroup}} or 
-#' \code{\link{divideByGroupComparisons}}. The output is a new ddo
+#' the ftmsData objects created by \code{\link{divideByGroup}} or 
+#' \code{\link{divideByGroupComparisons}}. The output is a new ftmsData
 #' with all the data of the supplied inputs, in a form that can be 
 #' summarized with \code{\link{summarizeGroups}} or \code{\link{summarizeGroupComparisons}}
 #' respectively, or visualized with \code{trelliscope}.
 #' 
-#' @param ... two or more ddo objects that are the output of \code{\link{summarizeGroups}} or \code{\link{summarizeGroupComparisons}}
+#' @param ... two or more ftmsData objects that are the output of \code{\link{summarizeGroups}} or \code{\link{summarizeGroupComparisons}}
 #' 
-#' @seealso \link[datadr:ddo]{ddo}
 #' @author Amanda White
 #' 
 #' @export
@@ -18,13 +17,13 @@
 #' @examples 
 #' data("exampleProcessedPeakData")
 #' exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Location")
-#' grpDdo1 <- divideByGroup(exampleProcessedPeakData)
+#' grp1 <- divideByGroup(exampleProcessedPeakData)
 #' 
 #' exampleProcessedPeakData <- group_designation(exampleProcessedPeakData, main_effects = "Crop.Flora")
-#' grpDdo2 <- divideByGroup(exampleProcessedPeakData)
+#' grp2 <- divideByGroup(exampleProcessedPeakData)
 #' 
-#' allGrpDdo <-concat(grpDdo1, grpDdo2)
-#' grpSummaries <- summarizeGroups(allGrpDdo, c("n_present", "prop_present"))
+#' allGrps <-concat(grp1, grp2)
+#' grpSummaries <- summarizeGroups(allGrps, c("n_present", "prop_present"))
 concat <- function(...) {
   parms <- list(...)
   # test inputs
