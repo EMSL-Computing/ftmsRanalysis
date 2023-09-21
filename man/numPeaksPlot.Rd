@@ -4,8 +4,7 @@
 \alias{numPeaksPlot}
 \title{Plot to look at the number of peaks per sample}
 \usage{
-numPeaksPlot(ftmsObj, xaxis = NULL, ylabel = "Number of Peaks",
-  title = NULL)
+numPeaksPlot(ftmsObj, xaxis = NULL, ylabel = "Number of Peaks", title = NULL)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}.}

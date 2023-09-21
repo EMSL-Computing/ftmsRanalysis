@@ -94,9 +94,14 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   
 
   # check that e_data, f_data, and e_meta are data.frames #
-  if(!inherits(e_data, "data.frame")) stop("e_data must be of the class 'data.frame'")
-  if(!inherits(f_data, "data.frame")) stop("f_data must be of the class 'data.frame'")
-  if(!inherits(e_meta, "data.frame")) stop("e_meta must be of the class 'data.frame'")
+  # if(!inherits(e_data, "data.frame")) stop("e_data must be of the class 'data.frame'")
+  # if(!inherits(f_data, "data.frame")) stop("f_data must be of the class 'data.frame'")
+  # if(!inherits(e_meta, "data.frame")) stop("e_meta must be of the class 'data.frame'")
+  
+  # make sure e_data, f_data, and e_meta are data.frames #
+  e_data <- as.data.frame(e_data)
+  f_data <- as.data.frame(f_data)
+  e_meta <- as.data.frame(e_meta)
   
   # check that the peak column exists in e_data and e_meta (if applicable) #
   if(!(edata_cname %in% names(e_data))) stop(paste("Peak/Mass column ", edata_cname," not found in e_data. See details of as.peakData for specifying column names.", sep = ""))
@@ -211,7 +216,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   }
   
   # check that f_data has at least 2 columns #
-  if(ncol(f_data) < 2) stop("f_data must contain at least 2 columns")
+  # if(ncol(f_data) < 2) stop("f_data must contain at least 2 columns")
   
   # if e_meta is provided, check that all peaks in e_data occur in e_meta #
   if(!is.null(e_meta)){

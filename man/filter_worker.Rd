@@ -4,12 +4,12 @@
 \alias{filter_worker}
 \title{Remove items that need to be filtered out}
 \usage{
-filter_worker(filter_object, ftmsObj)
+filter_worker(filter_object, msObj)
 }
 \arguments{
 \item{filter_object}{a list created by the functions above}
 
-\item{ftmsObj}{an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}}
+\item{msObj}{an object of the class \code{ftmsData} usually created by \code{\link{as.peakData}}}
 }
 \value{
 list

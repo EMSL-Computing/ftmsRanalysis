@@ -4,9 +4,17 @@
 \alias{vanKrevelenPlot}
 \title{Van Krevelen plot of an ftmsData object}
 \usage{
-vanKrevelenPlot(ftmsObj, title = NA, colorPal = NA, colorCName = NA,
-  vkBoundarySet = "bs1", showVKBounds = TRUE, xlabel = "O:C Ratio",
-  ylabel = "H:C Ratio", legendTitle = colorCName)
+vanKrevelenPlot(
+  ftmsObj,
+  title = NA,
+  colorPal = NA,
+  colorCName = NA,
+  vkBoundarySet = "bs1",
+  showVKBounds = TRUE,
+  xlabel = "O:C Ratio",
+  ylabel = "H:C Ratio",
+  legendTitle = colorCName
+)
 }
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', (output of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}),

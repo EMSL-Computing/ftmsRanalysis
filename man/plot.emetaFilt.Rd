@@ -4,9 +4,17 @@
 \alias{plot.emetaFilt}
 \title{Default plot method for emetaFilt}
 \usage{
-\method{plot}{emetaFilt}(x, min_val = NA, max_val = NA, cats = NA,
-  na.rm = TRUE, title = NA, xlabel = attr(x, "cname"),
-  ylabel = "Count", ...)
+\method{plot}{emetaFilt}(
+  x,
+  min_val = NA,
+  max_val = NA,
+  cats = NA,
+  na.rm = TRUE,
+  title = NA,
+  xlabel = attr(x, "cname"),
+  ylabel = "Count",
+  ...
+)
 }
 \arguments{
 \item{x}{object of class \code{\link{emeta_filter}}}

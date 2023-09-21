@@ -3,13 +3,15 @@
 \name{ftms12T_fdata}
 \alias{ftms12T_fdata}
 \title{FTICR Sample Feature Data}
-\format{A data.frame with 20 rows (samples) and 4 columns (sample identifier, location, block, and crop/flora):
+\format{
+A data.frame with 20 rows (samples) and 4 columns (sample identifier, location, block, and crop/flora):
 \describe{
   \item{SampleID}{Sample identifier (matches column headers in edata)}
   \item{Location}{Location from which a sample was taken - 2 levels (M, W)}
   \item{Block}{Field block from which a sample was taken - 5 levels (1, 2, 3, 4, 5)}
   \item{Crop.Flora}{Crop/flora type of given sample - 2 levels (C, S)}
-}}
+}
+}
 \description{
 A dataset containing the sample metadata.
 }

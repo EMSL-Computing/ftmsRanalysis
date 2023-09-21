@@ -7,17 +7,13 @@
 \alias{subset.moduleData}
 \title{Subset an ftmsData object according to sample or group}
 \usage{
-\method{subset}{peakData}(x, samples = NA, groups = NA,
-  check_rows = FALSE, ...)
+\method{subset}{peakData}(x, samples = NA, groups = NA, check_rows = FALSE, ...)
 
-\method{subset}{compoundData}(x, samples = NA, groups = NA,
-  check_rows = FALSE, ...)
+\method{subset}{compoundData}(x, samples = NA, groups = NA, check_rows = FALSE, ...)
 
-\method{subset}{reactionData}(x, samples = NA, groups = NA,
-  check_rows = FALSE, ...)
+\method{subset}{reactionData}(x, samples = NA, groups = NA, check_rows = FALSE, ...)
 
-\method{subset}{moduleData}(x, samples = NA, groups = NA,
-  check_rows = FALSE, ...)
+\method{subset}{moduleData}(x, samples = NA, groups = NA, check_rows = FALSE, ...)
 }
 \arguments{
 \item{x}{ftmsData object}
