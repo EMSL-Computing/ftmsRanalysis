@@ -6,6 +6,19 @@ This R package provides functionality for data formatting, preprocessing, filter
 
 ## Installation:
 
+(**Recommended**) To install the latest *release*:
+```r
+devtools::install_github("EMSL-Computing/ftmsRanalysis@*release")
+```
+
+To install a specific release, say 1.0.0:
+
+```r
+devtools::install_github("EMSL-Computing/ftmsRanalysis@1.0.0")
+```
+
+**(Not recommended, since these changes are still being tested) **, You can also install the most current version of master:
+
 ```r
 devtools::install_github("EMSL-Computing/ftmsRanalysis")
 ```
