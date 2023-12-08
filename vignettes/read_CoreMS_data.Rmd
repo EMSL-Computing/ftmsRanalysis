@@ -57,7 +57,7 @@ dat %>%
 The next step is to convert the `CoreMSrbind` object into a `CoreMSData` object using the function `as.CoreMSData`. The arguments for this function are the `data.frame` output by the function `read_CoreMS_data` and, optionally, the names of the columns corresponding to mass-to-error ratio (m/z), peak height, mass error, confidence score, molecular formula, and other peak metadata. The default values for these parameters are set to the column names in typical CoreMS output. The column names corresponding to isotope columns C13, S34, O18, and N15 should be included if and only if present in the dataset. In this case, we will include names for the C13 and O18 columns.
 
 ```{r}
-cmsDat <- as.CoreMSData(dat, c13_cname = "13C", o18_cname = "18O")
+cmsDat <- as.CoreMSData(dat)
 ```
 
 The `CoreMSData` object consists of a list of two `data.frames`, `monoiso_data` and `iso_data`, containing the monoisotopic peaks and isotopic peaks, respectively. At this time, the isotopic peaks are not used for downstream analyses. 

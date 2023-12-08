@@ -61,17 +61,9 @@ column containing the monoisotopic index in \code{all_data}}
 \item{mf_cname}{a character string specifying the name of the column
 containing the molecular formula in \code{all_data}}
 
-\item{c13_cname}{a character string specifying the name of the column
-containing the C13 logical indicator in \code{all_data}}
-
-\item{s34_cname}{a character string specifying the name of the column
-containing the S43 logical indicator in \code{all_data}}
-
-\item{o18_cname}{a character string specifying the name of the column
-containing the O18 logical indicator in \code{all_data}}
-
-\item{n15_cname}{a character string specifying the name of the column
-containing the N15 logical indicator in \code{all_data}}
+\item{iso_cols}{a character vector specifying columns indicating the presence
+of isotopic peaks, e.g. a column "13C" with T/F specifying the presence of
+13C.  Defaults to \code{c("13C", "18O", "15N", "34S")}.}
 }
 \value{
 `CoreMSData` object, consisting of a list of two data frames

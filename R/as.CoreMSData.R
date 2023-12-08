@@ -28,15 +28,10 @@
 #'   column containing the monoisotopic index in \code{all_data}
 #' @param mf_cname a character string specifying the name of the column
 #'   containing the molecular formula in \code{all_data}
-#' @param c13_cname a character string specifying the name of the column
-#'   containing the C13 logical indicator in \code{all_data}
-#' @param s34_cname a character string specifying the name of the column
-#'   containing the S43 logical indicator in \code{all_data}
-#' @param o18_cname a character string specifying the name of the column
-#'   containing the O18 logical indicator in \code{all_data}
-#' @param n15_cname a character string specifying the name of the column
-#'   containing the N15 logical indicator in \code{all_data}
-#'
+#' @param iso_cols a character vector specifying columns indicating the presence
+#'  of isotopic peaks, e.g. a column "13C" with T/F specifying the presence of
+#'  13C.  Defaults to \code{c("13C", "18O", "15N", "34S")}.
+#' 
 #' @return `CoreMSData` object, consisting of a list of two data frames
 #' 
 #' @author Natalie Winans
@@ -93,7 +88,7 @@ as.CoreMSData <- function(all_data,
   
   # check that all isotopic peaks are indicated by isotopic columns and correct if not
   iso_mf_peaks <- monoiso_data %>%
-    dplyr::filter(stringr::str_detect(.data[[mf_cname]], "13C|18O|15N|34S"))
+    dplyr::filter(stringr::str_detect(.data[[mf_cname]], paste(iso_cols, collapse="|")))
   
   if (nrow(iso_mf_peaks) > 0) {
     iso_data <- rbind(iso_data, iso_mf_peaks)
