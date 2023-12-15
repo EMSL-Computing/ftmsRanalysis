@@ -25,7 +25,6 @@ Imports:
     tidyr,
     reshape2,
     vegan,
-    visNetwork,
     data.table,
     ggplot2,
     lazyeval,
