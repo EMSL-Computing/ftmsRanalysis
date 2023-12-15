@@ -98,6 +98,10 @@ reference:
   - '`getInstrumentType`'
   - '`getModuleName`'
   - '`getVanKrevelenCategoryBounds`'
+- title: CoreMS to ftmsRanalysis conversion
+  contents:
+  - 'coreMSDataToFtmsData'
+  - 'as.CoreMSData'
 - title: Column name methods
   desc: Methods to get the column name used to store various meta data values
   contents:
@@ -147,8 +151,6 @@ reference:
 - title: internal
   desc: Other functions
   contents:
-  - CoreMSData_to_ftmsData
-  - as.CoreMSData
   - calc_aroma
   - calc_dbe
   - calc_element_ratios
