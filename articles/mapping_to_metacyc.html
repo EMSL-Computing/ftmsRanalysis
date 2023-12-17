@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">ftmsRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/ftmsRanalysis.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -60,13 +56,13 @@
       <a href="../articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="../articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
-    </li>
-    <li>
       <a href="../articles/kendrick_plots.html">Kendrick Plots</a>
     </li>
     <li>
       <a href="../articles/mapping_to_metacyc.html">Mapping FT-MS Data to MetaCyc</a>
+    </li>
+    <li>
+      <a href="../articles/read_CoreMS_data.html">Formatting CoreMS data for ftmsRanalysis</a>
     </li>
     <li>
       <a href="../articles/van_krevelen_plots.html">Van Krevelen Plots</a>
@@ -76,8 +72,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/EMSL-Computing/ftmsRanalysis/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/EMSL-Computing/ftmsRanalysis/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -95,428 +91,541 @@
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Mapping FT-MS Data to MetaCyc</h1>
-                        <h4 class="author">Amanda White</h4>
+                        <h4 data-toc-skip class="author">Amanda
+White</h4>
             
-            <h4 class="date">2020-07-07</h4>
+            <h4 data-toc-skip class="date">2023-12-17</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/EMSL-Computing/ftmsRanalysis/blob/master/vignettes/mapping_to_metacyc.Rmd"><code>vignettes/mapping_to_metacyc.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/EMSL-Computing/ftmsRanalysis/blob/HEAD/vignettes/mapping_to_metacyc.Rmd" class="external-link"><code>vignettes/mapping_to_metacyc.Rmd</code></a></small>
       <div class="hidden name"><code>mapping_to_metacyc.Rmd</code></div>
 
     </div>
 
     
     
-<p>The <code>ftmsRanalysis</code> package facilitates mapping observed peaks with formulas to compounds found in MetaCyc<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> (<a href="https://metacyc.org" class="uri">https://metacyc.org</a>), a curated database of primary and secondary metabolism. Mapping the observed compounds to metabolites and the associated metabolic pathways provides insight into the pathways that are active, and can suggest new hypotheses about the biochemical processes occurring in a biological or environmental system.</p>
-<p>PNNL has created an R package of data from MetaCyc to support this functionality, which is available here: <a href="https://github.com/EMSL-Computing/MetaCycData" class="uri">https://github.com/EMSL-Computing/MetaCycData</a>. It can be installed with the command:</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"EMSL-Computing/MetaCycData"</span>)</pre></body></html></div>
-<div id="mapping-peaks-to-compounds" class="section level1">
-<h1 class="hasAnchor">
-<a href="#mapping-peaks-to-compounds" class="anchor"></a>Mapping Peaks to Compounds</h1>
-<p>The first step is to map the peak data to compounds in MetaCyc. This is done by comparing the molecular formula assignments for each peak to compound molecular formulas from the database. Not all peaks will have molecular formulas, and many molecular formulas will map to multiple compounds.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">ftmsRanalysis</span>)
-<span class="co">#&gt; </span>
-<span class="co">#&gt; Attaching package: 'ftmsRanalysis'</span>
-<span class="co">#&gt; The following object is masked from 'package:stats':</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;     heatmap</span>
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">MetaCycData</span>)
-
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="st">"examplePeakData"</span>)
-
-<span class="no">compoundData</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mapPeaksToCompounds.html">mapPeaksToCompounds</a></span>(<span class="no">examplePeakData</span>, <span class="kw">db</span><span class="kw">=</span><span class="st">"MetaCyc"</span>)
-<span class="co">#&gt; Warning: `filter_()` is deprecated as of dplyr 0.7.0.</span>
-<span class="co">#&gt; Please use `filter()` instead.</span>
-<span class="co">#&gt; See vignette('programming') for more help</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: `mutate_()` is deprecated as of dplyr 0.7.0.</span>
-<span class="co">#&gt; Please use `mutate()` instead.</span>
-<span class="co">#&gt; See vignette('programming') for more help</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning in mapPeaksToCompounds(examplePeakData, db = "MetaCyc"): Multiple masses</span>
-<span class="co">#&gt; map to the same molecular formula/compound. Constructing a unique ID for e_data.</span></pre></body></html></div>
-<p>The <code>db</code> parameter specifies what database to use; currently "MetaCyc" is the only valid option, but in the future other databases may be added. (And "MetaCyc" is the default so it does not have to be specified.)</p>
-<p>Notice that a warning message was printed above; this is because multiple peaks in the original data are assigned the same molecular formula. This is not uncommon but could create a problem for downstream analysis unless it's resolved. The function <code>combinePeaksWithSameFormula</code> will combine rows with the same molecular formula by adding the abundance values (or for presence/absence data, 'or'-ing the rows).</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">peak2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/combinePeaksWithSameFormula.html">combinePeaksWithSameFormula</a></span>(<span class="no">examplePeakData</span>)
-<span class="co">#&gt; Warning: `select_()` is deprecated as of dplyr 0.7.0.</span>
-<span class="co">#&gt; Please use `select()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; Warning: `rename_()` is deprecated as of dplyr 0.7.0.</span>
-<span class="co">#&gt; Please use `rename()` instead.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="co">#&gt; 770 mass formulas with duplicate values found</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">peak2</span>)
-<span class="co">#&gt; Samples: 20</span>
-<span class="co">#&gt; Molecules: 22290</span>
-<span class="co">#&gt; Percent Missing: 81.108%</span>
-<span class="no">compoundData</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mapPeaksToCompounds.html">mapPeaksToCompounds</a></span>(<span class="no">peak2</span>, <span class="kw">db</span><span class="kw">=</span><span class="st">"MetaCyc"</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">compoundData</span>)
-<span class="co">#&gt; Samples: 20</span>
-<span class="co">#&gt; Molecules: 738</span>
-<span class="co">#&gt; Percent Missing: 42.121%</span></pre></body></html></div>
-<p>There are many fewer rows of data there in <code>compoundData</code> than there are in <code>peak2</code>. This is due to the fact that so few peaks have molecular formulas assigned. When this mapping is performed, the compound ID is added to the <code>e_meta</code> table (<code>Compound</code> column):</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">compoundData</span>$<span class="no">e_meta</span>[, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Mass"</span>, <span class="st">"Compound"</span>)])
-<span class="co">#&gt;          Mass               Compound</span>
-<span class="co">#&gt; 1 129.0557399        PANTOYL-LACTONE</span>
-<span class="co">#&gt; 2 129.0557399     ETHYL-ACETOACETATE</span>
-<span class="co">#&gt; 3 129.0557399    PROPIONIC-ANHYDRIDE</span>
-<span class="co">#&gt; 4 129.0557399              CPD-15810</span>
-<span class="co">#&gt; 5 129.0557399              CPD-15381</span>
-<span class="co">#&gt; 6 129.0557399 6-HYDROXYHEXAN-6-OLIDE</span></pre></body></html></div>
-<p>These IDs can be used to map back to the <code>MetaCycData</code> package--the <code>mc_compounds</code> data frame contains compound information. This information includes the URL and common name among other fields.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span>(<span class="no">mc_compounds</span>, <span class="no">COMPOUND</span><span class="kw">==</span><span class="st">"CPD-16467"</span>)
-<span class="co">#&gt;    COMPOUND                                                        URL</span>
-<span class="co">#&gt; 1 CPD-16467 http://metacyc.ai.sri.com/compound?orgid=META&amp;id=CPD-16467</span>
-<span class="co">#&gt;                       COMMON-NAME MONOISOTOPIC-MW MOLECULAR-WEIGHT      MF</span>
-<span class="co">#&gt; 1 3-[(1-carboxyvinyl)oxy]benzoate        208.0372          206.154 C10H6O5</span>
-<span class="co">#&gt;     CHEMICAL-FORMULA</span>
-<span class="co">#&gt; 1 (C 10) (H 6) (O 5)</span>
-<span class="co">#&gt;                                                                                                  DBLINKS</span>
-<span class="co">#&gt; 1 (PUBCHEM "25767865" NIL |kothari| 3619399262 NIL NIL) (CHEBI "76981" NIL |kothari| 3608052289 NIL NIL)</span></pre></body></html></div>
+<p>The <code>ftmsRanalysis</code> package facilitates mapping observed
+peaks with formulas to compounds found in MetaCyc<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> (<a href="https://metacyc.org" class="external-link uri">https://metacyc.org</a>), a
+curated database of primary and secondary metabolism. Mapping the
+observed compounds to metabolites and the associated metabolic pathways
+provides insight into the pathways that are active, and can suggest new
+hypotheses about the biochemical processes occurring in a biological or
+environmental system.</p>
+<p>PNNL has created an R package of data from MetaCyc to support this
+functionality, which is available here: <a href="https://github.com/EMSL-Computing/MetaCycData" class="external-link uri">https://github.com/EMSL-Computing/MetaCycData</a>. It can be
+installed with the command:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EMSL-Computing/MetaCycData"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="mapping-peaks-to-compounds">Mapping Peaks to Compounds<a class="anchor" aria-label="anchor" href="#mapping-peaks-to-compounds"></a>
+</h2>
+<p>The first step is to map the peak data to compounds in MetaCyc. This
+is done by comparing the molecular formula assignments for each peak to
+compound molecular formulas from the database. Not all peaks will have
+molecular formulas, and many molecular formulas will map to multiple
+compounds.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/EMSL-Computing/ftmsRanalysis" class="external-link">ftmsRanalysis</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'ftmsRanalysis'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     heatmap</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">MetaCycData</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"examplePeakData"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">compoundData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mapPeaksToCompounds.html">mapPeaksToCompounds</a></span><span class="op">(</span><span class="va">examplePeakData</span>, db<span class="op">=</span><span class="st">"MetaCyc"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `mutate_()` was deprecated in dplyr 0.7.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `mutate()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See vignette('programming') for more help</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ftmsRanalysis</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/EMSL-Computing/ftmsRanalysis/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: `filter_()` was deprecated in dplyr 0.7.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `filter()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See vignette('programming') for more help</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ftmsRanalysis</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/EMSL-Computing/ftmsRanalysis/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning in mapPeaksToCompounds(examplePeakData, db = "MetaCyc"): Multiple</span></span>
+<span><span class="co">#&gt; masses map to the same molecular formula/compound. Constructing a unique ID for</span></span>
+<span><span class="co">#&gt; e_data.</span></span></code></pre></div>
+<p>The <code>db</code> parameter specifies what database to use;
+currently “MetaCyc” is the only valid option, but in the future other
+databases may be added. (And “MetaCyc” is the default so it does not
+have to be specified.)</p>
+<p>Notice that a warning message was printed above; this is because
+multiple peaks in the original data are assigned the same molecular
+formula. This is not uncommon but could create a problem for downstream
+analysis unless it’s resolved. The function
+<code>combinePeaksWithSameFormula</code> will combine rows with the same
+molecular formula by adding the abundance values (or for
+presence/absence data, ‘or’-ing the rows).</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">peak2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/combinePeaksWithSameFormula.html">combinePeaksWithSameFormula</a></span><span class="op">(</span><span class="va">examplePeakData</span><span class="op">)</span></span>
+<span><span class="co">#&gt; 770 mass formulas with duplicate values found</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">peak2</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Samples: 20</span></span>
+<span><span class="co">#&gt; Molecules: 22290</span></span>
+<span><span class="co">#&gt; Percent Missing: 81.108%</span></span>
+<span><span class="va">compoundData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mapPeaksToCompounds.html">mapPeaksToCompounds</a></span><span class="op">(</span><span class="va">peak2</span>, db<span class="op">=</span><span class="st">"MetaCyc"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">compoundData</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Samples: 20</span></span>
+<span><span class="co">#&gt; Molecules: 738</span></span>
+<span><span class="co">#&gt; Percent Missing: 42.121%</span></span></code></pre></div>
+<p>There are many fewer rows of data there in <code>compoundData</code>
+than there are in <code>peak2</code>. This is due to the fact that so
+few peaks have molecular formulas assigned. When this mapping is
+performed, the compound ID is added to the <code>e_meta</code> table
+(<code>Compound</code> column):</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">compoundData</span><span class="op">$</span><span class="va">e_meta</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Mass"</span>, <span class="st">"Compound"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          Mass               Compound</span></span>
+<span><span class="co">#&gt; 1 129.0557399        PANTOYL-LACTONE</span></span>
+<span><span class="co">#&gt; 2 129.0557399     ETHYL-ACETOACETATE</span></span>
+<span><span class="co">#&gt; 3 129.0557399    PROPIONIC-ANHYDRIDE</span></span>
+<span><span class="co">#&gt; 4 129.0557399              CPD-15810</span></span>
+<span><span class="co">#&gt; 5 129.0557399              CPD-15381</span></span>
+<span><span class="co">#&gt; 6 129.0557399 6-HYDROXYHEXAN-6-OLIDE</span></span></code></pre></div>
+<p>These IDs can be used to map back to the <code>MetaCycData</code>
+package–the <code>mc_compounds</code> data frame contains compound
+information. This information includes the URL and common name among
+other fields.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">mc_compounds</span>, <span class="va">COMPOUND</span><span class="op">==</span><span class="st">"CPD-16467"</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    COMPOUND                                                        URL</span></span>
+<span><span class="co">#&gt; 1 CPD-16467 http://metacyc.ai.sri.com/compound?orgid=META&amp;id=CPD-16467</span></span>
+<span><span class="co">#&gt;                       COMMON-NAME MONOISOTOPIC-MW MOLECULAR-WEIGHT      MF</span></span>
+<span><span class="co">#&gt; 1 3-[(1-carboxyvinyl)oxy]benzoate        208.0372          206.154 C10H6O5</span></span>
+<span><span class="co">#&gt;     CHEMICAL-FORMULA</span></span>
+<span><span class="co">#&gt; 1 (C 10) (H 6) (O 5)</span></span>
+<span><span class="co">#&gt;                                                                                                  DBLINKS</span></span>
+<span><span class="co">#&gt; 1 (PUBCHEM "25767865" NIL |kothari| 3619399262 NIL NIL) (CHEBI "76981" NIL |kothari| 3608052289 NIL NIL)</span></span></code></pre></div>
 </div>
-<div id="mapping-compounds-to-reactions" class="section level1">
-<h1 class="hasAnchor">
-<a href="#mapping-compounds-to-reactions" class="anchor"></a>Mapping Compounds to Reactions</h1>
-<p>MetaCyc contains information to map compounds to reactions and biological pathways. MetaCyc's pathyways database includes what they call super-pathways, which are linked sets of smaller pathways. For biological purposes, we wanted to distinguish between base pathways and super-pathways, so the <code>ftmsRanalysis</code> and <code>MetaCycData</code> packages refer to base pathways as 'modules'. There is a <code>mc_modules</code> data frame in the <code>MetaCycData</code> package and the associated functions in <code>ftmsRanalysis</code> refer to mapping to 'modules'.</p>
-<p>The functions <code>mapCompoundsToReactions</code> and <code>mapCompoundsToModules</code> perform these mappings. The resulting objects produced by these functions indicate compounds observed per reaction or module. First we will explore mapping to reactions.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">rxnData</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mapCompoundsToReactions.html">mapCompoundsToReactions</a></span>(<span class="no">compoundData</span>)
-<span class="co">#&gt; Warning: `cols` is now required when using unnest().</span>
-<span class="co">#&gt; Please use `cols = c(Reaction)`</span>
-<span class="co">#&gt; Warning: `funs()` is deprecated as of dplyr 0.8.0.</span>
-<span class="co">#&gt; Please use a list of either functions or lambdas: </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Simple named list: </span>
-<span class="co">#&gt;   list(mean = mean, median = median)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Auto named with `tibble::lst()`: </span>
-<span class="co">#&gt;   tibble::lst(mean, median)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;   # Using lambdas</span>
-<span class="co">#&gt;   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="no">rxnData</span>
-<span class="co">#&gt; reactionData object</span>
-<span class="co">#&gt; # Reactions: 1903</span>
-<span class="co">#&gt; # Samples: 20</span>
-<span class="co">#&gt; Database: MetaCyc</span>
-<span class="co">#&gt; Meta data columns: [Reaction, EC_Number, Compounds_in_Dataset, N_Observable_Compounds]</span></pre></body></html></div>
-<p>Since compounds and reactions have a many to many relationship, the number of rows in <code>e_data</code> is different from that of <code>compoundData2</code>. The columns of <code>e_meta</code> have also changed. Previous metadata that was applicable to peaks and compounds is not applicable to reactions. Instead, there are four columns:</p>
+<div class="section level2">
+<h2 id="mapping-compounds-to-reactions">Mapping Compounds to Reactions<a class="anchor" aria-label="anchor" href="#mapping-compounds-to-reactions"></a>
+</h2>
+<p>MetaCyc contains information to map compounds to reactions and
+biological pathways. MetaCyc’s pathyways database includes what they
+call super-pathways, which are linked sets of smaller pathways. For
+biological purposes, we wanted to distinguish between base pathways and
+super-pathways, so the <code>ftmsRanalysis</code> and
+<code>MetaCycData</code> packages refer to base pathways as ‘modules’.
+There is a <code>mc_modules</code> data frame in the
+<code>MetaCycData</code> package and the associated functions in
+<code>ftmsRanalysis</code> refer to mapping to ‘modules’.</p>
+<p>The functions <code>mapCompoundsToReactions</code> and
+<code>mapCompoundsToModules</code> perform these mappings. The resulting
+objects produced by these functions indicate compounds observed per
+reaction or module. First we will explore mapping to reactions.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rxnData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mapCompoundsToReactions.html">mapCompoundsToReactions</a></span><span class="op">(</span><span class="va">compoundData</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `cols` is now required when using `unnest()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(Reaction)`.</span></span>
+<span><span class="co">#&gt; Warning: `select_()` was deprecated in dplyr 0.7.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `select()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ftmsRanalysis</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/EMSL-Computing/ftmsRanalysis/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: `rename_()` was deprecated in dplyr 0.7.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `rename()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ftmsRanalysis</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/EMSL-Computing/ftmsRanalysis/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="co">#&gt; Warning: `funs()` was deprecated in dplyr 0.8.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use a list of either functions or lambdas:</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; # Simple named list: list(mean = mean, median = median)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; # Auto named with `tibble::lst()`: tibble::lst(mean, median)</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; # Using lambdas list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ftmsRanalysis</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/EMSL-Computing/ftmsRanalysis/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="va">rxnData</span></span>
+<span><span class="co">#&gt; reactionData object</span></span>
+<span><span class="co">#&gt; # Reactions: 1903</span></span>
+<span><span class="co">#&gt; # Samples: 20</span></span>
+<span><span class="co">#&gt; Database: MetaCyc</span></span>
+<span><span class="co">#&gt; Meta data columns: [Reaction, EC_Number, Compounds_in_Dataset, N_Observable_Compounds]</span></span></code></pre></div>
+<p>Since compounds and reactions have a many to many relationship, the
+number of rows in <code>e_data</code> is different from that of
+<code>compoundData2</code>. The columns of <code>e_meta</code> have also
+changed. Previous metadata that was applicable to peaks and compounds is
+not applicable to reactions. Instead, there are four columns:</p>
 <ul>
 <li>
 <code>Reaction</code>: database ID</li>
 <li>
 <code>EC_Number</code>: Enzyme Commission number</li>
 <li>
-<code>Compounds_in_Dataset</code>: semi-colon delimited string of which compounds in the source dataset were mapped to the reaction</li>
+<code>Compounds_in_Dataset</code>: semi-colon delimited string of
+which compounds in the source dataset were mapped to the reaction</li>
 <li>
-<code>N_Observable_Compounds</code>: number of compounds in the database which could have been observed, subject to any mass filters previously applied to the source dataset</li>
+<code>N_Observable_Compounds</code>: number of compounds in the
+database which could have been observed, subject to any mass filters
+previously applied to the source dataset</li>
 </ul>
-<p>The proportion of compounds observed per reaction can be calculated by parsing the <code>Compounds_in_Dataset</code> field and dividing its element-wise length by the value in <code>N_Observable_Compounds</code>.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">n_cmp_observed</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/strsplit.html">strsplit</a></span>(<span class="no">rxnData</span>$<span class="no">e_meta</span>$<span class="no">Compounds_in_Dataset</span>, <span class="st">";"</span>), <span class="no">length</span>))
-<span class="no">prop_cmp_observed</span> <span class="kw">&lt;-</span> <span class="no">n_cmp_observed</span>/<span class="no">rxnData</span>$<span class="no">e_meta</span>$<span class="no">N_Observable_Compounds</span></pre></body></html></div>
-<p>We could also look at which reactions are observed in different treatment groups, using <code>divideByGroupComparisons</code> and <code>sumamrizeGroupComparisons</code>. First, we define treatment groups using <code>group_designation</code>. For this example we'll compare crop floras (Corn vs Switchgrass).</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">rxnData2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_designation.html">group_designation</a></span>(<span class="no">rxnData</span>, <span class="kw">main_effects</span><span class="kw">=</span><span class="st">"Crop.Flora"</span>)
-
-<span class="no">rxnGroupCompData</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/divideByGroupComparisons.html">divideByGroupComparisons</a></span>(<span class="no">rxnData2</span>, <span class="kw">comparisons</span><span class="kw">=</span><span class="st">"all"</span>)
-
-<span class="no">rxnCompSummary</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarizeGroupComparisons.html">summarizeGroupComparisons</a></span>(<span class="no">rxnGroupCompData</span>, <span class="kw">summary_functions</span> <span class="kw">=</span> <span class="st">"uniqueness_gtest"</span>,
-                                            <span class="kw">summary_function_params</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">uniqueness_gtest</span><span class="kw">=</span>
-                                                                           <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">pres_fn</span><span class="kw">=</span><span class="st">"nsamps"</span>, <span class="kw">pres_thresh</span><span class="kw">=</span><span class="fl">2</span>,
-                                                                           <span class="kw">pvalue_thresh</span><span class="kw">=</span><span class="fl">0.05</span>)))
-<span class="fu">getKeys</span>(<span class="no">rxnCompSummary</span>)
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] "Group_Comparison=C vs S"</span></pre></body></html></div>
-<p>The <code>rxnCompSummary</code> object is a distributed data object (ddo) (see the <a href="http://deltarho.org/docs-datadr/"><code>datadr</code></a> package for more information about ddo's). A ddo is a list of key-value pairs, where each key defines the groups under comparison, and each value is <code>reactionData</code> object. In this case we have one comparison (C vs S) but if we had more than two groups, the <code>ddo</code> could have many comparison objects.</p>
-<p>Suppose we wanted to examine the reactions that were observed to be unique to only one of the S or C groups. We would look at the <code>reactionData</code> value and filter the <code>e_data</code> element to rows that contain the word 'Unique'.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">x</span> <span class="kw">&lt;-</span> <span class="no">rxnCompSummary</span><span class="kw">[[</span><span class="st">"Group_Comparison=C vs S"</span>]]$<span class="no">value</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">x</span>$<span class="no">e_data</span>)
-<span class="co">#&gt;    Reaction                 uniqueness_gtest</span>
-<span class="co">#&gt;  Length:1903        Unique to S     :  52   </span>
-<span class="co">#&gt;  Class :character   Unique to C     :  26   </span>
-<span class="co">#&gt;  Mode  :character   Observed in Both:1449   </span>
-<span class="co">#&gt;                     NA's            : 376</span>
-
-<span class="no">ind</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"Unique"</span>, <span class="no">x</span>$<span class="no">e_data</span>$<span class="no">uniqueness_gtest</span>)
-<span class="no">x</span>$<span class="no">e_data</span>[<span class="no">ind</span>, ] <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">uniqueness_gtest</span>)
-<span class="co">#&gt;                              Reaction uniqueness_gtest</span>
-<span class="co">#&gt; 1                        1.2.1.55-RXN      Unique to S</span>
-<span class="co">#&gt; 2                        1.2.1.56-RXN      Unique to S</span>
-<span class="co">#&gt; 3                       2.3.1.103-RXN      Unique to S</span>
-<span class="co">#&gt; 4                       2.3.1.151-RXN      Unique to S</span>
-<span class="co">#&gt; 5                        2.3.1.91-RXN      Unique to S</span>
-<span class="co">#&gt; 6                           RXN-10896      Unique to S</span>
-<span class="co">#&gt; 7                           RXN-10897      Unique to S</span>
-<span class="co">#&gt; 8                           RXN-12070      Unique to S</span>
-<span class="co">#&gt; 9                           RXN-12073      Unique to S</span>
-<span class="co">#&gt; 10                          RXN-12270      Unique to S</span>
-<span class="co">#&gt; 11                          RXN-12802      Unique to S</span>
-<span class="co">#&gt; 12                          RXN-12803      Unique to S</span>
-<span class="co">#&gt; 13                          RXN-12899      Unique to S</span>
-<span class="co">#&gt; 14                          RXN-12933      Unique to S</span>
-<span class="co">#&gt; 15                          RXN-13788      Unique to S</span>
-<span class="co">#&gt; 16                          RXN-13830      Unique to S</span>
-<span class="co">#&gt; 17                          RXN-13967      Unique to S</span>
-<span class="co">#&gt; 18                          RXN-14008      Unique to S</span>
-<span class="co">#&gt; 19                          RXN-14355      Unique to S</span>
-<span class="co">#&gt; 20                          RXN-14435      Unique to S</span>
-<span class="co">#&gt; 21                          RXN-14436      Unique to S</span>
-<span class="co">#&gt; 22                          RXN-15322      Unique to S</span>
-<span class="co">#&gt; 23                          RXN-15332      Unique to S</span>
-<span class="co">#&gt; 24                          RXN-15333      Unique to S</span>
-<span class="co">#&gt; 25                          RXN-15350      Unique to S</span>
-<span class="co">#&gt; 26                          RXN-15691      Unique to S</span>
-<span class="co">#&gt; 27                          RXN-16828      Unique to S</span>
-<span class="co">#&gt; 28                          RXN-16829      Unique to S</span>
-<span class="co">#&gt; 29                          RXN-18192      Unique to S</span>
-<span class="co">#&gt; 30                          RXN-18193      Unique to S</span>
-<span class="co">#&gt; 31                          RXN-18200      Unique to S</span>
-<span class="co">#&gt; 32                          RXN-18317      Unique to S</span>
-<span class="co">#&gt; 33                          RXN-19597      Unique to S</span>
-<span class="co">#&gt; 34                          RXN-19598      Unique to S</span>
-<span class="co">#&gt; 35                           RXN-7482      Unique to S</span>
-<span class="co">#&gt; 36                           RXN-7483      Unique to S</span>
-<span class="co">#&gt; 37                           RXN-7484      Unique to S</span>
-<span class="co">#&gt; 38                           RXN-8006      Unique to S</span>
-<span class="co">#&gt; 39                           RXN-8169      Unique to S</span>
-<span class="co">#&gt; 40                           RXN-8170      Unique to S</span>
-<span class="co">#&gt; 41                           RXN-8176      Unique to S</span>
-<span class="co">#&gt; 42                           RXN-8268      Unique to S</span>
-<span class="co">#&gt; 43                           RXN-8270      Unique to S</span>
-<span class="co">#&gt; 44                           RXN-8449      Unique to S</span>
-<span class="co">#&gt; 45                           RXN-9691      Unique to S</span>
-<span class="co">#&gt; 46                           RXN-9692      Unique to S</span>
-<span class="co">#&gt; 47                          RXN0-6677      Unique to S</span>
-<span class="co">#&gt; 48                         RXNQT-4161      Unique to S</span>
-<span class="co">#&gt; 49                         RXNQT-4175      Unique to S</span>
-<span class="co">#&gt; 50                         RXNQT-4176      Unique to S</span>
-<span class="co">#&gt; 51                         RXNQT-4178      Unique to S</span>
-<span class="co">#&gt; 52 SINAPATE-1-GLUCOSYLTRANSFERASE-RXN      Unique to S</span>
-<span class="co">#&gt; 53                     1.13.11.10-RXN      Unique to C</span>
-<span class="co">#&gt; 54                      2.4.1.195-RXN      Unique to C</span>
-<span class="co">#&gt; 55                      2.4.1.220-RXN      Unique to C</span>
-<span class="co">#&gt; 56     AMYGDALIN-BETA-GLUCOSIDASE-RXN      Unique to C</span>
-<span class="co">#&gt; 57 DEOXYLIMONATE-A-RING-LACTONASE-RXN      Unique to C</span>
-<span class="co">#&gt; 58      PRUNASIN-BETA-GLUCOSIDASE-RXN      Unique to C</span>
-<span class="co">#&gt; 59                          RXN-15219      Unique to C</span>
-<span class="co">#&gt; 60                          RXN-15220      Unique to C</span>
-<span class="co">#&gt; 61                          RXN-15221      Unique to C</span>
-<span class="co">#&gt; 62                          RXN-15222      Unique to C</span>
-<span class="co">#&gt; 63                          RXN-15223      Unique to C</span>
-<span class="co">#&gt; 64                          RXN-17367      Unique to C</span>
-<span class="co">#&gt; 65                          RXN-17371      Unique to C</span>
-<span class="co">#&gt; 66                          RXN-18094      Unique to C</span>
-<span class="co">#&gt; 67                          RXN-18095      Unique to C</span>
-<span class="co">#&gt; 68                          RXN-18829      Unique to C</span>
-<span class="co">#&gt; 69                          RXN-18834      Unique to C</span>
-<span class="co">#&gt; 70                          RXN-20077      Unique to C</span>
-<span class="co">#&gt; 71                           RXN-2947      Unique to C</span>
-<span class="co">#&gt; 72                           RXN-4606      Unique to C</span>
-<span class="co">#&gt; 73                           RXN-7022      Unique to C</span>
-<span class="co">#&gt; 74                           RXN-7082      Unique to C</span>
-<span class="co">#&gt; 75                           RXN-9075      Unique to C</span>
-<span class="co">#&gt; 76                           RXN-9077      Unique to C</span>
-<span class="co">#&gt; 77                           RXN-9102      Unique to C</span>
-<span class="co">#&gt; 78                           RXN-9498      Unique to C</span></pre></body></html></div>
-<p>We could then join this table to the <code>e_meta</code> component to see the compounds observed, and join it to the <code>mc_reactions</code> data frame in <code>MetaCycData</code> to see other information (including URLs) about these reactions.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">unique_rxn_info</span> <span class="kw">&lt;-</span> <span class="no">x</span>$<span class="no">e_data</span>[<span class="no">ind</span>, ] <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">x</span>$<span class="no">e_meta</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">mc_reactions</span>, <span class="kw">by</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Reaction</span><span class="kw">=</span><span class="st">'REACTION'</span>)) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">uniqueness_gtest</span>)
-<span class="co">#&gt; Joining, by = "Reaction"</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">unique_rxn_info</span>)
-<span class="co">#&gt;        Reaction uniqueness_gtest EC_Number</span>
-<span class="co">#&gt; 1  1.2.1.55-RXN      Unique to S 1.1.1.279</span>
-<span class="co">#&gt; 2  1.2.1.56-RXN      Unique to S 1.1.1.280</span>
-<span class="co">#&gt; 3 2.3.1.103-RXN      Unique to S 2.3.1.103</span>
-<span class="co">#&gt; 4 2.3.1.151-RXN      Unique to S 2.3.1.151</span>
-<span class="co">#&gt; 5  2.3.1.91-RXN      Unique to S  2.3.1.91</span>
-<span class="co">#&gt; 6     RXN-10896      Unique to S      &lt;NA&gt;</span>
-<span class="co">#&gt;                              Compounds_in_Dataset N_Observable_Compounds</span>
-<span class="co">#&gt; 1 ETHYL-3-OXOHEXANOATE;ETHYL-R-3-HYDROXYHEXANOATE                      5</span>
-<span class="co">#&gt; 2 ETHYL-S-3-HYDROXYHEXANOATE;ETHYL-3-OXOHEXANOATE                      5</span>
-<span class="co">#&gt; 3                     1-O-SINAPOYL-BETA-D-GLUCOSE                      2</span>
-<span class="co">#&gt; 4                   2346-TETRAHYDROXYBENZOPHENONE                      6</span>
-<span class="co">#&gt; 5                     1-O-SINAPOYL-BETA-D-GLUCOSE                      3</span>
-<span class="co">#&gt; 6                                       CPD-11853                      5</span>
-<span class="co">#&gt;                                                                           URL</span>
-<span class="co">#&gt; 1  http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=1.2.1.55-RXN</span>
-<span class="co">#&gt; 2  http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=1.2.1.56-RXN</span>
-<span class="co">#&gt; 3 http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=2.3.1.103-RXN</span>
-<span class="co">#&gt; 4 http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=2.3.1.151-RXN</span>
-<span class="co">#&gt; 5  http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=2.3.1.91-RXN</span>
-<span class="co">#&gt; 6     http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=RXN-10896</span>
-<span class="co">#&gt;   SYSTEMATIC-NAME EC-NUMBER IN-PATHWAY REACTION-LIST</span>
-<span class="co">#&gt; 1            &lt;NA&gt; 1.1.1.279       &lt;NA&gt;          &lt;NA&gt;</span>
-<span class="co">#&gt; 2            &lt;NA&gt; 1.1.1.280       &lt;NA&gt;          &lt;NA&gt;</span>
-<span class="co">#&gt; 3            &lt;NA&gt; 2.3.1.103   PWY-3301          &lt;NA&gt;</span>
-<span class="co">#&gt; 4            &lt;NA&gt; 2.3.1.151   PWY-5002          &lt;NA&gt;</span>
-<span class="co">#&gt; 5            &lt;NA&gt;  2.3.1.91   PWY-3301          &lt;NA&gt;</span>
-<span class="co">#&gt; 6            &lt;NA&gt;      &lt;NA&gt;   PWY-6340          &lt;NA&gt;</span>
-<span class="co">#&gt;                                     LEFT</span>
-<span class="co">#&gt; 1      ETHYL-R-3-HYDROXYHEXANOATE + NADP</span>
-<span class="co">#&gt; 2      ETHYL-S-3-HYDROXYHEXANOATE + NADP</span>
-<span class="co">#&gt; 3        (2 1-O-SINAPOYL-BETA-D-GLUCOSE)</span>
-<span class="co">#&gt; 4 (3 MALONYL-COA) + CPD-264 + (3 PROTON)</span>
-<span class="co">#&gt; 5  CHOLINE + 1-O-SINAPOYL-BETA-D-GLUCOSE</span>
-<span class="co">#&gt; 6                      WATER + CPD-11861</span>
-<span class="co">#&gt;                                                           RIGHT</span>
-<span class="co">#&gt; 1                         ETHYL-3-OXOHEXANOATE + NADPH + PROTON</span>
-<span class="co">#&gt; 2                         ETHYL-3-OXOHEXANOATE + NADPH + PROTON</span>
-<span class="co">#&gt; 3            Glucopyranose + 12-BIS-O-SINAPOYL-BETA-D-GLUCOSIDE</span>
-<span class="co">#&gt; 4 (4 CO-A) + 2346-TETRAHYDROXYBENZOPHENONE + (3 CARBON-DIOXIDE)</span>
-<span class="co">#&gt; 5                             Glucopyranose + O-SINAPOYLCHOLINE</span>
-<span class="co">#&gt; 6                                CPD-11863 + CPD-11853 + PROTON</span>
-<span class="co">#&gt;   REACTION-DIRECTION</span>
-<span class="co">#&gt; 1               &lt;NA&gt;</span>
-<span class="co">#&gt; 2               &lt;NA&gt;</span>
-<span class="co">#&gt; 3      LEFT-TO-RIGHT</span>
-<span class="co">#&gt; 4      LEFT-TO-RIGHT</span>
-<span class="co">#&gt; 5      LEFT-TO-RIGHT</span>
-<span class="co">#&gt; 6      LEFT-TO-RIGHT</span>
-<span class="co">#&gt;                                                                      COMPOUNDS</span>
-<span class="co">#&gt; 1            NADP;ETHYL-R-3-HYDROXYHEXANOATE;PROTON;NADPH;ETHYL-3-OXOHEXANOATE</span>
-<span class="co">#&gt; 2            NADP;ETHYL-S-3-HYDROXYHEXANOATE;PROTON;NADPH;ETHYL-3-OXOHEXANOATE</span>
-<span class="co">#&gt; 3 1-O-SINAPOYL-BETA-D-GLUCOSE;12-BIS-O-SINAPOYL-BETA-D-GLUCOSIDE;Glucopyranose</span>
-<span class="co">#&gt; 4 PROTON;CPD-264;MALONYL-COA;CARBON-DIOXIDE;2346-TETRAHYDROXYBENZOPHENONE;CO-A</span>
-<span class="co">#&gt; 5          1-O-SINAPOYL-BETA-D-GLUCOSE;CHOLINE;O-SINAPOYLCHOLINE;Glucopyranose</span>
-<span class="co">#&gt; 6                                   CPD-11861;WATER;PROTON;CPD-11853;CPD-11863</span>
-<span class="co">#&gt;                                                                                                  DBLINKS</span>
-<span class="co">#&gt; 1 (RHEA "24352" NIL |kothari| 3571758892 NIL NIL) (LIGAND-RXN "R04105" NIL |taltman| 3459474589 NIL NIL)</span>
-<span class="co">#&gt; 2 (RHEA "18269" NIL |kothari| 3571758793 NIL NIL) (LIGAND-RXN "R04106" NIL |taltman| 3459474589 NIL NIL)</span>
-<span class="co">#&gt; 3 (RHEA "22665" NIL |kothari| 3709310380 NIL NIL) (LIGAND-RXN "R00063" NIL |taltman| 3459474592 NIL NIL)</span>
-<span class="co">#&gt; 4 (RHEA "19306" NIL |kothari| 3709310380 NIL NIL) (LIGAND-RXN "R04709" NIL |taltman| 3459474596 NIL NIL)</span>
-<span class="co">#&gt; 5 (RHEA "12025" NIL |kothari| 3709310378 NIL NIL) (LIGAND-RXN "R03075" NIL |taltman| 3459474596 NIL NIL)</span>
-<span class="co">#&gt; 6                                                                                                   &lt;NA&gt;</span></pre></body></html></div>
+<p>The proportion of compounds observed per reaction can be calculated
+by parsing the <code>Compounds_in_Dataset</code> field and dividing its
+element-wise length by the value in
+<code>N_Observable_Compounds</code>.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_cmp_observed</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unlist.html" class="external-link">unlist</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strsplit.html" class="external-link">strsplit</a></span><span class="op">(</span><span class="va">rxnData</span><span class="op">$</span><span class="va">e_meta</span><span class="op">$</span><span class="va">Compounds_in_Dataset</span>, <span class="st">";"</span><span class="op">)</span>, <span class="va">length</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">prop_cmp_observed</span> <span class="op">&lt;-</span> <span class="va">n_cmp_observed</span><span class="op">/</span><span class="va">rxnData</span><span class="op">$</span><span class="va">e_meta</span><span class="op">$</span><span class="va">N_Observable_Compounds</span></span></code></pre></div>
+<p>We could also look at which reactions are observed in different
+treatment groups, using <code>divideByGroupComparisons</code> and
+<code>sumamrizeGroupComparisons</code>. First, we define treatment
+groups using <code>group_designation</code>. For this example we’ll
+compare crop floras (Corn vs Switchgrass).</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">rxnData2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_designation.html">group_designation</a></span><span class="op">(</span><span class="va">rxnData</span>, main_effects<span class="op">=</span><span class="st">"Crop.Flora"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rxnGroupCompData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/divideByGroupComparisons.html">divideByGroupComparisons</a></span><span class="op">(</span><span class="va">rxnData2</span>, comparisons<span class="op">=</span><span class="st">"all"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">rxnCompSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarizeGroupComparisons.html">summarizeGroupComparisons</a></span><span class="op">(</span><span class="va">rxnGroupCompData</span>, summary_functions <span class="op">=</span> <span class="st">"uniqueness_gtest"</span>,</span>
+<span>                                            summary_function_params<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>uniqueness_gtest<span class="op">=</span></span>
+<span>                                                                           <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pres_fn<span class="op">=</span><span class="st">"nsamps"</span>, pres_thresh<span class="op">=</span><span class="fl">2</span>,</span>
+<span>                                                                           pvalue_thresh<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu">getKeys</span><span class="op">(</span><span class="va">rxnCompSummary</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] "Group_Comparison=C vs S"</span></span></code></pre></div>
+<p>The <code>rxnCompSummary</code> object is a distributed data object
+(ddo) (see the <a href="http://deltarho.org/docs-datadr/" class="external-link"><code>datadr</code></a> package
+for more information about ddo’s). A ddo is a list of key-value pairs,
+where each key defines the groups under comparison, and each value is
+<code>reactionData</code> object. In this case we have one comparison (C
+vs S) but if we had more than two groups, the <code>ddo</code> could
+have many comparison objects.</p>
+<p>Suppose we wanted to examine the reactions that were observed to be
+unique to only one of the S or C groups. We would look at the
+<code>reactionData</code> value and filter the <code>e_data</code>
+element to rows that contain the word ‘Unique’.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">rxnCompSummary</span><span class="op">[[</span><span class="st">"Group_Comparison=C vs S"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">value</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;    Reaction                 uniqueness_gtest</span></span>
+<span><span class="co">#&gt;  Length:1903        Unique to S     :  52   </span></span>
+<span><span class="co">#&gt;  Class :character   Unique to C     :  26   </span></span>
+<span><span class="co">#&gt;  Mode  :character   Observed in Both:1449   </span></span>
+<span><span class="co">#&gt;                     NA's            : 376</span></span>
+<span></span>
+<span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"Unique"</span>, <span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">$</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
+<span><span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                              Reaction uniqueness_gtest</span></span>
+<span><span class="co">#&gt; 1                        1.2.1.55-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 2                        1.2.1.56-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 3                       2.3.1.103-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 4                       2.3.1.151-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 5                        2.3.1.91-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 6                           RXN-10896      Unique to S</span></span>
+<span><span class="co">#&gt; 7                           RXN-10897      Unique to S</span></span>
+<span><span class="co">#&gt; 8                           RXN-12070      Unique to S</span></span>
+<span><span class="co">#&gt; 9                           RXN-12073      Unique to S</span></span>
+<span><span class="co">#&gt; 10                          RXN-12270      Unique to S</span></span>
+<span><span class="co">#&gt; 11                          RXN-12802      Unique to S</span></span>
+<span><span class="co">#&gt; 12                          RXN-12803      Unique to S</span></span>
+<span><span class="co">#&gt; 13                          RXN-12899      Unique to S</span></span>
+<span><span class="co">#&gt; 14                          RXN-12933      Unique to S</span></span>
+<span><span class="co">#&gt; 15                          RXN-13788      Unique to S</span></span>
+<span><span class="co">#&gt; 16                          RXN-13830      Unique to S</span></span>
+<span><span class="co">#&gt; 17                          RXN-13967      Unique to S</span></span>
+<span><span class="co">#&gt; 18                          RXN-14008      Unique to S</span></span>
+<span><span class="co">#&gt; 19                          RXN-14355      Unique to S</span></span>
+<span><span class="co">#&gt; 20                          RXN-14435      Unique to S</span></span>
+<span><span class="co">#&gt; 21                          RXN-14436      Unique to S</span></span>
+<span><span class="co">#&gt; 22                          RXN-15322      Unique to S</span></span>
+<span><span class="co">#&gt; 23                          RXN-15332      Unique to S</span></span>
+<span><span class="co">#&gt; 24                          RXN-15333      Unique to S</span></span>
+<span><span class="co">#&gt; 25                          RXN-15350      Unique to S</span></span>
+<span><span class="co">#&gt; 26                          RXN-15691      Unique to S</span></span>
+<span><span class="co">#&gt; 27                          RXN-16828      Unique to S</span></span>
+<span><span class="co">#&gt; 28                          RXN-16829      Unique to S</span></span>
+<span><span class="co">#&gt; 29                          RXN-18192      Unique to S</span></span>
+<span><span class="co">#&gt; 30                          RXN-18193      Unique to S</span></span>
+<span><span class="co">#&gt; 31                          RXN-18200      Unique to S</span></span>
+<span><span class="co">#&gt; 32                          RXN-18317      Unique to S</span></span>
+<span><span class="co">#&gt; 33                          RXN-19597      Unique to S</span></span>
+<span><span class="co">#&gt; 34                          RXN-19598      Unique to S</span></span>
+<span><span class="co">#&gt; 35                           RXN-7482      Unique to S</span></span>
+<span><span class="co">#&gt; 36                           RXN-7483      Unique to S</span></span>
+<span><span class="co">#&gt; 37                           RXN-7484      Unique to S</span></span>
+<span><span class="co">#&gt; 38                           RXN-8006      Unique to S</span></span>
+<span><span class="co">#&gt; 39                           RXN-8169      Unique to S</span></span>
+<span><span class="co">#&gt; 40                           RXN-8170      Unique to S</span></span>
+<span><span class="co">#&gt; 41                           RXN-8176      Unique to S</span></span>
+<span><span class="co">#&gt; 42                           RXN-8268      Unique to S</span></span>
+<span><span class="co">#&gt; 43                           RXN-8270      Unique to S</span></span>
+<span><span class="co">#&gt; 44                           RXN-8449      Unique to S</span></span>
+<span><span class="co">#&gt; 45                           RXN-9691      Unique to S</span></span>
+<span><span class="co">#&gt; 46                           RXN-9692      Unique to S</span></span>
+<span><span class="co">#&gt; 47                          RXN0-6677      Unique to S</span></span>
+<span><span class="co">#&gt; 48                         RXNQT-4161      Unique to S</span></span>
+<span><span class="co">#&gt; 49                         RXNQT-4175      Unique to S</span></span>
+<span><span class="co">#&gt; 50                         RXNQT-4176      Unique to S</span></span>
+<span><span class="co">#&gt; 51                         RXNQT-4178      Unique to S</span></span>
+<span><span class="co">#&gt; 52 SINAPATE-1-GLUCOSYLTRANSFERASE-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 53                     1.13.11.10-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 54                      2.4.1.195-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 55                      2.4.1.220-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 56     AMYGDALIN-BETA-GLUCOSIDASE-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 57 DEOXYLIMONATE-A-RING-LACTONASE-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 58      PRUNASIN-BETA-GLUCOSIDASE-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 59                          RXN-15219      Unique to C</span></span>
+<span><span class="co">#&gt; 60                          RXN-15220      Unique to C</span></span>
+<span><span class="co">#&gt; 61                          RXN-15221      Unique to C</span></span>
+<span><span class="co">#&gt; 62                          RXN-15222      Unique to C</span></span>
+<span><span class="co">#&gt; 63                          RXN-15223      Unique to C</span></span>
+<span><span class="co">#&gt; 64                          RXN-17367      Unique to C</span></span>
+<span><span class="co">#&gt; 65                          RXN-17371      Unique to C</span></span>
+<span><span class="co">#&gt; 66                          RXN-18094      Unique to C</span></span>
+<span><span class="co">#&gt; 67                          RXN-18095      Unique to C</span></span>
+<span><span class="co">#&gt; 68                          RXN-18829      Unique to C</span></span>
+<span><span class="co">#&gt; 69                          RXN-18834      Unique to C</span></span>
+<span><span class="co">#&gt; 70                          RXN-20077      Unique to C</span></span>
+<span><span class="co">#&gt; 71                           RXN-2947      Unique to C</span></span>
+<span><span class="co">#&gt; 72                           RXN-4606      Unique to C</span></span>
+<span><span class="co">#&gt; 73                           RXN-7022      Unique to C</span></span>
+<span><span class="co">#&gt; 74                           RXN-7082      Unique to C</span></span>
+<span><span class="co">#&gt; 75                           RXN-9075      Unique to C</span></span>
+<span><span class="co">#&gt; 76                           RXN-9077      Unique to C</span></span>
+<span><span class="co">#&gt; 77                           RXN-9102      Unique to C</span></span>
+<span><span class="co">#&gt; 78                           RXN-9498      Unique to C</span></span></code></pre></div>
+<p>We could then join this table to the <code>e_meta</code> component to
+see the compounds observed, and join it to the <code>mc_reactions</code>
+data frame in <code>MetaCycData</code> to see other information
+(including URLs) about these reactions.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">unique_rxn_info</span> <span class="op">&lt;-</span> <span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">e_meta</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">mc_reactions</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Reaction<span class="op">=</span><span class="st">'REACTION'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(Reaction)`</span></span>
+<span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">unique_rxn_info</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        Reaction uniqueness_gtest EC_Number</span></span>
+<span><span class="co">#&gt; 1  1.2.1.55-RXN      Unique to S 1.1.1.279</span></span>
+<span><span class="co">#&gt; 2  1.2.1.56-RXN      Unique to S 1.1.1.280</span></span>
+<span><span class="co">#&gt; 3 2.3.1.103-RXN      Unique to S 2.3.1.103</span></span>
+<span><span class="co">#&gt; 4 2.3.1.151-RXN      Unique to S 2.3.1.151</span></span>
+<span><span class="co">#&gt; 5  2.3.1.91-RXN      Unique to S  2.3.1.91</span></span>
+<span><span class="co">#&gt; 6     RXN-10896      Unique to S      &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                              Compounds_in_Dataset N_Observable_Compounds</span></span>
+<span><span class="co">#&gt; 1 ETHYL-3-OXOHEXANOATE;ETHYL-R-3-HYDROXYHEXANOATE                      5</span></span>
+<span><span class="co">#&gt; 2 ETHYL-S-3-HYDROXYHEXANOATE;ETHYL-3-OXOHEXANOATE                      5</span></span>
+<span><span class="co">#&gt; 3                     1-O-SINAPOYL-BETA-D-GLUCOSE                      2</span></span>
+<span><span class="co">#&gt; 4                   2346-TETRAHYDROXYBENZOPHENONE                      6</span></span>
+<span><span class="co">#&gt; 5                     1-O-SINAPOYL-BETA-D-GLUCOSE                      3</span></span>
+<span><span class="co">#&gt; 6                                       CPD-11853                      5</span></span>
+<span><span class="co">#&gt;                                                                           URL</span></span>
+<span><span class="co">#&gt; 1  http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=1.2.1.55-RXN</span></span>
+<span><span class="co">#&gt; 2  http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=1.2.1.56-RXN</span></span>
+<span><span class="co">#&gt; 3 http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=2.3.1.103-RXN</span></span>
+<span><span class="co">#&gt; 4 http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=2.3.1.151-RXN</span></span>
+<span><span class="co">#&gt; 5  http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=2.3.1.91-RXN</span></span>
+<span><span class="co">#&gt; 6     http://metacyc.ai.sri.com/META/new-image?type=REACTION&amp;object=RXN-10896</span></span>
+<span><span class="co">#&gt;   SYSTEMATIC-NAME EC-NUMBER IN-PATHWAY REACTION-LIST</span></span>
+<span><span class="co">#&gt; 1            &lt;NA&gt; 1.1.1.279       &lt;NA&gt;          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2            &lt;NA&gt; 1.1.1.280       &lt;NA&gt;          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3            &lt;NA&gt; 2.3.1.103   PWY-3301          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 4            &lt;NA&gt; 2.3.1.151   PWY-5002          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 5            &lt;NA&gt;  2.3.1.91   PWY-3301          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 6            &lt;NA&gt;      &lt;NA&gt;   PWY-6340          &lt;NA&gt;</span></span>
+<span><span class="co">#&gt;                                     LEFT</span></span>
+<span><span class="co">#&gt; 1      ETHYL-R-3-HYDROXYHEXANOATE + NADP</span></span>
+<span><span class="co">#&gt; 2      ETHYL-S-3-HYDROXYHEXANOATE + NADP</span></span>
+<span><span class="co">#&gt; 3        (2 1-O-SINAPOYL-BETA-D-GLUCOSE)</span></span>
+<span><span class="co">#&gt; 4 (3 MALONYL-COA) + CPD-264 + (3 PROTON)</span></span>
+<span><span class="co">#&gt; 5  CHOLINE + 1-O-SINAPOYL-BETA-D-GLUCOSE</span></span>
+<span><span class="co">#&gt; 6                      WATER + CPD-11861</span></span>
+<span><span class="co">#&gt;                                                           RIGHT</span></span>
+<span><span class="co">#&gt; 1                         ETHYL-3-OXOHEXANOATE + NADPH + PROTON</span></span>
+<span><span class="co">#&gt; 2                         ETHYL-3-OXOHEXANOATE + NADPH + PROTON</span></span>
+<span><span class="co">#&gt; 3            Glucopyranose + 12-BIS-O-SINAPOYL-BETA-D-GLUCOSIDE</span></span>
+<span><span class="co">#&gt; 4 (4 CO-A) + 2346-TETRAHYDROXYBENZOPHENONE + (3 CARBON-DIOXIDE)</span></span>
+<span><span class="co">#&gt; 5                             Glucopyranose + O-SINAPOYLCHOLINE</span></span>
+<span><span class="co">#&gt; 6                                CPD-11863 + CPD-11853 + PROTON</span></span>
+<span><span class="co">#&gt;   REACTION-DIRECTION</span></span>
+<span><span class="co">#&gt; 1               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 2               &lt;NA&gt;</span></span>
+<span><span class="co">#&gt; 3      LEFT-TO-RIGHT</span></span>
+<span><span class="co">#&gt; 4      LEFT-TO-RIGHT</span></span>
+<span><span class="co">#&gt; 5      LEFT-TO-RIGHT</span></span>
+<span><span class="co">#&gt; 6      LEFT-TO-RIGHT</span></span>
+<span><span class="co">#&gt;                                                                      COMPOUNDS</span></span>
+<span><span class="co">#&gt; 1            NADP;ETHYL-R-3-HYDROXYHEXANOATE;PROTON;NADPH;ETHYL-3-OXOHEXANOATE</span></span>
+<span><span class="co">#&gt; 2            NADP;ETHYL-S-3-HYDROXYHEXANOATE;PROTON;NADPH;ETHYL-3-OXOHEXANOATE</span></span>
+<span><span class="co">#&gt; 3 1-O-SINAPOYL-BETA-D-GLUCOSE;12-BIS-O-SINAPOYL-BETA-D-GLUCOSIDE;Glucopyranose</span></span>
+<span><span class="co">#&gt; 4 PROTON;CPD-264;MALONYL-COA;CARBON-DIOXIDE;2346-TETRAHYDROXYBENZOPHENONE;CO-A</span></span>
+<span><span class="co">#&gt; 5          1-O-SINAPOYL-BETA-D-GLUCOSE;CHOLINE;O-SINAPOYLCHOLINE;Glucopyranose</span></span>
+<span><span class="co">#&gt; 6                                   CPD-11861;WATER;PROTON;CPD-11853;CPD-11863</span></span>
+<span><span class="co">#&gt;                                                                                                  DBLINKS</span></span>
+<span><span class="co">#&gt; 1 (RHEA "24352" NIL |kothari| 3571758892 NIL NIL) (LIGAND-RXN "R04105" NIL |taltman| 3459474589 NIL NIL)</span></span>
+<span><span class="co">#&gt; 2 (RHEA "18269" NIL |kothari| 3571758793 NIL NIL) (LIGAND-RXN "R04106" NIL |taltman| 3459474589 NIL NIL)</span></span>
+<span><span class="co">#&gt; 3 (RHEA "22665" NIL |kothari| 3709310380 NIL NIL) (LIGAND-RXN "R00063" NIL |taltman| 3459474592 NIL NIL)</span></span>
+<span><span class="co">#&gt; 4 (RHEA "19306" NIL |kothari| 3709310380 NIL NIL) (LIGAND-RXN "R04709" NIL |taltman| 3459474596 NIL NIL)</span></span>
+<span><span class="co">#&gt; 5 (RHEA "12025" NIL |kothari| 3709310378 NIL NIL) (LIGAND-RXN "R03075" NIL |taltman| 3459474596 NIL NIL)</span></span>
+<span><span class="co">#&gt; 6                                                                                                   &lt;NA&gt;</span></span></code></pre></div>
 </div>
-<div id="mapping-compounds-to-modules" class="section level1">
-<h1 class="hasAnchor">
-<a href="#mapping-compounds-to-modules" class="anchor"></a>Mapping Compounds to Modules</h1>
-<p>The process for mapping from compounds to modules (base pathways) is very similar to that for reactions.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">modData</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/mapCompoundsToModules.html">mapCompoundsToModules</a></span>(<span class="no">compoundData</span>)
-<span class="co">#&gt; Warning: `cols` is now required when using unnest().</span>
-<span class="co">#&gt; Please use `cols = c(Reaction)`</span>
-<span class="co">#&gt; Warning: `group_by_()` is deprecated as of dplyr 0.7.0.</span>
-<span class="co">#&gt; Please use `group_by()` instead.</span>
-<span class="co">#&gt; See vignette('programming') for more help</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span>
-<span class="no">modData</span>
-<span class="co">#&gt; moduleData object</span>
-<span class="co">#&gt; # Reactions: 1214</span>
-<span class="co">#&gt; # Samples: 20</span>
-<span class="co">#&gt; Database: MetaCyc</span>
-<span class="co">#&gt; Meta data columns: [Module_Node, Module, Module_Node_Comb, Compounds_in_Dataset, N_Observable_Compounds]</span></pre></body></html></div>
-<p>In order to facilitate plotting the module reaction graph (coming soon!), <code>mapCompoundsToModules</code> actually maps each compound to the node of the module graph it corresonds to, where a node is one or more reactions. In the future <code>ftmsRanalysis</code> will include a function to plot a module graph and color the nodes by number (or proportion) of compounds observed.</p>
-<p>For now, let's investigate the modules that are uniquely observed between the two treatment groups. This is accomplished much like it is for reactions above.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">modData2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/group_designation.html">group_designation</a></span>(<span class="no">modData</span>, <span class="kw">main_effects</span><span class="kw">=</span><span class="st">"Crop.Flora"</span>)
-
-<span class="no">modGroupCompData</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/divideByGroupComparisons.html">divideByGroupComparisons</a></span>(<span class="no">modData2</span>, <span class="kw">comparisons</span><span class="kw">=</span><span class="st">"all"</span>)
-
-<span class="no">modCompSummary</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/summarizeGroupComparisons.html">summarizeGroupComparisons</a></span>(<span class="no">modGroupCompData</span>, <span class="kw">summary_functions</span> <span class="kw">=</span> <span class="st">"uniqueness_gtest"</span>,
-                                            <span class="kw">summary_function_params</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">uniqueness_gtest</span><span class="kw">=</span>
-                                                                           <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="kw">pres_fn</span><span class="kw">=</span><span class="st">"nsamps"</span>, <span class="kw">pres_thresh</span><span class="kw">=</span><span class="fl">2</span>,
-                                                                           <span class="kw">pvalue_thresh</span><span class="kw">=</span><span class="fl">0.05</span>)))
-<span class="co">#&gt; *** finding global variables used in 'fn'...</span>
-<span class="co">#&gt;   found: summary_function_params, summary_functions</span>
-<span class="co">#&gt; *** testing 'fn' on a subset... ok</span>
-<span class="co">#&gt; * Applying recombination...</span>
-
-<span class="no">y</span> <span class="kw">&lt;-</span> <span class="no">modCompSummary</span><span class="kw">[[</span><span class="st">"Group_Comparison=C vs S"</span>]]$<span class="no">value</span>
-<span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">y</span>$<span class="no">e_data</span>)
-<span class="co">#&gt;  Module_Node_Comb           uniqueness_gtest</span>
-<span class="co">#&gt;  Length:1214        Unique to S     : 32    </span>
-<span class="co">#&gt;  Class :character   Unique to C     : 14    </span>
-<span class="co">#&gt;  Mode  :character   Observed in Both:929    </span>
-<span class="co">#&gt;                     NA's            :239</span>
-
-<span class="no">ind</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grep</a></span>(<span class="st">"Unique"</span>, <span class="no">y</span>$<span class="no">e_data</span>$<span class="no">uniqueness_gtest</span>)
-<span class="no">y</span>$<span class="no">e_data</span>[<span class="no">ind</span>, ] <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">uniqueness_gtest</span>)
-<span class="co">#&gt;                            Module_Node_Comb uniqueness_gtest</span>
-<span class="co">#&gt; 1                        PWY-5001: RXN-7482      Unique to S</span>
-<span class="co">#&gt; 2                        PWY-5001: RXN-7483      Unique to S</span>
-<span class="co">#&gt; 3                   PWY-5002: 2.3.1.151-RXN      Unique to S</span>
-<span class="co">#&gt; 4                        PWY-5002: RXN-7484      Unique to S</span>
-<span class="co">#&gt; 5                        PWY-5160: RXN-8006      Unique to S</span>
-<span class="co">#&gt; 6                        PWY-5284: RXN-8169      Unique to S</span>
-<span class="co">#&gt; 7                        PWY-5284: RXN-8170      Unique to S</span>
-<span class="co">#&gt; 8                        PWY-5286: RXN-8176      Unique to S</span>
-<span class="co">#&gt; 9                        PWY-5321: RXN-8268      Unique to S</span>
-<span class="co">#&gt; 10                     PWY-5321: RXNQT-4161      Unique to S</span>
-<span class="co">#&gt; 11                      PWY-6340: RXN-10896      Unique to S</span>
-<span class="co">#&gt; 12                      PWY-6340: RXN-10897      Unique to S</span>
-<span class="co">#&gt; 13                      PWY-6690: RXN-12070      Unique to S</span>
-<span class="co">#&gt; 14                      PWY-6690: RXN-12073      Unique to S</span>
-<span class="co">#&gt; 15                      PWY-6827: RXN-12270      Unique to S</span>
-<span class="co">#&gt; 16                      PWY-6971: RXN-12802      Unique to S</span>
-<span class="co">#&gt; 17                      PWY-6971: RXN-12803      Unique to S</span>
-<span class="co">#&gt; 18                      PWY-7106: RXN-12933      Unique to S</span>
-<span class="co">#&gt; 19                      PWY-7134: RXN-13788      Unique to S</span>
-<span class="co">#&gt; 20                      PWY-7256: RXN-13967      Unique to S</span>
-<span class="co">#&gt; 21                      PWY-7256: RXN-14435      Unique to S</span>
-<span class="co">#&gt; 22                      PWY-7256: RXN-14436      Unique to S</span>
-<span class="co">#&gt; 23                       PWY-7262: RXN-8169      Unique to S</span>
-<span class="co">#&gt; 24                      PWY-7449: RXN-15322      Unique to S</span>
-<span class="co">#&gt; 25                      PWY-7450: RXN-15332      Unique to S</span>
-<span class="co">#&gt; 26                      PWY-7450: RXN-15333      Unique to S</span>
-<span class="co">#&gt; 27                      PWY-7458: RXN-15350      Unique to S</span>
-<span class="co">#&gt; 28                     PWY0-1527: RXN0-6677      Unique to S</span>
-<span class="co">#&gt; 29                    PWYQT-4450: RXN-18192      Unique to S</span>
-<span class="co">#&gt; 30                    PWYQT-4450: RXN-18193      Unique to S</span>
-<span class="co">#&gt; 31                    PWYQT-4450: RXN-18200      Unique to S</span>
-<span class="co">#&gt; 32                   PWYQT-4450: RXNQT-4175      Unique to S</span>
-<span class="co">#&gt; 33                  PWY-2821: 2.4.1.195-RXN      Unique to C</span>
-<span class="co">#&gt; 34                       PWY-2821: RXN-4606      Unique to C</span>
-<span class="co">#&gt; 35                       PWY-5784: RXN-2947      Unique to C</span>
-<span class="co">#&gt; 36                       PWY-5784: RXN-9075      Unique to C</span>
-<span class="co">#&gt; 37                       PWY-5784: RXN-9077      Unique to C</span>
-<span class="co">#&gt; 38                       PWY-5797: RXN-9102      Unique to C</span>
-<span class="co">#&gt; 39                       PWY-5959: RXN-9498      Unique to C</span>
-<span class="co">#&gt; 40 PWY-6011: AMYGDALIN-BETA-GLUCOSIDASE-RXN      Unique to C</span>
-<span class="co">#&gt; 41  PWY-6011: PRUNASIN-BETA-GLUCOSIDASE-RXN      Unique to C</span>
-<span class="co">#&gt; 42                  PWY-6068: 2.4.1.220-RXN      Unique to C</span>
-<span class="co">#&gt; 43                       PWY-6219: RXN-2947      Unique to C</span>
-<span class="co">#&gt; 44                      PWY-7824: RXN-18094      Unique to C</span>
-<span class="co">#&gt; 45                      PWY-7824: RXN-18095      Unique to C</span>
-<span class="co">#&gt; 46                      PWY-7911: RXN-18829      Unique to C</span></pre></body></html></div>
-<p>Then join this result to <code>x$e_meta</code> and <code>mc_modules</code> to get more information about the modules observed.</p>
-<div class="sourceCode"><html><body><pre class="r"><span class="no">unique_mod_info</span> <span class="kw">&lt;-</span> <span class="no">y</span>$<span class="no">e_data</span>[<span class="no">ind</span>, ] <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="no">y</span>$<span class="no">e_meta</span>) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span>(<span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">mc_modules</span>, <span class="no">MODULE</span>, <span class="no">URL</span>), <span class="kw">by</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="kw">Module</span><span class="kw">=</span><span class="st">'MODULE'</span>)) <span class="kw">%&gt;%</span>
-  <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html">arrange</a></span>(<span class="no">uniqueness_gtest</span>)
-<span class="co">#&gt; Joining, by = "Module_Node_Comb"</span>
-
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">unique_mod_info</span>)
-<span class="co">#&gt;          Module_Node_Comb uniqueness_gtest   Module_Node   Module</span>
-<span class="co">#&gt; 1      PWY-5001: RXN-7482      Unique to S      RXN-7482 PWY-5001</span>
-<span class="co">#&gt; 2      PWY-5001: RXN-7482      Unique to S      RXN-7482 PWY-5001</span>
-<span class="co">#&gt; 3      PWY-5001: RXN-7483      Unique to S      RXN-7483 PWY-5001</span>
-<span class="co">#&gt; 4 PWY-5002: 2.3.1.151-RXN      Unique to S 2.3.1.151-RXN PWY-5002</span>
-<span class="co">#&gt; 5      PWY-5002: RXN-7484      Unique to S      RXN-7484 PWY-5002</span>
-<span class="co">#&gt; 6      PWY-5160: RXN-8006      Unique to S      RXN-8006 PWY-5160</span>
-<span class="co">#&gt;                     Compounds_in_Dataset N_Observable_Compounds</span>
-<span class="co">#&gt; 1 2346-TETRAHYDROXYBENZOPHENONE;CPD-6881                      7</span>
-<span class="co">#&gt; 2 2346-TETRAHYDROXYBENZOPHENONE;CPD-6881                      7</span>
-<span class="co">#&gt; 3          2346-TETRAHYDROXYBENZOPHENONE                      6</span>
-<span class="co">#&gt; 4          2346-TETRAHYDROXYBENZOPHENONE                      6</span>
-<span class="co">#&gt; 5          2346-TETRAHYDROXYBENZOPHENONE                      6</span>
-<span class="co">#&gt; 6                               CPD-7138                      4</span>
-<span class="co">#&gt;                                                                     URL</span>
-<span class="co">#&gt; 1 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5001</span>
-<span class="co">#&gt; 2 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5001</span>
-<span class="co">#&gt; 3 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5001</span>
-<span class="co">#&gt; 4 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5002</span>
-<span class="co">#&gt; 5 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5002</span>
-<span class="co">#&gt; 6 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5160</span></pre></body></html></div>
+<div class="section level2">
+<h2 id="mapping-compounds-to-modules">Mapping Compounds to Modules<a class="anchor" aria-label="anchor" href="#mapping-compounds-to-modules"></a>
+</h2>
+<p>The process for mapping from compounds to modules (base pathways) is
+very similar to that for reactions.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">modData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mapCompoundsToModules.html">mapCompoundsToModules</a></span><span class="op">(</span><span class="va">compoundData</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: `cols` is now required when using `unnest()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `cols = c(Reaction)`.</span></span>
+<span><span class="co">#&gt; Warning: `group_by_()` was deprecated in dplyr 0.7.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `group_by()` instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> See vignette('programming') for more help</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">ftmsRanalysis</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/EMSL-Computing/ftmsRanalysis/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
+<span><span class="va">modData</span></span>
+<span><span class="co">#&gt; moduleData object</span></span>
+<span><span class="co">#&gt; # Reactions: 1214</span></span>
+<span><span class="co">#&gt; # Samples: 20</span></span>
+<span><span class="co">#&gt; Database: MetaCyc</span></span>
+<span><span class="co">#&gt; Meta data columns: [Module_Node, Module, Module_Node_Comb, Compounds_in_Dataset, N_Observable_Compounds]</span></span></code></pre></div>
+<p>In order to facilitate plotting the module reaction graph (coming
+soon!), <code>mapCompoundsToModules</code> actually maps each compound
+to the node of the module graph it corresonds to, where a node is one or
+more reactions. In the future <code>ftmsRanalysis</code> will include a
+function to plot a module graph and color the nodes by number (or
+proportion) of compounds observed.</p>
+<p>For now, let’s investigate the modules that are uniquely observed
+between the two treatment groups. This is accomplished much like it is
+for reactions above.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">modData2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/group_designation.html">group_designation</a></span><span class="op">(</span><span class="va">modData</span>, main_effects<span class="op">=</span><span class="st">"Crop.Flora"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">modGroupCompData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/divideByGroupComparisons.html">divideByGroupComparisons</a></span><span class="op">(</span><span class="va">modData2</span>, comparisons<span class="op">=</span><span class="st">"all"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">modCompSummary</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/summarizeGroupComparisons.html">summarizeGroupComparisons</a></span><span class="op">(</span><span class="va">modGroupCompData</span>, summary_functions <span class="op">=</span> <span class="st">"uniqueness_gtest"</span>,</span>
+<span>                                            summary_function_params<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>uniqueness_gtest<span class="op">=</span></span>
+<span>                                                                           <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>pres_fn<span class="op">=</span><span class="st">"nsamps"</span>, pres_thresh<span class="op">=</span><span class="fl">2</span>,</span>
+<span>                                                                           pvalue_thresh<span class="op">=</span><span class="fl">0.05</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; *** finding global variables used in 'fn'...</span></span>
+<span><span class="co">#&gt;   found: summary_function_params, summary_functions</span></span>
+<span><span class="co">#&gt; *** testing 'fn' on a subset... ok</span></span>
+<span><span class="co">#&gt; * Applying recombination...</span></span>
+<span></span>
+<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">modCompSummary</span><span class="op">[[</span><span class="st">"Group_Comparison=C vs S"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">value</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  Module_Node_Comb           uniqueness_gtest</span></span>
+<span><span class="co">#&gt;  Length:1214        Unique to S     : 32    </span></span>
+<span><span class="co">#&gt;  Class :character   Unique to C     : 14    </span></span>
+<span><span class="co">#&gt;  Mode  :character   Observed in Both:929    </span></span>
+<span><span class="co">#&gt;                     NA's            :239</span></span>
+<span></span>
+<span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"Unique"</span>, <span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">$</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
+<span><span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                            Module_Node_Comb uniqueness_gtest</span></span>
+<span><span class="co">#&gt; 1                        PWY-5001: RXN-7482      Unique to S</span></span>
+<span><span class="co">#&gt; 2                        PWY-5001: RXN-7483      Unique to S</span></span>
+<span><span class="co">#&gt; 3                   PWY-5002: 2.3.1.151-RXN      Unique to S</span></span>
+<span><span class="co">#&gt; 4                        PWY-5002: RXN-7484      Unique to S</span></span>
+<span><span class="co">#&gt; 5                        PWY-5160: RXN-8006      Unique to S</span></span>
+<span><span class="co">#&gt; 6                        PWY-5284: RXN-8169      Unique to S</span></span>
+<span><span class="co">#&gt; 7                        PWY-5284: RXN-8170      Unique to S</span></span>
+<span><span class="co">#&gt; 8                        PWY-5286: RXN-8176      Unique to S</span></span>
+<span><span class="co">#&gt; 9                        PWY-5321: RXN-8268      Unique to S</span></span>
+<span><span class="co">#&gt; 10                     PWY-5321: RXNQT-4161      Unique to S</span></span>
+<span><span class="co">#&gt; 11                      PWY-6340: RXN-10896      Unique to S</span></span>
+<span><span class="co">#&gt; 12                      PWY-6340: RXN-10897      Unique to S</span></span>
+<span><span class="co">#&gt; 13                      PWY-6690: RXN-12070      Unique to S</span></span>
+<span><span class="co">#&gt; 14                      PWY-6690: RXN-12073      Unique to S</span></span>
+<span><span class="co">#&gt; 15                      PWY-6827: RXN-12270      Unique to S</span></span>
+<span><span class="co">#&gt; 16                      PWY-6971: RXN-12802      Unique to S</span></span>
+<span><span class="co">#&gt; 17                      PWY-6971: RXN-12803      Unique to S</span></span>
+<span><span class="co">#&gt; 18                      PWY-7106: RXN-12933      Unique to S</span></span>
+<span><span class="co">#&gt; 19                      PWY-7134: RXN-13788      Unique to S</span></span>
+<span><span class="co">#&gt; 20                      PWY-7256: RXN-13967      Unique to S</span></span>
+<span><span class="co">#&gt; 21                      PWY-7256: RXN-14435      Unique to S</span></span>
+<span><span class="co">#&gt; 22                      PWY-7256: RXN-14436      Unique to S</span></span>
+<span><span class="co">#&gt; 23                       PWY-7262: RXN-8169      Unique to S</span></span>
+<span><span class="co">#&gt; 24                      PWY-7449: RXN-15322      Unique to S</span></span>
+<span><span class="co">#&gt; 25                      PWY-7450: RXN-15332      Unique to S</span></span>
+<span><span class="co">#&gt; 26                      PWY-7450: RXN-15333      Unique to S</span></span>
+<span><span class="co">#&gt; 27                      PWY-7458: RXN-15350      Unique to S</span></span>
+<span><span class="co">#&gt; 28                     PWY0-1527: RXN0-6677      Unique to S</span></span>
+<span><span class="co">#&gt; 29                    PWYQT-4450: RXN-18192      Unique to S</span></span>
+<span><span class="co">#&gt; 30                    PWYQT-4450: RXN-18193      Unique to S</span></span>
+<span><span class="co">#&gt; 31                    PWYQT-4450: RXN-18200      Unique to S</span></span>
+<span><span class="co">#&gt; 32                   PWYQT-4450: RXNQT-4175      Unique to S</span></span>
+<span><span class="co">#&gt; 33                  PWY-2821: 2.4.1.195-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 34                       PWY-2821: RXN-4606      Unique to C</span></span>
+<span><span class="co">#&gt; 35                       PWY-5784: RXN-2947      Unique to C</span></span>
+<span><span class="co">#&gt; 36                       PWY-5784: RXN-9075      Unique to C</span></span>
+<span><span class="co">#&gt; 37                       PWY-5784: RXN-9077      Unique to C</span></span>
+<span><span class="co">#&gt; 38                       PWY-5797: RXN-9102      Unique to C</span></span>
+<span><span class="co">#&gt; 39                       PWY-5959: RXN-9498      Unique to C</span></span>
+<span><span class="co">#&gt; 40 PWY-6011: AMYGDALIN-BETA-GLUCOSIDASE-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 41  PWY-6011: PRUNASIN-BETA-GLUCOSIDASE-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 42                  PWY-6068: 2.4.1.220-RXN      Unique to C</span></span>
+<span><span class="co">#&gt; 43                       PWY-6219: RXN-2947      Unique to C</span></span>
+<span><span class="co">#&gt; 44                      PWY-7824: RXN-18094      Unique to C</span></span>
+<span><span class="co">#&gt; 45                      PWY-7824: RXN-18095      Unique to C</span></span>
+<span><span class="co">#&gt; 46                      PWY-7911: RXN-18829      Unique to C</span></span></code></pre></div>
+<p>Then join this result to <code>x$e_meta</code> and
+<code>mc_modules</code> to get more information about the modules
+observed.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">unique_mod_info</span> <span class="op">&lt;-</span> <span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">e_meta</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">mc_modules</span>, <span class="va">MODULE</span>, <span class="va">URL</span><span class="op">)</span>, by<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Module<span class="op">=</span><span class="st">'MODULE'</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(Module_Node_Comb)`</span></span>
+<span>  </span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">unique_mod_info</span><span class="op">)</span></span>
+<span><span class="co">#&gt;          Module_Node_Comb uniqueness_gtest   Module_Node   Module</span></span>
+<span><span class="co">#&gt; 1      PWY-5001: RXN-7482      Unique to S      RXN-7482 PWY-5001</span></span>
+<span><span class="co">#&gt; 2      PWY-5001: RXN-7482      Unique to S      RXN-7482 PWY-5001</span></span>
+<span><span class="co">#&gt; 3      PWY-5001: RXN-7483      Unique to S      RXN-7483 PWY-5001</span></span>
+<span><span class="co">#&gt; 4 PWY-5002: 2.3.1.151-RXN      Unique to S 2.3.1.151-RXN PWY-5002</span></span>
+<span><span class="co">#&gt; 5      PWY-5002: RXN-7484      Unique to S      RXN-7484 PWY-5002</span></span>
+<span><span class="co">#&gt; 6      PWY-5160: RXN-8006      Unique to S      RXN-8006 PWY-5160</span></span>
+<span><span class="co">#&gt;                     Compounds_in_Dataset N_Observable_Compounds</span></span>
+<span><span class="co">#&gt; 1 2346-TETRAHYDROXYBENZOPHENONE;CPD-6881                      7</span></span>
+<span><span class="co">#&gt; 2 2346-TETRAHYDROXYBENZOPHENONE;CPD-6881                      7</span></span>
+<span><span class="co">#&gt; 3          2346-TETRAHYDROXYBENZOPHENONE                      6</span></span>
+<span><span class="co">#&gt; 4          2346-TETRAHYDROXYBENZOPHENONE                      6</span></span>
+<span><span class="co">#&gt; 5          2346-TETRAHYDROXYBENZOPHENONE                      6</span></span>
+<span><span class="co">#&gt; 6                               CPD-7138                      4</span></span>
+<span><span class="co">#&gt;                                                                     URL</span></span>
+<span><span class="co">#&gt; 1 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5001</span></span>
+<span><span class="co">#&gt; 2 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5001</span></span>
+<span><span class="co">#&gt; 3 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5001</span></span>
+<span><span class="co">#&gt; 4 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5002</span></span>
+<span><span class="co">#&gt; 5 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5002</span></span>
+<span><span class="co">#&gt; 6 http://metacyc.ai.sri.com/META/new-image?type=PATHWAY&amp;object=PWY-5160</span></span></code></pre></div>
 </div>
-<div class="footnotes">
+<div class="footnotes footnotes-end-of-document">
 <hr>
 <ol>
-<li id="fn1"><p><a href="https://academic.oup.com/nar/article/46/D1/D633/4559117">Caspi et al 2018, "The MetaCyc database of metabolic pathways and enzymes", Nucleic Acids Research 46(D1):D633-D639</a><a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p><a href="https://academic.oup.com/nar/article/46/D1/D633/4559117" class="external-link">Caspi et
+al 2018, “The MetaCyc database of metabolic pathways and enzymes”,
+Nucleic Acids Research 46(D1):D633-D639</a><a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>
   </div>
@@ -532,11 +641,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Lisa Bramer, Amanda White<br> 
-    at <a href="https://www.pnnl.gov">Pacific Northwest National Laboratory</a></p> 
+  <p></p>
+<p>Developed by Lisa Bramer, Amanda White.</p>
 </div>
+
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -544,6 +655,8 @@
 
   
 
+
+  
 
   </body>
 </html>

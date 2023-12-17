@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">ftmsRanalysis</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.1.0</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/ftmsRanalysis.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -60,13 +56,13 @@
       <a href="articles/density_plots.html">Density Plots</a>
     </li>
     <li>
-      <a href="articles/fticRanalysis_and_Trelliscope.html">Visualizing ftmsRanalysis results with Trelliscope</a>
-    </li>
-    <li>
       <a href="articles/kendrick_plots.html">Kendrick Plots</a>
     </li>
     <li>
       <a href="articles/mapping_to_metacyc.html">Mapping FT-MS Data to MetaCyc</a>
+    </li>
+    <li>
+      <a href="articles/read_CoreMS_data.html">Formatting CoreMS data for ftmsRanalysis</a>
     </li>
     <li>
       <a href="articles/van_krevelen_plots.html">Van Krevelen Plots</a>
@@ -76,8 +72,8 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/EMSL-Computing/ftmsRanalysis/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+  <a href="https://github.com/EMSL-Computing/ftmsRanalysis/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -93,24 +89,33 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="ftmsranalysis" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#ftmsranalysis" class="anchor"></a>ftmsRanalysis</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="ftmsranalysis">ftmsRanalysis<a class="anchor" aria-label="anchor" href="#ftmsranalysis"></a>
+</h1></div>
+<!-- badges: start -->
 
 <p>This R package provides functionality for data formatting, preprocessing, filtering, exploratory data analysis and visualization of fourier transform (FT) mass spectrometry (MS) data.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation:</h2>
-<div class="sourceCode"><pre class="r"><span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu">install_github</span>(<span class="st">"EMSL-Computing/ftmsRanalysis"</span>)</pre></div>
+<div class="section level2">
+<h2 id="installation">Installation:<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>(<strong>Recommended</strong>) To install the latest <em>release</em>:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EMSL-Computing/ftmsRanalysis@*release"</span><span class="op">)</span></span></code></pre></div>
+<p>To install a specific release, say 1.0.0:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EMSL-Computing/ftmsRanalysis@1.0.0"</span><span class="op">)</span></span></code></pre></div>
+<p><strong>(Not recommended, since these changes are still being tested) </strong>, You can also install the most current version of master:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"EMSL-Computing/ftmsRanalysis"</span><span class="op">)</span></span></code></pre></div>
 </div>
-<div id="tutorial" class="section level2">
-<h2 class="hasAnchor">
-<a href="#tutorial" class="anchor"></a>Tutorial:</h2>
-<p>To get started, see the package documentation and function reference located at <a href="http://EMSL-Computing.github.io/ftmsRanalysis" class="uri">http://EMSL-Computing.github.io/ftmsRanalysis</a>.</p>
+<div class="section level2">
+<h2 id="tutorial">Tutorial:<a class="anchor" aria-label="anchor" href="#tutorial"></a>
+</h2>
+<p>To get started, see the package documentation and function reference located at <a href="http://EMSL-Computing.github.io/ftmsRanalysis" class="external-link uri">http://EMSL-Computing.github.io/ftmsRanalysis</a>.</p>
 </div>
-<div id="data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data" class="anchor"></a>Data:</h2>
+<div class="section level2">
+<h2 id="data">Data:<a class="anchor" aria-label="anchor" href="#data"></a>
+</h2>
 <p>Example data are available in the <strong>ftmsRanalaysis</strong> package. Information about how to access this data is shown in package vignettes and on the website (link in the tutorial section above)</p>
 </div>
 </div>
@@ -118,49 +123,59 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/EMSL-Computing/ftmsRanalysis/">https://​github.com/​EMSL-Computing/​ftmsRanalysis/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/EMSL-Computing/ftmsRanalysis/issues">https://​github.com/​EMSL-Computing/​ftmsRanalysis/​issues</a>
-</li>
-<li>Learn more at <br><a href="https://msc-viz.emsl.pnnl.gov">https://​msc-viz.emsl.pnnl.gov</a>
-</li>
+<li><a href="https://github.com/EMSL-Computing/ftmsRanalysis/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/EMSL-Computing/ftmsRanalysis/issues" class="external-link">Report a bug</a></li>
+<li><a href="https://msc-viz.emsl.pnnl.gov" class="external-link">Learn more</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li>file <a href="LICENSE-text.html">LICENSE</a>
 </li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Lisa Bramer <br><small class="roles"> Author, maintainer </small>  </li>
-<li>Amanda White <br><small class="roles"> Author </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html#citation">Citing ftmsRanalysis</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/EMSL-Computing/ftmsRanalysis"><img src="https://travis-ci.org/EMSL-Computing/ftmsRanalysis.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://codecov.io/github/EMSL-Computing/ftmsRanalysis?branch=master"><img src="https://codecov.io/github/EMSL-Computing/ftmsRanalysis/coverage.svg?branch=master" alt="Coverage Status"></a></li>
+<li>Lisa Bramer <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Amanda White <br><small class="roles"> Author </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
 </ul>
 </div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://github.com/EMSL-Computing/ftmsRanalysis/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/EMSL-Computing/ftmsRanalysis/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
+<li><a href="https://codecov.io/github/EMSL-Computing/ftmsRanalysis?branch=master" class="external-link"><img src="https://codecov.io/github/EMSL-Computing/ftmsRanalysis/coverage.svg?branch=master" alt="Coverage Status"></a></li>
+</ul>
 </div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Lisa Bramer, Amanda White<br> 
-    at <a href="https://www.pnnl.gov">Pacific Northwest National Laboratory</a></p> 
+  <p></p>
+<p>Developed by Lisa Bramer, Amanda White.</p>
 </div>
+
 <div class="pkgdown">
-  <p>Site built with <a href="http://pkgdown.r-lib.org/">pkgdown</a>.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
@@ -168,6 +183,8 @@
 
   
 
+
+  
 
   </body>
 </html>
