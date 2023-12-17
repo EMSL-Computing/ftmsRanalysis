@@ -33,6 +33,7 @@ Imports:
     readr
 Suggests:
     MetaCycData,
+    datadr,
     knitr,
     rmarkdown,
     foreach,
