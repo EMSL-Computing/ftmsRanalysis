@@ -25,7 +25,6 @@ Imports:
     tidyr,
     reshape2,
     vegan,
-    visNetwork,
     data.table,
     ggplot2,
     lazyeval,
@@ -34,15 +33,17 @@ Imports:
     readr
 Suggests:
     MetaCycData,
+    datadr,
     knitr,
     rmarkdown,
-    datadr,
-    trelliscope,
     foreach,
     doParallel,
     testthat,
     purrr,
     viridis,
     DT
+Remotes:
+    github::delta-rho/datadr,
+    github::EMSL-Computing/MetaCycData
 VignetteBuilder: knitr
 RoxygenNote: 7.2.3

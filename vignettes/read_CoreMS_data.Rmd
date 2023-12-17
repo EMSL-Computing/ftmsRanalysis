@@ -11,7 +11,7 @@ output:
     toc: true
     toc_depth: 1
 vignette: >
-  %\VignetteIndexEntry{Reading in CoreMS Data}
+  %\VignetteIndexEntry{Formatting CoreMS data for ftmsRanalysis}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 ---
@@ -34,8 +34,9 @@ The `ftmsRanalysis` package allows users to read in data from CSV files containi
 
 The function `read_CoreMS_data` takes one or more CSV files output by the software CoreMS and converts them into a single `data.frame` that is compatible with `ftmsRanalysis` functions. The function will automatically insert a column containing the file names and output a `data.frame` that has been assigned the class `CoreMSrbind`. Files are read in by providing a list of file paths, either manually or by pattern matching using a function like `list.files`, as in the example below.
 
-```{r, error = TRUE}
+```{r}
 library(ftmsRanalysis)
+library(dplyr)
 
 ex_files <- list.files(pattern = "ex_data")
 

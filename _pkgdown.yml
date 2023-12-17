@@ -1,5 +1,4 @@
 template:
-  path: "pkgdown-template"
   params:
     bootswatch: cosmo
 #title: FT-MS Data Analysis in R
@@ -99,6 +98,10 @@ reference:
   - '`getInstrumentType`'
   - '`getModuleName`'
   - '`getVanKrevelenCategoryBounds`'
+- title: CoreMS to ftmsRanalysis conversion
+  contents:
+  - 'coreMSDataToFtmsData'
+  - 'as.CoreMSData'
 - title: Column name methods
   desc: Methods to get the column name used to store various meta data values
   contents:
@@ -145,6 +148,69 @@ reference:
   - '`ftms12T_edata`'
   - '`ftms12T_emeta`'
   - '`ftms12T_fdata`'
+- title: internal
+  desc: Other functions
+  contents:
+  - calc_aroma
+  - calc_dbe
+  - calc_element_ratios
+  - calc_gibbs
+  - calc_kendrick
+  - calc_nosc
+  - conf_filter
+  - conf_filter_dt
+  - filter_worker
+  - getGroupComparisonSummaryFunctionNames
+  - getPrincipalCoordinates
+  - gtest.standard
+  - heatmap
+  - mass_error_plot
+  - numPeaksPlot
+  - one_factor_change
+  - parse_mf
+  - plot.CoreMSData
+  - plot.confFilt
+  - plotlyHeatmap
+  - read_CoreMS_data
+  - setAromaColName
+  - setBS1ColName
+  - setBS2ColName
+  - setBS3ColName
+  - setCarbonColName
+  - setCompoundColName
+  - setDBEAIColName
+  - setDBEColName
+  - setDBEValenceDF
+  - setDBEoColName
+  - setEDataColName
+  - setElCompColName
+  - setExtractionColName
+  - setFDataColName
+  - setGibbsColName
+  - setHCRatioColName
+  - setHydrogenColName
+  - setIsotopicColName
+  - setKendrickDefectColName
+  - setKendrickMassColName
+  - setMFColName
+  - setMFNameColName
+  - setMassColName
+  - setModAromaColName
+  - setModuleColName
+  - setModuleNodeColName
+  - setNCRatioColName
+  - setNOSCColName
+  - setNPRatioColName
+  - setNitrogenColName
+  - setOCRatioColName
+  - setOxygenColName
+  - setPCRatioColName
+  - setPhosphorusColName
+  - setReactionColName
+  - setSulfurColName
+  - transformation_counts
+  - unique_mf_assignment
+  - vector_replace
 
 github:
   - icon: fa-github
