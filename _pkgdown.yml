@@ -116,6 +116,7 @@ reference:
   - '`getDBEoColName`'
   - '`getEDataColName`'
   - '`getElCompColName`'
+  - '`getElementColName`'
   - '`getExtractionColName`'
   - '`getFDataColName`'
   - '`getGibbsColName`'
@@ -138,6 +139,7 @@ reference:
   - '`getOxygenColName`'
   - '`getPCRatioColName`'
   - '`getPhosphorusColName`'
+  - '`getRatioColName`'
   - '`getReactionColName`'
   - '`getSulfurColName`'
 - title: Example data objects
@@ -184,6 +186,7 @@ reference:
   - setDBEoColName
   - setEDataColName
   - setElCompColName
+  - setElementColName
   - setExtractionColName
   - setFDataColName
   - setGibbsColName
@@ -206,6 +209,7 @@ reference:
   - setOxygenColName
   - setPCRatioColName
   - setPhosphorusColName
+  - setRatioColName
   - setReactionColName
   - setSulfurColName
   - transformation_counts
