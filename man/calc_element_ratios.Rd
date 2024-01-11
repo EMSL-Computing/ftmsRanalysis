@@ -9,7 +9,7 @@ calc_element_ratios(ftmsObj, ratios = NULL)
 \arguments{
 \item{ftmsObj}{an object of class 'peakData' or 'compoundData', typically a result of \code{\link{as.peakData}} or \code{\link{mapPeaksToCompounds}}. e_meta must be present.}
 
-\item{ratios}{a matrix of size 2xN where N is the number of ratios to calculate. Defaults to O:C, H:C, N:C, P:C, N:P. As a matrix:\tabular{lllll}{
+\item{ratios}{a matrix of size 2xN where N is the number of ratios to calculate. Defaults to calculating O:C, H:C, N:C, P:C, and N:P. As a matrix:\tabular{lllll}{
    O \tab H \tab N \tab P \tab N \cr
    C \tab C \tab C \tab C \tab P \cr
 }}
