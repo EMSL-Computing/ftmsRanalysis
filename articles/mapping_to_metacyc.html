@@ -94,7 +94,7 @@
                         <h4 data-toc-skip class="author">Amanda
 White</h4>
             
-            <h4 data-toc-skip class="date">2023-12-17</h4>
+            <h4 data-toc-skip class="date">2024-03-22</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/EMSL-Computing/ftmsRanalysis/blob/HEAD/vignettes/mapping_to_metacyc.Rmd" class="external-link"><code>vignettes/mapping_to_metacyc.Rmd</code></a></small>
       <div class="hidden name"><code>mapping_to_metacyc.Rmd</code></div>
@@ -177,8 +177,8 @@ presence/absence data, ‘or’-ing the rows).</p>
 <span><span class="va">compoundData</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/mapPeaksToCompounds.html">mapPeaksToCompounds</a></span><span class="op">(</span><span class="va">peak2</span>, db<span class="op">=</span><span class="st">"MetaCyc"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">compoundData</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Samples: 20</span></span>
-<span><span class="co">#&gt; Molecules: 738</span></span>
-<span><span class="co">#&gt; Percent Missing: 42.121%</span></span></code></pre></div>
+<span><span class="co">#&gt; Molecules: 747</span></span>
+<span><span class="co">#&gt; Percent Missing: 42.751%</span></span></code></pre></div>
 <p>There are many fewer rows of data there in <code>compoundData</code>
 than there are in <code>peak2</code>. This is due to the fact that so
 few peaks have molecular formulas assigned. When this mapping is
@@ -260,7 +260,7 @@ reaction or module. First we will explore mapping to reactions.</p>
 <span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="va">rxnData</span></span>
 <span><span class="co">#&gt; reactionData object</span></span>
-<span><span class="co">#&gt; # Reactions: 1903</span></span>
+<span><span class="co">#&gt; # Reactions: 1923</span></span>
 <span><span class="co">#&gt; # Samples: 20</span></span>
 <span><span class="co">#&gt; Database: MetaCyc</span></span>
 <span><span class="co">#&gt; Meta data columns: [Reaction, EC_Number, Compounds_in_Dataset, N_Observable_Compounds]</span></span></code></pre></div>
@@ -321,10 +321,10 @@ element to rows that contain the word ‘Unique’.</p>
 <code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="va">rxnCompSummary</span><span class="op">[[</span><span class="st">"Group_Comparison=C vs S"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">value</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Reaction                 uniqueness_gtest</span></span>
-<span><span class="co">#&gt;  Length:1903        Unique to S     :  52   </span></span>
+<span><span class="co">#&gt;  Length:1923        Unique to S     :  52   </span></span>
 <span><span class="co">#&gt;  Class :character   Unique to C     :  26   </span></span>
 <span><span class="co">#&gt;  Mode  :character   Observed in Both:1449   </span></span>
-<span><span class="co">#&gt;                     NA's            : 376</span></span>
+<span><span class="co">#&gt;                     NA's            : 396</span></span>
 <span></span>
 <span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"Unique"</span>, <span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">$</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
 <span><span class="va">x</span><span class="op">$</span><span class="va">e_data</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
@@ -503,7 +503,7 @@ very similar to that for reactions.</p>
 <span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="va">modData</span></span>
 <span><span class="co">#&gt; moduleData object</span></span>
-<span><span class="co">#&gt; # Reactions: 1214</span></span>
+<span><span class="co">#&gt; # Reactions: 1231</span></span>
 <span><span class="co">#&gt; # Samples: 20</span></span>
 <span><span class="co">#&gt; Database: MetaCyc</span></span>
 <span><span class="co">#&gt; Meta data columns: [Module_Node, Module, Module_Node_Comb, Compounds_in_Dataset, N_Observable_Compounds]</span></span></code></pre></div>
@@ -533,10 +533,10 @@ for reactions above.</p>
 <span><span class="va">y</span> <span class="op">&lt;-</span> <span class="va">modCompSummary</span><span class="op">[[</span><span class="st">"Group_Comparison=C vs S"</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">value</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  Module_Node_Comb           uniqueness_gtest</span></span>
-<span><span class="co">#&gt;  Length:1214        Unique to S     : 32    </span></span>
+<span><span class="co">#&gt;  Length:1231        Unique to S     : 32    </span></span>
 <span><span class="co">#&gt;  Class :character   Unique to C     : 14    </span></span>
 <span><span class="co">#&gt;  Mode  :character   Observed in Both:929    </span></span>
-<span><span class="co">#&gt;                     NA's            :239</span></span>
+<span><span class="co">#&gt;                     NA's            :256</span></span>
 <span></span>
 <span><span class="va">ind</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"Unique"</span>, <span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">$</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>
 <span><span class="va">y</span><span class="op">$</span><span class="va">e_data</span><span class="op">[</span><span class="va">ind</span>, <span class="op">]</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="va">uniqueness_gtest</span><span class="op">)</span></span>

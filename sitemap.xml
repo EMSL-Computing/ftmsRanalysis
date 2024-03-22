@@ -187,6 +187,9 @@
     <loc>/reference/getElCompColName.html</loc>
   </url>
   <url>
+    <loc>/reference/getElementColName.html</loc>
+  </url>
+  <url>
     <loc>/reference/getExtractionColName.html</loc>
   </url>
   <url>
@@ -269,6 +272,9 @@
   </url>
   <url>
     <loc>/reference/getPrincipalCoordinates.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getRatioColName.html</loc>
   </url>
   <url>
     <loc>/reference/getReactionColName.html</loc>
@@ -403,6 +409,9 @@
     <loc>/reference/setElCompColName.html</loc>
   </url>
   <url>
+    <loc>/reference/setElementColName.html</loc>
+  </url>
+  <url>
     <loc>/reference/setExtractionColName.html</loc>
   </url>
   <url>
@@ -467,6 +476,9 @@
   </url>
   <url>
     <loc>/reference/setPhosphorusColName.html</loc>
+  </url>
+  <url>
+    <loc>/reference/setRatioColName.html</loc>
   </url>
   <url>
     <loc>/reference/setReactionColName.html</loc>
