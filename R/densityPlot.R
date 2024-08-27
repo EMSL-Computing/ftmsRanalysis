@@ -52,7 +52,7 @@ densityPlot <- function(ftmsObj, variable, samples=NA, groups=FALSE, title=NA,
   }
   
   # merge e_data and e_meta #  
-  df <- merge(ftmsObj$e_data, ftmsObj$e_meta, by=getMassColName(ftmsObj))
+  df <- merge(ftmsObj$e_data, ftmsObj$e_meta, by=getEDataColName(ftmsObj))
   
   # construct a list with the samples for each plot trace
   trace_subsets <- list()
