@@ -89,6 +89,7 @@ coreMSDataToFtmsData <- function(cmsObj) {
   e_meta[element_cnames] <- counts_df
   
   e_meta <- e_meta %>%
+    dplyr::ungroup() %>%
     dplyr::select(Mass, all_of(element_cnames), `Calibrated m/z`, .data[[calc_mass]], 
                   .data[[heteroatom]], .data[[ion_type]]) %>%
     dplyr::arrange(Mass)
