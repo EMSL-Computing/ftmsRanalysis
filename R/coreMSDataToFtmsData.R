@@ -82,9 +82,13 @@ coreMSDataToFtmsData <- function(cmsObj) {
                   `Calibrated m/z` = mean(.data[[calib_mass]])) %>% 
     dplyr::select(Mass, .data[[formula]], `Calibrated m/z`, .data[[calc_mass]], 
                   .data[[heteroatom]], .data[[ion_type]]) %>% 
-    dplyr::distinct() %>% 
-    tidyr::separate(col = .data[[formula]], into = element_cnames, sep = " ") %>% 
-    dplyr::mutate_at(element_cnames, ~ as.integer(gsub("[^0-9]", "", .x))) %>% 
+    dplyr::distinct() 
+  
+  counts_df = lapply(element_cnames, ftmsRanalysis:::atom_count_vectorizer, e_meta[[formula]]) %>% as.data.frame(col.names = element_cnames)
+  
+  e_meta[element_cnames] <- counts_df
+  
+  e_meta <- e_meta %>%
     dplyr::select(Mass, all_of(element_cnames), `Calibrated m/z`, .data[[calc_mass]], 
                   .data[[heteroatom]], .data[[ion_type]]) %>%
     dplyr::arrange(Mass)
