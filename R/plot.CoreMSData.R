@@ -37,21 +37,20 @@ plot.CoreMSData <- function(x,
   sample_id <- attr(x, "cnames")$file_cname
   mass_id <- attr(x, "cnames")$calc_mass_cname 
 
-  unique_masses_per_sample <- x$monoiso_data %>%
-    dplyr::group_by(dplyr::pull(x$monoiso_data, sample_id)) %>%
-    dplyr::distinct(dplyr::pull(x$monoiso_data, mass_id)) %>%
-    dplyr::tally() %>% 
-    dplyr::rename(Sample = `dplyr::pull(x$monoiso_data, sample_id)`, Monoisotopic = n)
+  unique_masses_per_sample <- x$monoiso_data %>% 
+    dplyr::group_by(!!rlang::sym(sample_id)) %>% 
+    dplyr::distinct(!!rlang::sym(mass_id)) %>% 
+    dplyr::tally() %>% dplyr::rename(Sample = sample_id, Monoisotopic = n)
   
-  Isotopic <- x$iso_data %>% 
-    dplyr::group_by(dplyr::pull(x$iso_data, sample_id)) %>%
-    dplyr::distinct(dplyr::pull(x$iso_data, mass_id)) %>%
-    dplyr::tally() %>% 
-    dplyr::pull(n)
+  Isotopic <- x$iso_data %>% dplyr::group_by(!!sym(sample_id)) %>% 
+    dplyr::distinct(!!sym(mass_id)) %>% 
+    dplyr::tally() %>%
+    dplyr::rename(Sample = sample_id, Isotopic = n)
     
-  unique_masses_per_sample <- cbind(unique_masses_per_sample, Isotopic) %>% 
+  unique_masses_per_sample <- dplyr::full_join(unique_masses_per_sample, Isotopic) %>% 
     tidyr::pivot_longer(cols = c(!Sample), names_to = "Peak_type", values_to = "Count") %>% 
-    dplyr::mutate(Peak_type = factor(Peak_type, levels = c('Monoisotopic', 'Isotopic'))) # set factor levels manually so bars will be in descending order by count
+    dplyr::mutate(Peak_type = factor(Peak_type, levels = c("Monoisotopic", "Isotopic")))
+  # set factor levels manually so bars will be in descending order by count
   
   plot <- unique_masses_per_sample %>%
     ggplot2::ggplot(ggplot2::aes(x = Sample,
