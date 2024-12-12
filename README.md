@@ -6,6 +6,8 @@
 
 This R package provides functionality for data formatting, preprocessing, filtering, exploratory data analysis and visualization of fourier transform (FT) mass spectrometry (MS) data. 
 
+ftmsRanalysis also serves as the backend to the FT-MS R Exploratory Data Analysis (FREDA) web application, which can be accessed at https://map.emsl.pnnl.gov/app/freda after signing up for an account.  The code repository for the FREDA web application can be found [here](https://github.com/EMSL-Computing/FREDA).
+
 ## Installation:
 
 (**Recommended**) To install the latest *release*:
