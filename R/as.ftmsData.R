@@ -129,7 +129,7 @@ as.peakData <- function(e_data, f_data, e_meta, edata_cname, fdata_cname, mass_c
   }
   # Check that non-NULL elements in element_col_names are present within e_meta
   for(element in names(element_col_names)){
-    if(!is.null(element_col_names[[element]]) && ! element %in% names(e_meta)){
+    if(!is.null(element_col_names[[element]]) && !element_col_names[[element]] %in% names(e_meta)){
       stop(paste("The following element in 'element_col_names' is not found in e_meta: ", element))
     }
   }
