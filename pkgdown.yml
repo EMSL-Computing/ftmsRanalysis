@@ -1,5 +1,5 @@
 pandoc: 3.1.11
-pkgdown: 2.0.7
+pkgdown: 2.1.2
 pkgdown_sha: ~
 articles:
   density_plots: density_plots.html
@@ -8,5 +8,4 @@ articles:
   mapping_to_metacyc: mapping_to_metacyc.html
   read_CoreMS_data: read_CoreMS_data.html
   van_krevelen_plots: van_krevelen_plots.html
-last_built: 2024-03-22T18:49Z
-
+last_built: 2025-05-23T21:42Z
