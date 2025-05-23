@@ -15,6 +15,5 @@ a named list where each element is a subset of \code{ftmsObj} corresponding
 }
 \description{
 Construct a named list from an \code{ftmsData} object by dividing
-by sample. The resulting object may be used with Trelliscope to make
-plots for each sample.
+by sample.
 }

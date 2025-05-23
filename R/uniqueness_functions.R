@@ -254,7 +254,15 @@ uniqueness_gtest <- function(edata_df, group_df, data_scale, pres_fn, pres_thres
   res_vec[which(gtest_res$pvals <= pvalue_thresh & max_val_grp >= pres_thresh)] = paste("Unique to", gtest_res$major.group[which(gtest_res$pvals <= pvalue_thresh & max_val_grp >= pres_thresh)], sep = " ")
   
   lvls <- c(paste("Unique to", grps), "Observed in Both")
-  data.frame(uniqueness_gtest = factor(res_vec, levels = lvls))
+  out_df = data.frame(
+    uniqueness_gtest = factor(res_vec, levels = lvls),
+    pval = gtest_res$pvals
+  ) %>%
+  dplyr::bind_cols(
+    numpres
+  )
+  
+  return(out_df)
 }
 
 

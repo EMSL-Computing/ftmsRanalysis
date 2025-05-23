@@ -115,7 +115,7 @@ It can be useful to compare peaks that are unique to one treatment group versus 
 Clicking the "Observed in Both" label on the right hides those points to focus on the points that are unique to M_S or M_C.
 
 ```{r}
-m_groups <- divideByGroupComparisons(exampleProcessedPeakData, comparisons=list(c("M_S", "M_C")))[[1]]$value
+m_groups <- divideByGroupComparisons(exampleProcessedPeakData, comparisons=list(c("M_S", "M_C")))[[1]]
 comp_summary <- summarizeGroupComparisons(m_groups, summary_functions="uniqueness_gtest", 
                                             summary_function_params=list(
                                               uniqueness_gtest=list(pres_fn="nsamps", pres_thresh=2,

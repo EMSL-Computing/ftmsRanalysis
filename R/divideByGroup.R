@@ -1,9 +1,7 @@
 #' Divide an ftmsData object by group to form a list of ftmsData objects
 #' 
 #' Construct a list of subsetted ftmsData objects from an \code{ftmsData} object by dividing
-#' by group. The resulting object may be used with Trelliscope to make
-#' plots for each group. The input data must have a \code{group_DF} attribute
-#' defining the groups.
+#' by group.
 #' 
 #' @param ftmsObj ftmsData object
 #' @return a list where each element is a subset of \code{ftmsObj} corresponding

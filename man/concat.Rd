@@ -16,7 +16,7 @@ the ftmsData objects created by \code{\link{divideByGroup}} or
 \code{\link{divideByGroupComparisons}}. The output is a new ftmsData
 with all the data of the supplied inputs, in a form that can be 
 summarized with \code{\link{summarizeGroups}} or \code{\link{summarizeGroupComparisons}}
-respectively, or visualized with \code{trelliscope}.
+respectively.
 }
 \examples{
 data("exampleProcessedPeakData")

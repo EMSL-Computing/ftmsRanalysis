@@ -292,7 +292,7 @@ The first step is to create peakData objects that each contain two groups to fac
 
 ```{r}
 byGroup <- divideByGroupComparisons(peakObj, 
-                                comparisons = "all")[[1]]$value
+                                comparisons = "all")[[1]]
 
 crop_unique <- summarizeGroupComparisons(byGroup, 
             summary_functions="uniqueness_gtest", 
