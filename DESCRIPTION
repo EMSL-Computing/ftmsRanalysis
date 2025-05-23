@@ -33,7 +33,6 @@ Imports:
     readr
 Suggests:
     MetaCycData,
-    datadr,
     knitr,
     rmarkdown,
     foreach,
@@ -43,7 +42,6 @@ Suggests:
     viridis,
     DT
 Remotes:
-    github::delta-rho/datadr,
     github::EMSL-Computing/MetaCycData
 VignetteBuilder: knitr
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2

@@ -15,12 +15,12 @@ test_that("test of summarizeGroupComparisons on a groupComparison object", {
   
   expect_true(inherits(grpCompSummary, "comparisonSummary"))
   expect_false(inherits(grpCompSummary, "groupComparison"))
-  expect_equal(ncol(grpCompSummary$e_data), 2)
+  expect_equal(ncol(grpCompSummary$e_data), 5)
   expect_true(getEDataColName(grpComp) %in% colnames(grpCompSummary$e_data))
   expect_true(all(dim(grpComp$e_meta) == dim(grpCompSummary$e_meta)))
   expect_true(all(colnames(grpComp$e_meta) %in% colnames(grpCompSummary$e_meta)))
   expect_true(all(grpCompSummary$f_data$Summary_Function_Name == "uniqueness_gtest"))
-  expect_equal(nrow(grpCompSummary$f_data), 1)
+  expect_equal(nrow(grpCompSummary$f_data), 4)
   expect_true(all(unlist(lapply(grpCompSummary$e_data[, 2], function(x) is.factor(x)))))
 
 })
@@ -43,13 +43,13 @@ test_that("test of summarizeGroupComparisons on a ddo", {
   val <- grpCompSummary[[i]]
   expect_true(inherits(val, "comparisonSummary"))
   expect_false(inherits(val, "groupComparison"))
-  expect_equal(ncol(val$e_data), 2)
+  expect_equal(ncol(val$e_data), 5)
   expect_true(getEDataColName(grpComp[[i]]) %in% colnames(val$e_data))
   expect_true(all(dim(grpComp[[i]]$e_meta) == dim(val$e_meta)))
   expect_true(all(colnames(grpComp[[i]]$e_meta) %in% colnames(val$e_meta)))
-  expect_equal(nrow(val$f_data), 1)
+  expect_equal(nrow(val$f_data), 4)
   expect_true(all(grpCompSummary$f_data$Summary_Function_Name == "uniqueness_gtest"))
-  expect_equal(nrow(val$f_data), 1)
+  expect_equal(nrow(val$f_data), 4)
   expect_true(all(unlist(lapply(val$e_data[, 2], function(x) is.factor(x)))))
   
 })
@@ -70,13 +70,13 @@ test_that("test of summarizeGroupComparisons with multiple summary functions on 
 
   expect_true(inherits(grpCompSummary, "comparisonSummary"))
   expect_false(inherits(grpCompSummary, "groupComparison"))
-  expect_equal(ncol(grpCompSummary$e_data), 4)
+  expect_equal(ncol(grpCompSummary$e_data), 7)
   expect_true(getEDataColName(grpComp) %in% colnames(grpCompSummary$e_data))
   expect_true(all(dim(grpComp$e_meta) == dim(grpCompSummary$e_meta)))
   expect_true(all(colnames(grpComp$e_meta) %in% colnames(grpCompSummary$e_meta)))
   expect_true(all(c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop") %in% 
                     grpCompSummary$f_data$Summary_Function_Name))
-  expect_equal(nrow(grpCompSummary$f_data), 3)
+  expect_equal(nrow(grpCompSummary$f_data), 6)
   expect_true(all(unlist(lapply(grpCompSummary$e_data[, 2], function(x) is.factor(x)))))
   
 })

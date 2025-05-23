@@ -104,15 +104,15 @@ rxnCompSummary <- summarizeGroupComparisons(rxnGroupCompData, summary_functions 
                                             summary_function_params=list(uniqueness_gtest=
                                                                            list(pres_fn="nsamps", pres_thresh=2,
                                                                            pvalue_thresh=0.05)))
-getKeys(rxnCompSummary)
+names(rxnCompSummary)
 ```
 
-The `rxnCompSummary` object is a distributed data object (ddo) (see the [`datadr`](http://deltarho.org/docs-datadr/) package for more information about ddo's). A ddo is a list of key-value pairs, where each key defines the groups under comparison, and each value is `reactionData` object. In this case we have one comparison (C vs S) but if we had more than two groups, the `ddo` could have many comparison objects. 
+The `rxnCompSummary` object is a list where each key defines the groups under comparison, and each value is a `reactionData` object. In this case we have one comparison (C vs S) but if we had more than two groups, the list could have many comparison objects. 
 
 Suppose we wanted to examine the reactions that were observed to be unique to only one of the S or C groups. We would look at the `reactionData` value and filter the `e_data` element to rows that contain the word 'Unique'.
 
 ```{r}
-x <- rxnCompSummary[["Group_Comparison=C vs S"]]$value
+x <- rxnCompSummary[["Group_Comparison=C vs S"]]
 summary(x$e_data)
 
 ind <- grep("Unique", x$e_data$uniqueness_gtest)
@@ -153,7 +153,7 @@ modCompSummary <- summarizeGroupComparisons(modGroupCompData, summary_functions 
                                                                            list(pres_fn="nsamps", pres_thresh=2,
                                                                            pvalue_thresh=0.05)))
 
-y <- modCompSummary[["Group_Comparison=C vs S"]]$value
+y <- modCompSummary[["Group_Comparison=C vs S"]]
 summary(y$e_data)
 
 ind <- grep("Unique", y$e_data$uniqueness_gtest)

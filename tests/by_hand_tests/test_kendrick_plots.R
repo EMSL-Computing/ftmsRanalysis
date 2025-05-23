@@ -79,7 +79,7 @@ kendrickPlot(msGroup, title="Test17", colorCName="M_S_prop_present", legendTitle
 
 # group overlay plot
 peakGroupComp <- divideByGroupComparisons(peakObj, comparisons="one-factor")
-peakCompSummary <- summarizeGroupComparisons(peakGroupComp[[1]]$value, summary_functions="uniqueness_gtest", 
+peakCompSummary <- summarizeGroupComparisons(peakGroupComp[[1]], summary_functions="uniqueness_gtest", 
                                              summary_function_params=list(
                                                uniqueness_gtest=list(pres_fn="prop", pres_thresh=0.2,
                                                                      pvalue_thresh=0.05)

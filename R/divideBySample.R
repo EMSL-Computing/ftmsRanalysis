@@ -1,8 +1,7 @@
 #' Divide an ftmsData objecdt by sample to form a list
 #' 
 #' Construct a named list from an \code{ftmsData} object by dividing
-#' by sample. The resulting object may be used with Trelliscope to make
-#' plots for each sample.
+#' by sample.
 #' 
 #' @param ftmsObj ftmsData object
 #' @return a named list where each element is a subset of \code{ftmsObj} corresponding
