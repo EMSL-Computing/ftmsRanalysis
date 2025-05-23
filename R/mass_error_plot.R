@@ -117,9 +117,9 @@ mass_error_plot <- function(cmsObj,
     }
     
     if (log_color_scale) {
-      p <- p + viridis::scale_fill_viridis(trans = "log")
+      p <- p + ggplot2::scale_fill_viridis_c(trans='log')
     } else {
-      p <- p + viridis::scale_fill_viridis()
+      p <- p + ggplot2::scale_fill_viridis_c()
     }
     
     plotly::ggplotly(p)

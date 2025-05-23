@@ -42,8 +42,8 @@ plot.CoreMSData <- function(x,
     dplyr::distinct(!!rlang::sym(mass_id)) %>% 
     dplyr::tally() %>% dplyr::rename(Sample = sample_id, Monoisotopic = n)
   
-  Isotopic <- x$iso_data %>% dplyr::group_by(!!sym(sample_id)) %>% 
-    dplyr::distinct(!!sym(mass_id)) %>% 
+  Isotopic <- x$iso_data %>% dplyr::group_by(!!rlang::sym(sample_id)) %>% 
+    dplyr::distinct(!!rlang::sym(mass_id)) %>% 
     dplyr::tally() %>%
     dplyr::rename(Sample = sample_id, Isotopic = n)
     
