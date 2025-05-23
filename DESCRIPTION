@@ -39,8 +39,8 @@ Suggests:
     doParallel,
     testthat,
     purrr,
-    viridis,
-    DT
+    DT,
+    hexbin
 Remotes:
     github::EMSL-Computing/MetaCycData
 VignetteBuilder: knitr
