@@ -1,7 +1,9 @@
 template:
+  bootstrap: 5
   params:
     bootswatch: cosmo
 #title: FT-MS Data Analysis in R
+url: https://emsl-computing.github.io/ftmsRanalysis/
 home:
 #  strip_header: true
   links:
@@ -74,10 +76,6 @@ reference:
   - '`scatterPlot`'
   - '`plotPrincipalCoordinates`'
   - '`vignette_interactivity_between_plots`'
-  - '`panelFunctionGenerator`'
-  - '`densityCognostics`'
-  - '`kendrickCognostics`'
-  - '`vanKrevelenCognostics`'
 - title: Database mapping
   desc: Functions to map to biological databases
   contents:
