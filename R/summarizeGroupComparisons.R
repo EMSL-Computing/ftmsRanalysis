@@ -94,7 +94,8 @@ getGroupComparisonSummaryFunctionNames <- function() {
   })
 
   new_fdata <- do.call(rbind, lapply(edata_cols, function(x) attr(x, "f_data")))
-  new_edata <- data.frame(compData$e_data[, getEDataColName(compData)], do.call(cbind, edata_cols))
+  new_fdata$Comparison_Summary_Column <- make.unique(new_fdata$Comparison_Summary_Column)
+  new_edata <- data.frame(setNames(compData$e_data[, getEDataColName(compData)], getEDataColName(compData)), do.call(cbind, edata_cols))
   colnames(new_edata)[1] <- getEDataColName(compData)
   
   if (inherits(compData, "peakData")) {
