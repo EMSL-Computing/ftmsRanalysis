@@ -70,13 +70,13 @@ test_that("test of summarizeGroupComparisons with multiple summary functions on 
 
   expect_true(inherits(grpCompSummary, "comparisonSummary"))
   expect_false(inherits(grpCompSummary, "groupComparison"))
-  expect_equal(ncol(grpCompSummary$e_data), 7)
+  expect_equal(ncol(grpCompSummary$e_data), 11)
   expect_true(getEDataColName(grpComp) %in% colnames(grpCompSummary$e_data))
   expect_true(all(dim(grpComp$e_meta) == dim(grpCompSummary$e_meta)))
   expect_true(all(colnames(grpComp$e_meta) %in% colnames(grpCompSummary$e_meta)))
   expect_true(all(c("uniqueness_gtest", "uniqueness_nsamps", "uniqueness_prop") %in% 
                     grpCompSummary$f_data$Summary_Function_Name))
-  expect_equal(nrow(grpCompSummary$f_data), 6)
+  expect_equal(nrow(grpCompSummary$f_data), 10)
   expect_true(all(unlist(lapply(grpCompSummary$e_data[, 2], function(x) is.factor(x)))))
   
 })

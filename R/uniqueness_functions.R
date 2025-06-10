@@ -81,7 +81,13 @@ uniqueness_nsamps <- function(edata_df, group_df, data_scale, pres_thresh, absn_
   res_vec[which(numpres$N_grp1 <= absn_thresh & numpres$N_grp2 >= pres_thresh)] = paste("Unique to", grps[2], sep = " ")
   
   lvls <- c(paste("Unique to", grps), "Observed in Both")
-  data.frame(uniqueness_nsamps = factor(res_vec, levels = lvls))
+  out_df = data.frame(uniqueness_nsamps = factor(res_vec, levels = lvls))
+  out_df = dplyr::bind_cols(
+    out_df,
+    numpres
+  )
+  
+  return(out_df)
 }
 
 
@@ -161,7 +167,16 @@ uniqueness_prop <- function(edata_df, group_df, data_scale, pres_thresh, absn_th
   res_vec[which(prop_pres$prop_grp1 <= absn_thresh & prop_pres$prop_grp2 >= pres_thresh)] = paste("Unique to", grps[2], sep = " ")
   
   lvls <- c(paste("Unique to", grps), "Observed in Both")
-  data.frame(uniqueness_prop = factor(res_vec, levels=lvls))
+  out_df = data.frame(
+    uniqueness_prop = factor(res_vec, levels=lvls)
+  )
+  
+  out_df = dplyr::bind_cols(
+    out_df,
+    prop_pres
+  )
+  
+  return(out_df)
 }
 
 
