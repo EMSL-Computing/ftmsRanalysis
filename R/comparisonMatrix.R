@@ -12,7 +12,7 @@ comparisonMatrix <- function(ftmsObj, comparisons, control=NULL) {
   if (!inherits(ftmsObj, "ftmsData")) stop("ftmsObj must be of type ftmsData")
 
   groupDF <- attr(ftmsObj, "group_DF")
-  groupDF$Group <- droplevels(groupDF$Group)
+
   if (is.null(groupDF)) {  ## this means each sample is its own group so construct a dummy groupDF
 
     if(all(tolower(comparisons) == "one-factor")){ stop("The 'one-factor' specification cannot be used without a group data frame. Please use 'group_designation' first.") }
@@ -20,6 +20,8 @@ comparisonMatrix <- function(ftmsObj, comparisons, control=NULL) {
     samp.names <- unique(ftmsObj$f_data[, getFDataColName(ftmsObj)])
     groupDF <- data.frame(Sample=samp.names, Group=samp.names)
     colnames(groupDF)[1] <- getFDataColName(ftmsObj)
+  } else {
+    if(is.factor(groupDF$Group)){groupDF$Group <- droplevels(groupDF$Group)}
   }
 
   if (!missing(control) & !is.null(control)) {
