@@ -65,7 +65,7 @@ mapCompoundsToModules <- function(compoundObj) {
   # get compounds observed in this dataset for each reaction (for e_meta)
   observed_comp_per_rxn <- e_data %>%
     dplyr::mutate(n_samples_848234 = rowSums(dplyr::select(.,-dplyr::any_of(c(getCompoundColName(compoundObj),"Reaction", "Module_Node", "Module", "Module_Node_Comb"))))) %>%
-    dplyr::select(dplyr::all_of(c(getCompoundColName(compoundObj), "Module_Node_Comb", "n_samples_848234")))
+    dplyr::select(dplyr::all_of(c(getCompoundColName(compoundObj), "Module_Node_Comb", "n_samples_848234"))) %>%
     dplyr::filter(n_samples_848234 > 0) %>%
     dplyr::select(-n_samples_848234) %>%
     dplyr::group_by(Module_Node_Comb) %>%
